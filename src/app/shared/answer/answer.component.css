@@ -1,0 +1,10 @@
+@import "~prismjs/plugins/toolbar/prism-toolbar.css";
+@import "~prismjs/themes/prism-okaidia.css";
+
+.isCorrect {
+  border-left: 10px solid green
+}
+
+.isWrong {
+  border-left: 10px solid red
+}

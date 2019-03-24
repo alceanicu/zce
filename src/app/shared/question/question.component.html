@@ -1,0 +1,8 @@
+<pre *ngIf="(questionRow.language && (extensionsAllowed.includes(questionRow.language))); else plainText;">
+<code class="language-{{questionRow.language}} line-numbers">{{questionRow.text}}</code>
+</pre>
+
+<ng-template #plainText>
+  <p class="text-white">{{questionRow.text}}</p>
+</ng-template>
+<br>

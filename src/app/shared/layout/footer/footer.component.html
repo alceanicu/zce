@@ -1,6 +1,17 @@
-<footer>
+<footer class="footer">
   <div class="container">
-    <a class="logo-font" routerLink="/">home</a>
-    <span class="attribution">&copy; {{ today | date: 'yyyy' }}. Code licensed under MIT.</span>
+    <div class="row">
+      <nav class="footer-nav">
+        <ul>
+          <li><a href="#">Licenses</a></li>
+        </ul>
+      </nav>
+      <div class="credits ml-auto">
+        <span class="copyright">
+          © {{today | date: 'yyyy'}}, made with <i class="fa fa-heart heart"></i> by niac
+        </span>
+      </div>
+    </div>
   </div>
 </footer>
+

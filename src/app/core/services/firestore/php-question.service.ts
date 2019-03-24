@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from '@angular/fire/firestore';
 import {Observable} from 'rxjs';
 import {environment} from '../../../../environments/environment';
-import {IConfig, IQuestion} from '../../models';
-
+import {IConfig, IQuestion} from '../..';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +34,7 @@ export class PhpQuestionService {
       this.db.firestore.runTransaction(transaction =>
           transaction.get(configDocRef).then(configDoc => {
             const counter = (configDoc.data().counter || 0) + 1;
-            transaction.update(configDocRef, {counter: counter});
+            transaction.update(configDocRef, {counter});
             return counter;
           }))
           .then(counter => {
