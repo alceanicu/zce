@@ -1,14 +1,14 @@
 import {Component, OnInit, AfterViewChecked, Output, EventEmitter} from '@angular/core';
-import { LocalStorageService, PhpQuestionService, PrismService, SessionStorageService } from '../../core/services';
-import { IAnswerRow, IConfig, IQuestion, IQuestionRow } from '../../core/models';
-import { IndexedDbQuizService } from '../../core/services/indexeddb/indexed-db-quiz.service';
+import {NgxUiLoaderService} from 'ngx-ui-loader';
+import {LocalStorageService, PhpQuestionService, PrismService, SessionStorageService, IndexedDbQuizService} from '../../core/services';
+import {IConfig, IQuestion, IAnswerRow, IQuestionRow} from '../../core/models';
 
 @Component({
   selector: 'app-random',
   templateUrl: './random.component.html',
   styleUrls: ['./random.component.css']
 })
-export class RandomComponent  implements OnInit, AfterViewChecked {
+export class RandomComponent implements OnInit, AfterViewChecked {
   public isCorrect: boolean;
   public btnText: string;
   public question: IQuestion;
@@ -21,7 +21,7 @@ export class RandomComponent  implements OnInit, AfterViewChecked {
     private localStorageService: LocalStorageService,
     private sessionStorageService: SessionStorageService,
     private prismService: PrismService,
-    // private ngxLoader: NgxUiLoaderService,
+    private ngxLoader: NgxUiLoaderService,
     // private sync: DataShareService,
     // public toastrService: ToastrService,
   ) {
@@ -59,12 +59,12 @@ export class RandomComponent  implements OnInit, AfterViewChecked {
       clearInterval(this.interval);
       this.interval = null;
     }
-    // this.ngxLoader.start();
+    this.ngxLoader.start();
     const $this = this;
     this.reset();
     this.localStorageService.getAppConfig().subscribe((config) => {
       const randomId = this.generateRandomIdWithoutRepeatInLastN(config);
-      console.log(`randomId = ${randomId}`);
+      console.log(`Generate an random id for question ... [randomId =${randomId}]`);
 
       this.indexedDbQuizService
         .getQuestionById(randomId)
@@ -78,7 +78,6 @@ export class RandomComponent  implements OnInit, AfterViewChecked {
           }
         })
         .catch(e => {
-          console.log('xxxxxx');
           console.log((e.stack || e));
           $this.getQuestionFromFirebase(randomId);
         });
@@ -103,13 +102,11 @@ export class RandomComponent  implements OnInit, AfterViewChecked {
       obj.userAnswer = false;
     });
     question.finalAnswer = false;
-    console.log(question);
-    console.log('question');
     this.question = question;
     this.prismService.highlightAll();
     const $this = this;
     setTimeout(() => {
-      // $this.ngxLoader.stopAll();
+      $this.ngxLoader.stopAll();
     }, 200)
     ;
   }
@@ -120,7 +117,6 @@ export class RandomComponent  implements OnInit, AfterViewChecked {
     this.firestorePhpQuestionService.getQuestion(String(randomId)).subscribe(
       DocumentSnapshot => {
         const question = DocumentSnapshot.data() as IQuestion;
-        console.log(question);
         if (question) {
           $this.saveToIndexedDb(question);
           $this.setQuestion(question);
@@ -129,7 +125,7 @@ export class RandomComponent  implements OnInit, AfterViewChecked {
         }
       },
       (error) => {
-        // $this.ngxLoader.stopAll();
+        $this.ngxLoader.stopAll();
         console.log('Can not get question from FIREBASE');
         console.error(error);
         // this.toastrService.error(`ERROR => ${error}`);
@@ -161,12 +157,9 @@ export class RandomComponent  implements OnInit, AfterViewChecked {
 
   validateEachAnswerRows() {
     let ok = true;
-    console.log(`[INIT OK====${ok}]`);
     this.question.answerRows.forEach((obj, key) => {
       ok = ok && (obj.correct === obj.userAnswer);
-      console.log(`${key} -${obj.correct}  === ${obj.userAnswer}`);
     });
-    console.log(`[FINAL OK====${ok}]`);
     this.isCorrect = ok;
   }
 

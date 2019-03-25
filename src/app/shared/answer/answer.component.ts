@@ -1,5 +1,6 @@
 import {Component, OnInit, Input} from '@angular/core';
-import { IAnswerRow } from '../../core/models';
+import {IAnswerRow} from '../../core/models';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-answer,[app-answer]',
@@ -10,9 +11,12 @@ export class AnswerComponent implements OnInit {
   @Input('answerRow') answerRow: IAnswerRow;
   @Input('disabled') disabled: boolean;
   @Input('i') i: number;
-  letters = ['A', 'B', 'C', 'D'];
+
+  private letters = ['A', 'B', 'C', 'D'];
+  private extensionsAllowed: Array<string>;
 
   constructor() {
+    this.extensionsAllowed = environment.extensionsAllowed;
   }
 
   ngOnInit() {

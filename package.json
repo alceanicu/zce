@@ -25,6 +25,7 @@
     "core-js": "^2.5.4",
     "dexie": "^2.0.4",
     "firebase": "^5.9.1",
+    "ngx-ui-loader": "^7.2.1",
     "prismjs": "^1.15.0",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",

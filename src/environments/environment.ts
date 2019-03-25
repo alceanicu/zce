@@ -15,6 +15,7 @@ export const environment = {
     messagingSenderId: '486664010402'
   },
   apiUrl: 'http://localhost/rest-api/',
+  extensionsAllowed: ['sql', 'php', 'none', 'html', 'xml', 'json']
 };
 
 /*

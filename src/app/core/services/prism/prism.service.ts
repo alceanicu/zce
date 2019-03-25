@@ -12,16 +12,15 @@ import 'prismjs/components/prism-php';
 import 'prismjs/components/prism-markup-templating';
 import 'prismjs/components/prism-php-extras';
 import 'prismjs/components/prism-sql';
+import 'prismjs/components/prism-json';
 // plugins
 import 'prismjs/plugins/line-numbers/prism-line-numbers';
-
 declare var Prism: any;
 
 @Injectable({
   providedIn: 'root'
 })
 export class PrismService {
-
   constructor(@Inject(PLATFORM_ID) private platformId: object) {
   }
 

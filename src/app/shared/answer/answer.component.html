@@ -11,15 +11,8 @@
     </div>
   </div>
   <div class="card-body">
-    <div *ngIf="answerRow.language !== 'none'; else plainText">
-      <pre><code class="language-{{answerRow.language}}">{{answerRow.text}}</code></pre>
-    </div>
-
-    <ng-template #plainText>
-      <p class="card-text">{{answerRow.text}}</p>
-    </ng-template>
+    <!-- 2 == plain text -->
+    <pre *ngIf="(answerRow.language !== 2); else plainText;"><code class="language-{{extensionsAllowed[answerRow.language]}}">{{answerRow.text}}</code></pre>
+    <ng-template #plainText><p class="card-text">{{answerRow.text}}</p></ng-template>
   </div>
-  <!--<div class="card-footer">-->
-    <!--{{answerRow | json}}-->
-  <!--</div>-->
 </div>

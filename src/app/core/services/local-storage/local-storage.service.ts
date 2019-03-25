@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {PhpQuestionService} from '..';
+import {PhpQuestionService} from '../firestore/php-question.service';
 import {IConfig} from '../../models';
 
 @Injectable({
@@ -23,7 +23,7 @@ export class LocalStorageService implements Storage {
 
   getAppConfig(): Observable<any> {
     return new Observable((observer) => {
-      console.log('Try to get application config ...');
+      console.log('Try to get application config from local storage...');
       let localStorageConfig = this.getItem('config') as IConfig | null;
       const now = new Date();
       if ((localStorageConfig === null) || (now.getDate() >= localStorageConfig.timestamp)) {
@@ -35,13 +35,13 @@ export class LocalStorageService implements Storage {
           observer.error(error);
         });
       } else {
+        console.log('Application config loaded from local storage');
         observer.next(localStorageConfig);
       }
     });
   }
 
   setFreshAppConfigInLocalStorage(now: Date): Observable<IConfig> {
-    console.log('Clear application config from LocalStorage');
     this.clear();
     console.log('Try to get application config from Firebase ...');
     return new Observable((observer) => {
@@ -53,7 +53,7 @@ export class LocalStorageService implements Storage {
               counter: DocumentSnapshot.data().counter,
               timestamp: now.getTime()
             } as IConfig;
-            console.log('Set LocalStorage with fresh config from Firebase');
+            console.log('Set fresh App Config in LocalStorage with data from Firebase');
             this.setItem('config', newAppConfig);
             observer.next(newAppConfig);
           },

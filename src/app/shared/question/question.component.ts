@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { IQuestionRow } from '../../core/models';
+import {Component, OnInit, Input} from '@angular/core';
+import {IQuestionRow} from '../../core/models';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-question,[app-question]',
@@ -8,9 +9,10 @@ import { IQuestionRow } from '../../core/models';
 })
 export class QuestionComponent implements OnInit {
   @Input('questionRow') questionRow: IQuestionRow;
-  public extensionsAllowed = ['php', 'sql'];
+  private extensionsAllowed: Array<string>;
 
   constructor() {
+    this.extensionsAllowed = environment.extensionsAllowed;
   }
 
   ngOnInit() {
