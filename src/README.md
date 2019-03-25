@@ -50,7 +50,14 @@ npm i --save ngx-ui-loader
 
 ```
 ng build --prod --base-href="./"
-ngh --dir dist/zce --message="V 1.0.0"
+ngh --dir dist/zce --message="V 1.0.1"
+```
+
+
+### chrome extension
+
+```
+ng build --outputPath=chrome-extension
 ```
 
 

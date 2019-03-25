@@ -1,0 +1,45 @@
+{
+  "name": "ZCE exam simulator - Chrome extension",
+  "description": "ZCE exam simulator - Chrome extension",
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "homepage_url": "https://addons.mozilla.org/ro/firefox/addon/zce/",
+  "author": "nicu alcea",
+  "developer": {
+    "name": "nicu alcea",
+    "url": "https://github.com/alceanicu/zce"
+  },
+  "applications": {
+    "gecko": {
+      "id": "akta.logger@niku.alcea",
+      "strict_min_version": "57.0"
+    }
+  },
+  "browser_action": {
+    "default_icon": "icons/icon38_disabled.png",
+    "default_title": "zce"
+  },
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "content_scripts/log.js"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "permissions": [
+    "webRequest",
+    "tabs",
+    "<all_urls>",
+    "storage"
+  ]
+}
