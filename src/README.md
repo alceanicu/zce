@@ -50,7 +50,7 @@ npm i --save ngx-ui-loader
 
 ```
 ng build --prod --base-href="./"
-ngh --dir dist/qwizzer --message="V 1.0.3"
+ngh --dir dist/zce --message="V 1.0.0"
 ```
 
 

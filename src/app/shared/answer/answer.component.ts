@@ -12,8 +12,8 @@ export class AnswerComponent implements OnInit {
   @Input('disabled') disabled: boolean;
   @Input('i') i: number;
 
-  private letters = ['A', 'B', 'C', 'D'];
-  private extensionsAllowed: Array<string>;
+  letters = ['A', 'B', 'C', 'D'];
+  extensionsAllowed: Array<string>;
 
   constructor() {
     this.extensionsAllowed = environment.extensionsAllowed;

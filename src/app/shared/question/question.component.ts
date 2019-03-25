@@ -9,7 +9,7 @@ import {environment} from '../../../environments/environment';
 })
 export class QuestionComponent implements OnInit {
   @Input('questionRow') questionRow: IQuestionRow;
-  private extensionsAllowed: Array<string>;
+  extensionsAllowed: Array<string>;
 
   constructor() {
     this.extensionsAllowed = environment.extensionsAllowed;
