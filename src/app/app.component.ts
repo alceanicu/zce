@@ -63,7 +63,7 @@ export class AppComponent implements OnInit {
   removeFooter() {
     let titlee = this.location.prepareExternalUrl(this.location.path());
     titlee = titlee.slice(1);
-    if (titlee === 'home' || titlee === 'nucleoicons') {
+    if (titlee === 'home') {
       return false;
     } else {
       return true;
