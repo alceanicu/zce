@@ -1,6 +1,6 @@
 export interface IAnswerRow {
   text: string;
-  language?: boolean;
+  language?: number;
   correct: boolean;
   userAnswer?: boolean;
 }
