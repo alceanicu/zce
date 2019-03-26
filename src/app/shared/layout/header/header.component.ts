@@ -70,6 +70,6 @@ export class HeaderComponent implements OnInit {
 
   isRandom() {
     const titlee = this.location.prepareExternalUrl(this.location.path());
-    return (titlee === '/random');
+    return (titlee === '/zce/random');
   }
 }
