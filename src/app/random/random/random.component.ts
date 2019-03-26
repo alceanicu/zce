@@ -1,6 +1,6 @@
 import {Component, OnInit, AfterViewChecked, Output, EventEmitter} from '@angular/core';
 import {NgxUiLoaderService} from 'ngx-ui-loader';
-import {LocalStorageService, PhpQuestionService, PrismService, SessionStorageService, IndexedDbQuizService} from '../../core/services';
+import {DataShareService, LocalStorageService, PhpQuestionService, PrismService, SessionStorageService, IndexedDbQuizService} from '../../core/services';
 import {IConfig, IQuestion, IAnswerRow, IQuestionRow} from '../../core/models';
 
 @Component({
@@ -22,7 +22,7 @@ export class RandomComponent implements OnInit, AfterViewChecked {
     private sessionStorageService: SessionStorageService,
     private prismService: PrismService,
     private ngxLoader: NgxUiLoaderService,
-    // private sync: DataShareService,
+    private sync: DataShareService,
     // public toastrService: ToastrService,
   ) {
   }
@@ -32,7 +32,7 @@ export class RandomComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
-    // this.sync.currentScore.subscribe(message => this.message = message);
+    this.sync.currentScore.subscribe(message => this.message = message);
     this.getAnRandomQuestion();
   }
 
@@ -167,7 +167,7 @@ export class RandomComponent implements OnInit, AfterViewChecked {
     const $this = this;
     this.question.finalAnswer = true;
     this.validateEachAnswerRows();
-    // this.sync.updatePercentage(this.isCorrect);
+    this.sync.updatePercentage(this.isCorrect);
     const ansType = this.isCorrect ? 'Correct' : 'Wrong';
     this.btnText = `${ansType} [new quiz in ${countDown} seconds]`;
 

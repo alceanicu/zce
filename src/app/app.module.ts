@@ -11,11 +11,12 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {AngularFireModule} from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {environment} from '../environments/environment';
+import {RoundProgressModule} from 'angular-svg-round-progressbar';
 
 import {
   FooterComponent,
   HeaderComponent,
-  SharedModule
+  SharedModule,
 } from './shared';
 import {CoreModule} from './core';
 
@@ -36,6 +37,7 @@ import {CoreModule} from './core';
     AngularFirestoreModule,
     SharedModule,
     CoreModule,
+    RoundProgressModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

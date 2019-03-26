@@ -1,5 +1,6 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
-import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import {Component, OnInit, ElementRef, Output, EventEmitter} from '@angular/core';
+import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
+import {DataShareService} from '../../../core/services/data-share/data-share.service';
 
 @Component({
   selector: 'app-layout-header',
@@ -8,12 +9,20 @@ import { Location, LocationStrategy, PathLocationStrategy } from '@angular/commo
 export class HeaderComponent implements OnInit {
   private toggleButton: any;
   private sidebarVisible: boolean;
+  public message: any;
 
-  constructor(public location: Location, private element: ElementRef) {
+  constructor(
+    public location: Location,
+    private element: ElementRef,
+    private data: DataShareService
+  ) {
     this.sidebarVisible = false;
   }
 
   ngOnInit() {
+    this.data.currentScore.subscribe(message => {
+      this.message = message;
+    });
     const navbar: HTMLElement = this.element.nativeElement;
     this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
   }
@@ -57,5 +66,10 @@ export class HeaderComponent implements OnInit {
   isDocumentation() {
     const titlee = this.location.prepareExternalUrl(this.location.path());
     return (titlee === '/documentation');
+  }
+
+  isRandom() {
+    const titlee = this.location.prepareExternalUrl(this.location.path());
+    return (titlee === '/random');
   }
 }

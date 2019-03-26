@@ -1,45 +1,19 @@
 {
-  "name": "ZCE exam simulator - Chrome extension",
-  "description": "ZCE exam simulator - Chrome extension",
-  "version": "1.0.0",
+
+  "description": "Adds a solid red border to all webpages matching mozilla.org. See https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Examples#borderify",
   "manifest_version": 2,
-  "homepage_url": "https://addons.mozilla.org/ro/firefox/addon/zce/",
-  "author": "nicu alcea",
-  "developer": {
-    "name": "nicu alcea",
-    "url": "https://github.com/alceanicu/zce"
+  "name": "Borderify",
+  "version": "1.0",
+  "homepage_url": "https://github.com/mdn/webextensions-examples/tree/master/borderify",
+  "icons": {
+    "48": "icons/border-48.png"
   },
-  "applications": {
-    "gecko": {
-      "id": "akta.logger@niku.alcea",
-      "strict_min_version": "57.0"
-    }
-  },
-  "browser_action": {
-    "default_icon": "icons/icon38_disabled.png",
-    "default_title": "zce"
-  },
-  "background": {
-    "scripts": [
-      "background.js"
-    ]
-  },
+
   "content_scripts": [
     {
-      "matches": [
-        "http://*/*",
-        "https://*/*"
-      ],
-      "js": [
-        "content_scripts/log.js"
-      ],
-      "run_at": "document_start"
+      "matches": ["*://*.mozilla.org/*"],
+      "js": ["b.js"]
     }
-  ],
-  "permissions": [
-    "webRequest",
-    "tabs",
-    "<all_urls>",
-    "storage"
   ]
+
 }

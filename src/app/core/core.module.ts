@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
+  DataShareService,
   PhpQuestionService,
   LocalStorageService,
   PrismService,
@@ -13,6 +14,7 @@ import {
     CommonModule
   ],
   providers: [
+    DataShareService,
     PhpQuestionService,
     LocalStorageService,
     PrismService,

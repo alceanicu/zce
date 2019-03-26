@@ -40,10 +40,10 @@ npm i --save prismjs
 npm i --save firebase @angular/fire
 npm i --save dexie
 npm i --save ngx-ui-loader
+npm i --save angular-svg-round-progressbar
 
 ##  npm i --save rxjs rxjs-compat
 ##  npm i --save ngx-toastr ngx-ui-loader
-##  npm i --save angular-svg-round-progressbar
 ```
 
 ### ngh
