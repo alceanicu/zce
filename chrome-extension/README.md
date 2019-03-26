@@ -1,5 +1,5 @@
-# chrome
+# CHROME
 
 ```
-
+ng build
 ```

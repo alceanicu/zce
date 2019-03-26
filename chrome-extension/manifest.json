@@ -6,9 +6,12 @@
 
   "author": "nicu alcea",
   "description": "ZCE - PHP ZEND Certification exam simulator",
-  "default_locale": "en",
   "icons": {
-    "38": "assets/icons/icon38.png"
+    "16": "assets/icons/php16.png",
+    "32": "assets/icons/php32.png",
+    "38": "assets/icons/php38.png",
+    "48": "assets/icons/php48.png",
+    "128": "assets/icons/php128.png"
   },
 
   "permissions": [

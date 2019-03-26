@@ -1,4 +1,4 @@
-# firefox
+# FIREFOX
 
 ```
 npm install --global web-ext
