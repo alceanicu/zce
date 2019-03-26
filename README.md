@@ -1,11 +1,19 @@
 # ZCE - PHP ZEND Certification exam simulator
 
-You can try this app here: https://alceanicu.github.io/zce/
+You can try this app here: 
 
-### Chrome extension:
+### WEB:
+
+https://alceanicu.github.io/zce/
+
+### CHROME extension:
 
 https://chrome.google.com/webstore/detail/zce-php-zend-certificatio/kdjolhghoglghipajmbmlmldbpncimge
 
-### Firefox extension 
+### FIREFOX extension 
+
+(soon)
+
+### MOBILE app
 
 (soon)
