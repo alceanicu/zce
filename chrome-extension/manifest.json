@@ -1,13 +1,16 @@
 {
   "manifest_version": 2,
-  "name": "ZCE",
-  "description": "ZCE exam simulator - Chrome extension",
+  "name": "ZCE - PHP ZEND Certification exam simulator",
+  "short_name": "ZCE - PHP ZEND Certification exam simulator",
   "version": "1.0.0",
+
   "author": "nicu alcea",
-  "developer": {
-    "name": "nicu alcea",
-    "url": "https://github.com/alceanicu/zce"
+  "description": "ZCE - PHP ZEND Certification exam simulator",
+  "default_locale": "en",
+  "icons": {
+    "38": "assets/icons/icon38.png"
   },
+
   "permissions": [
     "tabs",
     "activeTab"

@@ -1,18 +1,24 @@
 {
-
-  "description": "Adds a solid red border to all webpages matching mozilla.org. See https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Examples#borderify",
   "manifest_version": 2,
-  "name": "Borderify",
-  "version": "1.0",
-  "homepage_url": "https://github.com/mdn/webextensions-examples/tree/master/borderify",
+  "name": "description": "ZCE - PHP ZEND Certification exam simulator",
+  "version": "1.0.0",
+
+  "description": "ZCE - PHP ZEND Certification exam simulator",
+  "developer": {
+    "name": "nicu alcea",
+    "url": "https://github.com/alceanicu/zce"
+  },
+  "homepage_url": "https://alceanicu.github.io/zce/home",
   "icons": {
-    "48": "icons/border-48.png"
+    "38": "assets/icons/icon38.png"
   },
 
   "content_scripts": [
     {
       "matches": ["*://*.mozilla.org/*"],
-      "js": ["b.js"]
+      "js": [
+        "background.js"
+      ]
     }
   ]
 
