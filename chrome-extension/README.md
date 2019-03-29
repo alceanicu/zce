@@ -1,5 +1,0 @@
-# CHROME
-
-```
-ng build
-```

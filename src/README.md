@@ -58,6 +58,17 @@ ngh --dir dist/zce --message="V 1.0.1"
 
 ```
 ng build --outputPath=chrome-extension
+ng build --prod --base-href="./"
+```
+
+### firefox extension
+
+```
+npm install --global web-ext
+web-ext run
+web-ext sign --api-key=user:niac --api-secret=niac
+
+ng build --prod --base-href="./"
 ```
 
 
