@@ -12,7 +12,7 @@ https://chrome.google.com/webstore/detail/zce-php-zend-certificatio/kdjolhghoglg
 
 ### FIREFOX extension 
 
-(soon)
+https://addons.mozilla.org/ro/firefox/addon/php-zend-certification-exam/ (not stable)
 
 ### MOBILE app
 

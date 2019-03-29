@@ -2,22 +2,13 @@
   "manifest_version": 2,
   "name": "ZCE - PHP ZEND Certification exam simulator",
   "short_name": "ZCE-PHP ZEND",
-  "version": "1.0.1",
-  "version_name": "1.0.1 - RC1",
+  "version": "1.0.2",
   "author": "Nicu ALCEA",
   "description": "ZCE - PHP ZEND Certification exam simulator",
-  "icons": {
-    "16": "assets/icons/php16.png",
-    "32": "assets/icons/php32.png",
-    "38": "assets/icons/php38.png",
-    "48": "assets/icons/php48.png",
-    "128": "assets/icons/php128.png"
-  },
   "background": {
     "scripts": [
       "background.js"
-    ],
-    "persistent": false
+    ]
   },
   "incognito": "spanning",
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';",
@@ -27,8 +18,10 @@
     "assets/sass/*"
   ],
   "browser_action": {
-    "default_icon": "assets/icons/php32.png",
-    "default_title": "ZCE - PHP ZEND Certification exam simulator"
+    "default_icon": {
+      "48": "assets/icons/php48.png"
+    },
+    "default_title": "ZEND exam"
   },
   "homepage_url": "https://github.com/alceanicu/zce",
   "permissions": [
