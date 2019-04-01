@@ -1,4 +1,4 @@
-# ZCE - PHP ZEND Certification exam simulator
+## ZCE - PHP ZEND Certification exam simulator
 
 You can try this app here: 
 
@@ -12,7 +12,7 @@ https://chrome.google.com/webstore/detail/zce-php-zend-certificatio/kdjolhghoglg
 
 ### FIREFOX extension 
 
-https://addons.mozilla.org/ro/firefox/addon/php-zend-certification-exam/ (not stable)
+https://addons.mozilla.org/ro/firefox/addon/php-zend-certification-exam/
 
 ### MOBILE app
 
