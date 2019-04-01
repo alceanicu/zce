@@ -53,24 +53,4 @@ ng build --prod --base-href="./"
 ngh --dir dist/zce --message="V 1.0.1"
 ```
 
-
-### chrome extension
-
-```
-ng build --outputPath=chrome-extension
-ng build --prod --base-href="./"
-```
-
-### firefox extension
-
-```
-npm install --global web-ext
-web-ext run
-web-ext build
-web-ext sign --api-key=user:niac --api-secret=niac
-
-ng build --prod --base-href="./"
-```
-
-
 ## git
