@@ -9,6 +9,8 @@ ng g m random --routing=true
 ng g c random/random
 ng g m exam --routing=true
 ng g c exam/exam
+ng g m pdf --routing=true
+ng g c pdf/pdf-ten
 
 ng g m shared
 ng g c shared/layout/foo
@@ -26,6 +28,7 @@ ng g s core/services/session-storage/session-storage
 ng g s core/services/local-storage/local-storage
 ng g s core/services/firestore/php-question
 ng g s core/services/data-share/data-share        ## fixme
+ng g s core/services/question/question
 
 ng serve
 ```
@@ -41,6 +44,7 @@ npm i --save firebase @angular/fire
 npm i --save dexie
 npm i --save ngx-ui-loader
 npm i --save angular-svg-round-progressbar
+npm i --save pdfmake
 
 ##  npm i --save rxjs rxjs-compat
 ##  npm i --save ngx-toastr ngx-ui-loader

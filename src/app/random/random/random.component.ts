@@ -32,7 +32,9 @@ export class RandomComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
-    this.sync.currentScore.subscribe(message => this.message = message);
+    this.sync.currentScore.subscribe(message => {
+      this.message = message;
+    });
     this.getAnRandomQuestion();
   }
 
