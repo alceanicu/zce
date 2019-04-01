@@ -6,6 +6,7 @@
   "version_name": "1.0.1 - RC1",
   "author": "Nicu ALCEA",
   "description": "ZCE - PHP ZEND Certification exam simulator",
+  "minimum_chrome_version": "22",
   "icons": {
     "16": "assets/icons/php16.png",
     "32": "assets/icons/php32.png",
@@ -32,6 +33,7 @@
   },
   "homepage_url": "https://github.com/alceanicu/zce",
   "permissions": [
+    "<all_urls>",
     "tabs",
     "activeTab"
   ]
