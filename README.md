@@ -1,6 +1,6 @@
-# THIS APP IS NOT FINISHED - SOME FEATURE MIGHT NOT WORK YET
-
 ## ZCE - PHP ZEND Certification exam simulator
+
+## !!! THIS APP IS NOT FINISHED - SOME FEATURE MIGHT NOT WORK YET !!!
 
 You can try this app here: 
 
