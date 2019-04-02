@@ -1,7 +1,15 @@
-import {Component, OnInit, AfterViewChecked, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit, AfterViewChecked} from '@angular/core';
 import {NgxUiLoaderService} from 'ngx-ui-loader';
-import {DataShareService, LocalStorageService, PhpQuestionService, PrismService, SessionStorageService, IndexedDbQuizService} from '../../core/services';
-import {IConfig, IQuestion, IAnswerRow, IQuestionRow} from '../../core/models';
+import {
+  DataShareService,
+  LocalStorageService,
+  PhpQuestionService,
+  PrismService,
+  SessionStorageService,
+  IndexedDbQuizService,
+  QuestionService
+} from '../../core/services';
+import {IQuestion, IAnswerRow, IQuestionRow} from '../../core/models';
 
 @Component({
   selector: 'app-random',
@@ -23,7 +31,7 @@ export class RandomComponent implements OnInit, AfterViewChecked {
     private prismService: PrismService,
     private ngxLoader: NgxUiLoaderService,
     private sync: DataShareService,
-    // public toastrService: ToastrService,
+    private questionService: QuestionService,
   ) {
   }
 
@@ -38,105 +46,31 @@ export class RandomComponent implements OnInit, AfterViewChecked {
     this.getAnRandomQuestion();
   }
 
-  generateRandomIdWithoutRepeatInLastN(config: IConfig, internalCounter: number = 0): number {
-    const randomId = this.randomNumberFromInterval(Number(config.counter));
-    let phpLastNIds = this.sessionStorageService.getItem('phpLastNIds') || [];
-    if (internalCounter === 100) {
-      console.log('STOP AFTER 100 TRY ...');
-      return randomId;
-    }
-    if (phpLastNIds.indexOf(String(randomId)) === -1) {
-      phpLastNIds.unshift(String(randomId));
-      phpLastNIds = phpLastNIds.filter((value, key) => key < 10);
-      this.sessionStorageService.setItem('phpLastNIds', phpLastNIds);
-      return randomId;
-    } else {
-      internalCounter++;
-      return this.generateRandomIdWithoutRepeatInLastN(config, internalCounter);
-    }
-  }
-
   getAnRandomQuestion() {
+    const $this = this;
     if (this.interval) {
       clearInterval(this.interval);
       this.interval = null;
     }
     this.ngxLoader.start();
-    const $this = this;
     this.reset();
-    this.localStorageService.getAppConfig().subscribe((config) => {
-      const randomId = this.generateRandomIdWithoutRepeatInLastN(config);
-      console.log(`Generate an random id for question ... [randomId =${randomId}]`);
-
-      this.indexedDbQuizService
-        .getQuestionById(randomId)
-        .then(async (question) => {
-          if (!question) {
-            console.log(`Question with id=${randomId} does not EXIST in IndexedDB`);
-            $this.getQuestionFromFirebase(randomId);
-          } else {
-            console.log(`Question with id=${randomId} EXIST in IndexedDB - WE GET IT FROM IndexedDB`);
-            $this.setQuestion(question);
-          }
-        })
-        .catch(e => {
-          console.log((e.stack || e));
-          $this.getQuestionFromFirebase(randomId);
-        });
+    this.questionService.getQuestion(1).subscribe((question) => {
+      $this.setQuestion(question);
     });
   }
 
-  saveToIndexedDb(question: IQuestion) {
-    this.indexedDbQuizService
-      .addQuestion(question)
-      .then(async (key) => {
-        console.log(`Question is now saved in IndexedDB [id=${key}]`);
-      })
-      .catch(e => {
-        console.log(`Question can not be saved in IndexedDB`);
-        console.log((e.stack || e));
-      });
-  }
-
   setQuestion(question: IQuestion) {
-    question.answerRows.sort(() => Math.random() - 0.5);
     question.answerRows.forEach((obj, key) => { // FIXME
       obj.userAnswer = false;
     });
     question.finalAnswer = false;
     this.question = question;
-    this.prismService.highlightAll();
+    this.prismService.highlightAll(); // FIXME
     const $this = this;
     setTimeout(() => {
       $this.ngxLoader.stopAll();
     }, 200)
     ;
-  }
-
-  getQuestionFromFirebase(randomId) {
-    console.log('We try to get question from FIREBASE');
-    const $this = this;
-    this.firestorePhpQuestionService.getQuestion(String(randomId)).subscribe(
-      DocumentSnapshot => {
-        const question = DocumentSnapshot.data() as IQuestion;
-        if (question) {
-          $this.saveToIndexedDb(question);
-          $this.setQuestion(question);
-        } else {
-          throw new Error('Something bad happened');
-        }
-      },
-      (error) => {
-        $this.ngxLoader.stopAll();
-        console.log('Can not get question from FIREBASE');
-        console.error(error);
-        // this.toastrService.error(`ERROR => ${error}`);
-      },
-      () => {
-        console.log('Random Question complete');
-        $this.prismService.highlightAll();
-      }
-    );
   }
 
   reset() {
@@ -151,10 +85,6 @@ export class RandomComponent implements OnInit, AfterViewChecked {
       questionRows: [<IQuestionRow> {}],
       answerRows: [<IAnswerRow> {}, <IAnswerRow> {}, <IAnswerRow> {}, <IAnswerRow> {}],
     };
-  }
-
-  randomNumberFromInterval(max: number, min: number = 1): number {
-    return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
   validateEachAnswerRows() {

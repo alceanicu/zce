@@ -6,7 +6,6 @@ const routes: Routes = [
   {path: 'home', loadChildren: './home/home.module#HomeModule'},
   {path: 'exam', loadChildren: './exam/exam.module#ExamModule'},
   {path: 'random', loadChildren: './random/random.module#RandomModule'},
-  {path: 'pdf-ten', loadChildren: './pdf/pdf.module#PdfModule'}
 ];
 
 @NgModule({
@@ -23,4 +22,3 @@ const routes: Routes = [
 })
 export class AppRoutingModule {
 }
-

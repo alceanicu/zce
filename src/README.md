@@ -9,11 +9,9 @@ ng g m random --routing=true
 ng g c random/random
 ng g m exam --routing=true
 ng g c exam/exam
-ng g m pdf --routing=true
-ng g c pdf/pdf-ten
 
-ng g m shared
-ng g c shared/layout/foo
+ng g c shared/layout/footer
+ng g c shared/layout/header
 
 ng g m core
 ng g i core/models/i-question --type=interface
@@ -29,6 +27,8 @@ ng g s core/services/local-storage/local-storage
 ng g s core/services/firestore/php-question
 ng g s core/services/data-share/data-share        ## fixme
 ng g s core/services/question/question
+
+ng g class core/utils/helper
 
 ng serve
 ```
