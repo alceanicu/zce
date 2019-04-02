@@ -1,6 +1,6 @@
 ### CHROME extension
 
 ```
-ng build --outputPath=chrome-extension
 ng build --prod --base-href="./"
+COPY manifest.js &&  background.js TO dist/zce
 ```

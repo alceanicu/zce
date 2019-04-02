@@ -54,7 +54,7 @@ npm i --save pdfmake
 
 ```
 ng build --prod --base-href="./"
-ngh --dir dist/zce --message="V 1.0.1"
+ngh --dir dist/zce --message="V 1.0.2"
 ```
 
 ## git

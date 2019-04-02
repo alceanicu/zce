@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
-  "name": "ZCE - PHP ZEND Certification exam simulator",
+  "name": "ZCE simulator",
   "short_name": "ZCE-PHP ZEND",
   "version": "1.0.1",
-  "version_name": "1.0.1 - RC1",
+  "version_name": "1.0.1 - RC2",
   "author": "Nicu ALCEA",
   "description": "ZCE - PHP ZEND Certification exam simulator",
   "minimum_chrome_version": "22",
