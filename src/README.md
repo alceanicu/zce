@@ -18,8 +18,11 @@ ng g i core/models/i-question --type=interface
 ng g i core/models/i-question-row --type=interface
 ng g i core/models/i-answer-row --type=interface
 ng g i core/models/i-config --type=interface
+ng g i core/models/i-exam --type=interface
+ng g i core/models/i-exam-question --type=interface
 
 ng g class core/models/question --type=model
+ng g class core/models/exam --type=model
 
 ng g s core/services/prism/prism
 ng g s core/services/session-storage/session-storage
