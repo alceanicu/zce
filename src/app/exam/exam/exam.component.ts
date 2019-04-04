@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Exam} from '../../core/models/exam.model';
+import {Helper} from '../../core/utils';
 
 @Component({
   selector: 'app-exam',
@@ -29,5 +30,10 @@ export class ExamComponent implements OnInit {
 
   get questionsArray() {
     return this.currentExam.questionsArray;
+  }
+
+  get xxx() {
+    const a = Helper.chunkArray(this.currentExam.questionsArray, 35);
+    return a;
   }
 }

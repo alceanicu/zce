@@ -21,15 +21,33 @@
           <div class="row">
             <div class="col-lg-12 col-md-12">
 
-<!--              <ul>-->
-<!--                <li *ngFor="let q of questionsArray">-->
-<!--                  {{ q | json }}-->
-<!--                </li>-->
-<!--              </ul>-->
+              <div style="margin-top: 200px"></div>
 
-              <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-                <div class="btn-group mr-2" role="group" aria-label="First group">
-                  <button type="button" class="btn" *ngFor="let q of questionsArray">{{q | }}</button>
+<!--              <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">-->
+<!--                <div class="btn-group special mr-2" role="group" aria-label="First group" style="margin: 5px"-->
+<!--                     *ngFor="let gr of xxx, let id = index">-->
+<!--                  <button type="button" class="btn btn-sm" style="width: 32px"-->
+<!--                          *ngFor="let qId of gr, let i = index">-->
+<!--                    {{i + (id * 35) + 1}}-->
+<!--                  </button>-->
+<!--                </div>-->
+<!--              </div>-->
+
+              <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups" style="margin: 5px">
+                <div class="btn-group special mr-2" role="group" aria-label="First group">
+                  <button type="button" class="btn btn-sm" style="width: 32px"
+                          *ngFor="let qId of questionsArray.slice(0, 35), let i = index" title="{{qId}}">
+                    {{i+1}}
+                  </button>
+                </div>
+              </div>
+
+              <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups" style="margin: 5px">
+                <div class="btn-group special mr-2" role="group" aria-label="First group">
+                  <button type="button" class="btn btn-sm" style="width: 32px"
+                          *ngFor="let qId of questionsArray.slice(35, 70), let i = index" title="{{qId}}">
+                    {{i+36}}
+                  </button>
                 </div>
               </div>
 
