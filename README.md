@@ -10,7 +10,7 @@ https://alceanicu.github.io/zce/
 
 ### CHROME extension:
 
-https://chrome.google.com/webstore/detail/zce-php-zend-certificatio/kdjolhghoglghipajmbmlmldbpncimge
+https://chrome.google.com/webstore/detail/php-zend-certification-exam/kdjolhghoglghipajmbmlmldbpncimge
 
 ### FIREFOX extension 
 
