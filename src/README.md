@@ -46,7 +46,7 @@ npm i --save prismjs
 npm i --save firebase @angular/fire
 npm i --save dexie
 npm i --save ngx-ui-loader
-npm i --save angular-svg-round-progressbar
+npm i --save angular-svg-round-progressbar        ## remove in angulat 8
 npm i --save pdfmake
 
 ##  npm i --save rxjs rxjs-compat
@@ -57,7 +57,7 @@ npm i --save pdfmake
 
 ```
 ng build --prod --base-href="./"
-ngh --dir dist/zce --message="V 1.0.2"
+ngh --dir dist/zce --message="V 1.0.3"
 ```
 
 ## git

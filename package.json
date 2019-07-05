@@ -1,6 +1,6 @@
 {
   "name": "zce",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -21,7 +21,6 @@
     "@angular/platform-browser-dynamic": "~8.1.0",
     "@angular/router": "~8.1.0",
     "@ng-bootstrap/ng-bootstrap": "^4.1.0",
-    "angular-svg-round-progressbar": "^2.0.0",
     "core-js": "^2.5.4",
     "dexie": "^2.0.4",
     "firebase": "^5.9.1",
