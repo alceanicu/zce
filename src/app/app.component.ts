@@ -13,7 +13,7 @@ import { HeaderComponent } from './shared/layout';
 export class AppComponent implements OnInit {
   public title = 'ZCE';
   private router$: Subscription;
-  @ViewChild(HeaderComponent) navbar: HeaderComponent;
+  @ViewChild(HeaderComponent, { static: true }) navbar: HeaderComponent;
 
   constructor(
     private renderer: Renderer2,
