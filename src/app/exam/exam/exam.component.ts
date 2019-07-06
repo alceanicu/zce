@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import {NgxUiLoaderService} from 'ngx-ui-loader';
 import {Exam} from '../../core/models/exam.model';
 import {DataShareService, PrismService, QuestionService} from '../../core/services';
@@ -9,7 +9,7 @@ import {IQuestion} from '../../core/models';
   templateUrl: './exam.component.html',
   styleUrls: ['./exam.component.css']
 })
-export class ExamComponent implements OnInit {
+export class ExamComponent implements OnInit, AfterViewChecked {
   private currentExam: Exam;
   public question: IQuestion;
 
@@ -23,6 +23,10 @@ export class ExamComponent implements OnInit {
 
   ngOnInit() {
     this.startExam();
+  }
+
+  ngAfterViewChecked() {
+    this.prismService.highlightAll();
   }
 
   private startExam() {

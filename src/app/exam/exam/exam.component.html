@@ -1,7 +1,6 @@
 <main>
   <div class="position-relative">
     <div class="position-static">
-      <!-- Hero for FREE version -->
       <section class="section section-lg section-hero section-shaped">
         <!-- Background circles -->
         <div class="shape shape-style-1 shape-primary">
@@ -18,35 +17,47 @@
         </div>
 
         <div class="container">
+          <div class="row" style="margin-top: 50px"></div>
+
           <div class="row">
             <div class="col-lg-12 col-md-12">
-              <div style="margin-top: 50px"></div>
 
-              <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups" style="margin: 5px">
-                <div class="btn-group special mr-2" role="group" aria-label="First group">
-                  <button type="button" class="btn btn-sm" style="width: 32px"
+              <div class="btn-toolbar" role="toolbar" style="margin: 5px">
+                <div class="btn-group" role="group">
+                  <button type="button" class="btn btn-sm btn-warning" style="width: 30px"
                           *ngFor="let qId of questionsArray.slice(0, 35), let i = index" title="{{qId}}"
                           (click)="getQuestion(qId)">
-                    {{i + 1}}
+                    <small>{{i + 1}}</small>
                   </button>
                 </div>
               </div>
 
-              <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups" style="margin: 5px">
-                <div class="btn-group special mr-2" role="group" aria-label="First group">
-                  <button type="button" class="btn btn-sm" style="width: 32px"
+              <div class="btn-toolbar" role="toolbar" style="margin: 5px">
+                <div class="btn-group" role="group">
+                  <button type="button" class="btn btn-sm btn-warning" style="width: 30px"
                           *ngFor="let qId of questionsArray.slice(35, 70), let i = index" title="{{qId}}"
                           (click)="getQuestion(qId)">
-                    {{i + 36}}
+                    <small>{{i + 36}}</small>
                   </button>
                 </div>
               </div>
+            </div>
+          </div>
 
-
+          <div class="row">
+            <div class="col-lg-12 col-md-12">
               <div *ngIf="this.question" class="php-container" style="margin-top: 50px">
-                {{question | json}}
-              </div>
+                <!--{{question | json}}-->
+                <app-question
+                  *ngFor="let questionRow of question.questionRows"
+                  [questionRow]="questionRow"></app-question>
 
+                <app-answer
+                  *ngFor="let answerRow of question.answerRows, let i = index"
+                  [answerRow]="answerRow"
+                  [disabled]="question.finalAnswer"
+                  [i]="i"></app-answer>
+              </div>
             </div>
           </div>
         </div>
