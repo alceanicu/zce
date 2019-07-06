@@ -20,6 +20,7 @@ export class QuestionService {
     private localStorageService: LocalStorageService,
     private sessionStorageService: SessionStorageService,
   ) {
+    //
   }
 
   public getQuestion(questionNumber: number = 1): Observable<any> {
@@ -27,7 +28,7 @@ export class QuestionService {
     this.internalCounter = 0;
     this.questionNumber = questionNumber;
 
-    return Observable.create((observer) => {
+    return new Observable((observer) => {
       for (let i = 0; i < questionNumber; i++) {
         $this.getAnRandomQuestion(observer);
       }
@@ -35,27 +36,38 @@ export class QuestionService {
   }
 
   private getAnRandomQuestion(observer) {
-    const $this = this;
     this.localStorageService.getAppConfig().subscribe((config) => {
       const randomId = this.generateRandomIdWithoutRepeatInLastN(config);
-      console.log(`Generate an random id for question ... [randomId =${randomId}]`);
+      console.log(`Generate an random id for question ... [randomId=${randomId}]`);
 
-      this.indexedDbQuizService
-        .getQuestionById(randomId)
-        .then(async (question) => {
-          if (!question) {
-            console.log(`Question with id=${randomId} does not EXIST in IndexedDB`);
-            $this.getQuestionFromFirebase(randomId, observer);
-          } else {
-            console.log(`Question with id=${randomId} EXIST in IndexedDB - WE GET IT FROM IndexedDB`);
-            $this.setQuestion(question, observer);
-          }
-        })
-        .catch(e => {
-          console.log((e.stack || e));
-          $this.getQuestionFromFirebase(randomId, observer);
-        });
+      this.getQuestionById(randomId, observer);
     });
+  }
+
+  public getOneQuestionById(id: number): Observable<any> {
+    const $this = this;
+    return new Observable((observer) => {
+      $this.getQuestionById(id, observer);
+    });
+  }
+
+  private getQuestionById(id, observer) {
+    const $this = this;
+    this.indexedDbQuizService
+      .getQuestionById(id)
+      .then(async (question) => {
+        if (!question) {
+          console.log(`Question with id=${id} does not EXIST in IndexedDB`);
+          $this.getQuestionFromFirebase(id, observer);
+        } else {
+          console.log(`Question with id=${id} EXIST in IndexedDB - WE GET IT FROM IndexedDB`);
+          $this.setQuestion(question, observer);
+        }
+      })
+      .catch(e => {
+        console.log((e.stack || e));
+        $this.getQuestionFromFirebase(id, observer);
+      });
   }
 
   private generateRandomIdWithoutRepeatInLastN(config: IConfig, internalCounter: number = 0): number {
@@ -76,25 +88,25 @@ export class QuestionService {
     }
   }
 
-  private getQuestionFromFirebase(randomId, observer) {
-    console.log('We try to get question from FIREBASE');
+  private getQuestionFromFirebase(id, observer) {
+    console.log(`We try to get question with id=${id} from FIREBASE`);
     const $this = this;
-    this.firestorePhpQuestionService.getQuestion(String(randomId)).subscribe(
+    this.firestorePhpQuestionService.getQuestion(String(id)).subscribe(
       DocumentSnapshot => {
         const question = DocumentSnapshot.data() as IQuestion;
         if (question) {
           $this.saveToIndexedDb(question);
           $this.setQuestion(question, observer);
         } else {
-          throw new Error('Something bad happened');
+          throw new Error('bad robot');
         }
       },
       (error) => {
-        console.log('Can not get question from FIREBASE');
+        console.log(`Can not get question with id=${id} from FIREBASE`);
         console.error(error);
       },
       () => {
-        console.log('Random Question complete');
+        console.log('Question from FIREBASE complete');
       }
     );
   }

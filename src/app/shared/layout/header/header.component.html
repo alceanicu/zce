@@ -17,7 +17,9 @@
       <ul class="navbar-nav ml-auto">
         <li class="nav-item" *ngIf="isRandom()">
           <div class="progress-percentage-wrapper">
-            <div class="progress-percentage ng-cloak" title="Corect {{message.correct}} from {{message.total}}">{{message.percentage}} %<br>{{message.correct}} | {{message.total}}</div>
+            <div class="progress-percentage ng-cloak"
+                 title="Corect {{message.correct}} from {{message.total}}">{{message.percentage}}
+              %<br>{{message.correct}} | {{message.total}}</div>
           </div>
         </li>
         <li class="nav-item" *ngIf="isHome()">
@@ -28,7 +30,8 @@
           </a>
         </li>
         <li class="nav-item" *ngIf="isHome()">
-          <a placement="bottom" title="Documentation" href="http://www.zend.com/en/services/certification/php-certification" class="lead nav-link"
+          <a placement="bottom" title="Documentation"
+             href="http://www.zend.com/en/services/certification/php-certification" class="lead nav-link"
              target="_blank"><i class="nc-icon nc-book-bookmark"></i> Documentation</a>
         </li>
       </ul>
@@ -36,7 +39,7 @@
   </div>
 </nav>
 <style>
-  .progress-percentage-wrapper {
+.progress-percentage-wrapper {
   position: relative;
   margin-right: 10px;
   font-size: 12px;
@@ -51,4 +54,5 @@
   width: 100%;
   text-align: center !important;
   top: 40%;
-}</style>
+}
+</style>

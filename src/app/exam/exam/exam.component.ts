@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
+import {NgxUiLoaderService} from 'ngx-ui-loader';
 import {Exam} from '../../core/models/exam.model';
-import {Helper} from '../../core/utils';
+import {DataShareService, PrismService, QuestionService} from '../../core/services';
+import {IQuestion} from '../../core/models';
 
 @Component({
   selector: 'app-exam',
@@ -9,8 +11,14 @@ import {Helper} from '../../core/utils';
 })
 export class ExamComponent implements OnInit {
   private currentExam: Exam;
+  public question: IQuestion;
 
-  constructor() {
+  constructor(
+    private prismService: PrismService,
+    private ngxLoader: NgxUiLoaderService,
+    private sync: DataShareService,
+    private questionService: QuestionService,
+  ) {
   }
 
   ngOnInit() {
@@ -32,8 +40,10 @@ export class ExamComponent implements OnInit {
     return this.currentExam.questionsArray;
   }
 
-  get xxx() {
-    const a = Helper.chunkArray(this.currentExam.questionsArray, 35);
-    return a;
+  public getQuestion(id) {
+    const $this = this;
+    this.questionService.getOneQuestionById(id).subscribe((question) => {
+      $this.question = question;
+    });
   }
 }

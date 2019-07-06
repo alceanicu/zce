@@ -1,5 +1,13 @@
-# ng
+## git
 
+```
+git clone https://github.com/alceanicu/zce.git
+cd zce
+npm installng serve
+ng serve
+```
+
+## ng
 ```
 ng new zce --routing=true 
 
@@ -40,17 +48,16 @@ ng serve
 
 ```
 npm i --save @ng-bootstrap/ng-bootstrap
-## npm i --save bootstrap                         ## FARA  
 npm i --save @fortawesome/fontawesome-free
 npm i --save prismjs
 npm i --save firebase @angular/fire
 npm i --save dexie
 npm i --save ngx-ui-loader
-npm i --save angular-svg-round-progressbar        ## remove in angulat 8
 npm i --save pdfmake
-
-##  npm i --save rxjs rxjs-compat
-##  npm i --save ngx-toastr ngx-ui-loader
+## npm i --save bootstrap                             ## FARA  
+## npm i --save angular-svg-round-progressbar         ## remove in angulat 8
+## npm i --save rxjs rxjs-compat
+## npm i --save ngx-toastr ngx-ui-loader
 ```
 
 ### ngh
@@ -59,5 +66,3 @@ npm i --save pdfmake
 ng build --prod --base-href="./"
 ngh --dir dist/zce --message="V 1.0.3"
 ```
-
-## git

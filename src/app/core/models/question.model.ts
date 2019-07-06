@@ -9,7 +9,7 @@ export class Question implements IQuestion {
   questionRows: Array<IQuestionRow>;
   answerRows: Array<IAnswerRow>;
 
-  constructor(values?: Question) { // Object = {}) {
+  constructor(values?: Question) {
     if (values) {
       Object.assign(this, values);
     }

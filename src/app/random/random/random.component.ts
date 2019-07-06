@@ -54,7 +54,7 @@ export class RandomComponent implements OnInit, AfterViewChecked {
     }
     this.ngxLoader.start();
     this.reset();
-    this.questionService.getQuestion(1).subscribe((question) => {
+    this.questionService.getQuestion().subscribe((question) => {
       $this.setQuestion(question);
     });
   }

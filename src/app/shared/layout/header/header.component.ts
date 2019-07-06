@@ -1,5 +1,5 @@
-import {Component, OnInit, ElementRef, Output, EventEmitter} from '@angular/core';
-import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
+import {Component, OnInit, ElementRef} from '@angular/core';
+import {Location} from '@angular/common';
 import {DataShareService} from '../../../core/services/data-share/data-share.service';
 
 @Component({
@@ -63,9 +63,9 @@ export class HeaderComponent implements OnInit {
     return (titlee === '/home');
   }
 
-  isDocumentation() {
+  isExam() {
     const titlee = this.location.prepareExternalUrl(this.location.path());
-    return (titlee === '/documentation');
+    return (titlee === '/exam');
   }
 
   isRandom() {
