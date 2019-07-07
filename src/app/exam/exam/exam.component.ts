@@ -12,6 +12,7 @@ export class ExamComponent implements OnInit, AfterViewChecked {
   private exam: Exam;
   private examQuestion?: IExamQuestion;
   private index?: number;
+  private markForReviewArray = [];
 
   constructor(
     private prismService: PrismService,
@@ -29,7 +30,8 @@ export class ExamComponent implements OnInit, AfterViewChecked {
   public setBtnClasses(index) {
     return {
       'btn-danger': this.index === index,
-      'btn-warning': this.index !== index
+      'btn-warning': (this.index !== index) && (this.markForReviewArray.indexOf(index) === -1),
+      'btn-info': (this.index !== index) && (this.markForReviewArray.indexOf(index) !== -1)
     };
   }
 
@@ -49,9 +51,6 @@ export class ExamComponent implements OnInit, AfterViewChecked {
       console.log('Get exam question for the first time');
       const $this = this;
       this.questionService.getOneQuestionById(id).subscribe((question) => {
-        // question.answerRows.forEach((obj, key) => { // FIXME
-        //   obj.userAnswer = false;
-        // });
         const q = {
           id: id,
           question: question,
@@ -87,12 +86,16 @@ export class ExamComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  public disabledPrev() {
+  public disabledPrevBtn() {
     return (this.index === undefined) || (this.index <= 0);
   }
 
-  public disabledNext() {
-    return (this.index === undefined) || (this.index >= 69);
+  public disabledMarkForReviewBtn() {
+    return (this.index === undefined);
+  }
+
+  public disabledNextBtn() {
+    return (this.index === undefined) || (this.index <= 0);
   }
 
   public getPrevQuestion() {
@@ -104,4 +107,15 @@ export class ExamComponent implements OnInit, AfterViewChecked {
     const index = ++this.index;
     this.getQuestion(this.exam.questionsArray[index], index);
   }
+
+  public markForReview() {
+    const idx = this.markForReviewArray.indexOf(this.index);
+    if (idx === -1) {
+      this.markForReviewArray.push(this.index);
+    } else {
+      this.markForReviewArray.splice(idx, 1);
+    }
+    console.log(this.markForReviewArray);
+  }
+
 }
