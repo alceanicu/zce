@@ -1,8 +1,7 @@
-import { AfterViewChecked, Component, OnInit } from '@angular/core';
+import {AfterViewChecked, Component, OnInit} from '@angular/core';
 import {NgxUiLoaderService} from 'ngx-ui-loader';
-import {Exam} from '../../core/models/exam.model';
 import {DataShareService, PrismService, QuestionService} from '../../core/services';
-import {IQuestion} from '../../core/models';
+import {IExamQuestion, Exam} from '../../core/models';
 
 @Component({
   selector: 'app-exam',
@@ -10,8 +9,9 @@ import {IQuestion} from '../../core/models';
   styleUrls: ['./exam.component.css']
 })
 export class ExamComponent implements OnInit, AfterViewChecked {
-  private currentExam: Exam;
-  public question: IQuestion;
+  private exam: Exam;
+  private examQuestion?: IExamQuestion;
+  private index?: number;
 
   constructor(
     private prismService: PrismService,
@@ -22,32 +22,86 @@ export class ExamComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
-    this.startExam();
+    console.log('START EXAM');
+    this.exam = new Exam();
+  }
+
+  public setBtnClasses(index) {
+    return {
+      'btn-danger': this.index === index,
+      'btn-warning': this.index !== index
+    };
   }
 
   ngAfterViewChecked() {
     this.prismService.highlightAll();
   }
 
-  private startExam() {
-    console.log('START EXAM');
-    this.currentExam = new Exam();
-    console.log(this.currentExam);
-  }
-
-  public endExam() {
-    this.currentExam.finishExam();
-    console.log('END EXAM');
-  }
-
   get questionsArray() {
-    return this.currentExam.questionsArray;
+    return this.exam.questionsArray;
   }
 
-  public getQuestion(id) {
-    const $this = this;
-    this.questionService.getOneQuestionById(id).subscribe((question) => {
-      $this.question = question;
+  public getQuestion(id, index) {
+    this.updateExamScore();
+    this.index = index;
+
+    if (this.exam.questions[index] === undefined) {
+      console.log('Get exam question for the first time');
+      const $this = this;
+      this.questionService.getOneQuestionById(id).subscribe((question) => {
+        // question.answerRows.forEach((obj, key) => { // FIXME
+        //   obj.userAnswer = false;
+        // });
+        const q = {
+          id: id,
+          question: question,
+          markForReview: false,
+          correct: false
+        } as IExamQuestion;
+        $this.exam.questions[index] = q;
+        $this.examQuestion = q;
+      });
+    } else {
+      console.log('Load question again');
+      this.examQuestion = this.exam.questions[index];
+    }
+    console.log(this.exam);
+  }
+
+  private updateExamScore() {
+    console.log('update Exam Score');
+    if (this.examQuestion !== undefined) {
+      this.validateEachAnswerRows();
+    }
+  }
+
+  validateEachAnswerRows() {
+    let ok = true;
+    this.examQuestion.question.answerRows.forEach((obj, key) => {
+      ok = ok && (obj.correct === obj.userAnswer);
+      console.log(obj);
     });
+
+    if (ok) {
+      this.examQuestion.correct = true;
+    }
+  }
+
+  public disabledPrev() {
+    return (this.index === undefined) || (this.index <= 0);
+  }
+
+  public disabledNext() {
+    return (this.index === undefined) || (this.index >= 69);
+  }
+
+  public getPrevQuestion() {
+    const index = --this.index;
+    this.getQuestion(this.exam.questionsArray[index], index);
+  }
+
+  public getNextQuestion() {
+    const index = ++this.index;
+    this.getQuestion(this.exam.questionsArray[index], index);
   }
 }

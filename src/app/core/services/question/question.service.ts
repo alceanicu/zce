@@ -94,6 +94,11 @@ export class QuestionService {
     this.firestorePhpQuestionService.getQuestion(String(id)).subscribe(
       DocumentSnapshot => {
         const question = DocumentSnapshot.data() as IQuestion;
+
+        question.answerRows.forEach((obj, key) => { // FIXME
+          obj.userAnswer = false;
+        });
+
         if (question) {
           $this.saveToIndexedDb(question);
           $this.setQuestion(question, observer);

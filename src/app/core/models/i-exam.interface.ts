@@ -4,7 +4,9 @@ export interface IExam {
   startAt: number;
   endAt?: number;
   questionsArray?: Array<number>;
-  tempQuestionsArray?: Array<IExamQuestion>;
+  questions?: {
+    [key: number]: IExamQuestion
+  };
   score?: number;
   finished?: boolean;
 }

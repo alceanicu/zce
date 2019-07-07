@@ -17,6 +17,7 @@
         </div>
 
         <div class="container">
+
           <div class="row" style="margin-top: 50px"></div>
 
           <div class="row">
@@ -24,9 +25,10 @@
 
               <div class="btn-toolbar" role="toolbar" style="margin: 5px">
                 <div class="btn-group" role="group">
-                  <button type="button" class="btn btn-sm btn-warning" style="width: 30px"
-                          *ngFor="let qId of questionsArray.slice(0, 35), let i = index" title="{{qId}}"
-                          (click)="getQuestion(qId)">
+                  <button type="button" class="btn btn-sm" style="width: 30px"
+                          *ngFor="let id of questionsArray.slice(0, 35), let i = index" title="{{id}}"
+                          (click)="getQuestion(id, i)"
+                          [ngClass]="setBtnClasses(i)">
                     <small>{{i + 1}}</small>
                   </button>
                 </div>
@@ -35,8 +37,9 @@
               <div class="btn-toolbar" role="toolbar" style="margin: 5px">
                 <div class="btn-group" role="group">
                   <button type="button" class="btn btn-sm btn-warning" style="width: 30px"
-                          *ngFor="let qId of questionsArray.slice(35, 70), let i = index" title="{{qId}}"
-                          (click)="getQuestion(qId)">
+                          *ngFor="let id of questionsArray.slice(35, 70), let i = index" title="{{id}}"
+                          (click)="getQuestion(id, i + 36)"
+                          [ngClass]="setBtnClasses(i + 36)">
                     <small>{{i + 36}}</small>
                   </button>
                 </div>
@@ -46,20 +49,49 @@
 
           <div class="row">
             <div class="col-lg-12 col-md-12">
-              <div *ngIf="this.question" class="php-container" style="margin-top: 50px">
-                <!--{{question | json}}-->
+              <div *ngIf="this.examQuestion" class="php-container" style="margin-top: 50px">
+<!--                {{examQuestion | json}}-->
                 <app-question
-                  *ngFor="let questionRow of question.questionRows"
+                  *ngFor="let questionRow of examQuestion.question.questionRows"
                   [questionRow]="questionRow"></app-question>
 
                 <app-answer
-                  *ngFor="let answerRow of question.answerRows, let i = index"
+                  *ngFor="let answerRow of examQuestion.question.answerRows, let i = index"
                   [answerRow]="answerRow"
-                  [disabled]="question.finalAnswer"
+                  [disabled]="examQuestion.question.finalAnswer"
                   [i]="i"></app-answer>
               </div>
             </div>
           </div>
+
+          <div class="row" style="margin-top: 10px">
+          <div class="col-lg-4 col-md-4">
+            <div class="card">
+              <div class="card-footer">
+                <button type="button" class="btn btn-sm btn-danger btn-block"
+                        (click)="getPrevQuestion()"
+                        [disabled]="disabledPrev()">PREVIEW</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4">
+            <div class="card">
+              <div class="card-footer">
+                <button type="button" class="btn btn-sm btn-info btn-block">Mark for review</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4">
+            <div class="card">
+              <div class="card-footer">
+                <button type="button" class="btn btn-sm btn-primary btn-block"
+                        (click)="getNextQuestion()"
+                        [disabled]="disabledNext()">NEXT</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         </div>
 
       </section>

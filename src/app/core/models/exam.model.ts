@@ -5,8 +5,8 @@ import {Helper} from '../utils';
 export class Exam implements IExam {
   public startAt: number;
   public endAt?: number;
-  public questionsArray?: Array<number>;
-  public tempQuestionsArray?: Array<IExamQuestion>;
+  public questions?: any;
+  public questionsArray?: Array<number> = [];
   public score?: number;
   public finished?: boolean;
 
@@ -16,24 +16,19 @@ export class Exam implements IExam {
     if (values) {
       Object.assign(this, values);
     }
-    this.questionsArray = [];
     this.startAt = new Date().getTime();
+    this.questions = {};
+    this.questionsArray = this.initQuestionsArray();
+    this.score = 0;
     this.finished = false;
-    this.questionsArray = this._initQuestionsArray();
   }
 
   public finishExam() {
     this.endAt = new Date().getTime(); // FIXME
-    this._setScore();
     this.finished = true;
   }
 
-  private _setScore() {
-    // TODO
-    this.tempQuestionsArray = [];
-  }
-
-  private _initQuestionsArray() {
+  private initQuestionsArray() {
     if (this.questionsArray.length === this.examQuestionNumber) {
       return this.questionsArray;
     } else {
@@ -43,10 +38,10 @@ export class Exam implements IExam {
         if (this.questionsArray.length === this.examQuestionNumber) {
           return this.questionsArray;
         } else {
-          return this._initQuestionsArray();
+          return this.initQuestionsArray();
         }
       } else {
-        return this._initQuestionsArray();
+        return this.initQuestionsArray();
       }
     }
   }
