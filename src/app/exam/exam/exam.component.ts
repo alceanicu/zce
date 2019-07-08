@@ -94,7 +94,7 @@ export class ExamComponent implements OnInit, AfterViewChecked {
   }
 
   public disabledNextBtn() {
-    return (this.index === undefined) || (this.index <= 0);
+    return (this.index === undefined) || (this.index >= 69);
   }
 
   public getPrevQuestion() {
