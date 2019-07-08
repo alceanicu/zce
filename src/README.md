@@ -3,7 +3,7 @@
 ```
 git clone https://github.com/alceanicu/zce.git
 cd zce
-npm installng serve
+npm install
 ng serve
 ```
 
