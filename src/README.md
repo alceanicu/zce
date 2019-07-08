@@ -64,5 +64,5 @@ npm install angular-svg-round-progressbar --save
 
 ```
 ng build --prod --base-href="./"
-ngh --dir dist/zce --message="V 1.0.4"
+ngh --dir dist/zce --message="V 1.0.5"
 ```
