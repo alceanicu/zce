@@ -11,6 +11,10 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {AngularFireModule} from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {environment} from '../environments/environment';
+import {
+  RoundProgressModule,
+  ROUND_PROGRESS_DEFAULTS
+} from 'angular-svg-round-progressbar';
 
 import {
   FooterComponent,
@@ -36,7 +40,15 @@ import {CoreModule} from './core';
     AngularFirestoreModule,
     SharedModule,
     CoreModule,
+    RoundProgressModule
   ],
+  providers: [{
+    provide: ROUND_PROGRESS_DEFAULTS,
+    useValue: {
+      color: '#0F0',
+      background: '#F00'
+    }
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule {
