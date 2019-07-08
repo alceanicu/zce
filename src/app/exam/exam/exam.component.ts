@@ -1,6 +1,6 @@
 import {AfterViewChecked, Component, OnInit} from '@angular/core';
 import {NgxUiLoaderService} from 'ngx-ui-loader';
-import {DataShareService, PrismService, QuestionService} from '../../core/services';
+import {PrismService, QuestionService} from '../../core/services';
 import {IExamQuestion, Exam} from '../../core/models';
 
 @Component({
@@ -17,7 +17,6 @@ export class ExamComponent implements OnInit, AfterViewChecked {
   constructor(
     private prismService: PrismService,
     private ngxLoader: NgxUiLoaderService,
-    private sync: DataShareService,
     private questionService: QuestionService,
   ) {
   }
