@@ -10,9 +10,9 @@ import {IExamQuestion, Exam} from '../../core/models';
 })
 export class ExamComponent implements OnInit, AfterViewChecked {
   private exam: Exam;
-  private examQuestion?: IExamQuestion;
-  private index?: number;
-  private markForReviewArray = [];
+  public examQuestion?: IExamQuestion;
+  public index?: number;
+  public markForReviewArray = [];
 
   constructor(
     private prismService: PrismService,
