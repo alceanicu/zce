@@ -1,6 +1,7 @@
 import {Component, OnInit, ElementRef} from '@angular/core';
 import {Location} from '@angular/common';
 import {DataShareService} from '../../../core/services/data-share/data-share.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-layout-header',
@@ -14,7 +15,8 @@ export class HeaderComponent implements OnInit {
   constructor(
     public location: Location,
     private element: ElementRef,
-    private data: DataShareService
+    private data: DataShareService,
+    private router: Router
   ) {
     this.sidebarVisible = false;
   }
@@ -56,6 +58,13 @@ export class HeaderComponent implements OnInit {
     } else {
       this.sidebarClose();
     }
+  }
+
+  onFinished() { // FIXME
+    let msg = 'Times up!\n';
+    msg += '[This section of the app is not finished yet, so we can offer to you your exam result.\nIn next release will be fixed 😉]\n';
+    alert(msg);
+    this.router.navigateByUrl('home');
   }
 
   isHome() {
