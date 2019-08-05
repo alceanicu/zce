@@ -22,6 +22,7 @@ import {
   SharedModule,
 } from './shared';
 import {CoreModule} from './core';
+import {CountdownModule} from 'ngx-countdown';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import {CoreModule} from './core';
     HeaderComponent,
   ],
   imports: [
+    CountdownModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,

@@ -28,6 +28,7 @@ ng g i core/models/i-answer-row --type=interface
 ng g i core/models/i-config --type=interface
 ng g i core/models/i-exam --type=interface
 ng g i core/models/i-exam-question --type=interface
+ng g i core/models/i-deactivate-component  --type=interface
 
 ng g class core/models/question --type=model
 ng g class core/models/exam --type=model
@@ -53,8 +54,9 @@ npm i --save prismjs
 npm i --save firebase @angular/fire
 npm i --save dexie
 npm i --save ngx-ui-loader
+npm i --save ngx-countdown
 npm i --save pdfmake
-npm install angular-svg-round-progressbar --save
+npm i --save angular-svg-round-progressbar
 ## npm i --save bootstrap                             ## FARA
 ## npm i --save rxjs rxjs-compat
 ## npm i --save ngx-toastr ngx-ui-loader

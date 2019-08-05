@@ -1,14 +1,14 @@
 import {AfterViewChecked, Component, OnInit} from '@angular/core';
 import {NgxUiLoaderService} from 'ngx-ui-loader';
 import {PrismService, QuestionService} from '../../core/services';
-import {IExamQuestion, Exam} from '../../core/models';
+import {IExamQuestion, Exam, IDeactivateComponent} from '../../core/models';
 
 @Component({
   selector: 'app-exam',
   templateUrl: './exam.component.html',
   styleUrls: ['./exam.component.css']
 })
-export class ExamComponent implements OnInit, AfterViewChecked {
+export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChecked {
   private exam: Exam;
   public examQuestion?: IExamQuestion;
   public index?: number;
@@ -115,6 +115,14 @@ export class ExamComponent implements OnInit, AfterViewChecked {
       this.markForReviewArray.splice(idx, 1);
     }
     console.log(this.markForReviewArray);
+  }
+
+  public canExit(): boolean {
+    if (confirm('Do you wish to Please confirm')) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 }
