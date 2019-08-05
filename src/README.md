@@ -48,7 +48,7 @@ ng serve
 
 ```
 npm i --save @ng-bootstrap/ng-bootstrap
-npm i --save @fortawesome/fontawesome-free
+npm i --save @fortawesome/fontawesome-free --
 npm i --save prismjs
 npm i --save firebase @angular/fire
 npm i --save dexie
@@ -58,6 +58,14 @@ npm install angular-svg-round-progressbar --save
 ## npm i --save bootstrap                             ## FARA
 ## npm i --save rxjs rxjs-compat
 ## npm i --save ngx-toastr ngx-ui-loader
+
+npm outdated
+npm update
+```
+## angular
+
+```
+
 ```
 
 ### ngh

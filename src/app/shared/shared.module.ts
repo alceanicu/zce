@@ -42,8 +42,7 @@ import {NgxUiLoaderModule} from 'ngx-ui-loader';
       hasProgressBar: true,
       text: 'loading ...',
       textColor: '#FFFFFF',
-      textPosition: 'center-center',
-      threshold: 500
+      textPosition: 'center-center'
     }),
   ],
   exports: [
