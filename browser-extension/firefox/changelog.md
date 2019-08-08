@@ -1,8 +1,9 @@
 ## FIREFOX extension changelog
 
-### 1.1.2 [2019.08.08]
+### 1.1.3 [2019.08.08]
 
-- add countdown component on exam page (partial)
+- add countdown component on exam page
+- add alert score on exam page
 - update angular version
 
 ### 1.1.1 [2019.07.28]
