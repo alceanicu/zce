@@ -4,18 +4,18 @@
 
 You can try this app here: 
 
-### WEB:
+### WEB:  [v 1.1.2]
 
 https://alceanicu.github.io/zce/
 
-### CHROME extension:
+### CHROME extension: [v 1.1.3]
 
 https://chrome.google.com/webstore/detail/php-zend-certification-exam/kdjolhghoglghipajmbmlmldbpncimge
 
-### FIREFOX extension 
+### FIREFOX extension : [v 1.1.3]
 
 https://addons.mozilla.org/ro/firefox/addon/php-zend-certification-exam/
 
-### MOBILE app
+### MOBILE app: [v 1.0.1 - beta]
 
 (soon)
