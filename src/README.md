@@ -69,5 +69,6 @@ npm update
 
 ```
 ng build --prod --base-href="./"
+ng build --prod --base-href "https://alceanicu.github.io/zce/"
 ngh --dir dist/zce --message="V 1.1.0"
 ```

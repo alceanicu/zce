@@ -22,7 +22,6 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   }
 
   ngOnInit() {
-    console.log('START EXAM');
     this.exam = new Exam();
   }
 
@@ -47,7 +46,6 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     this.index = index;
 
     if (this.exam.questions[index] === undefined) {
-      console.log('Get exam question for the first time');
       const $this = this;
       this.questionService.getOneQuestionById(id).subscribe((question) => {
         const q = {
@@ -60,10 +58,8 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
         $this.examQuestion = q;
       });
     } else {
-      console.log('Load question again');
       this.examQuestion = this.exam.questions[index];
     }
-    console.log(this.exam);
   }
 
   private updateExamScore() {
@@ -77,7 +73,6 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     let ok = true;
     this.examQuestion.question.answerRows.forEach((obj, key) => {
       ok = ok && (obj.correct === obj.userAnswer);
-      console.log(obj);
     });
 
     if (ok) {
@@ -114,11 +109,24 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     } else {
       this.markForReviewArray.splice(idx, 1);
     }
-    console.log(this.markForReviewArray);
+  }
+
+  public finshExam() {
+    let qObj = this.exam.questions
+    let score = 0;
+    for (var key in qObj) {
+      if (qObj.hasOwnProperty(key)) {
+        if (qObj[key].correct === true) {
+          score++;
+        }
+      }
+    }
+    alert('You answered correctly ' + score + ' questions out of 70');
   }
 
   public canExit(): boolean {
-    if (confirm('Do you wish to Please confirm')) {
+    if (confirm('Do you wish to finish the current exam?')) {
+      this.finshExam();
       return true;
     } else {
       return false;
