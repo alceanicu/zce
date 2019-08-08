@@ -12,7 +12,7 @@ https://alceanicu.github.io/zce/
 
 https://chrome.google.com/webstore/detail/php-zend-certification-exam/kdjolhghoglghipajmbmlmldbpncimge
 
-### FIREFOX extension : [v 1.1.3]
+### FIREFOX extension: [v 1.1.3]
 
 https://addons.mozilla.org/ro/firefox/addon/php-zend-certification-exam/
 
