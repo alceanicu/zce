@@ -45,7 +45,7 @@ ng g class core/utils/helper
 ng serve
 ```
 
-## npm
+## npm - angular
 
 ```
 npm i --save @ng-bootstrap/ng-bootstrap
@@ -63,11 +63,6 @@ npm i --save angular-svg-round-progressbar
 
 npm outdated
 npm update
-```
-## angular
-
-```
-
 ```
 
 ### ngh
