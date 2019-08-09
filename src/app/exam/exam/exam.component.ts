@@ -63,7 +63,6 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   }
 
   private updateExamScore() {
-    console.log('update Exam Score');
     if (this.examQuestion !== undefined) {
       this.validateEachAnswerRows();
     }

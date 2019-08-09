@@ -13,6 +13,8 @@ ng new zce --routing=true
 
 ng g m home --routing=true
 ng g c home/home
+ng g m about --routing=true
+ng g c about/about
 ng g m random --routing=true
 ng g c random/random
 ng g m exam --routing=true

@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
     this.questionService.getQuestion(questionNumber).subscribe(question => {
       this.questionArray.push(question as IQuestion);
     }, error => {
-      console.log(error);
+      console.error(error);
     }, () => {
       this.generatePDF();
     });

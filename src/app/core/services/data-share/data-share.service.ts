@@ -10,7 +10,7 @@ export class DataShareService {
   public currentScore: Observable<any>;
 
   constructor(
-      private sessionStorageService: SessionStorageService,
+    private sessionStorageService: SessionStorageService,
   ) {
     this.messageSource = new BehaviorSubject(this.getPercentage());
     this.currentScore = this.messageSource.asObservable();

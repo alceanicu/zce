@@ -38,8 +38,6 @@ export class QuestionService {
   private getAnRandomQuestion(observer) {
     this.localStorageService.getAppConfig().subscribe((config) => {
       const randomId = this.generateRandomIdWithoutRepeatInLastN(config);
-      console.log(`Generate an random id for question ... [randomId=${randomId}]`);
-
       this.getQuestionById(randomId, observer);
     });
   }
@@ -57,15 +55,13 @@ export class QuestionService {
       .getQuestionById(id)
       .then(async (question) => {
         if (!question) {
-          console.log(`Question with id=${id} does not EXIST in IndexedDB`);
           $this.getQuestionFromFirebase(id, observer);
         } else {
-          console.log(`Question with id=${id} EXIST in IndexedDB - WE GET IT FROM IndexedDB`);
           $this.setQuestion(question, observer);
         }
       })
       .catch(e => {
-        console.log((e.stack || e));
+        console.error((e.stack || e));
         $this.getQuestionFromFirebase(id, observer);
       });
   }
@@ -74,7 +70,6 @@ export class QuestionService {
     const randomId = Helper.randomNumberFromInterval(Number(config.counter));
     let phpLastNIds = this.sessionStorageService.getItem('phpLastNIds') || [];
     if (internalCounter === 100) {
-      console.log('STOP AFTER 100 TRY ...');
       return randomId;
     }
     if (phpLastNIds.indexOf(String(randomId)) === -1) {
@@ -89,7 +84,6 @@ export class QuestionService {
   }
 
   private getQuestionFromFirebase(id, observer) {
-    console.log(`We try to get question with id=${id} from FIREBASE`);
     const $this = this;
     this.firestorePhpQuestionService.getQuestion(String(id)).subscribe(
       DocumentSnapshot => {
@@ -107,7 +101,6 @@ export class QuestionService {
         }
       },
       (error) => {
-        console.log(`Can not get question with id=${id} from FIREBASE`);
         console.error(error);
       },
       () => {
@@ -124,7 +117,7 @@ export class QuestionService {
       })
       .catch(e => {
         console.log(`Question can not be saved in IndexedDB`);
-        console.log((e.stack || e));
+        console.error((e.stack || e));
       });
   }
 

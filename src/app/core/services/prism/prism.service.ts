@@ -15,6 +15,7 @@ import 'prismjs/components/prism-sql';
 import 'prismjs/components/prism-json';
 // plugins
 import 'prismjs/plugins/line-numbers/prism-line-numbers';
+
 declare var Prism: any;
 
 @Injectable({

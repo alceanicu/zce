@@ -1,5 +1,4 @@
 import {IExam} from './i-exam.interface';
-import {IExamQuestion} from './i-exam-question.interface';
 import {Helper} from '../utils';
 
 export class Exam implements IExam {

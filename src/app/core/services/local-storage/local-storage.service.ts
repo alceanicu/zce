@@ -14,7 +14,7 @@ export class LocalStorageService implements Storage {
   readonly length: number;
 
   constructor(
-      private firestorePhpQuestionService: PhpQuestionService
+    private firestorePhpQuestionService: PhpQuestionService
   ) {
     if (typeof (Storage) === 'undefined') {
       throw new Error('No web storage Support');
@@ -23,11 +23,9 @@ export class LocalStorageService implements Storage {
 
   getAppConfig(): Observable<any> {
     return new Observable((observer) => {
-      console.log('Try to get application config from local storage...');
       let localStorageConfig = this.getItem('config') as IConfig | null;
       const now = new Date();
       if ((localStorageConfig === null) || (now.getDate() >= localStorageConfig.timestamp)) {
-        console.log('Application config from LocalStorage is expired ...');
         this.setFreshAppConfigInLocalStorage(now).subscribe((freshConfig) => {
           localStorageConfig = freshConfig;
           observer.next(freshConfig);
@@ -35,7 +33,6 @@ export class LocalStorageService implements Storage {
           observer.error(error);
         });
       } else {
-        console.log('Application config loaded from local storage');
         observer.next(localStorageConfig);
       }
     });
@@ -43,23 +40,21 @@ export class LocalStorageService implements Storage {
 
   setFreshAppConfigInLocalStorage(now: Date): Observable<IConfig> {
     this.clear();
-    console.log('Try to get application config from Firebase ...');
     return new Observable((observer) => {
       this.firestorePhpQuestionService.getConfig('php').subscribe(
-          DocumentSnapshot => {
-            // AppConfig will expire after 10 days
-            now.setDate(now.getDate() + 10);
-            const newAppConfig = {
-              counter: DocumentSnapshot.data().counter,
-              timestamp: now.getTime()
-            } as IConfig;
-            console.log('Set fresh App Config in LocalStorage with data from Firebase');
-            this.setItem('config', newAppConfig);
-            observer.next(newAppConfig);
-          },
-          (error) => {
-            observer.error(error);
-          }
+        DocumentSnapshot => {
+          // AppConfig will expire after 10 days
+          now.setDate(now.getDate() + 10);
+          const newAppConfig = {
+            counter: DocumentSnapshot.data().counter,
+            timestamp: now.getTime()
+          } as IConfig;
+          this.setItem('config', newAppConfig);
+          observer.next(newAppConfig);
+        },
+        (error) => {
+          observer.error(error);
+        }
       );
     });
   }

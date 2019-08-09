@@ -5,7 +5,8 @@ import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-layout-header',
-  templateUrl: './header.component.html'
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
   private toggleButton: any;
@@ -32,7 +33,6 @@ export class HeaderComponent implements OnInit {
   sidebarOpen() {
     const toggleButton = this.toggleButton;
     const html = document.getElementsByTagName('html')[0];
-    // console.log(toggleButton, 'toggle');
 
     setTimeout(() => {
       toggleButton.classList.add('toggled');
@@ -44,7 +44,7 @@ export class HeaderComponent implements OnInit {
 
   sidebarClose() {
     const html = document.getElementsByTagName('html')[0];
-    // console.log(html);
+
     this.toggleButton.classList.remove('toggled');
     this.sidebarVisible = false;
     html.classList.remove('nav-open');
@@ -70,6 +70,11 @@ export class HeaderComponent implements OnInit {
   isHome() {
     const titlee = this.location.prepareExternalUrl(this.location.path());
     return (titlee === '/home');
+  }
+
+  isAbout() {
+    const titlee = this.location.prepareExternalUrl(this.location.path());
+    return (titlee === '/about');
   }
 
   isExam() {

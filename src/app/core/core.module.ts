@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {
   DataShareService,
   PhpQuestionService,
@@ -21,4 +21,5 @@ import {
     SessionStorageService,
   ]
 })
-export class CoreModule { }
+export class CoreModule {
+}
