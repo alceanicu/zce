@@ -3,17 +3,14 @@
     <div class="row">
       <nav class="footer-nav">
         <ul>
-          <li><a routerLink="/home">Home</a></li>
-          <li>
-            <a title="Documentation" href="http://www.zend.com/en/services/certification/php-certification"
-               target="_blank"><i class="nc-icon nc-book-bookmark"></i> Documentation</a>
-          </li>
+          <li><a title="Home" routerLink="/home">Home</a></li>
+          <li *ngIf="!isAbout()"><a title="About" routerLink="/about">About</a></li>
         </ul>
       </nav>
       <div class="credits ml-auto">
         <span class="copyright">
           © {{today | date: 'yyyy'}}, made with <i class="fa fa-heart heart"></i> by <a
-          href="https://github.com/alceanicu">niac</a>
+          href="https://github.com/alceanicu" title="Author GIT page" target="_blank">niac</a>
         </span>
       </div>
     </div>

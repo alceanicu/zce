@@ -29,6 +29,7 @@
                       <p class="lead text-white">Test your PHP knowledge.</p>
                       <div class="btn-wrapper mt-5">
                         <a class="btn btn-lg btn-icon mb-3 mb-sm-0 btn-white w100"
+                           title="Random question page"
                            routerLink="/random">
                           <span class="btn-inner--icon"><i class="ni ni-cloud-download-95"></i></span>
                           <span class="btn-inner--text">Random Question</span>
@@ -41,11 +42,13 @@
                       </div>
                       <div class="btn-wrapper mt-5">
                         <a class="btn btn-lg btn-icon btn-danger mb-3 mb-sm-0 btn-github w100"
+                           title="Genarate PDF with 5 random question"
                            (click)="exportTestAsPDF(5)">
                           <span class="btn-inner--text"><span class="text-warning">PDF Test</span>
                           <span class="text-danger"> (5 Question)</span></span>
                         </a>
                         <a class="btn btn-lg btn-icon mb-3 mb-sm-0 btn-white w100"
+                           title="Genarate PDF with 10 random question"
                            (click)="exportTestAsPDF(10)">
                           <span class="btn-inner--icon"><i class="ni ni-cloud-download-95"></i></span>
                           <span class="btn-inner--text">PDF Test</span>

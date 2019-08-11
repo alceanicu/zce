@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-layout-footer',
@@ -7,10 +8,16 @@ import {Component, OnInit} from '@angular/core';
 export class FooterComponent implements OnInit {
   public today: number = Date.now();
 
-  constructor() {
+  constructor(
+    public location: Location
+  ) {
   }
 
   ngOnInit() {
   }
 
+  isAbout() {
+    const titlee = this.location.prepareExternalUrl(this.location.path());
+    return (titlee === '/about');
+  }
 }
