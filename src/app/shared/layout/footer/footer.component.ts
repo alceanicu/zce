@@ -20,4 +20,9 @@ export class FooterComponent implements OnInit {
     const titlee = this.location.prepareExternalUrl(this.location.path());
     return (titlee === '/about');
   }
+
+  isExam() {
+    const titlee = this.location.prepareExternalUrl(this.location.path());
+    return (titlee === '/exam');
+  }
 }

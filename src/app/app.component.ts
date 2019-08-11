@@ -63,6 +63,6 @@ export class AppComponent implements OnInit {
   removeFooter() {
     let titlee = this.location.prepareExternalUrl(this.location.path());
     titlee = titlee.slice(1);
-    return titlee !== 'home';
+    return ['home', 'exam'].indexOf(titlee) === -1;
   }
 }
