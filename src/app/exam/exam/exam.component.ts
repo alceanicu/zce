@@ -1,7 +1,8 @@
-import {AfterViewChecked, Component, OnInit} from '@angular/core';
+import {AfterViewChecked, Component, Inject, OnInit} from '@angular/core';
 import {NgxUiLoaderService} from 'ngx-ui-loader';
 import {PrismService, QuestionService} from '../../core/services';
 import {IExamQuestion, Exam, IDeactivateComponent} from '../../core/models';
+import {CountdownService} from '../../core/services/countdown/countdown.service';
 
 @Component({
   selector: 'app-exam',
@@ -13,8 +14,11 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   public examQuestion?: IExamQuestion;
   public index?: number;
   public markForReviewArray = [];
+  public value1: string | number;
 
   constructor(
+    @Inject('moment') private moment,
+    private countdownService: CountdownService,
     private prismService: PrismService,
     private ngxLoader: NgxUiLoaderService,
     private questionService: QuestionService,
@@ -23,6 +27,37 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
 
   ngOnInit() {
     this.exam = new Exam();
+
+    // first subscriber subscribes
+    this.countdownService.countdown().subscribe(
+      t => {
+        const eventTime = t;
+        const currentTime = this.moment().unix();
+        console.log(eventTime);
+        console.log(currentTime);
+        let diffTime = eventTime - currentTime;
+        let duration = this.moment.duration(diffTime * 1000, 'milliseconds');
+        // let interval = 1000;
+
+        // setInterval(function(){
+        //   duration = moment.duration(duration - interval, 'milliseconds');
+        //   $('.countdown').text(duration.hours() + ":" + duration.minutes() + ":" + duration.seconds())
+        // }, interval);
+
+        this.value1 = duration.hours() + ':' + duration.minutes() + ':' + duration.seconds();
+        // this.value1 = t;
+        // this.value1 = moment().format('YYYY-MM-DD HH:mm:ss');
+        // this.value1 = moment.unix(t).format('HH:mm:ss');
+        //
+        // let diffTime = eventTime - Date.now();
+        // var duration = moment.duration( diffTime, 'milliseconds' );
+      },
+      null,
+      () => this.value1 = 'Done!' // fixme
+    );
+
+    // countdown is started
+    this.countdownService.start(this.exam.startAt);
   }
 
   public setBtnClasses(index) {
@@ -111,7 +146,7 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   }
 
   public finshExam() {
-    let qObj = this.exam.questions
+    let qObj = this.exam.questions;
     let score = 0;
     for (var key in qObj) {
       if (qObj.hasOwnProperty(key)) {

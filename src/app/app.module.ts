@@ -12,6 +12,7 @@ import {ROUND_PROGRESS_DEFAULTS, RoundProgressModule} from 'angular-svg-round-pr
 import {FooterComponent, HeaderComponent, SharedModule} from './shared';
 import {CoreModule} from './core';
 import {CountdownModule} from 'ngx-countdown';
+import * as moment from 'moment';
 
 @NgModule({
   declarations: [
@@ -33,13 +34,15 @@ import {CountdownModule} from 'ngx-countdown';
     CoreModule,
     RoundProgressModule
   ],
-  providers: [{
-    provide: ROUND_PROGRESS_DEFAULTS,
-    useValue: {
-      color: '#0F0',
-      background: '#F00'
-    }
-  }],
+  providers: [
+    {provide: 'moment', useFactory: (): any => moment},
+    {
+      provide: ROUND_PROGRESS_DEFAULTS,
+      useValue: {
+        color: '#0F0',
+        background: '#F00'
+      }
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule {

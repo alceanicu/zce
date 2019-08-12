@@ -41,6 +41,7 @@ ng g s core/services/local-storage/local-storage
 ng g s core/services/firestore/php-question
 ng g s core/services/data-share/data-share        ## fixme
 ng g s core/services/question/question
+ng g s core/services/countdown/countdown
 
 ng g class core/utils/helper
 
@@ -59,6 +60,7 @@ npm i --save ngx-ui-loader
 npm i --save ngx-countdown
 npm i --save pdfmake
 npm i --save angular-svg-round-progressbar
+npm i --save moment
 ## npm i --save bootstrap                             ## FARA
 ## npm i --save rxjs rxjs-compat
 ## npm i --save ngx-toastr ngx-ui-loader
