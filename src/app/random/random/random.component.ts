@@ -13,8 +13,7 @@ import {IAnswerRow, IQuestion, IQuestionRow} from '../../core/models';
 
 @Component({
   selector: 'app-random',
-  templateUrl: './random.component.html',
-  styleUrls: ['./random.component.css']
+  templateUrl: './random.component.html'
 })
 export class RandomComponent implements OnInit, AfterViewChecked {
   public isCorrect: boolean;

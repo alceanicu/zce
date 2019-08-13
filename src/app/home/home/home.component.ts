@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {IQuestion} from '../../core/models';
 import {IndexedDbQuizService, LocalStorageService, PhpQuestionService, QuestionService, SessionStorageService} from '../../core/services';
 import pdfMake from 'pdfmake/build/pdfmake';
@@ -18,7 +18,8 @@ export class HomeComponent {
     private indexedDbQuizService: IndexedDbQuizService,
     private localStorageService: LocalStorageService,
     private sessionStorageService: SessionStorageService,
-    private questionService: QuestionService
+    private questionService: QuestionService,
+    @Inject('moment') private moment,
   ) {
   }
 
@@ -143,9 +144,9 @@ export class HomeComponent {
       }
     };
 
-    const unix = Math.round(+new Date() / 1000);
+    const name = this.moment().format('YYYY_MM_DD_HH:mm:ss');
 
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
-    pdfMake.createPdf(docDefinition).download(`${unix}.pdf`);
+    pdfMake.createPdf(docDefinition).download(`${name}.pdf`);
   }
 }

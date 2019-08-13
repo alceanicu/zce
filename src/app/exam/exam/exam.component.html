@@ -1,107 +1,83 @@
-<main>
-  <div class="position-relative">
-    <div class="position-static">
-      <section class="section section-lg section-hero section-shaped">
-        <!-- Background circles -->
-        <div class="shape shape-style-1 shape-primary">
-          <span class="span-150">150</span>
-          <span class="span-50"></span>
-          <span class="span-50"></span>
-          <span class="span-75"></span>
-          <span class="span-100"></span>
-          <span class="span-75"></span>
-          <span class="span-50"></span>
-          <span class="span-100"></span>
-          <span class="span-50"></span>
-          <span class="span-100">100</span>
-        </div>
+<div class="row" style="margin-top: 50px"></div>
 
-        <div class="container">
+<div class="row">
+  <div class="col-lg-12 col-md-12">
 
-          <div class="row" style="margin-top: 50px"></div>
+    <div class="btn-toolbar" role="toolbar" style="margin: 5px">
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-sm btn-primary" style="width: 30px"
+                *ngFor="let id of questionsArray.slice(0, 35), let i = index" title="{{id}}"
+                (click)="getQuestion(id, i)"
+                [ngClass]="setBtnClasses(i)">
+          <small>{{i + 1}}</small>
+        </button>
+      </div>
+    </div>
 
-          <div class="row">
-            <div class="col-lg-12 col-md-12">
-
-              <div class="btn-toolbar" role="toolbar" style="margin: 5px">
-                <div class="btn-group" role="group">
-                  <button type="button" class="btn btn-sm btn-primary" style="width: 30px"
-                          *ngFor="let id of questionsArray.slice(0, 35), let i = index" title="{{id}}"
-                          (click)="getQuestion(id, i)"
-                          [ngClass]="setBtnClasses(i)">
-                    <small>{{i + 1}}</small>
-                  </button>
-                </div>
-              </div>
-
-              <div class="btn-toolbar" role="toolbar" style="margin: 5px">
-                <div class="btn-group" role="group">
-                  <button type="button" class="btn btn-sm btn-primary" style="width: 30px"
-                          *ngFor="let id of questionsArray.slice(35, 70), let i = index" title="{{id}}"
-                          (click)="getQuestion(id, i + 35)"
-                          [ngClass]="setBtnClasses(i + 35)">
-                    <small>{{i + 36}}</small>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-12 col-md-12">
-              <div *ngIf="this.examQuestion" class="php-container" style="margin-top: 50px">
-                <app-question
-                  *ngFor="let questionRow of examQuestion.question.questionRows"
-                  [questionRow]="questionRow"></app-question>
-
-                <app-answer
-                  *ngFor="let answerRow of examQuestion.question.answerRows, let i = index"
-                  [answerRow]="answerRow"
-                  [disabled]="examQuestion.question.finalAnswer"
-                  [i]="i"></app-answer>
-              </div>
-            </div>
-          </div>
-
-          <div class="row" style="margin-top: 10px">
-          <div class="col-lg-4 col-md-4">
-            <div class="card">
-              <div class="card-footer">
-                <button type="button" class="btn btn-sm btn-primary btn-block"
-                        (click)="getPrevQuestion()"
-                        [disabled]="disabledPrevBtn()">PREVIEW</button>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-4">
-            <div class="card">
-              <div class="card-footer">
-                <button type="button" class="btn btn-sm btn-warning btn-block"
-                        (click)="markForReview()"
-                        [disabled]="disabledMarkForReviewBtn()">
-                  <span *ngIf="markForReviewArray.indexOf(index) === -1; else elseBlock">Mark for review</span>
-                  <ng-template #elseBlock>
-                    <span>Unmark for review</span>
-                  </ng-template>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-4">
-            <div class="card">
-              <div class="card-footer">
-                <button type="button" class="btn btn-sm btn-primary btn-block"
-                        (click)="getNextQuestion()"
-                        [disabled]="disabledNextBtn()">NEXT</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        </div>
-
-      </section>
+    <div class="btn-toolbar" role="toolbar" style="margin: 5px">
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-sm btn-primary" style="width: 30px"
+                *ngFor="let id of questionsArray.slice(35, 70), let i = index" title="{{id}}"
+                (click)="getQuestion(id, i + 35)"
+                [ngClass]="setBtnClasses(i + 35)">
+          <small>{{i + 36}}</small>
+        </button>
+      </div>
     </div>
   </div>
-</main>
+</div>
+
+<div class="row">
+  <div class="col-lg-12 col-md-12">
+    <div *ngIf="this.examQuestion" class="php-container" style="margin-top: 50px">
+      <app-question
+        *ngFor="let questionRow of examQuestion.question.questionRows"
+        [questionRow]="questionRow"></app-question>
+
+      <app-answer
+        *ngFor="let answerRow of examQuestion.question.answerRows, let i = index"
+        [answerRow]="answerRow"
+        [disabled]="examQuestion.question.finalAnswer"
+        [i]="i"></app-answer>
+    </div>
+  </div>
+</div>
+
+<div class="row" style="margin-top: 10px">
+  <div class="col-lg-4 col-md-4">
+    <div class="card">
+      <div class="card-footer">
+        <button type="button" class="btn btn-sm btn-primary btn-block"
+                (click)="getPrevQuestion()"
+                [disabled]="disabledPrevBtn()">PREVIEW
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-4">
+    <div class="card">
+      <div class="card-footer">
+        <button type="button" class="btn btn-sm btn-warning btn-block"
+                (click)="markForReview()"
+                [disabled]="disabledMarkForReviewBtn()">
+          <span *ngIf="markForReviewArray.indexOf(index) === -1; else elseBlock">Mark for review</span>
+          <ng-template #elseBlock>
+            <span>Unmark for review</span>
+          </ng-template>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-4">
+    <div class="card">
+      <div class="card-footer">
+        <button type="button" class="btn btn-sm btn-primary btn-block"
+                (click)="getNextQuestion()"
+                [disabled]="disabledNextBtn()">NEXT
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <ngx-ui-loader></ngx-ui-loader>

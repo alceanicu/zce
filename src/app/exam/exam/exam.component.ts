@@ -8,7 +8,6 @@ import {DataShareCountdownService} from '../../core/services/data-share-countdow
 @Component({
   selector: 'app-exam',
   templateUrl: './exam.component.html',
-  styleUrls: ['./exam.component.css']
 })
 export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChecked {
   private exam: Exam;
@@ -154,16 +153,15 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   }
 
   public finshExam() {
-    const qObj = this.exam.questions;
     let score = 0;
-    for (const key in qObj) {
-      if (qObj.hasOwnProperty(key)) {
-        if (qObj[key].correct === true) {
+    for (const key in this.exam.questions) {
+      if (this.exam.questions.hasOwnProperty(key)) {
+        if (this.exam.questions[key].correct === true) {
           score++;
         }
       }
     }
-    alert('You answered correctly ' + score + ' questions out of 70');
+    alert(`You answered correctly ${score} questions out of 70`);
   }
 
   public canExit(): boolean {
