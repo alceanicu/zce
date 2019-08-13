@@ -1,8 +1,9 @@
 import {AfterViewChecked, Component, Inject, OnInit} from '@angular/core';
 import {NgxUiLoaderService} from 'ngx-ui-loader';
-import {DataShareCountdownService, PrismService, QuestionService} from '../../core/services';
+import {PrismService, QuestionService} from '../../core/services';
 import {IExamQuestion, Exam, IDeactivateComponent} from '../../core/models';
 import {CountdownService} from '../../core/services/countdown/countdown.service';
+import {DataShareCountdownService} from '../../core/services/data-share-countdown/data-share-countdown.service';
 
 @Component({
   selector: 'app-exam',
@@ -28,9 +29,6 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
 
   ngOnInit() {
     const $this = this;
-    // this.sync.currentCountdownTime.subscribe(timeString => {
-    //   this.timeString = timeString;
-    // });
     this.exam = new Exam();
 
     // first subscriber subscribes
@@ -55,11 +53,27 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   }
 
   public setBtnClasses(index) {
-    return {
-      'btn-danger': this.index === index,
-      'btn-warning': (this.index !== index) && (this.markForReviewArray.indexOf(index) === -1),
-      'btn-info': (this.index !== index) && (this.markForReviewArray.indexOf(index) !== -1)
-    };
+    let seen = false;
+    for (const key in this.exam.questions) {
+      if (this.exam.questions.hasOwnProperty(index)) {
+        seen = true;
+      }
+    }
+
+    // current question
+    if (this.index === index) {
+      return {'btn-danger': true};
+    }
+
+    // question mark for review
+    if ((this.index !== index) && (this.markForReviewArray.indexOf(index) !== -1)) {
+      return {'btn-warning': true};
+    }
+
+    // question was seen
+    if ((this.index !== index) && seen) {
+      return {'btn-success': true};
+    }
   }
 
   ngAfterViewChecked() {
@@ -140,9 +154,9 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   }
 
   public finshExam() {
-    let qObj = this.exam.questions;
+    const qObj = this.exam.questions;
     let score = 0;
-    for (var key in qObj) {
+    for (const key in qObj) {
       if (qObj.hasOwnProperty(key)) {
         if (qObj[key].correct === true) {
           score++;

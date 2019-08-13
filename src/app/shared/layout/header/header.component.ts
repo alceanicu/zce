@@ -1,7 +1,8 @@
 import {Component, OnInit, ElementRef} from '@angular/core';
 import {Location} from '@angular/common';
 import {Router} from '@angular/router';
-import {DataShareService, DataShareCountdownService} from '../../../core/services';
+import {DataShareService} from '../../../core/services';
+import {DataShareCountdownService} from '../../../core/services/data-share-countdown/data-share-countdown.service';
 
 @Component({
   selector: 'app-layout-header',
