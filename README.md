@@ -8,11 +8,11 @@ You can try this app here:
 
 https://alceanicu.github.io/zce/
 
-### CHROME extension: [v 1.1.3]
+### CHROME extension: [v 1.1.4]
 
 https://chrome.google.com/webstore/detail/php-zend-certification-exam/kdjolhghoglghipajmbmlmldbpncimge
 
-### FIREFOX extension: [v 1.1.3]
+### FIREFOX extension: [v 1.1.4]
 
 https://addons.mozilla.org/ro/firefox/addon/php-zend-certification-exam/
 

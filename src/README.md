@@ -39,8 +39,8 @@ ng g s core/services/prism/prism
 ng g s core/services/session-storage/session-storage
 ng g s core/services/local-storage/local-storage
 ng g s core/services/firestore/php-question
-ng g s core/services/data-share/data-share        ## fixme
-      ## fixme
+ng g s core/services/data-share/data-share                          ## fixme
+ng g s core/services/data-share-countdown/data-share-countdown      ## fixme
 ng g s core/services/question/question
 ng g s core/services/countdown/countdown
 
@@ -74,6 +74,5 @@ npm update
 
 ```
 ng build --prod --base-href="./"
-ng build --prod --base-href "https://alceanicu.github.io/zce/"
-ngh --dir dist/zce --message="V 1.1.0"
+ngh --dir dist/zce --message="V 1.1.4"
 ```
