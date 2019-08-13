@@ -37,7 +37,7 @@
           </div>
         </li>
         <li class="nav-item" *ngIf="isExam()" style="font-weight: 600;color: #ff0000; padding-right: 20px">
-          <countdown [config]="{leftTime: 5200, template: '$!h!:$!m!:$!s!'}" (finished)="onFinished()"></countdown>
+          {{timeString.time}}
         </li>
         <li class="nav-item" *ngIf="isHome() || isAbout()">
           <a class="nav-link" rel="tooltip" title="Star as on GitHub" data-placement="bottom"

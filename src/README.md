@@ -40,6 +40,7 @@ ng g s core/services/session-storage/session-storage
 ng g s core/services/local-storage/local-storage
 ng g s core/services/firestore/php-question
 ng g s core/services/data-share/data-share        ## fixme
+      ## fixme
 ng g s core/services/question/question
 ng g s core/services/countdown/countdown
 
@@ -57,13 +58,13 @@ npm i --save prismjs
 npm i --save firebase @angular/fire
 npm i --save dexie
 npm i --save ngx-ui-loader
-npm i --save ngx-countdown
 npm i --save pdfmake
 npm i --save angular-svg-round-progressbar
 npm i --save moment
-## npm i --save bootstrap                             ## FARA
+## npm i --save bootstrap                             ## removed
 ## npm i --save rxjs rxjs-compat
 ## npm i --save ngx-toastr ngx-ui-loader
+## npm i --save ngx-countdown                       
 
 npm outdated
 npm update

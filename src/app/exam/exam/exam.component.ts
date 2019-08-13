@@ -1,6 +1,6 @@
 import {AfterViewChecked, Component, Inject, OnInit} from '@angular/core';
 import {NgxUiLoaderService} from 'ngx-ui-loader';
-import {PrismService, QuestionService} from '../../core/services';
+import {DataShareCountdownService, PrismService, QuestionService} from '../../core/services';
 import {IExamQuestion, Exam, IDeactivateComponent} from '../../core/models';
 import {CountdownService} from '../../core/services/countdown/countdown.service';
 
@@ -14,10 +14,11 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   public examQuestion?: IExamQuestion;
   public index?: number;
   public markForReviewArray = [];
-  public value1: string | number;
+  public timeString: string | number;
 
   constructor(
     @Inject('moment') private moment,
+    private sync: DataShareCountdownService,
     private countdownService: CountdownService,
     private prismService: PrismService,
     private ngxLoader: NgxUiLoaderService,
@@ -26,34 +27,27 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   }
 
   ngOnInit() {
+    const $this = this;
+    // this.sync.currentCountdownTime.subscribe(timeString => {
+    //   this.timeString = timeString;
+    // });
     this.exam = new Exam();
 
     // first subscriber subscribes
     this.countdownService.countdown().subscribe(
       t => {
-        const eventTime = t;
-        const currentTime = this.moment().unix();
-        console.log(eventTime);
-        console.log(currentTime);
-        let diffTime = eventTime - currentTime;
-        let duration = this.moment.duration(diffTime * 1000, 'milliseconds');
-        // let interval = 1000;
-
-        // setInterval(function(){
-        //   duration = moment.duration(duration - interval, 'milliseconds');
-        //   $('.countdown').text(duration.hours() + ":" + duration.minutes() + ":" + duration.seconds())
-        // }, interval);
-
-        this.value1 = duration.hours() + ':' + duration.minutes() + ':' + duration.seconds();
-        // this.value1 = t;
-        // this.value1 = moment().format('YYYY-MM-DD HH:mm:ss');
-        // this.value1 = moment.unix(t).format('HH:mm:ss');
-        //
-        // let diffTime = eventTime - Date.now();
-        // var duration = moment.duration( diffTime, 'milliseconds' );
+        const now = this.moment();
+        const startTime = this.moment(this.exam.startAt);
+        const endTime = this.moment(startTime).add(90, 'minutes'); // FIXME
+        const duration = this.moment.duration(endTime.diff(now));
+        const h = (duration.hours() < 10) ? ('0' + duration.hours()) : duration.hours();
+        const m = (duration.minutes() < 10) ? ('0' + duration.minutes()) : duration.minutes();
+        const s = (duration.seconds() < 10) ? ('0' + duration.seconds()) : duration.seconds();
+        this.timeString = h + ':' + m + ':' + s;
+        $this.sync.updateCurrentCountdownTime(this.timeString);
       },
       null,
-      () => this.value1 = 'Done!' // fixme
+      () => this.timeString = 'Done!' // FIXME
     );
 
     // countdown is started

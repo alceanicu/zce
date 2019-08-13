@@ -1,7 +1,7 @@
 import {Component, OnInit, ElementRef} from '@angular/core';
 import {Location} from '@angular/common';
-import {DataShareService} from '../../../core/services/data-share/data-share.service';
 import {Router} from '@angular/router';
+import {DataShareService, DataShareCountdownService} from '../../../core/services';
 
 @Component({
   selector: 'app-layout-header',
@@ -12,17 +12,22 @@ export class HeaderComponent implements OnInit {
   private toggleButton: any;
   private sidebarVisible: boolean;
   public message: any;
+  public timeString: any;
 
   constructor(
     public location: Location,
     private element: ElementRef,
     private data: DataShareService,
+    private dataTime: DataShareCountdownService,
     private router: Router
   ) {
     this.sidebarVisible = false;
   }
 
   ngOnInit() {
+    this.dataTime.currentCountdownTime.subscribe(message => {
+      this.timeString = message;
+    });
     this.data.currentScore.subscribe(message => {
       this.message = message;
     });

@@ -11,7 +11,6 @@ import {environment} from '../environments/environment';
 import {ROUND_PROGRESS_DEFAULTS, RoundProgressModule} from 'angular-svg-round-progressbar';
 import {FooterComponent, HeaderComponent, SharedModule} from './shared';
 import {CoreModule} from './core';
-import {CountdownModule} from 'ngx-countdown';
 import * as moment from 'moment';
 
 @NgModule({
@@ -21,7 +20,6 @@ import * as moment from 'moment';
     HeaderComponent,
   ],
   imports: [
-    CountdownModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,

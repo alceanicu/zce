@@ -6,12 +6,7 @@ import {takeWhile, map} from 'rxjs/operators';
   providedIn: 'root'
 })
 export class CountdownService {
-
-  constructor() {
-  }
-
   private countdownS = new Subject<number>();
-
   private isCounting = false;
 
   countdown(): Observable<number> {
@@ -33,8 +28,7 @@ export class CountdownService {
           () => {
             this.countdownS.complete();
             this.isCounting = false;
-            // Reset the countdown Subject so that a
-            // countdown can be performed more than once.
+            // Reset the countdown Subject so that a countdown can be performed more than once.
             this.countdownS = new Subject<number>();
           }
         );
