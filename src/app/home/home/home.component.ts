@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {IQuestion} from '../../core/models';
 import {IndexedDbQuizService, LocalStorageService, PhpQuestionService, QuestionService, SessionStorageService} from '../../core/services';
-
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 

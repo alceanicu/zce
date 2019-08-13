@@ -2,7 +2,10 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Helper} from '../../utils';
 import {IConfig, IQuestion} from '../../models';
-import {IndexedDbQuizService, LocalStorageService, PhpQuestionService, SessionStorageService} from '..';
+import {PhpQuestionService} from '../firestore/php-question.service';
+import {LocalStorageService} from '../local-storage/local-storage.service';
+import {IndexedDbQuizService} from '../indexeddb/indexed-db-quiz.service';
+import {SessionStorageService} from '../session-storage/session-storage.service';
 
 @Injectable({
   providedIn: 'root'

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {SessionStorageService} from '..';
+import {SessionStorageService} from '../session-storage/session-storage.service';
 
 @Injectable({
   providedIn: 'root'

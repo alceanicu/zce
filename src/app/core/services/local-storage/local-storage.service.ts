@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {PhpQuestionService} from '..';
+import {PhpQuestionService} from '../firestore/php-question.service';
 import {IConfig} from '../../models';
 
 @Injectable({
