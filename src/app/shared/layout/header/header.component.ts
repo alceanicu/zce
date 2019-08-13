@@ -1,6 +1,5 @@
-import {Component, OnInit, ElementRef} from '@angular/core';
+import {Component, ElementRef, OnInit} from '@angular/core';
 import {Location} from '@angular/common';
-import {Router} from '@angular/router';
 import {DataShareService} from '../../../core/services';
 import {DataShareCountdownService} from '../../../core/services/data-share-countdown/data-share-countdown.service';
 
@@ -16,11 +15,10 @@ export class HeaderComponent implements OnInit {
   public timeString: any;
 
   constructor(
-    public location: Location,
+    private location: Location,
     private element: ElementRef,
     private data: DataShareService,
-    private dataTime: DataShareCountdownService,
-    private router: Router
+    private dataTime: DataShareCountdownService
   ) {
     this.sidebarVisible = false;
   }
@@ -66,30 +64,7 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  onFinished() { // FIXME
-    let msg = 'Times up!\n';
-    msg += '[This section of the app is not finished yet, so we can offer to you your exam result.\nIn next release will be fixed 😉]\n';
-    alert(msg);
-    this.router.navigateByUrl('home');
-  }
-
-  isHome() {
-    const titlee = this.location.prepareExternalUrl(this.location.path());
-    return (titlee === '/home');
-  }
-
-  isAbout() {
-    const titlee = this.location.prepareExternalUrl(this.location.path());
-    return (titlee === '/about');
-  }
-
-  isExam() {
-    const titlee = this.location.prepareExternalUrl(this.location.path());
-    return (titlee === '/exam');
-  }
-
-  isRandom() {
-    const titlee = this.location.prepareExternalUrl(this.location.path());
-    return (titlee === '/random');
+  isPage(page: string): boolean {
+    return this.location.prepareExternalUrl(this.location.path()) === page;
   }
 }

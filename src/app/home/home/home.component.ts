@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {IQuestion} from '../../core/models';
 import {IndexedDbQuizService, LocalStorageService, PhpQuestionService, QuestionService, SessionStorageService} from '../../core/services';
 
@@ -10,7 +10,7 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
 
   private questionArray: IQuestion[] = [];
 
@@ -21,9 +21,6 @@ export class HomeComponent implements OnInit {
     private sessionStorageService: SessionStorageService,
     private questionService: QuestionService
   ) {
-  }
-
-  ngOnInit() {
   }
 
   public exportTestAsPDF(questionNumber: number = 1) {

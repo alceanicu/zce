@@ -3,6 +3,9 @@ export class Helper {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
+  /**
+   * FIXME - unused
+   */
   public static chunkArray(myArray: Array<any>, chunkSize: number): Array<any> {
     const arrayLength = myArray.length;
     const tempArray = [];

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {timer, Subject, Observable} from 'rxjs';
-import {takeWhile, map} from 'rxjs/operators';
+import {Observable, Subject, timer} from 'rxjs';
+import {map, takeWhile} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'

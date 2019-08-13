@@ -1,15 +1,15 @@
-import {Component, OnInit, AfterViewChecked} from '@angular/core';
+import {AfterViewChecked, Component, OnInit} from '@angular/core';
 import {NgxUiLoaderService} from 'ngx-ui-loader';
 import {
   DataShareService,
+  IndexedDbQuizService,
   LocalStorageService,
   PhpQuestionService,
   PrismService,
-  SessionStorageService,
-  IndexedDbQuizService,
-  QuestionService
+  QuestionService,
+  SessionStorageService
 } from '../../core/services';
-import {IQuestion, IAnswerRow, IQuestionRow} from '../../core/models';
+import {IAnswerRow, IQuestion, IQuestionRow} from '../../core/models';
 
 @Component({
   selector: 'app-random',

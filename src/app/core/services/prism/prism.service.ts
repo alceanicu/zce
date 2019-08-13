@@ -1,6 +1,5 @@
-import {Injectable, Inject, PLATFORM_ID} from '@angular/core';
+import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {isPlatformBrowser} from '@angular/common';
-
 // required
 import 'prismjs';
 import 'prismjs/components/prism-markup';
@@ -22,7 +21,9 @@ declare var Prism: any;
   providedIn: 'root'
 })
 export class PrismService {
-  constructor(@Inject(PLATFORM_ID) private platformId: object) {
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: object
+  ) {
   }
 
   highlightAll() {

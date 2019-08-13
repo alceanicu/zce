@@ -12,7 +12,8 @@
   </div>
   <div class="card-body">
     <!-- 2 == plain text -->
-    <pre *ngIf="(answerRow.language !== 2); else plainText;"><code class="language-{{extensionsAllowed[answerRow.language]}}">{{answerRow.text}}</code></pre>
+    <pre *ngIf="(answerRow.language !== 2); else plainText;"><code
+      class="language-{{extensionsAllowed[answerRow.language]}}">{{answerRow.text}}</code></pre>
     <ng-template #plainText><p class="card-text">{{answerRow.text}}</p></ng-template>
   </div>
 </div>

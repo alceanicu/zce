@@ -1,7 +1,7 @@
 import {AfterViewChecked, Component, Inject, OnInit} from '@angular/core';
 import {NgxUiLoaderService} from 'ngx-ui-loader';
 import {PrismService, QuestionService} from '../../core/services';
-import {IExamQuestion, Exam, IDeactivateComponent} from '../../core/models';
+import {Exam, IDeactivateComponent, IExamQuestion} from '../../core/models';
 import {CountdownService} from '../../core/services/countdown/countdown.service';
 import {DataShareCountdownService} from '../../core/services/data-share-countdown/data-share-countdown.service';
 

@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {IAnswerRow} from '../../core/models';
 import {environment} from '../../../environments/environment';
 
@@ -7,18 +7,15 @@ import {environment} from '../../../environments/environment';
   templateUrl: './answer.component.html',
   styleUrls: ['./answer.component.css']
 })
-export class AnswerComponent implements OnInit {
-  @Input('answerRow') answerRow: IAnswerRow;
-  @Input('disabled') disabled: boolean;
-  @Input('i') i: number;
+export class AnswerComponent {
+  @Input('answerRow') public answerRow: IAnswerRow;
+  @Input('disabled') public disabled: boolean;
+  @Input('i') public i: number;
 
-  letters = ['A', 'B', 'C', 'D'];
-  extensionsAllowed: Array<string>;
+  public letters = ['A', 'B', 'C', 'D'];
+  public extensionsAllowed: Array<string>;
 
   constructor() {
     this.extensionsAllowed = environment.extensionsAllowed;
-  }
-
-  ngOnInit() {
   }
 }

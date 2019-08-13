@@ -1,9 +1,9 @@
-import { Component, OnInit, Inject, Renderer2, ElementRef, ViewChild } from '@angular/core';
-import { Location, DOCUMENT, LocationStrategy, PlatformLocation } from '@angular/common';
-import { Router, NavigationEnd } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
-import { HeaderComponent } from './shared/layout';
+import {Component, ElementRef, Inject, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {DOCUMENT, Location} from '@angular/common';
+import {NavigationEnd, Router} from '@angular/router';
+import {Subscription} from 'rxjs';
+import {filter} from 'rxjs/operators';
+import {HeaderComponent} from './shared/layout';
 
 @Component({
   selector: 'app-root',
@@ -13,19 +13,18 @@ import { HeaderComponent } from './shared/layout';
 export class AppComponent implements OnInit {
   public title = 'ZCE';
   private router$: Subscription;
-  @ViewChild(HeaderComponent, { static: true }) navbar: HeaderComponent;
+  @ViewChild(HeaderComponent, {static: true}) public headerComponent: HeaderComponent;
 
   constructor(
     private renderer: Renderer2,
-    private router: Router, @Inject(DOCUMENT)
-    private document: any,
+    private router: Router,
+    @Inject(DOCUMENT) private document: Document,
     private element: ElementRef,
-    public location: Location
+    private location: Location
   ) {
   }
 
   ngOnInit() {
-    const navbar: HTMLElement = this.element.nativeElement.children[0].children[0];
     this.router$ = this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
@@ -34,9 +33,10 @@ export class AppComponent implements OnInit {
         } else {
           window.document.activeElement.scrollTop = 0;
         }
-        this.navbar.sidebarClose();
+        this.headerComponent.sidebarClose();
       });
 
+    const navbar: HTMLElement = this.element.nativeElement.children[0].children[0];
     this.renderer.listen('window', 'scroll', (event) => {
       const size = window.scrollY;
       if (size > 150 || window.pageYOffset > 150) {
@@ -47,6 +47,7 @@ export class AppComponent implements OnInit {
         navbar.classList.add('navbar-transparent');
       }
     });
+
     const ua = window.navigator.userAgent;
     const trident = ua.indexOf('Trident/');
     if (trident > 0) {
@@ -61,8 +62,8 @@ export class AppComponent implements OnInit {
   }
 
   removeFooter() {
-    let titlee = this.location.prepareExternalUrl(this.location.path());
-    titlee = titlee.slice(1);
-    return ['home', 'exam'].indexOf(titlee) === -1;
+    let titleFromLocation = this.location.prepareExternalUrl(this.location.path());
+    titleFromLocation = titleFromLocation.slice(1);
+    return ['home', 'exam'].indexOf(titleFromLocation) === -1;
   }
 }

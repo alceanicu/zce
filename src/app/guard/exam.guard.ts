@@ -7,11 +7,7 @@ import {IDeactivateComponent} from '../core/models';
   providedIn: 'root'
 })
 export class ExamGuard implements CanDeactivate<IDeactivateComponent> {
-  component: {};
-  route: ActivatedRouteSnapshot;
-
-  constructor() {
-  }
+  private component: {};
 
   public canDeactivate(
     component: IDeactivateComponent,
