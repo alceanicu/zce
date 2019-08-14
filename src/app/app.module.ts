@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -12,6 +13,7 @@ import {ROUND_PROGRESS_DEFAULTS, RoundProgressModule} from 'angular-svg-round-pr
 import {FooterComponent, HeaderComponent, SharedModule} from './shared';
 import {CoreModule} from './core';
 import * as moment from 'moment';
+import {ToastContainerModule, ToastrModule} from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,15 @@ import * as moment from 'moment';
     AngularFirestoreModule,
     SharedModule,
     CoreModule,
-    RoundProgressModule
+    RoundProgressModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      timeOut: 5000,
+      preventDuplicates: true,
+      newestOnTop: false,
+      progressBar: true,
+    }),
+    ToastContainerModule
   ],
   providers: [
     {provide: 'moment', useFactory: (): any => moment},

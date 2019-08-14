@@ -1,9 +1,10 @@
 # CHROME extension changelog
 
-### 1.1.4 [2019.08.13]
+### 1.1.4 [2019.08.14]
 
 - fix bugs
 - update angular version
+- add toastr js library
 
 ### 1.1.3 [2019.08.08]
 

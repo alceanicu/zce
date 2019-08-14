@@ -1,15 +1,17 @@
-import {AfterViewChecked, Component, Inject, OnInit} from '@angular/core';
+import {AfterViewChecked, Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {NgxUiLoaderService} from 'ngx-ui-loader';
 import {PrismService, QuestionService} from '../../core/services';
 import {Exam, IDeactivateComponent, IExamQuestion} from '../../core/models';
 import {CountdownService} from '../../core/services/countdown/countdown.service';
 import {DataShareCountdownService} from '../../core/services/data-share-countdown/data-share-countdown.service';
+import {ToastContainerDirective, ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-exam',
   templateUrl: './exam.component.html',
 })
 export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChecked {
+  @ViewChild(ToastContainerDirective, {static: true}) public toastContainer: ToastContainerDirective;
   private exam: Exam;
   public examQuestion?: IExamQuestion;
   public index?: number;
@@ -23,10 +25,12 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     private prismService: PrismService,
     private ngxLoader: NgxUiLoaderService,
     private questionService: QuestionService,
+    private toastr: ToastrService
   ) {
   }
 
   ngOnInit() {
+    // this.toastr.overlayContainer = this.toastContainer;
     const $this = this;
     this.exam = new Exam();
 
@@ -49,6 +53,12 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
 
     // countdown is started
     this.countdownService.start(this.exam.startAt);
+
+    this.toastr.success('You have 90 minutes to finish your exam. Good luck!', 'Exam simulation start!', {timeOut: 5000});
+  }
+
+  ngAfterViewChecked() {
+    this.prismService.highlightAll();
   }
 
   public setBtnClasses(index) {
@@ -75,15 +85,17 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     }
   }
 
-  ngAfterViewChecked() {
-    this.prismService.highlightAll();
-  }
-
   get questionsArray() {
     return this.exam.questionsArray;
   }
 
+  async delay(ms: number) {
+    await new Promise(resolve => setTimeout(() => resolve(), ms))
+      .then(() => this.ngxLoader.stopAll());
+  }
+
   public getQuestion(id, index) {
+    this.ngxLoader.start();
     this.updateExamScore();
     this.index = index;
 
@@ -102,6 +114,7 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     } else {
       this.examQuestion = this.exam.questions[index];
     }
+    this.delay(1);
   }
 
   private updateExamScore() {
@@ -152,7 +165,7 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     }
   }
 
-  public finshExam() {
+  public finishExam() {
     let score = 0;
     for (const key in this.exam.questions) {
       if (this.exam.questions.hasOwnProperty(key)) {
@@ -165,8 +178,18 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   }
 
   public canExit(): boolean {
+    // const config = {
+    //   enableHtml: true,
+    //   closeButton: false,
+    //   //
+    //   disableTimeOut: true,
+    //   tapToDismiss: false,
+    // };
+    // const msg = '  <button type="button" class="btn btn-sm btn-primary btn-block">Ok</button>\n' +
+    //   '  <button type="button" class="btn btn-sm btn-primary btn-block">Cancel</button>';
+    // this.toastr.show(msg, 'Do you wish to finish the current exam?', config);
     if (confirm('Do you wish to finish the current exam?')) {
-      this.finshExam();
+      this.finishExam();
       return true;
     } else {
       return false;

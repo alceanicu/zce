@@ -34,15 +34,15 @@ export class RandomComponent implements OnInit, AfterViewChecked {
   ) {
   }
 
-  ngAfterViewChecked() {
-    this.prismService.highlightAll();
-  }
-
   ngOnInit() {
     this.sync.currentScore.subscribe(message => {
       this.message = message;
     });
     this.getAnRandomQuestion();
+  }
+
+  ngAfterViewChecked() {
+    this.prismService.highlightAll();
   }
 
   getAnRandomQuestion() {

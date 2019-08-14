@@ -4,11 +4,7 @@ import {ExamComponent} from './exam/exam.component';
 import {ExamGuard} from '../guard/exam.guard';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: ExamComponent,
-    canDeactivate: [ExamGuard]
-  }
+  {path: '', component: ExamComponent, canDeactivate: [ExamGuard]}
 ];
 
 @NgModule({
