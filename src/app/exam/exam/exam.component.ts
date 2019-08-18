@@ -127,6 +127,10 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     return this.exam.questionsArray;
   }
 
+  get currentExam() {
+    return this.exam;
+  }
+
   async delay(ms: number) {
     await new Promise(resolve => setTimeout(() => resolve(), ms))
       .then(() => this.ngxLoader.stopAll());
@@ -154,6 +158,7 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     }
     this.delay(1);
   }
+
 
   private updateExamScore() {
     if (this.examQuestion !== undefined) {
