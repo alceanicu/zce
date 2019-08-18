@@ -26,7 +26,7 @@ export class CountdownService {
           (seconds: number) => {
             this.countdownSubject.next(seconds);
           },
-          (error) => console.log(error),
+          error => console.log(error),
           () => {
             this.countdownSubject.complete();
             this.isCounting = false;

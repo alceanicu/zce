@@ -56,7 +56,6 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     // first subscriber subscribes
     this.subscription = this.countdownService.countdown().subscribe(
       (seconds: number) => {
-        console.log(`Time left: ${seconds} seconds`);
         if (seconds === 3600) {
           this.toastrService.success('You have another hour to finish the exam', 'Time left');
         }
