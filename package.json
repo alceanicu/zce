@@ -24,7 +24,7 @@
     "angular-svg-round-progressbar": "^3.0.1",
     "core-js": "^2.6.9",
     "dexie": "^2.0.4",
-    "firebase": "^6.3.5",
+    "firebase": "^6.4.0",
     "moment": "^2.24.0",
     "ngx-toastr": "^10.0.4",
     "ngx-ui-loader": "^8.0.0",

@@ -1,22 +1,25 @@
-import {AfterViewChecked, Component, Inject, OnInit, ViewChild} from '@angular/core';
-import {NgxUiLoaderService} from 'ngx-ui-loader';
-import {PrismService, QuestionService} from '../../core/services';
-import {Exam, IDeactivateComponent, IExamQuestion} from '../../core/models';
-import {CountdownService} from '../../core/services/countdown/countdown.service';
-import {DataShareCountdownService} from '../../core/services/data-share-countdown/data-share-countdown.service';
-import {ToastContainerDirective, ToastrService} from 'ngx-toastr';
+import { AfterViewChecked, Component, Inject, OnInit } from '@angular/core';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
+import { PrismService, QuestionService } from '../../core/services';
+import { Exam, IDeactivateComponent, IExamQuestion } from '../../core/models';
+import { CountdownService } from '../../core/services/countdown/countdown.service';
+import { DataShareCountdownService } from '../../core/services/data-share-countdown/data-share-countdown.service';
+import { ToastrService } from 'ngx-toastr';
+import { Moment } from 'moment';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-exam',
-  templateUrl: './exam.component.html',
+  templateUrl: './exam.component.html'
 })
 export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChecked {
-  @ViewChild(ToastContainerDirective, {static: true}) public toastContainer: ToastContainerDirective;
   private exam: Exam;
   public examQuestion?: IExamQuestion;
   public index?: number;
   public markForReviewArray = [];
-  public timeString: string | number;
+  public subscription?: Subscription;
 
   constructor(
     @Inject('moment') private moment,
@@ -25,40 +28,76 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     private prismService: PrismService,
     private ngxLoader: NgxUiLoaderService,
     private questionService: QuestionService,
-    private toastr: ToastrService
+    private toastrService: ToastrService,
+    private location: Location,
+    private router: Router
   ) {
   }
 
+  public canExit(): boolean {
+    if (this.exam.finished) {
+      return true;
+    } else {
+      if (confirm('Do you wish to finish the current exam?')) {
+        this.finishExam();
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
   ngOnInit() {
-    // this.toastr.overlayContainer = this.toastContainer;
     const $this = this;
     this.exam = new Exam();
+    const startTime = this.moment(this.exam.startAt);
+    const endTime = this.moment(startTime).add(5400, 'seconds');
 
     // first subscriber subscribes
-    this.countdownService.countdown().subscribe(
-      t => {
-        const now = this.moment();
-        const startTime = this.moment(this.exam.startAt);
-        const endTime = this.moment(startTime).add(90, 'minutes'); // FIXME
-        const duration = this.moment.duration(endTime.diff(now));
-        const h = (duration.hours() < 10) ? ('0' + duration.hours()) : duration.hours();
-        const m = (duration.minutes() < 10) ? ('0' + duration.minutes()) : duration.minutes();
-        const s = (duration.seconds() < 10) ? ('0' + duration.seconds()) : duration.seconds();
-        this.timeString = h + ':' + m + ':' + s;
-        $this.sync.updateCurrentCountdownTime(this.timeString);
+    this.subscription = this.countdownService.countdown().subscribe(
+      (seconds: number) => {
+        console.log(`Time left: ${seconds} seconds`);
+        if (seconds === 3600) {
+          this.toastrService.success('You have another hour to finish the exam', 'Time left');
+        }
+        if (seconds === 1800) {
+          this.toastrService.success('You have another 30 minutes to finish the exam', 'Time left');
+        }
+        if (seconds === 600) {
+          this.toastrService.success('You have another 10 minutes to finish the exam', 'Time left');
+        }
+        if (seconds === 300) {
+          this.toastrService.success('You have less than 5 minutes to finish the exam', 'Times left!');
+        }
+        $this.sync.updateCurrentCountdownTime(this.getTimeString(endTime));
       },
-      null,
-      () => this.timeString = 'Done!' // FIXME
+      error => {
+        console.log(error);
+      },
+      () => {
+        this.finishExam();
+      }
     );
 
     // countdown is started
-    this.countdownService.start(this.exam.startAt);
+    this.countdownService.start(5400);
 
-    this.toastr.success('You have 90 minutes to finish your exam. Good luck!', 'Exam simulation start!', {timeOut: 5000});
+    this.toastrService.success('You have 90 minutes to finish your exam. Good luck!', 'Exam simulation start!');
   }
 
   ngAfterViewChecked() {
     this.prismService.highlightAll();
+  }
+
+  private getTimeString(endTime: Moment): string {
+    const now = this.moment();
+    const duration = this.moment.duration(endTime.diff(now));
+
+    const hh = duration.hours().toString().padStart(2, '0');
+    const mm = duration.minutes().toString().padStart(2, '0');
+    const ss = duration.seconds().toString().padStart(2, '0');
+
+    return hh + ':' + mm + ':' + ss;
   }
 
   public setBtnClasses(index) {
@@ -166,6 +205,9 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   }
 
   public finishExam() {
+    this.exam.finished = true;
+    this.subscription.unsubscribe();
+
     let score = 0;
     for (const key in this.exam.questions) {
       if (this.exam.questions.hasOwnProperty(key)) {
@@ -174,25 +216,23 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
         }
       }
     }
-    alert(`You answered correctly ${score} questions out of 70`);
-  }
 
-  public canExit(): boolean {
-    // const config = {
-    //   enableHtml: true,
-    //   closeButton: false,
-    //   //
-    //   disableTimeOut: true,
-    //   tapToDismiss: false,
-    // };
-    // const msg = '  <button type="button" class="btn btn-sm btn-primary btn-block">Ok</button>\n' +
-    //   '  <button type="button" class="btn btn-sm btn-primary btn-block">Cancel</button>';
-    // this.toastr.show(msg, 'Do you wish to finish the current exam?', config);
-    if (confirm('Do you wish to finish the current exam?')) {
-      this.finishExam();
-      return true;
+    if (score >= 50) {
+      const message = 'Congratulations you passed the exam!';
+      this.toastrService.success(message, 'Exam result!', {closeButton: true})
+        .onHidden.subscribe(() => {
+        if (this.location.prepareExternalUrl(this.location.path()) === '/exam') {
+          this.router.navigate(['/home']);
+        }
+      });
     } else {
-      return false;
+      const message = 'You did not passed the exam!';
+      this.toastrService.warning(message, 'Exam result!', {closeButton: true})
+        .onHidden.subscribe(() => {
+        if (this.location.prepareExternalUrl(this.location.path()) === '/exam') {
+          this.router.navigate(['/home']);
+        }
+      });
     }
   }
 

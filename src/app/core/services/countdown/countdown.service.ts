@@ -6,14 +6,14 @@ import {map, takeWhile} from 'rxjs/operators';
   providedIn: 'root'
 })
 export class CountdownService {
-  private countdownS = new Subject<number>();
+  private countdownSubject = new Subject<number>();
   private isCounting = false;
 
-  countdown(): Observable<number> {
-    return this.countdownS.asObservable();
+  public countdown(): Observable<number> {
+    return this.countdownSubject.asObservable();
   }
 
-  start(count: number): void {
+  public start(count: number): void {
     // Ensure that only one timer is in progress at any given time.
     if (!this.isCounting) {
       this.isCounting = true;
@@ -23,13 +23,15 @@ export class CountdownService {
           map(t => count - t)
         )
         .subscribe(
-          t => this.countdownS.next(t),
-          null,
+          (seconds: number) => {
+            this.countdownSubject.next(seconds);
+          },
+          (error) => console.log(error),
           () => {
-            this.countdownS.complete();
+            this.countdownSubject.complete();
             this.isCounting = false;
             // Reset the countdown Subject so that a countdown can be performed more than once.
-            this.countdownS = new Subject<number>();
+            this.countdownSubject = new Subject<number>();
           }
         );
     }

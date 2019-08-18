@@ -1,7 +1,7 @@
 <div class="row" style="margin-top: 50px"></div>
 
 <div class="row">
-  <div class="col-lg-12 col-md-12">
+  <div *ngIf="!this.exam.finished" class="col-lg-12 col-md-12">
 
     <div class="btn-toolbar" role="toolbar" style="margin: 5px">
       <div class="btn-group" role="group">
@@ -24,10 +24,11 @@
         </button>
       </div>
     </div>
+
   </div>
 </div>
 
-<div class="row">
+<div *ngIf="!this.exam.finished" class="row">
   <div class="col-lg-12 col-md-12">
     <div *ngIf="this.examQuestion" class="php-container" style="margin-top: 50px">
       <app-question
@@ -43,7 +44,7 @@
   </div>
 </div>
 
-<div class="row" style="margin-top: 10px">
+<div *ngIf="!this.exam.finished" class="row" style="margin-top: 10px">
   <div class="col-lg-4 col-md-4">
     <div class="card">
       <div class="card-footer">
@@ -79,7 +80,5 @@
     </div>
   </div>
 </div>
-
-<div toastContainer></div>
 
 <ngx-ui-loader></ngx-ui-loader>

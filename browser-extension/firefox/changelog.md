@@ -1,5 +1,10 @@
 ## FIREFOX extension changelog
 
+### 1.1.5 [2019.08.18]
+
+- fix bugs
+- update firebase
+
 ### 1.1.4 [2019.08.14]
 
 - fix bugs
