@@ -1,4 +1,4 @@
-## ZCE - Exam Simulator for [Zend Certified PHP Engineer Certification](https://www.zend.com/en/services/certification/php-certification)
+## ZCE - Exam Simulator for [Zend PHP Engineer Certification](https://www.zend.com/en/services/certification/php-certification)
 
 You can try this app as: 
 
