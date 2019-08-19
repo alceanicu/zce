@@ -20,5 +20,6 @@ https://addons.mozilla.org/ro/firefox/addon/php-zend-certification-exam/
 
 ### License - MIT
 
-## !!! THIS APP IS NOT FINISHED - SOME FEATURE MIGHT NOT WORK YET !!!
-## !!! Disclaimer: This app is not affiliated with or endorsed by PHP Group or ZEND !!!
+### THIS APP IS NOT FINISHED - SOME FEATURE MIGHT NOT WORK YET
+
+### Disclaimer: This app is not affiliated with or endorsed by PHP Group or ZEND
