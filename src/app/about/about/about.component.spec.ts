@@ -1,6 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { AboutComponent } from './about.component';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {AboutComponent} from './about.component';
+import {AngularFireModule} from '@angular/fire';
+import {environment} from '../../../environments/environment';
+import {AngularFirestoreModule} from '@angular/fire/firestore';
 
 describe('AboutComponent', () => {
   let component: AboutComponent;
@@ -8,9 +10,11 @@ describe('AboutComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AboutComponent ]
-    })
-    .compileComponents();
+      declarations: [AboutComponent],
+      imports: [
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFirestoreModule]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -4,7 +4,7 @@ import {DataShareService} from '../../../core/services';
 import {DataShareCountdownService} from '../../../core/services/data-share-countdown/data-share-countdown.service';
 
 @Component({
-  selector: 'app-layout-header',
+  selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })

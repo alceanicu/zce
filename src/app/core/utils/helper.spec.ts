@@ -1,4 +1,4 @@
-import { Helper } from './helper';
+import {Helper} from './helper';
 
 describe('Helper', () => {
   it('should create an instance', () => {

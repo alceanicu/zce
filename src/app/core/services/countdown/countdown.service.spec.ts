@@ -1,6 +1,5 @@
-import { TestBed } from '@angular/core/testing';
-
-import { CountdownService } from './countdown.service';
+import {TestBed} from '@angular/core/testing';
+import {CountdownService} from './countdown.service';
 
 describe('CountdownService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
