@@ -15,4 +15,4 @@ This package is licensed under the [MIT](http://opensource.org/licenses/MIT) lic
 
 > THIS APP IS NOT FINISHED - SOME FEATURE MIGHT NOT WORK YET
 
-> This app is not affiliated with or endorsed by PHP Group or ZEND
+> This app is not affiliated with or endorsed by [PHP Group](https://www.php.net/) or [ZEND](https://www.zend.com/en)
