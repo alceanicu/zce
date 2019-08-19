@@ -65,6 +65,7 @@ export class HeaderComponent implements OnInit {
   }
 
   isPage(page: string): boolean {
-    return this.location.prepareExternalUrl(this.location.path()) === page;
+    const pageFromUrl = this.location.prepareExternalUrl(this.location.path());
+    return (pageFromUrl === page) || (pageFromUrl === ('/zce' + page));
   }
 }

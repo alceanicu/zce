@@ -13,7 +13,7 @@ import {HeaderComponent} from './shared/layout';
 export class AppComponent implements OnInit {
   public title = 'ZCE';
   private router$: Subscription;
-  @ViewChild(HeaderComponent, {static: true}) public headerComponent: HeaderComponent;
+  @ViewChild(HeaderComponent, {static: false}) public headerComponent: HeaderComponent;
 
   constructor(
     private renderer: Renderer2,
@@ -62,8 +62,7 @@ export class AppComponent implements OnInit {
   }
 
   removeFooter() {
-    let titleFromLocation = this.location.prepareExternalUrl(this.location.path());
-    titleFromLocation = titleFromLocation.slice(1);
-    return ['home', 'exam'].indexOf(titleFromLocation) === -1;
+    const pageFromUrl = this.location.prepareExternalUrl(this.location.path());
+    return ['/exam', '/zce/exam'].indexOf(pageFromUrl) === -1;
   }
 }
