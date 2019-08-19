@@ -10,8 +10,11 @@ You can try this app as:
 
 ### MOBILE app (V 1.1.0 - beta) - soon
 
-## License - MIT
+## License
 
-### THIS APP IS NOT FINISHED - SOME FEATURE MIGHT NOT WORK YET
+This package is licensed under the [MIT](http://opensource.org/licenses/MIT) license.
 
-### Disclaimer: This app is not affiliated with or endorsed by PHP Group or ZEND
+
+#### THIS APP IS NOT FINISHED - SOME FEATURE MIGHT NOT WORK YET
+
+#### Disclaimer: This app is not affiliated with or endorsed by PHP Group or ZEND
