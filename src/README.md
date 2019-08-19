@@ -77,5 +77,5 @@ npm update
 
 ```
 ng build --prod --base-href="./"
-ngh --dir dist/zce --message="V 1.1.5"
+ngh --dir dist/zce --message="V 1.1.6"
 ```

@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
-  "name": "ZCE simulator",
+  "name": "ZCE",
   "short_name": "ZCE-PHP ZEND",
-  "version": "1.1.5",
-  "version_name": "1.1.5 - RC2",
+  "version": "1.1.6",
+  "version_name": "1.1.6 - RC1",
   "author": "Nicu ALCEA",
   "description": "ZCE - PHP ZEND Certification Exam Simulator",
   "minimum_chrome_version": "22",
@@ -32,5 +32,5 @@
     "default_title": "ZCE - PHP ZEND Certification Exam Simulator"
   },
   "homepage_url": "https://github.com/alceanicu/zce",
-  "permissions": ["activeTab"]
+  "permissions": []
 }

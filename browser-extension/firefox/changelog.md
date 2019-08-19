@@ -1,7 +1,8 @@
 ## FIREFOX extension changelog
 
-### 1.1.5 [2019.08.18]
+### 1.1.6 [2019.08.19]
 
+- fix bugs for GitHab Page
 - fix bugs
 - update firebase
 
