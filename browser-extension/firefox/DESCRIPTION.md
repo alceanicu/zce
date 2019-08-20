@@ -23,7 +23,7 @@ This application is licensed under the <a href="http://opensource.org/licenses/M
 
 <strong>Disclaimer</strong>
 <ul>
-    <li>This app is not finished - some feature might not work properly.</li>
+    <li>This application is not finished - some feature might not work properly.</li>
     <li>Not all questions are checked, some of them might have wrong answers.</li>
-    <li>This app is not affiliated with or endorsed by <a href="https://www.php.net/">PHP Group</a> or <a href="https://www.zend.com/en">ZEND</a></li>
+    <li>This application is not affiliated with or endorsed by <a href="https://www.php.net/">PHP Group</a> or <a href="https://www.zend.com/en">ZEND</a></li>
 </ul>

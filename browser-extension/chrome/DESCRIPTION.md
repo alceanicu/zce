@@ -23,8 +23,8 @@ This application is licensed under the [MIT](http://opensource.org/licenses/MIT)
 
 ## Disclaimer
 
-> This app is not finished - some feature might not work properly.
+> This application is not finished - some feature might not work properly.
 >
 > Not all questions are checked, some of them might have wrong answers.
 >
-> This app is not affiliated with or endorsed by [PHP Group](https://www.php.net/) or [ZEND](https://www.zend.com/en).
+> This application is not affiliated with or endorsed by [PHP Group](https://www.php.net/) or [ZEND](https://www.zend.com/en).

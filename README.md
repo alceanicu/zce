@@ -13,16 +13,16 @@ This application is licensed under the [MIT](http://opensource.org/licenses/MIT)
 
 ## Questions source
 
-* http://php.net/manual/en/
-* http://www.zendexam.com
-* https://www.codepunker.com/learn/quizzes
-* https://github.com/basselin/php-certification-training
-* https://fr.slideshare.net/carlosbuenosvinos/zend-php-53-demo-certification-test
+* [PHP.NET](http://php.net/manual/en)
+* [ZendExam](http://www.zendexam.com)
+* [CodePunker](https://www.codepunker.com/learn/quizzes)
+* [Basselin GitHub repo](https://github.com/basselin/php-certification-training)
+* [CarlosBuenosvinos](https://fr.slideshare.net/carlosbuenosvinos/zend-php-53-demo-certification-test)
 
 ## Disclaimer
 
-> This app is not finished - some feature might not work properly.
+> This application is not finished - some feature might not work properly.
 >
 > Not all questions are checked, some of them might have wrong answers.
 >
-> This app is not affiliated with or endorsed by [PHP Group](https://www.php.net/) or [ZEND](https://www.zend.com/en).
+> This application is not affiliated with or endorsed by [PHP Group](https://www.php.net/) or [ZEND](https://www.zend.com/en).
