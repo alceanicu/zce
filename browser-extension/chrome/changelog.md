@@ -1,8 +1,9 @@
 # CHROME extension changelog
 
-### 1.1.7 [2019.08.20]
+### 1.1.8 [2019.08.20]
 
 - add questions source link
+- add confirm dialog component
 
 ### 1.1.6 [2019.08.19]
 
