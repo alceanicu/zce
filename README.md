@@ -9,7 +9,7 @@
 
 ## License
 
-This package is licensed under the [MIT](http://opensource.org/licenses/MIT) license.
+This application is licensed under the [MIT](http://opensource.org/licenses/MIT) license.
 
 ## Questions source
 
