@@ -223,6 +223,13 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     }
   }
 
+  public goToHome() {
+    const pageFromUrl = this.location.prepareExternalUrl(this.location.path());
+    if (['/exam', '/zce/exam'].indexOf(pageFromUrl) !== -1) {
+      this.router.navigate(['/home']).then();
+    }
+  }
+
   public finishExam() {
     this.exam.finished = true;
     this.subscription.unsubscribe();
@@ -236,21 +243,26 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
       }
     }
 
+    const config = {closeButton: true};
+    const title = 'Exam result!';
+
     if (score >= 50) {
       const message = 'Congratulations you passed the exam!';
-      this.toastrService.success(message, 'Exam result!', {closeButton: true})
-        .onHidden.subscribe(() => {
-        if (this.location.prepareExternalUrl(this.location.path()) === '/exam') {
-          this.router.navigate(['/home']);
-        }
+      this.toastrService.success(message, title, config).onHidden.subscribe(() => {
+        this.goToHome();
+      }, error => {
+        console.log(error);
+      }, () => {
+        console.log(`You answered correctly to ${score} questions from 70`);
       });
     } else {
       const message = 'You did not passed the exam!';
-      this.toastrService.warning(message, 'Exam result!', {closeButton: true})
-        .onHidden.subscribe(() => {
-        if (this.location.prepareExternalUrl(this.location.path()) === '/exam') {
-          this.router.navigate(['/home']);
-        }
+      this.toastrService.warning(message, title, config).onHidden.subscribe(() => {
+        this.goToHome();
+      }, error => {
+        console.log(error);
+      }, () => {
+        console.log(`You answered correctly to ${score} questions from 70`);
       });
     }
   }
