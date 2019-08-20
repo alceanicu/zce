@@ -1,6 +1,12 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {DataShareService, LocalStorageService, PhpQuestionService, PrismService, SessionStorageService} from './services';
+import {
+  DataShareService,
+  LocalStorageService,
+  PhpQuestionService,
+  PrismService,
+  SessionStorageService
+} from './services';
 
 @NgModule({
   declarations: [],
@@ -9,8 +15,8 @@ import {DataShareService, LocalStorageService, PhpQuestionService, PrismService,
   ],
   providers: [
     DataShareService,
-    PhpQuestionService,
     LocalStorageService,
+    PhpQuestionService,
     PrismService,
     SessionStorageService,
   ]

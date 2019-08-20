@@ -1,8 +1,15 @@
 import {Component, Inject} from '@angular/core';
 import {IQuestion} from '../../core/models';
-import {IndexedDbQuizService, LocalStorageService, PhpQuestionService, QuestionService, SessionStorageService} from '../../core/services';
+import {
+  IndexedDbQuizService,
+  LocalStorageService,
+  PhpQuestionService,
+  QuestionService,
+  SessionStorageService
+} from '../../core/services';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -10,15 +17,14 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-
   private questionArray: IQuestion[] = [];
 
   constructor(
-    private firestorePhpQuestionService: PhpQuestionService,
     private indexedDbQuizService: IndexedDbQuizService,
     private localStorageService: LocalStorageService,
-    private sessionStorageService: SessionStorageService,
+    private firestorePhpQuestionService: PhpQuestionService,
     private questionService: QuestionService,
+    private sessionStorageService: SessionStorageService,
     @Inject('moment') private moment,
   ) {
   }
@@ -35,7 +41,7 @@ export class HomeComponent {
   }
 
   private generatePDF() {
-    const letters = ['A', 'B', 'C', 'D'];
+    const letters = environment.letters;
     const content = [];
     const correctAnswer = [];
 
@@ -106,6 +112,7 @@ export class HomeComponent {
         layout: 'headerLineOnly'
       });
     }
+
     content.push({
       text: 'Answers',
       style: 'h1'

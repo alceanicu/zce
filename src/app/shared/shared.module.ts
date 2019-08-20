@@ -18,8 +18,8 @@ import {SimpleModalModule} from 'ngx-simple-modal';
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,
     HttpClientModule,
+    ReactiveFormsModule,
     RouterModule,
     NgxUiLoaderModule.forRoot({
       bgsColor: '#00ACC1',

@@ -82,3 +82,9 @@ npm update
 ng build --prod --base-href="./"
 ngh --dir dist/zce --message="V 1.1.8"
 ```
+
+### others
+
+> [PrismJs](https://auralinna.blog/post/2017/code-syntax-highlighting-with-angular-and-prismjs)
+>
+

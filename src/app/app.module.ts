@@ -13,7 +13,7 @@ import {ROUND_PROGRESS_DEFAULTS, RoundProgressModule} from 'angular-svg-round-pr
 import {FooterComponent, HeaderComponent, SharedModule} from './shared';
 import {CoreModule} from './core';
 import * as moment from 'moment';
-import {ToastContainerModule, ToastrModule} from 'ngx-toastr';
+import {ToastrModule} from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -39,8 +39,8 @@ import {ToastContainerModule, ToastrModule} from 'ngx-toastr';
       preventDuplicates: true,
       newestOnTop: false,
       progressBar: true,
-    }),
-    ToastContainerModule
+      maxOpened: 1
+    })
   ],
   providers: [
     {provide: 'moment', useFactory: (): any => moment},

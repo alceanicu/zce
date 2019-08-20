@@ -8,14 +8,15 @@ import {environment} from '../../../environments/environment';
   styleUrls: ['./answer.component.css']
 })
 export class AnswerComponent {
-  @Input('answerRow') public answerRow: IAnswerRow;
-  @Input('disabled') public disabled: boolean;
-  @Input('i') public i: number;
+  @Input('answerRow') answerRow: IAnswerRow;
+  @Input('disabled') disabled: boolean;
+  @Input('i') i: number;
 
-  public letters = ['A', 'B', 'C', 'D'];
+  public letters: Array<string>;
   public extensionsAllowed: Array<string>;
 
   constructor() {
     this.extensionsAllowed = environment.extensionsAllowed;
+    this.letters = environment.letters;
   }
 }

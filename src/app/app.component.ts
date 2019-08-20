@@ -13,14 +13,14 @@ import {HeaderComponent} from './shared/layout';
 export class AppComponent implements OnInit {
   public title = 'ZCE';
   private router$: Subscription;
-  @ViewChild(HeaderComponent, {static: false}) public headerComponent: HeaderComponent;
+  @ViewChild(HeaderComponent, {static: false}) headerComponent: HeaderComponent;
 
   constructor(
-    private renderer: Renderer2,
-    private router: Router,
     @Inject(DOCUMENT) private document: Document,
     private element: ElementRef,
-    private location: Location
+    private renderer: Renderer2,
+    private location: Location,
+    private router: Router
   ) {
   }
 

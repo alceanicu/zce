@@ -6,8 +6,7 @@ import {
   LocalStorageService,
   PhpQuestionService,
   PrismService,
-  QuestionService,
-  SessionStorageService
+  QuestionService
 } from '../../core/services';
 import {IAnswerRow, IQuestion, IQuestionRow} from '../../core/models';
 
@@ -21,40 +20,48 @@ export class RandomComponent implements OnInit, AfterViewChecked {
   public question: IQuestion;
   public message: any;
   private interval: any = null;
+  private isNew = false;
+  private highlighted = false;
 
   constructor(
-    private firestorePhpQuestionService: PhpQuestionService,
+    private ngxUiLoaderService: NgxUiLoaderService,
+    private dataShareService: DataShareService,
     private indexedDbQuizService: IndexedDbQuizService,
     private localStorageService: LocalStorageService,
-    private sessionStorageService: SessionStorageService,
+    private firestorePhpQuestionService: PhpQuestionService,
     private prismService: PrismService,
-    private ngxLoader: NgxUiLoaderService,
-    private sync: DataShareService,
-    private questionService: QuestionService,
+    private questionService: QuestionService
   ) {
   }
 
   ngOnInit() {
-    this.sync.currentScore.subscribe(message => {
+    this.dataShareService.currentScore.subscribe(message => {
       this.message = message;
     });
     this.getAnRandomQuestion();
   }
 
   ngAfterViewChecked() {
-    this.prismService.highlightAll();
+    if (this.isNew && !this.highlighted) {
+      this.prismService.highlightAll();
+      this.highlighted = true;
+    }
   }
 
   getAnRandomQuestion() {
+    this.isNew = false;
+    this.highlighted = false;
     const $this = this;
     if (this.interval) {
       clearInterval(this.interval);
       this.interval = null;
     }
-    this.ngxLoader.start();
+    this.ngxUiLoaderService.start();
     this.reset();
     this.questionService.getQuestion().subscribe((question) => {
       $this.setQuestion(question);
+    }, error => {
+      console.log(error);
     });
   }
 
@@ -64,12 +71,11 @@ export class RandomComponent implements OnInit, AfterViewChecked {
     });
     question.finalAnswer = false;
     this.question = question;
-    this.prismService.highlightAll(); // FIXME
     const $this = this;
     setTimeout(() => {
-      $this.ngxLoader.stopAll();
-    }, 200)
-    ;
+      $this.ngxUiLoaderService.stopAll();
+    }, 200);
+    this.isNew = true;
   }
 
   reset() {
@@ -98,7 +104,7 @@ export class RandomComponent implements OnInit, AfterViewChecked {
     const $this = this;
     this.question.finalAnswer = true;
     this.validateEachAnswerRows();
-    this.sync.updatePercentage(this.isCorrect);
+    this.dataShareService.updatePercentage(this.isCorrect);
     const ansType = this.isCorrect ? 'Correct' : 'Wrong';
     this.btnText = `${ansType} [new quiz in ${countDown} seconds]`;
 

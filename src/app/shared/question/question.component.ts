@@ -8,7 +8,7 @@ import {environment} from '../../../environments/environment';
   styleUrls: ['./question.component.css']
 })
 export class QuestionComponent {
-  @Input('questionRow') public  questionRow: IQuestionRow;
+  @Input('questionRow') questionRow: IQuestionRow;
   public extensionsAllowed: Array<string>;
 
   constructor() {
