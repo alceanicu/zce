@@ -5,12 +5,15 @@ import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 import {QuestionComponent} from './question/question.component';
 import {AnswerComponent} from './answer/answer.component';
+import {ConfirmComponent} from './confirm/confirm/confirm.component';
 import {NgxUiLoaderModule} from 'ngx-ui-loader';
+import {SimpleModalModule} from 'ngx-simple-modal';
 
 @NgModule({
   declarations: [
     QuestionComponent,
-    AnswerComponent
+    AnswerComponent,
+    ConfirmComponent
   ],
   imports: [
     CommonModule,
@@ -44,6 +47,10 @@ import {NgxUiLoaderModule} from 'ngx-ui-loader';
       textColor: '#FFFFFF',
       textPosition: 'center-center'
     }),
+    SimpleModalModule.forRoot({container: document.body}),
+  ],
+  entryComponents: [
+    ConfirmComponent
   ],
   exports: [
     CommonModule,
@@ -51,9 +58,10 @@ import {NgxUiLoaderModule} from 'ngx-ui-loader';
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule,
-    QuestionComponent,
+    NgxUiLoaderModule,
     AnswerComponent,
-    NgxUiLoaderModule
+    ConfirmComponent,
+    QuestionComponent
   ]
 })
 export class SharedModule {

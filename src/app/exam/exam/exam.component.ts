@@ -1,18 +1,21 @@
-import { AfterViewChecked, Component, Inject, OnInit } from '@angular/core';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { Location } from '@angular/common';
-import { Router } from '@angular/router';
-import { PrismService, QuestionService } from '../../core/services';
-import { Exam, IDeactivateComponent, IExamQuestion } from '../../core/models';
-import { CountdownService } from '../../core/services/countdown/countdown.service';
-import { DataShareCountdownService } from '../../core/services/data-share-countdown/data-share-countdown.service';
-import { ToastrService } from 'ngx-toastr';
-import { Moment } from 'moment';
-import { Subscription } from 'rxjs';
+import {AfterViewChecked, Component, Inject, OnInit} from '@angular/core';
+import {NgxUiLoaderService} from 'ngx-ui-loader';
+import {Location} from '@angular/common';
+import {Router} from '@angular/router';
+import {PrismService, QuestionService} from '../../core/services';
+import {Exam, IDeactivateComponent, IExamQuestion} from '../../core/models';
+import {CountdownService} from '../../core/services/countdown/countdown.service';
+import {DataShareCountdownService} from '../../core/services/data-share-countdown/data-share-countdown.service';
+import {ToastrService} from 'ngx-toastr';
+import {Moment} from 'moment';
+import {Subscription} from 'rxjs';
+import {SimpleModalService} from 'ngx-simple-modal';
+import {ConfirmComponent} from '../../shared/confirm/confirm/confirm.component';
 
 @Component({
   selector: 'app-exam',
-  templateUrl: './exam.component.html'
+  templateUrl: './exam.component.html',
+  styleUrls: ['./exam.component.css']
 })
 export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChecked {
   private exam: Exam;
@@ -22,6 +25,7 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   public subscription?: Subscription;
 
   constructor(
+    private simpleModalService: SimpleModalService,
     @Inject('moment') private moment,
     private sync: DataShareCountdownService,
     private countdownService: CountdownService,
@@ -38,12 +42,23 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     if (this.exam.finished) {
       return true;
     } else {
-      if (confirm('Do you wish to finish the current exam?')) {
-        this.finishExam();
-        return true;
-      } else {
-        return false;
-      }
+      const disposable = this.simpleModalService.addModal(ConfirmComponent, {
+        title: 'Confirm',
+        message: 'Do you wish to finish the current exam?'
+      }).subscribe((isConfirmed) => {
+        if (isConfirmed) {
+          this.finishExam();
+          return true;
+        } else {
+          return false;
+        }
+      });
+
+      // We can close modal calling disposable.unsubscribe();
+      // If modal was not closed manually close it by timeout
+      setTimeout(() => {
+        disposable.unsubscribe();
+      }, 10000);
     }
   }
 

@@ -19,7 +19,7 @@ import {ToastContainerModule, ToastrModule} from 'ngx-toastr';
   declarations: [
     AppComponent,
     FooterComponent,
-    HeaderComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

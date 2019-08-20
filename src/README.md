@@ -23,6 +23,8 @@ ng g c exam/exam
 ng g c shared/layout/footer
 ng g c shared/layout/header
 
+ng g c shared/confirm/confirm 
+
 ng g m core
 ng g i core/models/i-question --type=interface
 ng g i core/models/i-question-row --type=interface
@@ -53,21 +55,22 @@ ng serve
 
 ```
 npm i --save @ng-bootstrap/ng-bootstrap             ## ??
-npm i --save @fortawesome/fontawesome-free          ## ??
-npm i --save prismjs
+npm i --save @angular/animations
 npm i --save firebase @angular/fire
+npm i --save prismjs
 npm i --save dexie
-npm i --save ngx-ui-loader
 npm i --save pdfmake
 npm i --save angular-svg-round-progressbar
 npm i --save moment
 npm i --save ngx-toastr
-npm i --save @angular/animations
+npm i --save ngx-ui-loader
+npm i --save ngx-simple-modal
 npm i --save rxjs
 
 ## removed
 ## npm i --save bootstrap                             
-## npm i --save ngx-countdown                       
+## npm i --save ngx-countdown
+## npm i --save @fortawesome/fontawesome-free               
 
 npm outdated
 npm update
