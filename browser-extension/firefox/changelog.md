@@ -1,5 +1,9 @@
 ## FIREFOX extension changelog
 
+### 1.1.7 [2019.08.20]
+
+- add questions source link
+
 ### 1.1.6 [2019.08.19]
 
 - fix bugs for GitHab Page
