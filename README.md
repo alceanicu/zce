@@ -11,6 +11,14 @@ You can try this app as:
 
 This package is licensed under the [MIT](http://opensource.org/licenses/MIT) license.
 
+## Questions source:
+
+* http://php.net/manual/en/
+* http://www.zendexam.com
+* https://github.com/basselin/php-certification-training
+* https://fr.slideshare.net/carlosbuenosvinos/zend-php-53-demo-certification-test
+* https://www.codepunker.com/learn/quizzes
+
 ## Disclaimer
 
 > THIS APP IS NOT FINISHED - SOME FEATURE MIGHT NOT WORK YET
