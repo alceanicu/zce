@@ -2,10 +2,9 @@ import {AfterViewChecked, Component, Inject, OnInit} from '@angular/core';
 import {NgxUiLoaderService} from 'ngx-ui-loader';
 import {Location} from '@angular/common';
 import {Router} from '@angular/router';
-import {PrismService, QuestionService} from '../../core/services';
+import {CountdownTimeSyncService, PrismService, QuestionService} from '../../core/services';
 import {Exam, IDeactivateComponent, IExamQuestion} from '../../core/models';
 import {CountdownService} from '../../core/services/countdown/countdown.service';
-import {DataShareCountdownService} from '../../core/services/data-share-countdown/data-share-countdown.service';
 import {ToastrService} from 'ngx-toastr';
 import {Moment} from 'moment';
 import {Subscription} from 'rxjs';
@@ -27,10 +26,10 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   constructor(
     private simpleModalService: SimpleModalService,
     @Inject('moment') private moment,
-    private sync: DataShareCountdownService,
     private countdownService: CountdownService,
+    private countdownTimeSyncService: CountdownTimeSyncService,
     private prismService: PrismService,
-    private ngxLoader: NgxUiLoaderService,
+    private ngxUiLoaderService: NgxUiLoaderService,
     private questionService: QuestionService,
     private toastrService: ToastrService,
     private location: Location,
@@ -83,7 +82,10 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
         if (seconds === 300) {
           this.toastrService.success('You have less than 5 minutes to finish the exam', 'Times left!');
         }
-        $this.sync.updateCurrentCountdownTime(this.getTimeString(endTime));
+
+        const obj = $this.countdownTimeSyncService.getValue();
+        obj.time = this.getTimeString(endTime);
+        $this.countdownTimeSyncService.setValue(obj);
       },
       error => {
         console.log(error);
@@ -148,11 +150,11 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
 
   async delay(ms: number) {
     await new Promise(resolve => setTimeout(() => resolve(), ms))
-      .then(() => this.ngxLoader.stopAll());
+      .then(() => this.ngxUiLoaderService.stopAll());
   }
 
   public getQuestion(id, index) {
-    this.ngxLoader.start();
+    this.ngxUiLoaderService.start();
     this.updateExamScore();
     this.index = index;
 

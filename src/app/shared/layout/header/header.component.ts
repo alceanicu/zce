@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit} from '@angular/core';
 import {Location} from '@angular/common';
-import {DataShareService} from '../../../core/services';
-import {DataShareCountdownService} from '../../../core/services/data-share-countdown/data-share-countdown.service';
+import {CountdownTimeSyncService, ScoreSyncService} from '../../../core/services';
+import {ICountdownTime, IScore} from '../../../core/models';
 
 @Component({
   selector: 'app-header',
@@ -11,24 +11,24 @@ import {DataShareCountdownService} from '../../../core/services/data-share-count
 export class HeaderComponent implements OnInit {
   private toggleButton: any;
   private sidebarVisible: boolean;
-  public message: any;
-  public timeString: any;
+  public scoreObj: IScore;
+  public countdownTimeObj: ICountdownTime;
 
   constructor(
     private location: Location,
     private element: ElementRef,
-    private data: DataShareService,
-    private dataTime: DataShareCountdownService
+    private scoreSyncService: ScoreSyncService,
+    private countdownTimeSyncService: CountdownTimeSyncService
   ) {
     this.sidebarVisible = false;
   }
 
   ngOnInit() {
-    this.dataTime.currentCountdownTime.subscribe(message => {
-      this.timeString = message;
+    this.scoreSyncService.currentValue.subscribe(value => {
+      this.scoreObj = value;
     });
-    this.data.currentScore.subscribe(message => {
-      this.message = message;
+    this.countdownTimeSyncService.currentValue.subscribe(value => {
+      this.countdownTimeObj = value;
     });
     const navbar: HTMLElement = this.element.nativeElement;
     this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];

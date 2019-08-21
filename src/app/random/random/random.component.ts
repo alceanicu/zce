@@ -1,14 +1,14 @@
 import {AfterViewChecked, Component, OnInit} from '@angular/core';
 import {NgxUiLoaderService} from 'ngx-ui-loader';
 import {
-  DataShareService,
   IndexedDbQuizService,
   LocalStorageService,
   PhpQuestionService,
   PrismService,
-  QuestionService
+  QuestionService,
+  ScoreSyncService,
 } from '../../core/services';
-import {IQuestion, Question} from '../../core/models';
+import {IQuestion, IScore, Question} from '../../core/models';
 
 @Component({
   selector: 'app-random',
@@ -18,25 +18,25 @@ export class RandomComponent implements OnInit, AfterViewChecked {
   public isCorrect: boolean;
   public btnText: string;
   public question: Question;
-  public message: any;
+  public score: IScore;
   private interval: any = null;
   private isNew = false;
   private highlighted = false;
 
   constructor(
     private ngxUiLoaderService: NgxUiLoaderService,
-    private dataShareService: DataShareService,
     private indexedDbQuizService: IndexedDbQuizService,
     private localStorageService: LocalStorageService,
     private firestorePhpQuestionService: PhpQuestionService,
     private prismService: PrismService,
-    private questionService: QuestionService
+    private questionService: QuestionService,
+    private scoreSyncService: ScoreSyncService
   ) {
   }
 
   ngOnInit() {
-    this.dataShareService.currentScore.subscribe(message => {
-      this.message = message;
+    this.scoreSyncService.currentValue.subscribe(value => {
+      this.score = value;
     });
     this.getAnRandomQuestion();
   }
@@ -77,7 +77,7 @@ export class RandomComponent implements OnInit, AfterViewChecked {
   reset() {
     this.isCorrect = true;
     this.btnText = 'Get next question now ';
-    this.question = new Question(<IQuestion>{});
+    this.question = new Question(<IQuestion> {});
   }
 
   validateEachAnswerRows() {
@@ -92,7 +92,8 @@ export class RandomComponent implements OnInit, AfterViewChecked {
     const $this = this;
     this.question.finalAnswer = true;
     this.validateEachAnswerRows();
-    this.dataShareService.updatePercentage(this.isCorrect);
+
+    this.scoreSyncService.setValue(this.updateScore(this.isCorrect));
     const ansType = this.isCorrect ? 'Correct' : 'Wrong';
     this.btnText = `${ansType} [new quiz in ${countDown} seconds]`;
 
@@ -108,6 +109,15 @@ export class RandomComponent implements OnInit, AfterViewChecked {
         $this.getAnRandomQuestion();
       }
     }, 1000);
+  }
+
+  updateScore(isCorrect: boolean): IScore {
+    const score = this.scoreSyncService.getValue();
+    score.total = score.total + 1;
+    score.correct = isCorrect ? (score.correct + 1) : score.correct;
+    score.percentage = Math.floor((score.correct * 100) / score.total);
+
+    return score;
   }
 
 }

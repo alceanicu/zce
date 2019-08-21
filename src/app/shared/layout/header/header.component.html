@@ -17,10 +17,10 @@
         <li class="nav-item" *ngIf="isPage('/random')">
           <div class="progress-percentage-wrapper">
             <div class="progress-percentage ng-cloak"
-                 title="Corect {{message.correct}} from {{message.total}}">{{message.percentage}}
-              %<br>{{message.correct}} | {{message.total}}</div>
+                 title="Corect {{scoreObj.correct}} from {{scoreObj.total}}">{{scoreObj.percentage}}
+              %<br>{{scoreObj.correct}} | {{scoreObj.total}}</div>
             <round-progress
-              [current]=message.percentage
+              [current]=scoreObj.percentage
               [max]="100"
               [color]="'#0F0'"
               [background]="'#F00'"
@@ -36,7 +36,7 @@
           </div>
         </li>
         <li class="nav-item" *ngIf="isPage('/exam')" style="font-weight: 600;color: #ff0000; padding-right: 20px">
-          {{timeString.time}}
+          {{countdownTimeObj.time}}
         </li>
         <li class="nav-item" *ngIf="isPage('/home')">
           <a placement="bottom" title="About" [routerLink]="['/about']" class="lead nav-link"

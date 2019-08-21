@@ -32,7 +32,8 @@ ng g i core/models/i-answer-row --type=interface
 ng g i core/models/i-config --type=interface
 ng g i core/models/i-exam --type=interface
 ng g i core/models/i-exam-question --type=interface
-ng g i core/models/i-deactivate-component  --type=interface
+ng g i core/models/i-deactivate-component --type=interface
+ng g i core/models/i-sync --type=interface
 
 ng g class core/models/question --type=model
 ng g class core/models/exam --type=model
@@ -41,8 +42,7 @@ ng g s core/services/prism/prism
 ng g s core/services/session-storage/session-storage
 ng g s core/services/local-storage/local-storage
 ng g s core/services/firestore/php-question
-ng g s core/services/data-share/data-share                          ## fixme
-ng g s core/services/data-share-countdown/data-share-countdown      ## fixme
+ng g s core/services/data-sync/data-sync
 ng g s core/services/question/question
 ng g s core/services/countdown/countdown
 

@@ -1,10 +1,11 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {
-  DataShareService,
+  CountdownTimeSyncService,
   LocalStorageService,
   PhpQuestionService,
   PrismService,
+  ScoreSyncService,
   SessionStorageService
 } from './services';
 
@@ -14,10 +15,11 @@ import {
     CommonModule
   ],
   providers: [
-    DataShareService,
+    CountdownTimeSyncService,
     LocalStorageService,
     PhpQuestionService,
     PrismService,
+    ScoreSyncService,
     SessionStorageService,
   ]
 })
