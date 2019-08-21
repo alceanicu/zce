@@ -8,7 +8,7 @@ import {
   PrismService,
   QuestionService
 } from '../../core/services';
-import {IAnswerRow, IQuestion, IQuestionRow} from '../../core/models';
+import {IQuestion, Question} from '../../core/models';
 
 @Component({
   selector: 'app-random',
@@ -17,7 +17,7 @@ import {IAnswerRow, IQuestion, IQuestionRow} from '../../core/models';
 export class RandomComponent implements OnInit, AfterViewChecked {
   public isCorrect: boolean;
   public btnText: string;
-  public question: IQuestion;
+  public question: Question;
   public message: any;
   private interval: any = null;
   private isNew = false;
@@ -65,11 +65,7 @@ export class RandomComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  setQuestion(question: IQuestion) {
-    question.answerRows.forEach((obj, key) => { // FIXME
-      obj.userAnswer = false;
-    });
-    question.finalAnswer = false;
+  setQuestion(question: Question) {
     this.question = question;
     const $this = this;
     setTimeout(() => {
@@ -81,15 +77,7 @@ export class RandomComponent implements OnInit, AfterViewChecked {
   reset() {
     this.isCorrect = true;
     this.btnText = 'Get next question now ';
-    this.question = {
-      id: null,
-      category: 1,
-      difficulty: 1,
-      type: 1,
-      finalAnswer: false,
-      questionRows: [<IQuestionRow> {}],
-      answerRows: [<IAnswerRow> {}, <IAnswerRow> {}, <IAnswerRow> {}, <IAnswerRow> {}],
-    };
+    this.question = new Question(<IQuestion>{});
   }
 
   validateEachAnswerRows() {
@@ -108,7 +96,6 @@ export class RandomComponent implements OnInit, AfterViewChecked {
     const ansType = this.isCorrect ? 'Correct' : 'Wrong';
     this.btnText = `${ansType} [new quiz in ${countDown} seconds]`;
 
-    // const interval = setInterval(function () {
     $this.interval = setInterval(() => {
       countDown--;
       if (countDown === 1) {

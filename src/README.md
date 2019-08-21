@@ -56,7 +56,7 @@ ng serve
 ```
 npm i --save @ng-bootstrap/ng-bootstrap             ## ??
 npm i --save @angular/animations
-npm i --save firebase @angular/fire
+npm i --save @angular/fire firebase
 npm i --save prismjs
 npm i --save dexie
 npm i --save pdfmake

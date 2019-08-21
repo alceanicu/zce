@@ -5,13 +5,17 @@ export class Question implements IQuestion {
   category: number;
   difficulty: number;
   type: number;
-  finalAnswer: boolean;
-  questionRows: Array<IQuestionRow>;
-  answerRows: Array<IAnswerRow>;
+  finalAnswer: boolean = false;
+  questionRows: Array<IQuestionRow> = [<IQuestionRow> {}];
+  answerRows: Array<IAnswerRow> = [<IAnswerRow> {}, <IAnswerRow> {}, <IAnswerRow> {}, <IAnswerRow> {}];
 
-  constructor(values?: Question) {
+  constructor(values?: IQuestion) {
     if (values) {
       Object.assign(this, values);
     }
+
+    this.answerRows.forEach((answerRow, key) => {
+      answerRow.userAnswer = false;
+    });
   }
 }

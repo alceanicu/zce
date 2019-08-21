@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Helper} from '../../utils';
-import {IConfig, IQuestion} from '../../models';
+import {IConfig, IQuestion, Question} from '../../models';
 import {PhpQuestionService} from '../firestore/php-question.service';
 import {LocalStorageService} from '../local-storage/local-storage.service';
 import {IndexedDbQuizService} from '../indexeddb/indexed-db-quiz.service';
@@ -20,7 +20,6 @@ export class QuestionService {
     private localStorageService: LocalStorageService,
     private sessionStorageService: SessionStorageService,
   ) {
-    //
   }
 
   public getQuestion(questionNumber: number = 1): Observable<any> {
@@ -54,14 +53,14 @@ export class QuestionService {
     this.indexedDbQuizService
       .getQuestionById(id)
       .then(async (question) => {
-        if (!question) {
-          $this.getQuestionFromFirebase(id, observer);
+        if (question) {
+          $this.setQuestion(new Question(question), observer);
         } else {
-          $this.setQuestion(question, observer);
+          $this.getQuestionFromFirebase(id, observer);
         }
       })
       .catch(e => {
-        console.error((e.stack || e));
+        console.error(e.stack || e);
         $this.getQuestionFromFirebase(id, observer);
       });
   }
@@ -87,11 +86,7 @@ export class QuestionService {
     const $this = this;
     this.firestorePhpQuestionService.getQuestion(String(id)).subscribe(
       DocumentSnapshot => {
-        const question = DocumentSnapshot.data() as IQuestion;
-
-        question.answerRows.forEach((obj, key) => { // FIXME
-          obj.userAnswer = false;
-        });
+        const question = new Question(DocumentSnapshot.data() as IQuestion);
 
         if (question) {
           $this.saveToIndexedDb(question);
@@ -117,7 +112,7 @@ export class QuestionService {
       })
       .catch(e => {
         console.log(`Question can not be saved in IndexedDB`);
-        console.error((e.stack || e));
+        console.error(e.stack || e);
       });
   }
 
