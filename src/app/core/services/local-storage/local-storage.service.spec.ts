@@ -6,8 +6,15 @@ import {environment} from '../../../../environments/environment';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import * as moment from 'moment';
 import {ROUND_PROGRESS_DEFAULTS} from 'angular-svg-round-progressbar';
+import {IConfig} from '../../models';
 
 describe('LocalStorageService', () => {
+  const now: Date = new Date('2019-12-01T03:24:00');
+  const key: string = 'config';
+  const obj: IConfig = {counter: 806, timestamp: now.getTime()}; // FIXME
+
+  let service: LocalStorageService;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [HomeComponent],
@@ -25,10 +32,38 @@ describe('LocalStorageService', () => {
           }
         }],
     }).compileComponents();
+
+    service = TestBed.get(LocalStorageService);
+    service.setItem(key, obj);
   }));
 
-  it('should be created', () => {
-    const service: LocalStorageService = TestBed.get(LocalStorageService);
-    expect(service).toBeTruthy();
+  // it('#setFreshAppConfigInLocalStorage should return value from observable', (done: DoneFn) => {
+  //   service.setFreshAppConfigInLocalStorage(now).subscribe(value => {
+  //     const d = now;
+  //     d.setDate(now.getDate() + 10);
+  //     expect(value.timestamp).toEqual(d.getTime());
+  //     done();
+  //   });
+  // });
+
+  it('should be created', async () => {
+    await expect(service).toBeTruthy();
+  });
+
+  it('should be undefined after cleared', async () => {
+    await expect(service.clear()).toBeUndefined();
+  });
+
+  it('should equal', async () => {
+    await expect(service.getItem(key)).toEqual(obj);
+  });
+
+  it('should be null if key does not exist', async () => {
+    await expect(service.getItem('some_config')).toBeNull();
+  });
+
+  it('should be null after remove key', async () => {
+    service.removeItem(key);
+    await expect(service.getItem(key)).toBeNull();
   });
 });

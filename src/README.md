@@ -8,6 +8,8 @@ ng serve
 
 npm outdated
 npm update
+
+ng test --code-coverage --no-watch
 ```
 
 ## ng
@@ -19,6 +21,7 @@ ng g m home --routing=true
 ng g m about --routing=true
 ng g m random --routing=true
 ng g m exam --routing=true
+ng g m core
 
 -- components
 ng g c home/home
@@ -29,8 +32,6 @@ ng g c shared/layout/footer
 ng g c shared/layout/header
 ng g c shared/confirm/confirm 
 
--- models
-ng g m core
 
 -- interfaces
 ng g i core/models/i-question --type=interface
@@ -42,10 +43,9 @@ ng g i core/models/i-exam-question --type=interface
 ng g i core/models/i-deactivate-component --type=interface
 ng g i core/models/i-sync --type=interface
 
--- class
+-- class (model)
 ng g class core/models/question --type=model
 ng g class core/models/exam --type=model
-ng g class core/utils/helper
 
 -- services
 ng g s core/services/prism/prism
@@ -55,6 +55,9 @@ ng g s core/services/firestore/php-question
 ng g s core/services/data-sync/data-sync
 ng g s core/services/question/question
 ng g s core/services/countdown/countdown
+
+-- others
+ng g class core/utils/helper
 
 ```
 
