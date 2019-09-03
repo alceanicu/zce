@@ -1,3 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+@import "assets/css/custom.css";
+@import "assets/sass/paper-kit.scss";
+
+@import "~ngx-toastr/toastr.css";
+@import "~ngx-simple-modal/src/styles/simple-modal.css";
+
 @import "~prismjs/themes/prism-okaidia.css";
 @import "~prismjs/plugins/line-numbers/prism-line-numbers.css";

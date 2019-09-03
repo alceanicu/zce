@@ -1,17 +1,17 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {IQuestionRow} from '../../core/models';
 import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-question,[app-question]',
   templateUrl: './question.component.html',
-  styleUrls: ['./question.component.css']
+  styleUrls: ['./question.component.scss']
 })
-export class QuestionComponent {
+export class QuestionComponent implements OnInit {
   @Input('questionRow') questionRow: IQuestionRow;
   public extensionsAllowed: Array<string>;
 
-  constructor() {
+  ngOnInit(): void {
     this.extensionsAllowed = environment.extensionsAllowed;
   }
 }

@@ -20,10 +20,10 @@ export class HeaderComponent implements OnInit {
     private scoreSyncService: ScoreSyncService,
     private countdownTimeSyncService: CountdownTimeSyncService
   ) {
-    this.sidebarVisible = false;
   }
 
   ngOnInit() {
+    this.sidebarVisible = false;
     this.scoreSyncService.currentValue.subscribe(value => {
       this.scoreObj = value;
     });

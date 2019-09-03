@@ -9,7 +9,7 @@ ng serve
 
 ## ng
 ```
-ng new zce --routing=true 
+ng new zce --routing=true --style=scss
 
 ng g m home --routing=true
 ng g c home/home
