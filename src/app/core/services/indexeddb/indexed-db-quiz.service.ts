@@ -5,7 +5,7 @@ import {IQuestion} from '../../models';
 class QuestionDatabase extends Dexie {
   public questionTable!: Dexie.Table<IQuestion, number>; // id is number in this case
 
-  public constructor() {
+  constructor() {
     super('QuestionDatabase');
     this.version(1).stores({
       questionTable: 'id,category,difficulty,type'

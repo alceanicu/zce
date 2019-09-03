@@ -1,5 +1,5 @@
-import {Component, ElementRef, OnInit} from '@angular/core';
-import {Location} from '@angular/common';
+import {Component, ElementRef, Inject, OnInit} from '@angular/core';
+import {DOCUMENT, Location} from '@angular/common';
 import {CountdownTimeSyncService, ScoreSyncService} from '../../../core/services';
 import {ICountdownTime, IScore} from '../../../core/models';
 
@@ -9,12 +9,14 @@ import {ICountdownTime, IScore} from '../../../core/models';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  private html: any;
   private toggleButton: any;
   private sidebarVisible: boolean;
   public scoreObj: IScore;
   public countdownTimeObj: ICountdownTime;
 
   constructor(
+    @Inject(DOCUMENT) private document: Document,
     private location: Location,
     private element: ElementRef,
     private scoreSyncService: ScoreSyncService,
@@ -30,38 +32,27 @@ export class HeaderComponent implements OnInit {
     this.countdownTimeSyncService.currentValue.subscribe(value => {
       this.countdownTimeObj = value;
     });
-    const navbar: HTMLElement = this.element.nativeElement;
-    this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
+    this.html = this.document.getElementsByTagName('html')[0];
+    this.toggleButton = this.element.nativeElement.getElementsByClassName('navbar-toggler')[0];
   }
 
   sidebarOpen() {
-    const toggleButton = this.toggleButton;
-    const html = document.getElementsByTagName('html')[0];
-
+    const $this = this;
     setTimeout(() => {
-      toggleButton.classList.add('toggled');
+      $this.toggleButton.classList.add('toggled');
     }, 500);
-    html.classList.add('nav-open');
-
+    this.html.classList.add('nav-open');
     this.sidebarVisible = true;
   }
 
   sidebarClose() {
-    const html = document.getElementsByTagName('html')[0];
-
     this.toggleButton.classList.remove('toggled');
     this.sidebarVisible = false;
-    html.classList.remove('nav-open');
+    this.html.classList.remove('nav-open');
   }
 
   sidebarToggle() {
-    // const toggleButton = this.toggleButton;
-    // const body = document.getElementsByTagName('body')[0];
-    if (this.sidebarVisible === false) {
-      this.sidebarOpen();
-    } else {
-      this.sidebarClose();
-    }
+    (this.sidebarVisible === false) ? this.sidebarOpen() : this.sidebarClose();
   }
 
   isPage(page: string): boolean {
