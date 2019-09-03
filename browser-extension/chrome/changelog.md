@@ -1,6 +1,10 @@
 # CHROME extension changelog
 
-### 2.0.0b[2019.09.01]
+### 2.0.0 [2019.09.01]
+
+- npm update
+- scss
+- add bootstrap
 
 ### 1.1.8 [2019.08.20]
 

@@ -2,7 +2,7 @@ import {AfterViewChecked, Component, Inject, OnInit} from '@angular/core';
 import {NgxUiLoaderService} from 'ngx-ui-loader';
 import {Location} from '@angular/common';
 import {Router} from '@angular/router';
-import {CountdownTimeSyncService, PrismService, QuestionService} from '../../core/services';
+import {CountdownTimeSyncService, LocalStorageService, PrismService, QuestionService} from '../../core/services';
 import {Exam, IDeactivateComponent, IExamQuestion} from '../../core/models';
 import {CountdownService} from '../../core/services/countdown/countdown.service';
 import {ToastrService} from 'ngx-toastr';
@@ -33,6 +33,7 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     private questionService: QuestionService,
     private toastrService: ToastrService,
     private location: Location,
+    private localStorageService: LocalStorageService,
     private router: Router
   ) {
   }
@@ -64,6 +65,10 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   ngOnInit() {
     const $this = this;
     this.exam = new Exam();
+    this.localStorageService.getAppConfig().subscribe((config) => {
+      $this.exam.setMax(config.counter);
+    });
+
     const startTime = this.moment(this.exam.startAt);
     const endTime = this.moment(startTime).add(5400, 'seconds');
 
@@ -99,6 +104,8 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     this.countdownService.start(5400);
 
     this.toastrService.success('You have 90 minutes to finish your exam. Good luck!', 'Exam simulation start!');
+
+    console.log(this.exam);
   }
 
   ngAfterViewChecked() {
@@ -161,14 +168,14 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     if (this.exam.questions[index] === undefined) {
       const $this = this;
       this.questionService.getOneQuestionById(id).subscribe((question) => {
-        const q = {
+        const currentQuestion = {
           id: id,
           question: question,
           markForReview: false,
           correct: false
         } as IExamQuestion;
-        $this.exam.questions[index] = q;
-        $this.examQuestion = q;
+        $this.exam.questions[index] = currentQuestion;
+        $this.examQuestion = currentQuestion;
       });
     } else {
       this.examQuestion = this.exam.questions[index];
@@ -233,29 +240,20 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   }
 
   public finishExam() {
-    this.exam.finished = true;
+    this.exam.finish();
     this.subscription.unsubscribe();
-
-    let score = 0;
-    for (const key in this.exam.questions) {
-      if (this.exam.questions.hasOwnProperty(key)) {
-        if (this.exam.questions[key].correct === true) {
-          score++;
-        }
-      }
-    }
 
     const config = {closeButton: true};
     const title = 'Exam result!';
 
-    if (score >= 50) {
+    if (this.exam.score >= 50) {
       const message = 'Congratulations you passed the exam!';
       this.toastrService.success(message, title, config).onHidden.subscribe(() => {
         this.goToHome();
       }, error => {
         console.log(error);
       }, () => {
-        console.log(`You answered correctly to ${score} questions from 70`);
+        console.log(`You answered correctly to ${this.exam.score} questions from 70`);
       });
     } else {
       const message = 'You did not passed the exam!';
@@ -264,7 +262,7 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
       }, error => {
         console.log(error);
       }, () => {
-        console.log(`You answered correctly to ${score} questions from 70`);
+        console.log(`You answered correctly to ${this.exam.score} questions from 70`);
       });
     }
   }

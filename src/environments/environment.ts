@@ -16,6 +16,7 @@ export const environment = {
   },
   extensionsAllowed: ['sql', 'php', 'none', 'html', 'xml', 'json'],
   letters: ['A', 'B', 'C', 'D'],
+  max: 806,
   apiUrl: 'http://localhost/rest-api/'
 };
 

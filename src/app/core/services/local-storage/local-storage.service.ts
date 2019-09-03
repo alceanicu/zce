@@ -8,8 +8,7 @@ import {IConfig} from '../../models';
 })
 export class LocalStorageService implements Storage {
   /**
-   * Returns the number of key/value pairs currently present in the list associated with the
-   * object.
+   * Returns the number of key/value pairs currently present in the list associated with the object.
    */
   readonly length: number;
 

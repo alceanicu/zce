@@ -1,5 +1,6 @@
 import {IExam} from './i-exam.interface';
 import {Helper} from '../utils';
+import {environment} from '../../../environments/environment';
 
 export class Exam implements IExam {
   public startAt: number;
@@ -10,6 +11,7 @@ export class Exam implements IExam {
   public finished?: boolean;
 
   private examQuestionNumber = 70;
+  private max: number;
 
   constructor(values?: Exam) {
     if (values) {
@@ -17,21 +19,38 @@ export class Exam implements IExam {
     }
     this.startAt = new Date().getTime();
     this.questions = {};
-    this.questionsArray = this.initQuestionsArray();
     this.score = 0;
     this.finished = false;
+    this.max = environment.max;
+    this.questionsArray = this.initQuestionsArray();
   }
 
-  public finishExam() {
-    this.endAt = new Date().getTime(); // FIXME
+  public setMax(max: number) {
+    this.max = max;
+  }
+
+  public finish() {
+    this.endAt = new Date().getTime();
     this.finished = true;
+
+    // update score
+    for (const key in this.questions) {
+      if (this.questions.hasOwnProperty(key)) {
+        if (this.questions[key].correct === true) {
+          this.score++;
+        }
+      }
+    }
   }
 
+  /**
+   * Set an array with 70 unique random numbers
+   */
   private initQuestionsArray() {
     if (this.questionsArray.length === this.examQuestionNumber) {
       return this.questionsArray;
     } else {
-      const randomId = Helper.randomNumberFromInterval(806); // FIXME
+      const randomId = Helper.randomNumberFromInterval(this.max);
       if (this.questionsArray.indexOf(randomId) === -1) {
         this.questionsArray.push(randomId);
         if (this.questionsArray.length === this.examQuestionNumber) {

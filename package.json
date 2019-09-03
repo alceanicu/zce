@@ -34,6 +34,7 @@
     "@angular/router": "^8.2.4",
     "@ng-bootstrap/ng-bootstrap": "^5.1.0",
     "angular-svg-round-progressbar": "^3.0.1",
+    "bootstrap": "^4.3.1",
     "core-js": "^2.6.9",
     "dexie": "^2.0.4",
     "firebase": "^6.5.0",
