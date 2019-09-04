@@ -32,7 +32,7 @@
     "@angular/platform-browser": "^8.2.4",
     "@angular/platform-browser-dynamic": "^8.2.4",
     "@angular/router": "^8.2.4",
-    "@ng-bootstrap/ng-bootstrap": "^5.1.0",
+    "@ng-bootstrap/ng-bootstrap": "^5.1.1",
     "angular-svg-round-progressbar": "^3.0.1",
     "bootstrap": "^4.3.1",
     "core-js": "^2.6.9",
@@ -44,7 +44,7 @@
     "ngx-ui-loader": "^8.0.0",
     "pdfmake": "^0.1.58",
     "prismjs": "^1.17.1",
-    "rxjs": "~6.5.2",
+    "rxjs": "^6.5.3",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
   },
