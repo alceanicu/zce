@@ -21,6 +21,7 @@ ng g m home --routing=true
 ng g m about --routing=true
 ng g m random --routing=true
 ng g m exam --routing=true
+ng g m shared
 ng g m core
 
 -- components
