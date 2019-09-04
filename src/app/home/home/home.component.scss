@@ -1,12 +1,10 @@
 .w100 {
   width: 250px;
+  font-size: 14px;
 }
-.lead
-{
-  font-size: 1.25rem;
-  font-weight: 300;
+.lead {
+  font-weight: 200;
   line-height: 1.7;
-
   margin-top: 1.5rem;
 }
 .lead + .btn-wrapper
@@ -50,7 +48,7 @@
 .btn-white:not(:disabled):not(.disabled).active:focus,
 .show > .btn-white.dropdown-toggle:focus
 {
-  box-shadow: none, 0 0 0 0 rgba(255, 255, 255, .5);
+  box-shadow: none;
 }
 
 .btn-github
@@ -90,5 +88,5 @@
 .btn-github:not(:disabled):not(.disabled).active:focus,
 .show > .btn-github.dropdown-toggle:focus
 {
-  box-shadow: none, 0 0 0 0 rgba(34, 34, 34, .5);
+  box-shadow: 0 0 0 0 rgba(34, 34, 34, .5);
 }
