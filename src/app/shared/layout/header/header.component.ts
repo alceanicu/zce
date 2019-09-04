@@ -1,7 +1,7 @@
 import {Component, ElementRef, Inject, OnInit} from '@angular/core';
 import {DOCUMENT, Location} from '@angular/common';
-import {CountdownTimeSyncService, ScoreSyncService} from '../../../core/services';
-import {ICountdownTime, IScore} from '../../../core/models';
+import {ICountdownTime, IScore} from '../../../core/interfaces';
+import {SyncCountdownTimeService, SyncScoreService} from '../../../core/services';
 
 @Component({
   selector: 'app-header',
@@ -19,17 +19,17 @@ export class HeaderComponent implements OnInit {
     @Inject(DOCUMENT) private document: Document,
     private location: Location,
     private element: ElementRef,
-    private scoreSyncService: ScoreSyncService,
-    private countdownTimeSyncService: CountdownTimeSyncService
+    private syncScoreService: SyncScoreService,
+    private syncCountdownTimeService: SyncCountdownTimeService
   ) {
   }
 
   ngOnInit() {
     this.sidebarVisible = false;
-    this.scoreSyncService.currentValue.subscribe(value => {
+    this.syncScoreService.currentValue.subscribe(value => {
       this.scoreObj = value;
     });
-    this.countdownTimeSyncService.currentValue.subscribe(value => {
+    this.syncCountdownTimeService.currentValue.subscribe(value => {
       this.countdownTimeObj = value;
     });
     this.html = this.document.getElementsByTagName('html')[0];

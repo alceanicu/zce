@@ -1,6 +1,6 @@
-import {IExam} from './i-exam.interface';
 import {Helper} from '../utils';
 import {environment} from '../../../environments/environment';
+import {IExam} from '../interfaces';
 
 export class Exam implements IExam {
   public startAt: number;

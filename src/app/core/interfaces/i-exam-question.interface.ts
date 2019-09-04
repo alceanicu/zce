@@ -1,4 +1,4 @@
-import {IQuestion} from './i-question.interface';
+import {IQuestion} from '.';
 
 export interface IExamQuestion {
   id: number;

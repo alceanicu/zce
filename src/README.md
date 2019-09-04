@@ -32,31 +32,40 @@ ng g c shared/layout/footer
 ng g c shared/layout/header
 ng g c shared/confirm/confirm 
 
-
 -- interfaces
-ng g i core/models/i-question --type=interface
-ng g i core/models/i-question-row --type=interface
-ng g i core/models/i-answer-row --type=interface
-ng g i core/models/i-config --type=interface
-ng g i core/models/i-exam --type=interface
-ng g i core/models/i-exam-question --type=interface
-ng g i core/models/i-deactivate-component --type=interface
-ng g i core/models/i-sync --type=interface
+ng g i core/interfaces/i-answer-row --type=interface
+ng g i core/interfaces/i-config --type=interface
+ng g i core/interfaces/i-confirm --type=interface
+ng g i core/interfaces/i-countdown-time --type=interface
+ng g i core/interfaces/i-deactivate-component --type=interface
+ng g i core/interfaces/i-exam --type=interface
+ng g i core/interfaces/i-exam-question --type=interface
+ng g i core/interfaces/i-question --type=interface
+ng g i core/interfaces/i-question-row --type=interface
+ng g i core/interfaces/i-score --type=interface
 
 -- class (model)
-ng g class core/models/question --type=model
+ng g class core/models/countdown-time --type=model
 ng g class core/models/exam --type=model
+ng g class core/models/question --type=model
+ng g class core/models/score --type=model
 
 -- services
-ng g s core/services/prism/prism
-ng g s core/services/session-storage/session-storage
-ng g s core/services/local-storage/local-storage
-ng g s core/services/firestore/php-question
-ng g s core/services/data-sync/data-sync
-ng g s core/services/question/question
 ng g s core/services/countdown/countdown
+ng g s core/services/firestore/php-question
+ng g s core/services/indexeddb/indexed-db-quiz
+ng g s core/services/local-storage/local-storage
+ng g s core/services/prism/prism
+ng g s core/services/question/question
+ng g s core/services/session-storage/session-storage
+ng g s core/services/sync-countdown-time/sync-countdown-time
+ng g s core/services/sync-score/sync-score
+
+-- guards
+ng g guard core/guards/exam/exam
 
 -- others
+ng g class core/utils/abstract/sync-abstract
 ng g class core/utils/helper
 
 ```

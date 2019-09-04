@@ -6,9 +6,10 @@ import {
   PhpQuestionService,
   PrismService,
   QuestionService,
-  ScoreSyncService,
+  SyncScoreService
 } from '../../core/services';
-import {IQuestion, IScore, Question} from '../../core/models';
+import {Question} from '../../core/models';
+import {IScore} from '../../core/interfaces';
 
 @Component({
   selector: 'app-random',
@@ -18,10 +19,10 @@ export class RandomComponent implements OnInit, AfterViewChecked {
   public isCorrect: boolean;
   public btnText: string;
   public question: Question;
-  public score: IScore;
-  private interval: any = null;
-  private isNew = false;
-  private highlighted = false;
+  private score: IScore;
+  private interval: any;
+  private isNew: boolean;
+  private highlighted: boolean;
 
   constructor(
     private ngxUiLoaderService: NgxUiLoaderService,
@@ -30,12 +31,12 @@ export class RandomComponent implements OnInit, AfterViewChecked {
     private firestorePhpQuestionService: PhpQuestionService,
     private prismService: PrismService,
     private questionService: QuestionService,
-    private scoreSyncService: ScoreSyncService
+    private syncScoreService: SyncScoreService
   ) {
   }
 
   ngOnInit() {
-    this.scoreSyncService.currentValue.subscribe(value => {
+    this.syncScoreService.currentValue.subscribe(value => {
       this.score = value;
     });
     this.getAnRandomQuestion();
@@ -48,16 +49,9 @@ export class RandomComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  getAnRandomQuestion() {
-    this.isNew = false;
-    this.highlighted = false;
-    const $this = this;
-    if (this.interval) {
-      clearInterval(this.interval);
-      this.interval = null;
-    }
-    this.ngxUiLoaderService.start();
+  private getAnRandomQuestion() {
     this.reset();
+    const $this = this;
     this.questionService.getQuestion().subscribe((question) => {
       $this.setQuestion(question);
     }, error => {
@@ -65,7 +59,7 @@ export class RandomComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  setQuestion(question: Question) {
+  private setQuestion(question: Question) {
     this.question = question;
     const $this = this;
     setTimeout(() => {
@@ -74,13 +68,20 @@ export class RandomComponent implements OnInit, AfterViewChecked {
     this.isNew = true;
   }
 
-  reset() {
-    this.isCorrect = true;
+  private reset() {
+    if (this.interval) {
+      clearInterval(this.interval);
+      this.interval = null;
+    }
+    this.ngxUiLoaderService.start();
+    this.isNew = false;
+    this.highlighted = false;
+    this.isCorrect = false;
     this.btnText = 'Get next question now ';
-    this.question = new Question(<IQuestion> {});
+    this.question = new Question();
   }
 
-  validateEachAnswerRows() {
+  private validateEachAnswerRows() {
     let ok = true;
     this.question.answerRows.forEach((obj, key) => {
       ok = ok && (obj.correct === obj.userAnswer);
@@ -93,7 +94,7 @@ export class RandomComponent implements OnInit, AfterViewChecked {
     this.question.finalAnswer = true;
     this.validateEachAnswerRows();
 
-    this.scoreSyncService.setValue(this.updateScore(this.isCorrect));
+    this.syncScoreService.setValue(this.updateScore(this.isCorrect));
     const ansType = this.isCorrect ? 'Correct' : 'Wrong';
     this.btnText = `${ansType} [new quiz in ${countDown} seconds]`;
 
@@ -111,8 +112,8 @@ export class RandomComponent implements OnInit, AfterViewChecked {
     }, 1000);
   }
 
-  updateScore(isCorrect: boolean): IScore {
-    const score = this.scoreSyncService.getValue();
+  private updateScore(isCorrect: boolean): IScore {
+    const score = this.syncScoreService.getValue();
     score.total = score.total + 1;
     score.correct = isCorrect ? (score.correct + 1) : score.correct;
     score.percentage = Math.floor((score.correct * 100) / score.total);

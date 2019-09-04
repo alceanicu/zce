@@ -1,15 +1,12 @@
 import {Component} from '@angular/core';
 import {SimpleModalComponent} from 'ngx-simple-modal';
+import {IConfirm} from '../../../core/interfaces';
 
-export interface ConfirmModel {
-  title: string;
-  message: string;
-}
 @Component({
   selector: 'app-confirm',
   templateUrl: './confirm.component.html'
 })
-export class ConfirmComponent extends SimpleModalComponent<ConfirmModel, boolean> implements ConfirmModel {
+export class ConfirmComponent extends SimpleModalComponent<IConfirm, boolean> implements IConfirm {
   title: string;
   message: string;
 

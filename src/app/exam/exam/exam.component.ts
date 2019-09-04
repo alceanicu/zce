@@ -2,14 +2,14 @@ import {AfterViewChecked, Component, Inject, OnInit} from '@angular/core';
 import {NgxUiLoaderService} from 'ngx-ui-loader';
 import {Location} from '@angular/common';
 import {Router} from '@angular/router';
-import {CountdownTimeSyncService, LocalStorageService, PrismService, QuestionService} from '../../core/services';
-import {Exam, IDeactivateComponent, IExamQuestion} from '../../core/models';
-import {CountdownService} from '../../core/services/countdown/countdown.service';
+import {CountdownService, LocalStorageService, PrismService, QuestionService, SyncCountdownTimeService} from '../../core/services';
 import {ToastrService} from 'ngx-toastr';
 import {Moment} from 'moment';
 import {Subscription} from 'rxjs';
 import {SimpleModalService} from 'ngx-simple-modal';
 import {ConfirmComponent} from '../../shared/confirm/confirm/confirm.component';
+import {IDeactivateComponent, IExamQuestion} from '../../core/interfaces';
+import {Exam} from '../../core/models';
 
 @Component({
   selector: 'app-exam',
@@ -27,7 +27,7 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     private simpleModalService: SimpleModalService,
     @Inject('moment') private moment,
     private countdownService: CountdownService,
-    private countdownTimeSyncService: CountdownTimeSyncService,
+    private syncCountdownTimeService: SyncCountdownTimeService,
     private prismService: PrismService,
     private ngxUiLoaderService: NgxUiLoaderService,
     private questionService: QuestionService,
@@ -88,9 +88,9 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
           this.toastrService.success('You have less than 5 minutes to finish the exam', 'Times left!');
         }
 
-        const obj = $this.countdownTimeSyncService.getValue();
+        const obj = $this.syncCountdownTimeService.getValue();
         obj.time = this.getTimeString(endTime);
-        $this.countdownTimeSyncService.setValue(obj);
+        $this.syncCountdownTimeService.setValue(obj);
       },
       error => {
         console.log(error);
@@ -266,5 +266,4 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
       });
     }
   }
-
 }

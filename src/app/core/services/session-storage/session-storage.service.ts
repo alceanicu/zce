@@ -47,5 +47,4 @@ export class SessionStorageService implements Storage {
   setItem(key: string, object: {}): void {
     window.sessionStorage.setItem(key, JSON.stringify(object));
   }
-
 }

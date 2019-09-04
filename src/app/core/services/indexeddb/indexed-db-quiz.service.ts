@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import Dexie from 'dexie';
-import {IQuestion} from '../../models';
+import {IQuestion} from '../../interfaces';
 
 class QuestionDatabase extends Dexie {
   public questionTable!: Dexie.Table<IQuestion, number>; // id is number in this case

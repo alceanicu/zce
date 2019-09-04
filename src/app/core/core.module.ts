@@ -1,12 +1,12 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {
-  CountdownTimeSyncService,
   LocalStorageService,
   PhpQuestionService,
   PrismService,
-  ScoreSyncService,
-  SessionStorageService
+  SessionStorageService,
+  SyncCountdownTimeService,
+  SyncScoreService
 } from './services';
 
 @NgModule({
@@ -15,12 +15,12 @@ import {
     CommonModule
   ],
   providers: [
-    CountdownTimeSyncService,
     LocalStorageService,
     PhpQuestionService,
     PrismService,
-    ScoreSyncService,
-    SessionStorageService,
+    SyncCountdownTimeService,
+    SyncScoreService,
+    SessionStorageService
   ]
 })
 export class CoreModule {

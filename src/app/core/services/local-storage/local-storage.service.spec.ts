@@ -6,7 +6,7 @@ import {environment} from '../../../../environments/environment';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import * as moment from 'moment';
 import {ROUND_PROGRESS_DEFAULTS} from 'angular-svg-round-progressbar';
-import {IConfig} from '../../models';
+import {IConfig} from '../../interfaces';
 
 describe('LocalStorageService', () => {
   const now: Date = new Date('2019-12-01T03:24:00');
