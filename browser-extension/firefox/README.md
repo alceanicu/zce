@@ -1,7 +1,7 @@
 ### FIREFOX extension
 
 ```
-ng build --prod --base-href="./"
+ng build --prod --base-href="./" --aot
 COPY manifest.js &&  background.js TO dist/zce
 make zce.zip arhive to all dist/zce content
 ```
