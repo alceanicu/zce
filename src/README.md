@@ -25,6 +25,7 @@ ng g m shared
 ng g m core
 
 -- components
+ng g c page-not-found
 ng g c home/home
 ng g c about/about
 ng g c random/random
