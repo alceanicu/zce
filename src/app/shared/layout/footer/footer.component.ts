@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {Location} from '@angular/common';
+import { Component } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-footer',

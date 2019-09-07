@@ -1,12 +1,12 @@
-import {Component, ElementRef, Inject, OnInit} from '@angular/core';
-import {DOCUMENT, Location} from '@angular/common';
-import {ICountdownTime, IScore} from '../../../core/interfaces';
-import {SyncCountdownTimeService, SyncScoreService} from '../../../core/services';
+import { Component, ElementRef, Inject, OnInit } from '@angular/core';
+import { DOCUMENT, Location } from '@angular/common';
+import { ICountdownTime, IScore } from '../../../core/interfaces';
+import { SyncCountdownTimeService, SyncScoreService } from '../../../core/services';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
   private html: any;

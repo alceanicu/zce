@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {environment} from '../../../environments/environment';
-import {IAnswerRow} from '../../core/interfaces';
+import { Component, Input, OnInit } from '@angular/core';
+import { environment } from '../../../environments/environment';
+import { IAnswerRow } from '../../core';
 
 @Component({
   selector: 'app-answer,[app-answer]',

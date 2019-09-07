@@ -1,15 +1,14 @@
-import {AfterViewChecked, Component, Inject, OnInit} from '@angular/core';
-import {NgxUiLoaderService} from 'ngx-ui-loader';
-import {Location} from '@angular/common';
-import {Router} from '@angular/router';
-import {CountdownService, LocalStorageService, PrismService, QuestionService, SyncCountdownTimeService} from '../../core/services';
-import {ToastrService} from 'ngx-toastr';
-import {Moment} from 'moment';
-import {Subscription} from 'rxjs';
-import {SimpleModalService} from 'ngx-simple-modal';
-import {ConfirmComponent} from '../../shared/confirm/confirm/confirm.component';
-import {IDeactivateComponent, IExamQuestion} from '../../core/interfaces';
-import {Exam} from '../../core/models';
+import { AfterViewChecked, Component, Inject, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { CountdownService, LocalStorageService, PrismService, QuestionService, SyncCountdownTimeService } from '../../core/services';
+import { ToastrService } from 'ngx-toastr';
+import { Moment } from 'moment';
+import { Subscription } from 'rxjs';
+import { SimpleModalService } from 'ngx-simple-modal';
+import { ConfirmComponent } from '../../shared';
+import { Exam, IDeactivateComponent, IExamQuestion } from '../../core';
 
 @Component({
   selector: 'app-exam',
@@ -133,17 +132,17 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
 
     // current question
     if (this.index === index) {
-      return {'btn-danger': true};
+      return { 'btn-danger': true };
     }
 
     // question mark for review
     if ((this.index !== index) && (this.markForReviewArray.indexOf(index) !== -1)) {
-      return {'btn-warning': true};
+      return { 'btn-warning': true };
     }
 
     // question was seen
     if ((this.index !== index) && seen) {
-      return {'btn-success': true};
+      return { 'btn-success': true };
     }
   }
 
@@ -182,7 +181,6 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     }
     this.delay(1);
   }
-
 
   private updateExamScore() {
     if (this.examQuestion !== undefined) {
@@ -243,7 +241,7 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     this.exam.finish();
     this.subscription.unsubscribe();
 
-    const config = {closeButton: true};
+    const config = { closeButton: true };
     const title = 'Exam result!';
 
     if (this.exam.score >= 50) {

@@ -1,13 +1,13 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
-import {RouterModule} from '@angular/router';
-import {QuestionComponent} from './question/question.component';
-import {AnswerComponent} from './answer/answer.component';
-import {ConfirmComponent} from './confirm/confirm/confirm.component';
-import {NgxUiLoaderModule} from 'ngx-ui-loader';
-import {SimpleModalModule} from 'ngx-simple-modal';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import { QuestionComponent } from './question/question.component';
+import { AnswerComponent } from './answer/answer.component';
+import { ConfirmComponent } from './confirm/confirm.component';
+import { NgxUiLoaderModule } from 'ngx-ui-loader';
+import { SimpleModalModule } from 'ngx-simple-modal';
 
 @NgModule({
   declarations: [
@@ -19,7 +19,6 @@ import {SimpleModalModule} from 'ngx-simple-modal';
     CommonModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule,
     RouterModule,
     NgxUiLoaderModule.forRoot({
       bgsColor: '#00ACC1',
@@ -47,7 +46,7 @@ import {SimpleModalModule} from 'ngx-simple-modal';
       textColor: '#FFFFFF',
       textPosition: 'center-center'
     }),
-    SimpleModalModule.forRoot({container: document.body}),
+    SimpleModalModule.forRoot({ container: document.body }),
   ],
   entryComponents: [
     ConfirmComponent
@@ -55,7 +54,6 @@ import {SimpleModalModule} from 'ngx-simple-modal';
   exports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,
     HttpClientModule,
     RouterModule,
     NgxUiLoaderModule,

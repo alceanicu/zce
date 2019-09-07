@@ -1,5 +1,10 @@
 # CHROME extension changelog
 
+### 2.0.1 [2019.09.08]
+
+- npm update
+- add finish button 
+
 ### 2.0.0 [2019.09.04]
 
 - npm update
