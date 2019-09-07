@@ -32,7 +32,7 @@ ng g c random/random
 ng g c exam/exam
 ng g c shared/layout/footer
 ng g c shared/layout/header
-ng g c shared/confirm/confirm 
+ng g c shared/confirm 
 
 -- interfaces
 ng g i core/interfaces/i-answer-row --type=interface
@@ -93,8 +93,8 @@ npm i --save @ng-bootstrap/ng-bootstrap
 ### ngh
 
 ```
-ng build --prod --base-href="./"
-ngh --dir dist/zce --message="V 2.0.0"
+ng build --prod --base-href="./" --aot
+ngh --dir dist/zce --message="V 2.0.1"
 ```
 
 ### others

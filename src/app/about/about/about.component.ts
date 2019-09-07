@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-about',
@@ -6,5 +6,5 @@ import {Component} from '@angular/core';
   styleUrls: ['./about.component.scss']
 })
 export class AboutComponent {
-  public version = 'V 2.0.0';
+  public version = 'V 2.0.1';
 }
