@@ -1,9 +1,11 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {SessionStorageService} from '../session-storage/session-storage.service';
-import {ICountdownTime} from '../../interfaces';
-import {CountdownTime} from '../../models';
-import {SyncAbstract} from '../../utils/abstract/sync-abstract';
+import { Injectable } from '@angular/core';
+
+import { Observable } from 'rxjs';
+import { SessionStorageService } from '../session-storage/session-storage.service';
+import { ICountdownTime } from '../../interfaces';
+import { CountdownTime } from '../../models';
+import { SyncAbstract } from '../../utils/abstract/sync-abstract';
+
 
 @Injectable({
   providedIn: 'root'

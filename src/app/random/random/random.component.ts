@@ -1,5 +1,6 @@
-import {AfterViewChecked, Component, OnInit} from '@angular/core';
-import {NgxUiLoaderService} from 'ngx-ui-loader';
+import { AfterViewChecked, Component, OnInit } from '@angular/core';
+
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import {
   IndexedDbQuizService,
   LocalStorageService,
@@ -8,14 +9,15 @@ import {
   QuestionService,
   SyncScoreService
 } from '../../core/services';
-import {Question} from '../../core/models';
-import {IScore} from '../../core/interfaces';
+import { Question } from '../../core/models';
+import { IScore } from '../../core/interfaces';
 
 @Component({
   selector: 'app-random',
   templateUrl: './random.component.html'
 })
 export class RandomComponent implements OnInit, AfterViewChecked {
+
   public isCorrect: boolean;
   public btnText: string;
   public question: Question;

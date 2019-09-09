@@ -1,5 +1,6 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
 import {
   LocalStorageService,
   PhpQuestionService,
@@ -8,6 +9,7 @@ import {
   SyncCountdownTimeService,
   SyncScoreService
 } from './services';
+
 
 @NgModule({
   declarations: [],

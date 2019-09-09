@@ -1,5 +1,5 @@
 export const environment = {
-  production: false,
+  production: true,
   phpPath: 'phpQuestions',
   configPath: 'appConfig',
   firebase: {

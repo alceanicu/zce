@@ -1,5 +1,5 @@
-import {BehaviorSubject, Observable} from 'rxjs';
-import {SessionStorageService} from '../../services/session-storage/session-storage.service';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { SessionStorageService } from '../../services/session-storage/session-storage.service';
 
 export abstract class SyncAbstract {
   private messageSource: BehaviorSubject<any>;

@@ -1,7 +1,9 @@
 import { Component, ElementRef, Inject, OnInit } from '@angular/core';
 import { DOCUMENT, Location } from '@angular/common';
+
 import { ICountdownTime, IScore } from '../../../core/interfaces';
 import { SyncCountdownTimeService, SyncScoreService } from '../../../core/services';
+
 
 @Component({
   selector: 'app-header',

@@ -1,4 +1,5 @@
-import {IAnswerRow, IQuestion, IQuestionRow} from '../interfaces';
+import { IAnswerRow, IQuestion, IQuestionRow } from '../interfaces';
+
 
 export class Question implements IQuestion {
   id?: number;

@@ -1,4 +1,5 @@
-import {IExamQuestion} from '.';
+import { IExamQuestion } from '.';
+
 
 export interface IExam {
   startAt: number;

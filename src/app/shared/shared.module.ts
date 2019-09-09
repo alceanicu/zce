@@ -3,17 +3,20 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-import { QuestionComponent } from './question/question.component';
+
 import { AnswerComponent } from './answer/answer.component';
 import { ConfirmComponent } from './confirm/confirm.component';
+import { QuestionComponent } from './question/question.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { SimpleModalModule } from 'ngx-simple-modal';
 
 @NgModule({
   declarations: [
-    QuestionComponent,
     AnswerComponent,
-    ConfirmComponent
+    ConfirmComponent,
+    QuestionComponent,
+    PageNotFoundComponent
   ],
   imports: [
     CommonModule,
@@ -46,7 +49,7 @@ import { SimpleModalModule } from 'ngx-simple-modal';
       textColor: '#FFFFFF',
       textPosition: 'center-center'
     }),
-    SimpleModalModule.forRoot({ container: document.body }),
+    SimpleModalModule.forRoot({container: document.body}),
   ],
   entryComponents: [
     ConfirmComponent
@@ -56,8 +59,9 @@ import { SimpleModalModule } from 'ngx-simple-modal';
     FormsModule,
     HttpClientModule,
     RouterModule,
-    NgxUiLoaderModule,
     AnswerComponent,
+    PageNotFoundComponent,
+    NgxUiLoaderModule,
     ConfirmComponent,
     QuestionComponent
   ]

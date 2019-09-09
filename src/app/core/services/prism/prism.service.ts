@@ -1,5 +1,6 @@
-import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
-import {isPlatformBrowser} from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+
 // required
 import 'prismjs';
 import 'prismjs/components/prism-markup';
@@ -14,6 +15,7 @@ import 'prismjs/components/prism-sql';
 import 'prismjs/components/prism-json';
 // plugins
 import 'prismjs/plugins/line-numbers/prism-line-numbers';
+
 
 declare var Prism: any;
 

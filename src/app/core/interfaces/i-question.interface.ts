@@ -1,4 +1,5 @@
-import {IAnswerRow, IQuestionRow} from '.';
+import { IAnswerRow, IQuestionRow } from '.';
+
 
 export interface IQuestion {
   id?: number;

@@ -1,7 +1,9 @@
-import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot} from '@angular/router';
-import {Observable} from 'rxjs';
-import {IDeactivateComponent} from '../../interfaces';
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot } from '@angular/router';
+
+import { Observable } from 'rxjs';
+import { IDeactivateComponent } from '../../interfaces';
+
 
 @Injectable({
   providedIn: 'root'

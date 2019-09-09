@@ -1,7 +1,8 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {PhpQuestionService} from '../firestore/php-question.service';
-import {IConfig} from '../../interfaces';
+import { Injectable } from '@angular/core';
+
+import { Observable } from 'rxjs';
+import { PhpQuestionService } from '../firestore/php-question.service';
+import { IConfig } from '../../interfaces';
 
 @Injectable({
   providedIn: 'root'

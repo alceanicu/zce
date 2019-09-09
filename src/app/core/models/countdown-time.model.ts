@@ -1,4 +1,5 @@
-import {ICountdownTime} from '../interfaces';
+import { ICountdownTime } from '../interfaces';
+
 
 export class CountdownTime implements ICountdownTime {
   time: string = '';

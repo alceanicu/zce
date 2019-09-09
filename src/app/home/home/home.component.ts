@@ -1,9 +1,11 @@
-import {Component, Inject} from '@angular/core';
-import {IndexedDbQuizService, LocalStorageService, PhpQuestionService, QuestionService, SessionStorageService} from '../../core/services';
+import { Component, Inject } from '@angular/core';
+
+import { IndexedDbQuizService, LocalStorageService, PhpQuestionService, QuestionService, SessionStorageService } from '../../core/services';
+import { environment } from '../../../environments/environment';
+import { IQuestion } from '../../core/interfaces';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
-import {environment} from '../../../environments/environment';
-import {IQuestion} from '../../core/interfaces';
+
 
 @Component({
   selector: 'app-home',

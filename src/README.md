@@ -25,14 +25,16 @@ ng g m shared
 ng g m core
 
 -- components
-ng g c page-not-found
 ng g c home/home
 ng g c about/about
 ng g c random/random
 ng g c exam/exam
 ng g c shared/layout/footer
 ng g c shared/layout/header
-ng g c shared/confirm 
+ng g c shared/answer
+ng g c shared/question
+ng g c shared/confirm
+ng g c shared/page-not-found
 
 -- interfaces
 ng g i core/interfaces/i-answer-row --type=interface
@@ -87,14 +89,13 @@ npm i --save ngx-simple-modal
 npm i --save ngx-toastr
 npm i --save ngx-ui-loader
 npm i --save bootstrap
-npm i --save @ng-bootstrap/ng-bootstrap
 ```
 
 ### ngh
 
 ```
 ng build --prod --base-href="./" --aot
-ngh --dir dist/zce --message="V 2.0.1"
+ngh --dir dist/zce --message="V 2.0.2"
 ```
 
 ### others

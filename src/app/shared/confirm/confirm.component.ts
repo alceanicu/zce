@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+
 import {SimpleModalComponent} from 'ngx-simple-modal';
 import {IConfirm} from '../../core/interfaces';
 

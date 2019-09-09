@@ -1,4 +1,5 @@
-import {IQuestion} from '.';
+import { IQuestion } from '.';
+
 
 export interface IExamQuestion {
   id: number;

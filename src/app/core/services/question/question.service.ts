@@ -1,12 +1,14 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {Helper} from '../../utils';
-import {PhpQuestionService} from '../firestore/php-question.service';
-import {LocalStorageService} from '../local-storage/local-storage.service';
-import {IndexedDbQuizService} from '../indexeddb/indexed-db-quiz.service';
-import {SessionStorageService} from '../session-storage/session-storage.service';
-import {IConfig, IQuestion} from '../../interfaces';
-import {Question} from '../../models';
+import { Injectable } from '@angular/core';
+
+import { Observable } from 'rxjs';
+import { Helper } from '../../utils';
+import { PhpQuestionService } from '../firestore/php-question.service';
+import { LocalStorageService } from '../local-storage/local-storage.service';
+import { IndexedDbQuizService } from '../indexeddb/indexed-db-quiz.service';
+import { SessionStorageService } from '../session-storage/session-storage.service';
+import { IConfig, IQuestion } from '../../interfaces';
+import { Question } from '../../models';
+
 
 @Injectable({
   providedIn: 'root'

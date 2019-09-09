@@ -1,5 +1,11 @@
 # CHROME extension changelog
 
+### 2.0.2 [2019.09.09]
+
+- remove ng-bootstrap
+- add NotFoundPage component
+- lint && enabled prod mode
+
 ### 2.0.1 [2019.09.08]
 
 - npm update

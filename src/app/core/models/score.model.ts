@@ -1,4 +1,5 @@
-import {IScore} from '../interfaces';
+import { IScore } from '../interfaces';
+
 
 export class Score implements IScore {
   total: number = 0;

@@ -1,9 +1,11 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionStorageService implements Storage {
+
   readonly length: number;
 
   constructor() {
@@ -47,4 +49,5 @@ export class SessionStorageService implements Storage {
   setItem(key: string, object: {}): void {
     window.sessionStorage.setItem(key, JSON.stringify(object));
   }
+
 }
