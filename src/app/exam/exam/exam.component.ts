@@ -105,8 +105,6 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     this.countdownService.start(5400);
 
     this.toastrService.success('You have 90 minutes to finish your exam. Good luck!', 'Exam simulation start!');
-
-    console.log(this.exam);
   }
 
   ngAfterViewChecked() {
