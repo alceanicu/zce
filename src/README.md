@@ -91,13 +91,6 @@ npm i --save ngx-ui-loader
 npm i --save bootstrap
 ```
 
-### ngh
-
-```
-ng build --prod --base-href="./" --aot
-ngh --dir dist/zce --message="V 2.0.2"
-```
-
 ### others
 
 > [PrismJs](https://auralinna.blog/post/2017/code-syntax-highlighting-with-angular-and-prismjs)
