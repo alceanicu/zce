@@ -12,6 +12,7 @@ const routes: Routes = [
   {path: 'about', loadChildren: () => import('./about/about.module').then(m => m.AboutModule)},
   {path: 'random', loadChildren: () => import('./random/random.module').then(m => m.RandomModule)},
   {path: 'exam', loadChildren: () => import('./exam/exam.module').then(m => m.ExamModule)},
+  {path: 'backend', loadChildren: () => import('./backend/backend.module').then(m => m.BackendModule)},
   {path: '**', redirectTo: '/page-not-found'},
 ];
 
