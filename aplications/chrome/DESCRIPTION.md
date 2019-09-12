@@ -8,7 +8,7 @@ I believe that one of the most effective ways to increase the chances of passing
 
 From version 1.0.2 you can export tests in PDF format, tests can have 5 or 10 random questions.
 
-If you find this application useful, you can star as on GitHub, also there you can find application source code.
+If you find this application useful, you can star as on GitHub(https://github.com/alceanicu/zce), also there you can find application source code.
 
 ## You can try this application as: 
 
