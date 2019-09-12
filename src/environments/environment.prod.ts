@@ -10,7 +10,7 @@ export const environment = {
     storageBucket: 'php-alma-test.appspot.com',
     messagingSenderId: '486664010402'
   },
-  extensionsAllowed: ['sql', 'php', 'none', 'html', 'xml', 'json'],
+  extensionsAllowed: ['php', 'none', 'sql', 'html', 'xml', 'json'],
   letters: ['A', 'B', 'C', 'D'],
   max: 806
 };
