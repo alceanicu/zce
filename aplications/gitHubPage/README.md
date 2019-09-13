@@ -20,5 +20,5 @@
 
 ```
 ng build --prod --base-href="./" --aot
-ngh --dir dist/zce --message="V 2.0.2"
+ngh --dir dist/zce --message="V 2.0.3"
 ```
