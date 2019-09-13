@@ -8,6 +8,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../../environments/environment';
 
+
 @Component({
   selector: 'app-php-list',
   templateUrl: './php-list.component.html',
@@ -55,7 +56,6 @@ export class PhpListComponent implements OnInit {
     );
 
     this.questionList.subscribe(data => {
-        console.log(data);
         if (data.length <= 0) {
           this.goToPage(1);
         }
@@ -69,11 +69,10 @@ export class PhpListComponent implements OnInit {
   }
 
   deleteQuestion(id: number) {
-    if (window.confirm('Are sure you want to delete this question?')) {
+    if (window.confirm(`Are sure you want to delete question with ID=${id}?`)) {
       this.firestorePhpQuestionService.deleteQuestion(id).subscribe(i => {
         this.toastrService.success(`Successfully deleted question with id=${id}`);
       }, err => console.error(err));
     }
   }
-
 }

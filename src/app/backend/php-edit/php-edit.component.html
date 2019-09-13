@@ -1,142 +1,139 @@
 <div class="row" style="margin-top: 50px">
-  <div class="col-lg-12 col-md-12">
 
-    <!--                <div class="row">-->
-    <!--                  <div class="input-group mb-3">-->
-    <!--                    <input type="text" class="form-control"-->
-    <!--                           [(ngModel)]="idDb">-->
-    <!--                    <div class="input-group-append">-->
-    <!--                      <a class="btn btn-danger" type="button" (click)="getQwizFromDB()"> GET IT</a>-->
-    <!--                    </div>-->
-    <!--                  </div>-->
-    <!--                </div>-->
+<!--  <div class="row">-->
+<!--    <div class="input-group mb-3">-->
+<!--      <input type="text" class="form-control"-->
+<!--             [(ngModel)]="idDb">-->
+<!--      <div class="input-group-append">-->
+<!--        <a class="btn btn-danger" type="button" (click)="getQuizFromDB()"> GET IT</a>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
 
-    <form [formGroup]="form" (submit)="onSubmit()">
+  <form [formGroup]="form" (submit)="onSubmit()">
 
-      <!--                  <div class="row">-->
-      <!--                    <div class="form-group col-3">-->
-      <!--                      <input type="text" class="form-control form-control-sm" formControlName="id_db">-->
-      <!--                    </div>-->
-      <!--                    <div class="form-group col-3">-->
-      <!--                      <a class="btn btn-sm btn-success m-1" (click)="getQwizFromDB()">-->
-      <!--                        <i class="fa fa-floppy-o" aria-hidden="true"></i> Save-->
-      <!--                      </a>-->
-      <!--                    </div>-->
-      <!--                  </div>-->
+<!--    <div class="row">-->
+<!--      <div class="form-group col-3">-->
+<!--        <input type="text" class="form-control form-control-sm" formControlName="id_db">-->
+<!--      </div>-->
+<!--      <div class="form-group col-3">-->
+<!--        <a class="btn btn-sm btn-success m-1" (click)="getQuizFromDB()">-->
+<!--          <i class="fa fa-floppy-o" aria-hidden="true"></i> Save-->
+<!--        </a>-->
+<!--      </div>-->
+<!--    </div>-->
 
-      <div class="row">
-        <div class="form-group col-3">
-          <label for="id">#ID</label>
-          <input type="text" id="id" class="form-control form-control-sm" readonly formControlName="id">
-          <span class="text-danger"
-                *ngIf="form.controls['id'].touched && form.controls['id'].hasError('required')">ID is required!</span>
-        </div>
-        <div class="form-group col-3">
-          <label for="category">#Category</label>
-          <select class="form-control form-control-sm" id="category" formControlName="category">
-            <option *ngFor="let op of categoryOptions" [ngValue]="op.value">{{op.text}}</option>
-          </select>
-          <span class="text-danger"
-                *ngIf="form.controls['category'].touched && form.controls['category'].hasError('required')">Category is required!</span>
-        </div>
-        <div class="form-group col-3">
-          <label for="difficulty">#Difficulty</label>
-          <select class="form-control form-control-sm" id="difficulty" formControlName="difficulty">
-            <option *ngFor="let op of difficultyOptions" [ngValue]="op.value">{{op.text}}</option>
-          </select>
-          <span class="text-danger"
-                *ngIf="form.controls['difficulty'].touched && form.controls['difficulty'].hasError('required')">Difficulty level is required!</span>
-        </div>
-        <div class="form-group col-3">
-          <label for="type">#Type</label>
-          <select class="form-control form-control-sm" id="type" formControlName="type">
-            <option *ngFor="let op of typeOptions" [ngValue]="op.value">{{op.text}}</option>
-          </select>
-          <span class="text-danger"
-                *ngIf="form.controls['type'].touched && form.controls['type'].hasError('required')">Type is required!</span>
+    <div class="row">
+      <div class="form-group col-3">
+        <label for="id">#ID</label>
+        <input type="text" id="id" class="form-control form-control-sm" readonly formControlName="id">
+        <span class="text-danger"
+              *ngIf="form.controls['id'].touched && form.controls['id'].hasError('required')">ID is required!</span>
+      </div>
+      <div class="form-group col-3">
+        <label for="category">#Category</label>
+        <select class="form-control form-control-sm" id="category" formControlName="category">
+          <option *ngFor="let op of categoryOptions" [ngValue]="op.value">{{op.text}}</option>
+        </select>
+        <span class="text-danger"
+              *ngIf="form.controls['category'].touched && form.controls['category'].hasError('required')">Category is required!</span>
+      </div>
+      <div class="form-group col-3">
+        <label for="difficulty">#Difficulty</label>
+        <select class="form-control form-control-sm" id="difficulty" formControlName="difficulty">
+          <option *ngFor="let op of difficultyOptions" [ngValue]="op.value">{{op.text}}</option>
+        </select>
+        <span class="text-danger"
+              *ngIf="form.controls['difficulty'].touched && form.controls['difficulty'].hasError('required')">Difficulty level is required!</span>
+      </div>
+      <div class="form-group col-3">
+        <label for="type">#Type</label>
+        <select class="form-control form-control-sm" id="type" formControlName="type">
+          <option *ngFor="let op of typeOptions" [ngValue]="op.value">{{op.text}}</option>
+        </select>
+        <span class="text-danger"
+              *ngIf="form.controls['type'].touched && form.controls['type'].hasError('required')">Type is required!</span>
+      </div>
+    </div>
+
+    <div class="card-header">
+      <button class="btn btn-sm btn-primary m-1" type="button"
+              (click)="addQuestionRow()"><i class="fa fa-plus" aria-hidden="true"></i> Add Quiz Row
+      </button>
+    </div>
+
+    <div class="col-12" *ngFor="let questionRow of questionRowsFormGroup.controls; let i = index;">
+      <div class="card-body" formArrayName="questionRows">
+        <div [formGroupName]="i" class="form-row">
+          <div class="col-md-10">
+            <textarea class="form-control" formControlName="text" type="text" rows="6"></textarea>
+            <span class="text-danger"
+                  *ngIf="getQuestionRowFormGroup(i).controls['text'].touched && getQuestionRowFormGroup(i).controls['text'].hasError('required')">text is required! </span>
+          </div>
+
+          <div class="col-md-2">
+            <select class="form-control form-control-sm" formControlName="language">
+              <option *ngFor="let op of languageOptions" [ngValue]="op.value">{{op.text}}</option>
+            </select>
+            <br>
+            <button type="button" class="btn btn-sm btn-danger" title="Remove row"
+                    [hidden]="questionRowsFormGroup.length==1"
+                    (click)="removeQuizRow(i)"><i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+          </div>
         </div>
       </div>
+    </div>
 
-      <div class="card-header">
-        <button class="btn btn-sm btn-primary m-1" type="button"
-                (click)="addQuestionRow()"><i class="fa fa-plus" aria-hidden="true"></i> Add Quiz Row
+    <div class="row">
+      <div class="col-6" *ngFor="let answer of answerRowsFormGroup.controls; let i = index;">
+        <div class="card">
+          <div class="card-header">Answers {{i + 1}}</div>
+          <div class="card-body" formArrayName="answerRows">
+
+            <div [formGroupName]="i" class="row">
+              <div class="form-group col-6">
+                <label>Correct</label>
+                <select class="form-control form-control-sm" formControlName="correct">
+                  <option *ngFor="let op of correctOptions" [ngValue]="op.value">{{op.text}}</option>
+                </select>
+              </div>
+              <div class="form-group col-6">
+                <label>Language</label>
+                <select class="form-control form-control-sm" formControlName="language">
+                  <option *ngFor="let op of languageOptions" [ngValue]="op.value">{{op.text}}</option>
+                </select>
+              </div>
+              <div class="form-group col-12">
+                <label>Answer</label>
+                <textarea class="form-control form-control-sm" formControlName="text"
+                          type="text"></textarea>
+                <br>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <br>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-footer">
+        <button class="btn btn-sm btn-success m-1" [disabled]="!form.valid" type="submit">
+          <i class="fa fa-floppy-o" aria-hidden="true"></i> Save
         </button>
       </div>
+    </div>
 
-      <div class="col-12" *ngFor="let questionRow of questionRowsFormGroup.controls; let i = index;">
-        <div class="card-body" formArrayName="questionRows">
-          <div [formGroupName]="i" class="form-row">
-            <div class="col-md-10">
-              <textarea class="form-control" formControlName="text" type="text" rows="6"></textarea>
-              <span class="text-danger"
-                    *ngIf="getQuestionRowFormGroup(i).controls['text'].touched && getQuestionRowFormGroup(i).controls['text'].hasError('required')">text is required! </span>
-            </div>
+<!--    <div class="card">-->
+<!--      <div class="card-header">-->
+<!--        <pre>Is Form valid?: <strong>{{form.valid | json}}</strong></pre>-->
+<!--      </div>-->
+<!--      <div class="card-body ">-->
+<!--        <pre>form value: <br>{{form.value | json}}</pre>-->
+<!--      </div>-->
+<!--    </div>-->
 
-            <div class="col-md-2">
-              <select class="form-control form-control-sm" formControlName="language">
-                <option *ngFor="let op of languageOptions" [ngValue]="op.value">{{op.text}}</option>
-              </select>
-              <br>
-              <button type="button" class="btn btn-sm btn-danger" title="Remove row"
-                      [hidden]="questionRowsFormGroup.length==1"
-                      (click)="removeQuizRow(i)"><i class="fa fa-trash" aria-hidden="true"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-6" *ngFor="let answer of answerRowsFormGroup.controls; let i = index;">
-          <div class="card">
-            <div class="card-header">Answers {{i + 1}}</div>
-            <div class="card-body" formArrayName="answerRows">
-
-              <div [formGroupName]="i" class="row">
-                <div class="form-group col-6">
-                  <label>Correct</label>
-                  <select class="form-control form-control-sm" formControlName="correct">
-                    <option *ngFor="let op of correctOptions" [ngValue]="op.value">{{op.text}}</option>
-                  </select>
-                </div>
-                <div class="form-group col-6">
-                  <label>Language</label>
-                  <select class="form-control form-control-sm" formControlName="language">
-                    <option *ngFor="let op of languageOptions" [ngValue]="op.value">{{op.text}}</option>
-                  </select>
-                </div>
-                <div class="form-group col-12">
-                  <label>Answer</label>
-                  <textarea class="form-control form-control-sm" formControlName="text"
-                            type="text"></textarea>
-                  <br>
-                </div>
-              </div>
-
-            </div>
-          </div>
-          <br>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-footer">
-          <button class="btn btn-sm btn-success m-1" [disabled]="!form.valid" type="submit">
-            <i class="fa fa-floppy-o" aria-hidden="true"></i> Save
-          </button>
-        </div>
-      </div>
-
-      <!--<div class="card">-->
-      <!--<div class="card-header">-->
-      <!--<pre>Is Form valid?: <strong>{{form.valid | json}}</strong></pre>-->
-      <!--</div>-->
-      <!--<div class="card-body ">-->
-      <!--<pre>form value: <br>{{form.value | json}}</pre>-->
-      <!--</div>-->
-      <!--</div>-->
-
-    </form>
-
-  </div>
+  </form>
 </div>

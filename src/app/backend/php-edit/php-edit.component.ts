@@ -3,8 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { PhpQuestionService } from '../../core/services';
-import { IQuestion } from '../../core/interfaces';
+import { IOption, IQuestion } from '../../core/interfaces';
 import { environment } from '../../../environments/environment';
+import { Helper } from '../../core/utils';
+
 
 @Component({
   selector: 'app-php-edit',
@@ -12,7 +14,7 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./php-edit.component.scss']
 })
 export class PhpEditComponent implements OnInit {
-  public idDb: number;
+  // public idDb: number;
   public form: FormGroup;
   public questionRowsArray: FormArray;
   public type: string;
@@ -146,7 +148,27 @@ export class PhpEditComponent implements OnInit {
     }
   }
 
-  // getQwizFromDB() {
+  get categoryOptions(): IOption[] {
+    return Helper.arrayConfigToIOptionArray(environment.configPHP.categoryOptions);
+  }
+
+  get difficultyOptions(): IOption[] {
+    return Helper.arrayConfigToIOptionArray(environment.configPHP.difficultyOptions);
+  }
+
+  get typeOptions(): IOption[] {
+    return Helper.arrayConfigToIOptionArray(environment.configPHP.typeOptions);
+  }
+
+  get languageOptions(): IOption[] {
+    return Helper.arrayConfigToIOptionArray(environment.configPHP.extensionsAllowed);
+  }
+
+  get correctOptions(): Array<any> {
+    return environment.configPHP.correctOptions;
+  }
+
+  // getQuizFromDB() {
   //   const n = this.form.value.id_db;
   //   if (!isNaN(parseFloat(n)) && isFinite(n)) {
   //     console.log(`${n} ok`);
@@ -155,7 +177,7 @@ export class PhpEditComponent implements OnInit {
   //   }
   // }
 
-  // getQwizFromDB() {
+  // getQuizFromDB() {
   //   const $this = this;
   //   const id = this.idDb;
   //   if (isFinite(id)) { // && !isNaN(parseFloat(id))
@@ -178,26 +200,5 @@ export class PhpEditComponent implements OnInit {
   //     console.log(`${id} nu e numar`);
   //   }
   // }
-
-  get categoryOptions() {
-    return environment.configPHP.categoryOptions;
-  }
-
-  get difficultyOptions() {
-    return environment.configPHP.difficultyOptions;
-  }
-
-  get typeOptions() {
-    return environment.configPHP.typeOptions;
-  }
-
-  get languageOptions() {
-    return environment.configPHP.languageOptions;
-  }
-
-  get correctOptions() {
-    return environment.configPHP.correctOptions;
-  }
-
 }
 
