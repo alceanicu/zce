@@ -47,6 +47,7 @@ ng g i core/interfaces/i-exam-question --type=interface
 ng g i core/interfaces/i-question --type=interface
 ng g i core/interfaces/i-question-row --type=interface
 ng g i core/interfaces/i-score --type=interface
+ng g i core/interfaces/i-option --type=interface
 
 -- class (model)
 ng g class core/models/countdown-time --type=model
