@@ -22,7 +22,7 @@ export class Exam implements IExam {
     this.questions = {};
     this.score = 0;
     this.finished = false;
-    this.max = environment.max;
+    this.max = environment.configPHP.max;
     this.questionsArray = this.initQuestionsArray();
   }
 

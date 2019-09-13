@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "ZCE",
   "short_name": "ZCE-PHP ZEND",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "author": "Nicu ALCEA",
   "description": "ZCE - PHP ZEND Certification Exam Simulator",
   "background": {

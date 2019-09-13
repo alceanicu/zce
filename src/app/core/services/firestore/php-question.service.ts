@@ -17,22 +17,22 @@ export class PhpQuestionService {
   constructor(
     private db: AngularFirestore,
   ) {
-    this.quizCollection = db.collection<IQuestion>(environment.phpPath);
+    this.quizCollection = db.collection<IQuestion>(environment.configPHP.phpPath);
   }
 
   getConfig(id: string): Observable<any> {
-    this.phpConfigDoc = this.db.doc<IConfig>(`${environment.configPath}/${id}`);
+    this.phpConfigDoc = this.db.doc<IConfig>(`${environment.configPHP.configPath}/${id}`);
     return this.phpConfigDoc.get();
   }
 
   getQuestion(id: string): Observable<any> {
-    this.quizDoc = this.db.doc<IQuestion>(`${environment.phpPath}/${id}`);
+    this.quizDoc = this.db.doc<IQuestion>(`${environment.configPHP.phpPath}/${id}`);
     return this.quizDoc.get();
   }
 
   addQuestion(question: IQuestion): Observable<any> {
     return new Observable((observer) => {
-      const configDocRef = this.db.firestore.collection(environment.configPath).doc('php');
+      const configDocRef = this.db.firestore.collection(environment.configPHP.configPath).doc('php');
       this.db.firestore.runTransaction(transaction =>
         transaction.get(configDocRef).then(configDoc => {
           const counter = (configDoc.data().counter || 0) + 1;
@@ -56,7 +56,7 @@ export class PhpQuestionService {
 
   updateQuestion(question: IQuestion): Observable<any> {
     return new Observable((observer) => {
-      this.quizDoc = this.db.doc<IQuestion>(`${environment.phpPath}/${question.id}`);
+      this.quizDoc = this.db.doc<IQuestion>(`${environment.configPHP.phpPath}/${question.id}`);
       this.quizDoc.update(question)
         .then(() => {
           observer.next(question.id);
@@ -69,7 +69,7 @@ export class PhpQuestionService {
 
   deleteQuestion(id): Observable<any> {
     return new Observable((observer) => {
-      this.quizDoc = this.db.doc<IQuestion>(`${environment.phpPath}/${id}`);
+      this.quizDoc = this.db.doc<IQuestion>(`${environment.configPHP.phpPath}/${id}`);
       this.quizDoc.delete().then(() => {
         observer.next(id);
       }).catch(err => {

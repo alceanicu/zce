@@ -4,14 +4,14 @@ import {HomeComponent} from '../../../home/home/home.component';
 import {AngularFireModule} from '@angular/fire';
 import {environment} from '../../../../environments/environment';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
-import * as moment from 'moment';
 import {ROUND_PROGRESS_DEFAULTS} from 'angular-svg-round-progressbar';
 import {IConfig} from '../../interfaces';
+import * as moment from 'moment';
 
 describe('LocalStorageService', () => {
   const now: Date = new Date('2019-12-01T03:24:00');
   const key: string = 'config';
-  const obj: IConfig = {counter: 806, timestamp: now.getTime()}; // FIXME
+  const obj: IConfig = {counter: environment.configPHP.max, timestamp: now.getTime()}; // FIXME
 
   let service: LocalStorageService;
 

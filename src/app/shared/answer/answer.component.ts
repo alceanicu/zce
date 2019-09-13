@@ -17,7 +17,7 @@ export class AnswerComponent implements OnInit {
   public extensionsAllowed: Array<string>;
 
   ngOnInit(): void {
-    this.extensionsAllowed = environment.extensionsAllowed;
-    this.letters = environment.letters;
+    this.extensionsAllowed = environment.configPHP.extensionsAllowed;
+    this.letters = environment.configPHP.letters;
   }
 }

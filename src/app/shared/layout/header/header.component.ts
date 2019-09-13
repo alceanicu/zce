@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.sidebarVisible = false;
     this.syncScoreService.currentValue.subscribe(value => {
       this.scoreObj = value;
