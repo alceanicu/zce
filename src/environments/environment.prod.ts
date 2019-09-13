@@ -1,3 +1,5 @@
+import { configPHP } from './configPHP';
+
 export const environment = {
   production: true,
   phpPath: 'phpQuestions',
@@ -12,5 +14,6 @@ export const environment = {
   },
   extensionsAllowed: ['php', 'none', 'sql', 'html', 'xml', 'json'],
   letters: ['A', 'B', 'C', 'D'],
-  max: 806
+  max: 806,
+  configPHP: configPHP
 };

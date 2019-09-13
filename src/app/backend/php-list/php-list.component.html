@@ -1,3 +1,47 @@
-<div class="row" style="margin-top: 50px"></div>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 col-md-12" style="margin: 10px">
+      <h3 class="title">PHP Question list</h3>
+      <a [routerLink]="['/php-edit']" title="Add Question" class="btn btn-danger btn-round">Add Question</a>
+    </div>
+  </div>
 
-<p>php-list works!</p>
+  <div class="row">
+    <div class="col-lg-12 col-md-12">
+      <table class="table table-striped">
+        <thead style="background: #FFF">
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Qwiz</th>
+          <th style="width: 10%">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let question of questionList | async; let i = index;">
+          <td>{{question.id}}</td>
+          <td>{{question.questionRows[0].text}}</td>
+          <td class="text-center action-block bg-white">
+            <a [routerLink]="['/backend/php-edit/', question.id]" title="edit"> <i class="fa fa-edit"></i> </a>
+            <span> </span>
+            <a (click)="deleteQuestion(question.id)" title="delete"> <i class="fa fa-trash"></i> </a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-between p-2">
+    <ngb-pagination [collectionSize]="totalItemsNumber"
+                    [(page)]="page"
+                    (pageChange)="goToPage(page)"
+                    [maxSize]=10
+                    [pageSize]="perPage">
+      <ng-template ngbPaginationFirst>First</ng-template>
+      <ng-template ngbPaginationLast>Last</ng-template>
+      <ng-template ngbPaginationPrevious>Prev</ng-template>
+      <ng-template ngbPaginationNext>Next</ng-template>
+      <ng-template ngbPaginationEllipsis>...</ng-template>
+    </ngb-pagination>
+  </div>
+</div>

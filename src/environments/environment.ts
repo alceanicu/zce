@@ -2,6 +2,8 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { configPHP } from './configPHP';
+
 export const environment = {
   production: false,
   phpPath: 'phpQuestions',
@@ -17,7 +19,8 @@ export const environment = {
   extensionsAllowed: ['php', 'none', 'sql', 'html', 'xml', 'json'],
   letters: ['A', 'B', 'C', 'D'],
   max: 806,
-  apiUrl: 'http://localhost/rest-api/'
+  apiUrl: 'http://localhost/rest-api/',
+  configPHP: configPHP
 };
 
 /*
