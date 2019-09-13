@@ -1,7 +1,7 @@
 export const configPHP = {
   phpPath: 'phpQuestions',
   configPath: 'appConfig',
-  extensionsAllowed: ['php', 'none', 'sql', 'html', 'xml', 'json'],
+  extensionsAllowed: ['none', 'php', 'none', 'sql', 'html', 'xml', 'json'],
   letters: ['A', 'B', 'C', 'D'],
   max: 806,
   apiUrl: 'http://localhost/rest-api/',
@@ -31,12 +31,13 @@ export const configPHP = {
     {value: 3, text: 'Text'}
   ],
   languageOptions: [
-    {value: 1, text: 'PHP'},
+    {value: 0, text: 'none'},
+    {value: 1, text: 'php'},
     {value: 2, text: 'none'},
-    {value: 3, text: 'SQL'},
-    {value: 4, text: 'HTML'},
-    {value: 5, text: 'XML'},
-    {value: 6, text: 'JSON'}
+    {value: 3, text: 'sql'},
+    {value: 4, text: 'html'},
+    {value: 5, text: 'xml'},
+    {value: 6, text: 'json'}
   ],
   correctOptions: [
     {value: true, text: 'DA'},

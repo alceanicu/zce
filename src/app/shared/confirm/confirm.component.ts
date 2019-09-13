@@ -19,6 +19,8 @@ export class ConfirmComponent extends SimpleModalComponent<IConfirm, boolean> im
     // we set modal result as true on click on confirm button,
     // then we can get modal result from caller code
     this.result = true;
-    this.close();
+    this.close().then(() => {
+      // console.log('ok');
+    });
   }
 }

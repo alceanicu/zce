@@ -37,7 +37,7 @@ export class RandomComponent implements OnInit, AfterViewChecked {
   ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.syncScoreService.currentValue.subscribe(value => {
       this.score = value;
     });

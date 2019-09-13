@@ -13,6 +13,6 @@ export class QuestionComponent implements OnInit {
   public extensionsAllowed: Array<string>;
 
   ngOnInit(): void {
-    this.extensionsAllowed = environment.extensionsAllowed;
+    this.extensionsAllowed = environment.configPHP.extensionsAllowed;
   }
 }

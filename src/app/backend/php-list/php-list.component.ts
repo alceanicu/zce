@@ -41,7 +41,7 @@ export class PhpListComponent implements OnInit {
     });
 
     this.questionList = combineLatest([this.page$]).pipe(
-      switchMap(([page]) => this.db.collection(environment.phpPath, ref => {
+      switchMap(([page]) => this.db.collection(environment.configPHP.phpPath, ref => {
           let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
           if (page) {
             $this.page = Number(page);

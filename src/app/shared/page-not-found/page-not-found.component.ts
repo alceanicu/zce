@@ -15,7 +15,7 @@ export class PageNotFoundComponent implements OnInit {
   constructor(private route: ActivatedRoute) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.route.data.pipe(take(1))
       .subscribe((data: { path: string }) => {
         this.path = data.path;

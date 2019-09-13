@@ -63,7 +63,7 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     }
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     const $this = this;
     this.exam = new Exam();
     this.localStorageService.getAppConfig().subscribe((config) => {
