@@ -21,7 +21,7 @@ export class LocalStorageService implements Storage {
     }
   }
 
-  getAppConfig(): Observable<any> {
+  getAppConfig(): Observable<IConfig> {
     return new Observable((observer) => {
       let localStorageConfig = this.getItem('config') as IConfig | null;
       const now = new Date();
