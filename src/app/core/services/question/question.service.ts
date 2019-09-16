@@ -21,7 +21,7 @@ export class QuestionService {
     private firestorePhpQuestionService: PhpQuestionService,
     private indexedDbQuizService: IndexedDbQuizService,
     private localStorageService: LocalStorageService,
-    private sessionStorageService: SessionStorageService,
+    private sessionStorageService: SessionStorageService
   ) {
   }
 
@@ -69,7 +69,7 @@ export class QuestionService {
   }
 
   private generateRandomIdWithoutRepeatInLastN(config: IConfig, internalCounter: number = 0): number {
-    const randomId = Helper.randomNumberFromInterval(Number(config.counter));
+    const randomId = Helper.randomNumberFromInterval(config.counter);
     let phpLastNIds = this.sessionStorageService.getItem('phpLastNIds') || [];
     if (internalCounter === 100) {
       return randomId;

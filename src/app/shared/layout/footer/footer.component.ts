@@ -6,9 +6,9 @@ import { Location } from '@angular/common';
   templateUrl: './footer.component.html'
 })
 export class FooterComponent {
-  public today: number = Date.now();
-
-  constructor(private location: Location) {
+  constructor(
+    private location: Location
+  ) {
   }
 
   isPage(page: string): boolean {

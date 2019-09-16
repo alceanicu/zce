@@ -1,13 +1,13 @@
-import { AfterViewChecked, Component, Inject, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { CountdownService, LocalStorageService, PrismService, QuestionService, SyncCountdownTimeService } from '../../core/services';
 import { ToastrService } from 'ngx-toastr';
 import { Moment } from 'moment';
 import { Subscription } from 'rxjs';
 import { SimpleModalService } from 'ngx-simple-modal';
+import { CountdownService, LocalStorageService, PrismService, QuestionService, SyncCountdownTimeService } from '../../core/services';
 import { ConfirmComponent } from '../../shared';
 import { Exam, IDeactivateComponent, IExamQuestion } from '../../core';
 
@@ -17,12 +17,12 @@ import { Exam, IDeactivateComponent, IExamQuestion } from '../../core';
   templateUrl: './exam.component.html',
   styleUrls: ['./exam.component.scss']
 })
-export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChecked {
+export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChecked, OnDestroy {
   private exam: Exam;
   public examQuestion?: IExamQuestion;
   public index?: number;
   public markForReviewArray = [];
-  public subscription?: Subscription;
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private simpleModalService: SimpleModalService,
@@ -66,15 +66,15 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   ngOnInit(): void {
     const $this = this;
     this.exam = new Exam();
-    this.localStorageService.getAppConfig().subscribe((config) => {
+    this.subscriptions.push(this.localStorageService.getAppConfig().subscribe((config) => {
       $this.exam.setMax(config.counter);
-    });
+    }));
 
     const startTime = this.moment(this.exam.startAt);
     const endTime = this.moment(startTime).add(5400, 'seconds');
 
     // first subscriber subscribes
-    this.subscription = this.countdownService.countdown().subscribe(
+    this.subscriptions.push(this.countdownService.countdown().subscribe(
       (seconds: number) => {
         if (seconds === 3600) {
           this.toastrService.success('You have another hour to finish the exam', 'Time left');
@@ -99,7 +99,7 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
       () => {
         this.finishExam();
       }
-    );
+    ));
 
     // countdown is started
     this.countdownService.start(5400);
@@ -109,6 +109,10 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
 
   ngAfterViewChecked() {
     this.prismService.highlightAll();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   private getTimeString(endTime: Moment): string {
@@ -239,7 +243,7 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
 
   public finishExam() {
     this.exam.finish();
-    this.subscription.unsubscribe();
+    // this.subscription.unsubscribe();
 
     const config = {closeButton: true};
     const title = 'Exam result!';
