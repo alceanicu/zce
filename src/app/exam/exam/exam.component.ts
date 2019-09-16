@@ -3,11 +3,11 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { CountdownService, LocalStorageService, PrismService, QuestionService, SyncCountdownTimeService } from '../../core/services';
 import { ToastrService } from 'ngx-toastr';
 import { Moment } from 'moment';
 import { Subscription } from 'rxjs';
 import { SimpleModalService } from 'ngx-simple-modal';
+import { CountdownService, LocalStorageService, PrismService, QuestionService, SyncCountdownTimeService } from '../../core/services';
 import { ConfirmComponent } from '../../shared';
 import { Exam, IDeactivateComponent, IExamQuestion } from '../../core';
 
@@ -71,7 +71,7 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     }));
 
     const startTime = this.moment(this.exam.startAt);
-    const endTime = this.moment(startTime).add(15, 'seconds');
+    const endTime = this.moment(startTime).add(5400, 'seconds');
 
     // first subscriber subscribes
     this.subscriptions.push(this.countdownService.countdown().subscribe(
@@ -102,7 +102,7 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     ));
 
     // countdown is started
-    this.countdownService.start(15);
+    this.countdownService.start(5400);
 
     this.toastrService.success('You have 90 minutes to finish your exam. Good luck!', 'Exam simulation start!');
   }
