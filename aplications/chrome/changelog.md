@@ -1,8 +1,10 @@
 # CHROME extension changelog
 
-### 2.0.3 [2019.09.13]
+### 2.0.3 [2019.09.16]
 
 - npm update
+- add ngOnDestroy on component
+- optimize imports
 
 ### 2.0.2 [2019.09.09]
 

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { PdfService } from '../../core/services';
+import { PdfService } from '../../core/services/pdf/pdf.service';
 
 
 @Component({

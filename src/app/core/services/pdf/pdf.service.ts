@@ -1,10 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 
-import { IndexedDbQuizService } from '../indexeddb/indexed-db-quiz.service';
-import { LocalStorageService } from '../local-storage/local-storage.service';
-import { PhpQuestionService } from '../firestore/php-question.service';
 import { QuestionService } from '../question/question.service';
-import { SessionStorageService } from '../session-storage/session-storage.service';
 import { IQuestion } from '../../interfaces';
 import { environment } from '../../../../environments/environment';
 import pdfMake from 'pdfmake/build/pdfmake';
@@ -17,11 +13,7 @@ export class PdfService {
   private questionArray: IQuestion[] = [];
 
   constructor(
-    private indexedDbQuizService: IndexedDbQuizService,
-    private localStorageService: LocalStorageService,
-    private firestorePhpQuestionService: PhpQuestionService,
     private questionService: QuestionService,
-    private sessionStorageService: SessionStorageService,
     @Inject('moment') private moment
   ) {
   }

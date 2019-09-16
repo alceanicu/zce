@@ -12,7 +12,9 @@ export class PageNotFoundComponent implements OnInit {
 
   path: string;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(
+    private route: ActivatedRoute
+  ) {
   }
 
   ngOnInit(): void {

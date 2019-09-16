@@ -1,22 +1,16 @@
-import { AfterViewChecked, Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
 
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import {
-  IndexedDbQuizService,
-  LocalStorageService,
-  PhpQuestionService,
-  PrismService,
-  QuestionService,
-  SyncScoreService
-} from '../../core/services';
+import { PrismService, QuestionService, SyncScoreService } from '../../core/services';
 import { Question } from '../../core/models';
 import { IScore } from '../../core/interfaces';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-random',
   templateUrl: './random.component.html'
 })
-export class RandomComponent implements OnInit, AfterViewChecked {
+export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   public isCorrect: boolean;
   public btnText: string;
@@ -25,12 +19,10 @@ export class RandomComponent implements OnInit, AfterViewChecked {
   private interval: any;
   private isNew: boolean;
   private highlighted: boolean;
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private ngxUiLoaderService: NgxUiLoaderService,
-    private indexedDbQuizService: IndexedDbQuizService,
-    private localStorageService: LocalStorageService,
-    private firestorePhpQuestionService: PhpQuestionService,
     private prismService: PrismService,
     private questionService: QuestionService,
     private syncScoreService: SyncScoreService
@@ -38,9 +30,9 @@ export class RandomComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit(): void {
-    this.syncScoreService.currentValue.subscribe(value => {
+    this.subscriptions.push(this.syncScoreService.currentValue.subscribe(value => {
       this.score = value;
-    });
+    }));
     this.getAnRandomQuestion();
   }
 
@@ -51,14 +43,18 @@ export class RandomComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
   private getAnRandomQuestion() {
     this.reset();
     const $this = this;
-    this.questionService.getQuestion().subscribe((question) => {
+    this.subscriptions.push(this.questionService.getQuestion().subscribe((question) => {
       $this.setQuestion(question);
     }, error => {
       console.log(error);
-    });
+    }));
   }
 
   private setQuestion(question: Question) {

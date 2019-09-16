@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 
 import {
   LocalStorageService,
-  PhpQuestionService,
   PrismService,
   SessionStorageService,
   SyncCountdownTimeService,
   SyncScoreService
 } from './services';
+import { PhpQuestionService } from './services/firestore/php-question.service';
 
 
 @NgModule({
@@ -20,9 +20,9 @@ import {
     LocalStorageService,
     PhpQuestionService,
     PrismService,
+    SessionStorageService,
     SyncCountdownTimeService,
-    SyncScoreService,
-    SessionStorageService
+    SyncScoreService
   ]
 })
 export class CoreModule {
