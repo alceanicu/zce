@@ -21,7 +21,7 @@ export class SyncScoreService extends SyncAbstract {
     return this.getCurrentValue();
   }
 
-  public setValue(value: IScore) {
+  public setValue(value: IScore): void {
     this.updateCurrentValue(value);
   }
 }

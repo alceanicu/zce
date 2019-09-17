@@ -48,6 +48,7 @@ ng g i core/interfaces/i-question --type=interface
 ng g i core/interfaces/i-question-row --type=interface
 ng g i core/interfaces/i-score --type=interface
 ng g i core/interfaces/i-option --type=interface
+ng g i core/interfaces/i-data-service --type=interface
 
 -- class (model)
 ng g class core/models/countdown-time --type=model
@@ -65,6 +66,7 @@ ng g s core/services/question/question
 ng g s core/services/session-storage/session-storage
 ng g s core/services/sync-countdown-time/sync-countdown-time
 ng g s core/services/sync-score/sync-score
+ng g s core/services/sync-location/sync-location
 ng g s core/services/pdf/pdf
 
 -- guards

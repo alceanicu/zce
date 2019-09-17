@@ -1,10 +1,12 @@
 ## FIREFOX extension changelog
 
-### 2.0.3 [2019.09.16]
+### 2.0.3 [2019.09.14]
 
 - npm update
 - add ngOnDestroy on component
 - optimize imports
+- fix layout
+- add backend branch
 
 ### 2.0.2 [2019.09.09]
 

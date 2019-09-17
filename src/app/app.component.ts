@@ -1,19 +1,21 @@
-import { Component, ElementRef, Inject, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { DOCUMENT, Location } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { HeaderComponent } from './shared/layout';
+import { SyncLocationService } from './core/services';
 
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html'
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   public title = 'ZCE';
-  private router$: Subscription;
+  public currentRoute: string;
+  private subscriptions: Subscription[] = [];
   @ViewChild(HeaderComponent, {static: false}) headerComponent: HeaderComponent;
 
   constructor(
@@ -21,12 +23,17 @@ export class AppComponent implements OnInit {
     private element: ElementRef,
     private renderer: Renderer2,
     private location: Location,
+    private syncLocationService: SyncLocationService,
     private router: Router
   ) {
   }
 
   ngOnInit(): void {
-    this.router$ = this.router.events
+    this.subscriptions.push(this.syncLocationService.currentValue.subscribe(value => {
+      this.currentRoute = value;
+    }));
+
+    this.subscriptions.push(this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         if (window.outerWidth > 991) {
@@ -35,7 +42,8 @@ export class AppComponent implements OnInit {
           window.document.activeElement.scrollTop = 0;
         }
         this.headerComponent.sidebarClose();
-      });
+        this.syncLocationService.setValue(this.getCurrentUrl());
+      }));
 
     const navbar: HTMLElement = this.element.nativeElement.children[0].children[0];
     this.renderer.listen('window', 'scroll', (event) => {
@@ -62,8 +70,13 @@ export class AppComponent implements OnInit {
     }
   }
 
-  removeFooter() {
-    const pageFromUrl = this.location.prepareExternalUrl(this.location.path());
-    return ['/exam', '/zce/exam'].indexOf(pageFromUrl) === -1;
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
+  private getCurrentUrl(): string {
+    return this.location
+      .prepareExternalUrl(this.location.path())
+      .replace('/zce', '');
   }
 }

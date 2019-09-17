@@ -1,7 +1,8 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import { SessionStorageService } from '../../services/session-storage/session-storage.service';
+import { IDataService } from '../../interfaces/i-data-service.interface';
 
-export abstract class SyncAbstract {
+export abstract class SyncAbstract implements IDataService {
   private messageSource: BehaviorSubject<any>;
   public currentValue: Observable<any>;
 
@@ -28,6 +29,6 @@ export abstract class SyncAbstract {
 
   public abstract getValue();
 
-  public abstract setValue(value);
+  public abstract setValue(value): void;
 }
 
