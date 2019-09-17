@@ -19,6 +19,6 @@
 ### ngh
 
 ```
-ng build --prod --base-href="./" --aot
+ng build --prod --base-href="./" --aot --buildOptimizer=true --extractLicenses=true
 ngh --dir dist/zce --message="V 2.0.3"
 ```
