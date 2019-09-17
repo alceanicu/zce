@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-lg fixed-top navbar-transparent" color-on-scroll="500">
-  <div class="container">
+<nav class="navbar navbar-expand-lg fixed-top navbar-transparent">
+  <div class="container"> {{currentRoute}}
     <div class="navbar-translate">
       <a class="navbar-brand" title="Home" [routerLink]="['/home']">
         <img src="./assets/img/elephpant.svg" style="width: 50px;" class="img-fluid">
@@ -14,7 +14,8 @@
     </div>
     <div class="navbar-collapse" id="navbarToggler">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item" *ngIf="isPage('/random')">
+        <li class="nav-item"
+            *ngIf="currentRoute === '/random'" >
           <div class="progress-percentage-wrapper">
             <div class="progress-percentage ng-cloak"
                  title="Corect {{scoreObj.correct}} from {{scoreObj.total}}">{{scoreObj.percentage}}
@@ -35,16 +36,19 @@
               [animationDelay]="0"></round-progress>
           </div>
         </li>
-        <li class="nav-item" *ngIf="isPage('/exam')" style="font-weight: 600;color: #ff0000; padding-right: 20px">
+        <li class="nav-item" style="font-weight: 600;color: #ff0000; padding-right: 20px"
+            *ngIf="currentRoute === '/exam'">
           {{countdownTimeObj.time}}
         </li>
-        <li class="nav-item" *ngIf="isPage('/home')">
-          <a placement="bottom" title="About" [routerLink]="['/about']" class="lead nav-link"
-          ><i class="nc-icon nc-book-bookmark"></i> About</a>
+        <li class="nav-item"
+            *ngIf="currentRoute === '/home'">
+          <a title="About" class="lead nav-link"
+             [routerLink]="['/about']"><i class="nc-icon nc-book-bookmark"></i> About</a>
         </li>
-        <li class="nav-item" *ngIf="isPage('/about')">
-          <a placement="bottom" title="Home"
-             [routerLink]="['/home']" class="lead nav-link"><i class="nc-icon nc-book-bookmark"></i> Home</a>
+        <li class="nav-item"
+            *ngIf="currentRoute === '/about'">
+          <a title="Home" class="lead nav-link"
+             [routerLink]="['/home']"><i class="nc-icon nc-book-bookmark"></i> Home</a>
         </li>
       </ul>
     </div>

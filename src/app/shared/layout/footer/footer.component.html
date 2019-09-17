@@ -1,10 +1,10 @@
-<footer class="footer">
+<footer class="footer" *ngIf="currentRoute !== '/exam'">
   <div class="container">
     <div class="row">
       <nav class="footer-nav">
         <ul>
-          <li><a title="Home" routerLink="/home">Home</a></li>
-          <li *ngIf="!isPage('/about')"><a title="About" routerLink="/about">About</a></li>
+          <li *ngIf="currentRoute !== '/home'"><a title="Home" routerLink="/home">Home</a></li>
+          <li *ngIf="currentRoute !== '/about'"><a title="About" routerLink="/about">About</a></li>
         </ul>
       </nav>
       <div class="credits ml-auto">

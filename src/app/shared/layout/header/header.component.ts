@@ -1,8 +1,9 @@
-import { Component, ElementRef, Inject, OnInit } from '@angular/core';
-import { DOCUMENT, Location } from '@angular/common';
+import { Component, ElementRef, Inject, OnDestroy, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 import { ICountdownTime, IScore } from '../../../core/interfaces';
-import { SyncCountdownTimeService, SyncScoreService } from '../../../core/services';
+import { SyncCountdownTimeService, SyncLocationService, SyncScoreService } from '../../../core/services';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -10,32 +11,43 @@ import { SyncCountdownTimeService, SyncScoreService } from '../../../core/servic
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   private html: any;
   private toggleButton: any;
   private sidebarVisible: boolean;
+  private subscriptions: Subscription[] = [];
+  public currentRoute: string;
   public scoreObj: IScore;
   public countdownTimeObj: ICountdownTime;
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
-    private location: Location,
     private element: ElementRef,
     private syncScoreService: SyncScoreService,
+    private syncLocationService: SyncLocationService,
     private syncCountdownTimeService: SyncCountdownTimeService
   ) {
   }
 
   ngOnInit(): void {
     this.sidebarVisible = false;
-    this.syncScoreService.currentValue.subscribe(value => {
+
+    this.subscriptions.push(this.syncScoreService.currentValue.subscribe(value => {
       this.scoreObj = value;
-    });
-    this.syncCountdownTimeService.currentValue.subscribe(value => {
+    }));
+    this.subscriptions.push(this.syncCountdownTimeService.currentValue.subscribe(value => {
       this.countdownTimeObj = value;
-    });
+    }));
+    this.subscriptions.push(this.syncLocationService.currentValue.subscribe(value => {
+      this.currentRoute = value;
+    }));
+
     this.html = this.document.getElementsByTagName('html')[0];
     this.toggleButton = this.element.nativeElement.getElementsByClassName('navbar-toggler')[0];
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   sidebarOpen() {
@@ -55,10 +67,5 @@ export class HeaderComponent implements OnInit {
 
   sidebarToggle() {
     (this.sidebarVisible === false) ? this.sidebarOpen() : this.sidebarClose();
-  }
-
-  isPage(page: string): boolean {
-    const pageFromUrl = this.location.prepareExternalUrl(this.location.path());
-    return (pageFromUrl === page) || (pageFromUrl === ('/zce' + page));
   }
 }

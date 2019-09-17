@@ -1,18 +1,28 @@
-import { Component } from '@angular/core';
-import { Location } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+
+import { SyncLocationService } from '../../../core/services';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html'
 })
-export class FooterComponent {
+export class FooterComponent implements OnInit, OnDestroy {
+  public currentRoute: string;
+  private subscriptions: Subscription[] = [];
+
   constructor(
-    private location: Location
+    private syncLocationService: SyncLocationService
   ) {
   }
 
-  isPage(page: string): boolean {
-    const pageFromUrl = this.location.prepareExternalUrl(this.location.path());
-    return (pageFromUrl === page) || (pageFromUrl === ('/zce' + page));
+  ngOnInit(): void {
+    this.subscriptions.push(this.syncLocationService.currentValue.subscribe(value => {
+      this.currentRoute = value;
+    }));
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 }

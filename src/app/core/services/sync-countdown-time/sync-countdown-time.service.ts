@@ -21,7 +21,7 @@ export class SyncCountdownTimeService extends SyncAbstract {
     return this.getCurrentValue();
   }
 
-  public setValue(value: ICountdownTime) {
+  public setValue(value: ICountdownTime): void {
     this.updateCurrentValue(value);
   }
 }

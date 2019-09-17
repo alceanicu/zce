@@ -243,7 +243,6 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
 
   public finishExam() {
     this.exam.finish();
-    // this.subscription.unsubscribe();
 
     const config = {closeButton: true};
     const title = 'Exam result!';
