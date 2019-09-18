@@ -1,9 +1,10 @@
 import { Component, ElementRef, Inject, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { DOCUMENT, Location } from '@angular/common';
-import { NavigationEnd, Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, map, mergeMap } from 'rxjs/operators';
 import { HeaderComponent } from './shared/layout';
 import { SyncLocationService } from './core/services';
 
@@ -24,13 +25,31 @@ export class AppComponent implements OnInit, OnDestroy {
     private renderer: Renderer2,
     private location: Location,
     private syncLocationService: SyncLocationService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private titleService: Title
   ) {
   }
 
   ngOnInit(): void {
     this.subscriptions.push(this.syncLocationService.currentValue.subscribe(value => {
       this.currentRoute = value;
+    }));
+
+    // change title on active route chanced
+    this.subscriptions.push(this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd),
+      map(() => this.activatedRoute),
+      map(route => {
+        while (route.firstChild) {
+          route = route.firstChild;
+        }
+        return route;
+      }),
+      filter(route => route.outlet === 'primary'),
+      mergeMap(route => route.data)
+    ).subscribe(data => {
+      this.titleService.setTitle(data.title);
     }));
 
     this.subscriptions.push(this.router.events
