@@ -19,7 +19,8 @@ export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
   private interval: any;
   private isNew: boolean;
   private highlighted: boolean;
-  private subscriptions: Subscription[] = [];
+  private subscription: Subscription;
+  private scoreSubscription: Subscription;
 
   constructor(
     private ngxUiLoaderService: NgxUiLoaderService,
@@ -30,9 +31,9 @@ export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscriptions.push(this.syncScoreService.currentValue.subscribe(value => {
+    this.scoreSubscription = this.syncScoreService.currentValue.subscribe(value => {
       this.score = value;
-    }));
+    });
     this.getAnRandomQuestion();
   }
 
@@ -44,17 +45,18 @@ export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.scoreSubscription.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   private getAnRandomQuestion() {
     this.reset();
     const $this = this;
-    this.subscriptions.push(this.questionService.getQuestion().subscribe((question) => {
+    this.subscription = this.questionService.getQuestion().subscribe(question => {
       $this.setQuestion(question);
     }, error => {
       console.log(error);
-    }));
+    });
   }
 
   private setQuestion(question: Question) {
@@ -67,6 +69,9 @@ export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   private reset() {
+    if (this.subscription instanceof Subscription) {
+      this.subscription.unsubscribe();
+    }
     if (this.interval) {
       clearInterval(this.interval);
       this.interval = null;

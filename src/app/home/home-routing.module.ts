@@ -5,8 +5,8 @@ import {HomeComponent} from './home/home.component';
 
 
 const routes: Routes = [
-  {path: '', component: HomeComponent},
-  {path: '**', redirectTo: '/page-not-found'}
+  {path: '', component: HomeComponent, data: {title: 'ZCE'}},
+  {path: '**', redirectTo: '/page-not-found', data: {title: 'ZCE - Page not found!'}}
 ];
 
 @NgModule({

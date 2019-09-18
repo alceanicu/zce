@@ -93,6 +93,8 @@ npm i --save ngx-simple-modal
 npm i --save ngx-toastr
 npm i --save ngx-ui-loader
 npm i --save bootstrap
+
+npm igit  webpack-bundle-analyzer -D
 ```
 
 ### others

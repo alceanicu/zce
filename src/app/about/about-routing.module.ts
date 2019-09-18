@@ -5,8 +5,8 @@ import { AboutComponent } from './about/about.component';
 
 
 const routes: Routes = [
-  {path: '', component: AboutComponent},
-  {path: '**', redirectTo: '/page-not-found'}
+  {path: '', component: AboutComponent, data: {title: 'ZCE - About'}},
+  {path: '**', redirectTo: '/page-not-found', data: {title: 'ZCE - Page not found!'}}
 ];
 
 @NgModule({
