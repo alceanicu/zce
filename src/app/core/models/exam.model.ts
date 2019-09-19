@@ -1,12 +1,12 @@
 import { Helper } from '../utils';
-import { IExam } from '../interfaces';
+import { IExam, IExamQuestion } from '../interfaces';
 import { environment } from '../../../environments/environment';
 
 
 export class Exam implements IExam {
   public startAt: number;
   public endAt?: number;
-  public questions?: any;
+  public questions?: { [key: string]: IExamQuestion };
   public questionsArray?: Array<number> = [];
   public score?: number;
   public finished?: boolean;
@@ -42,6 +42,10 @@ export class Exam implements IExam {
         }
       }
     }
+  }
+
+  public setQuestion(key, question: IExamQuestion): void {
+    this.questions[key] = question;
   }
 
   /**
