@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { PhpQuestionService } from '../../core/services';
+import { PhpQuestionService } from '../../core/services/firestore/php-question.service';
 import { IOption, IQuestion } from '../../core/interfaces';
 import { environment } from '../../../environments/environment';
 import { Helper } from '../../core/utils';

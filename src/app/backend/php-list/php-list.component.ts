@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
-import { LocalStorageService, PhpQuestionService } from '../../core/services';
+import { LocalStorageService } from '../../core/services';
 import { IConfig, IQuestion } from '../../core/interfaces';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../../environments/environment';
+import { PhpQuestionService } from '../../core/services/firestore/php-question.service';
 
 
 @Component({
