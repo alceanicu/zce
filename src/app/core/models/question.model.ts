@@ -19,4 +19,14 @@ export class Question implements IQuestion {
       answerRow.userAnswer = false;
     });
   }
+
+  public validate(finalAnswer: boolean = false): boolean {
+    this.finalAnswer = finalAnswer;
+    let isCorrect = true;
+    this.answerRows.forEach((obj: IAnswerRow) => {
+      isCorrect = isCorrect && (obj.correct === obj.userAnswer);
+    });
+
+    return isCorrect;
+  }
 }

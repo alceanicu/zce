@@ -9,4 +9,6 @@ export interface IQuestion {
   finalAnswer: boolean;
   questionRows: Array<IQuestionRow>;
   answerRows: Array<IAnswerRow>;
+
+  validate(finalAnswer: boolean): boolean;
 }

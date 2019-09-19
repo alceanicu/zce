@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
 import { SimpleModalService } from 'ngx-simple-modal';
 import { CountdownService, LocalStorageService, PrismService, QuestionService, SyncCountdownTimeService } from '../../core/services';
 import { ConfirmComponent } from '../../shared';
-import { Exam, IDeactivateComponent, IExamQuestion } from '../../core';
+import { Exam, IDeactivateComponent, IExamQuestion, IQuestion } from '../../core';
 
 
 @Component({
@@ -23,6 +23,9 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   public index?: number;
   public markForReviewArray = [];
   private subscriptions: Subscription[] = [];
+  private subscription: Subscription;
+  private isNew: boolean;
+  private highlighted: boolean;
 
   constructor(
     private simpleModalService: SimpleModalService,
@@ -43,10 +46,11 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     if (this.exam.finished) {
       return true;
     } else {
-      const disposable = this.simpleModalService.addModal(ConfirmComponent, {
+      const data = {
         title: 'Confirm',
         message: 'Do you wish to finish the current exam?'
-      }).subscribe((isConfirmed) => {
+      };
+      const disposable = this.simpleModalService.addModal(ConfirmComponent, data).subscribe(isConfirmed => {
         if (isConfirmed) {
           this.finishExam();
           return true;
@@ -57,18 +61,17 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
 
       // We can close modal calling disposable.unsubscribe();
       // If modal was not closed manually close it by timeout
-      setTimeout(() => {
-        disposable.unsubscribe();
-      }, 10000);
+      setTimeout(() => disposable.unsubscribe(), 10000);
     }
   }
 
   ngOnInit(): void {
     const $this = this;
     this.exam = new Exam();
-    this.subscriptions.push(this.localStorageService.getAppConfig().subscribe((config) => {
-      $this.exam.setMax(config.counter);
-    }));
+    this.subscriptions.push(this.localStorageService.getAppConfig().subscribe(
+      config => $this.exam.setMax(config.counter),
+      error => console.log(error)
+    ));
 
     const startTime = this.moment(this.exam.startAt);
     const endTime = this.moment(startTime).add(5400, 'seconds');
@@ -77,28 +80,24 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     this.subscriptions.push(this.countdownService.countdown().subscribe(
       (seconds: number) => {
         if (seconds === 3600) {
-          this.toastrService.success('You have another hour to finish the exam', 'Time left');
+          $this.toastrService.success('You have another hour to finish the exam', 'Time left');
         }
         if (seconds === 1800) {
-          this.toastrService.success('You have another 30 minutes to finish the exam', 'Time left');
+          $this.toastrService.success('You have another 30 minutes to finish the exam', 'Time left');
         }
         if (seconds === 600) {
-          this.toastrService.success('You have another 10 minutes to finish the exam', 'Time left');
+          $this.toastrService.success('You have another 10 minutes to finish the exam', 'Time left');
         }
         if (seconds === 300) {
-          this.toastrService.success('You have less than 5 minutes to finish the exam', 'Times left!');
+          $this.toastrService.success('You have less than 5 minutes to finish the exam', 'Times left!');
         }
 
         const obj = $this.syncCountdownTimeService.getValue();
-        obj.time = this.getTimeString(endTime);
+        obj.time = $this.getTimeString(endTime);
         $this.syncCountdownTimeService.setValue(obj);
       },
-      error => {
-        console.log(error);
-      },
-      () => {
-        this.finishExam();
-      }
+      error => console.log(error),
+      () => this.finishExam()
     ));
 
     // countdown is started
@@ -108,11 +107,17 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   }
 
   ngAfterViewChecked() {
-    this.prismService.highlightAll();
+    if (this.isNew && !this.highlighted) {
+      this.prismService.highlightAll();
+      this.highlighted = true;
+    }
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    if (this.subscription instanceof Subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   private getTimeString(endTime: Moment): string {
@@ -158,49 +163,53 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     return this.exam;
   }
 
-  async delay(ms: number) {
-    await new Promise(resolve => setTimeout(() => resolve(), ms))
-      .then(() => this.ngxUiLoaderService.stopAll());
-  }
-
   public getQuestion(id, index) {
-    this.ngxUiLoaderService.start();
-    this.updateExamScore();
+    this.reset();
+    const $this = this;
     this.index = index;
 
     if (this.exam.questions[index] === undefined) {
-      const $this = this;
-      this.questionService.getOneQuestionById(id).subscribe((question) => {
-        const currentQuestion = {
-          id: id,
-          question: question,
-          markForReview: false,
-          correct: false
-        } as IExamQuestion;
-        $this.exam.questions[index] = currentQuestion;
-        $this.examQuestion = currentQuestion;
-      });
+      this.subscription = this.questionService.getOneQuestionById(id).subscribe(
+        (question: IQuestion) => {
+          const currentQuestion = {
+            id: id,
+            question: question,
+            markForReview: false,
+            correct: false
+          } as IExamQuestion;
+          $this.exam.setQuestion(index, currentQuestion);
+          $this.setCurrentQuestion(currentQuestion);
+        },
+        error => console.log(error),
+      );
     } else {
-      this.examQuestion = this.exam.questions[index];
+      this.setCurrentQuestion(this.exam.questions[index]);
     }
-    this.delay(1);
   }
 
-  private updateExamScore() {
+  private validateCurrentExamQuestion() {
     if (this.examQuestion !== undefined) {
-      this.validateEachAnswerRows();
+      this.examQuestion.correct = this.examQuestion.question.validate(false);
     }
   }
 
-  validateEachAnswerRows() {
-    let ok = true;
-    this.examQuestion.question.answerRows.forEach((obj, key) => {
-      ok = ok && (obj.correct === obj.userAnswer);
-    });
+  private setCurrentQuestion(question: IExamQuestion) {
+    this.examQuestion = question;
+    const $this = this;
+    setTimeout(() => {
+      $this.ngxUiLoaderService.stopAll();
+      this.isNew = true;
+    }, 400);
+  }
 
-    if (ok) {
-      this.examQuestion.correct = true;
+  private reset() {
+    if (this.subscription instanceof Subscription) {
+      this.subscription.unsubscribe();
     }
+    this.validateCurrentExamQuestion();
+    this.ngxUiLoaderService.start();
+    this.isNew = false;
+    this.highlighted = false;
   }
 
   public disabledPrevBtn() {
@@ -242,29 +251,22 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   }
 
   public finishExam() {
+    this.validateCurrentExamQuestion();
     this.exam.finish();
-
-    const config = {closeButton: true};
-    const title = 'Exam result!';
-
+    const $this = this;
+    let result;
     if (this.exam.score >= 50) {
       const message = 'Congratulations you passed the exam!';
-      this.toastrService.success(message, title, config).onHidden.subscribe(() => {
-        this.goToHome();
-      }, error => {
-        console.log(error);
-      }, () => {
-        console.log(`You answered correctly to ${this.exam.score} questions from 70`);
-      });
+      result = this.toastrService.success(message, 'Exam result!', {closeButton: true});
     } else {
       const message = 'You did not passed the exam!';
-      this.toastrService.warning(message, title, config).onHidden.subscribe(() => {
-        this.goToHome();
-      }, error => {
-        console.log(error);
-      }, () => {
-        console.log(`You answered correctly to ${this.exam.score} questions from 70`);
-      });
+      result = this.toastrService.warning(message, 'Exam result!', {closeButton: true});
     }
+
+    result.onHidden.subscribe(
+      () => $this.goToHome(),
+      error => console.log(error),
+      () => console.log(`You answered correctly to ${$this.exam.score} questions from 70`)
+    );
   }
 }

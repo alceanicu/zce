@@ -11,7 +11,6 @@ import { Subscription } from 'rxjs';
   templateUrl: './random.component.html'
 })
 export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
-
   public isCorrect: boolean;
   public btnText: string;
   public question: Question;
@@ -31,9 +30,9 @@ export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.scoreSubscription = this.syncScoreService.currentValue.subscribe(value => {
-      this.score = value;
-    });
+    this.scoreSubscription = this.syncScoreService.currentValue.subscribe(
+      score => this.score = score
+    );
     this.getAnRandomQuestion();
   }
 
@@ -52,11 +51,10 @@ export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
   private getAnRandomQuestion() {
     this.reset();
     const $this = this;
-    this.subscription = this.questionService.getQuestion().subscribe(question => {
-      $this.setQuestion(question);
-    }, error => {
-      console.log(error);
-    });
+    this.subscription = this.questionService.getQuestion().subscribe(
+      question => $this.setQuestion(question),
+      error => console.log(error)
+    );
   }
 
   private setQuestion(question: Question) {
@@ -64,8 +62,8 @@ export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
     const $this = this;
     setTimeout(() => {
       $this.ngxUiLoaderService.stopAll();
-    }, 200);
-    this.isNew = true;
+      this.isNew = true;
+    }, 400);
   }
 
   private reset() {
@@ -84,18 +82,9 @@ export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.question = new Question();
   }
 
-  private validateEachAnswerRows() {
-    let ok = true;
-    this.question.answerRows.forEach((obj, key) => {
-      ok = ok && (obj.correct === obj.userAnswer);
-    });
-    this.isCorrect = ok;
-  }
-
   onValidate(countDown: number = 10) {
     const $this = this;
-    this.question.finalAnswer = true;
-    this.validateEachAnswerRows();
+    this.isCorrect = this.question.validate(true);
 
     this.syncScoreService.setValue(this.updateScore(this.isCorrect));
     const ansType = this.isCorrect ? 'Correct' : 'Wrong';
