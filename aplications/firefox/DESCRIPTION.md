@@ -13,9 +13,9 @@ If you find this application useful, you can star as on <a title="Star as on Git
 <strong>This application can be used as a:</strong>
 <ul>
     <li><a href="https://chrome.google.com/webstore/detail/php-zend-certification-exam/kdjolhghoglghipajmbmlmldbpncimge">CHROME extension (v2.0.2)</a></li>
-    <li><a href="https://addons.mozilla.org/ro/firefox/addon/php-zend-certification-exam/">FIREFOX extension (v2.0.2)</a></li>
-    <li><a href="https://alceanicu.github.io/zce/">GitHub Page (v2.0.2)</a></li>
-    <li>Android mobile application (v1.1.1 - beta) - soon</li>
+    <li><a href="https://addons.mozilla.org/ro/firefox/addon/php-zend-certification-exam/">FIREFOX extension (v2.0.3)</a></li>
+    <li><a href="https://alceanicu.github.io/zce/">GitHub Page (v2.0.3)</a></li>
+    <li>Android mobile application (v1.1.2 - beta) - soon</li>
 </ul>
 
 <strong>License</strong>

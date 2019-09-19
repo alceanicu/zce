@@ -197,9 +197,9 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     this.examQuestion = question;
     const $this = this;
     setTimeout(() => {
-      $this.ngxUiLoaderService.stopAll();
       this.isNew = true;
-    }, 400);
+      $this.ngxUiLoaderService.stopAll();
+    }, 200);
   }
 
   private reset() {
