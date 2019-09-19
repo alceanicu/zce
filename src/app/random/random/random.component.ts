@@ -61,9 +61,9 @@ export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.question = question;
     const $this = this;
     setTimeout(() => {
-      $this.ngxUiLoaderService.stopAll();
       this.isNew = true;
-    }, 400);
+      $this.ngxUiLoaderService.stopAll();
+    }, 200);
   }
 
   private reset() {
@@ -112,5 +112,4 @@ export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
 
     return score;
   }
-
 }
