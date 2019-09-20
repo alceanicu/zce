@@ -18,7 +18,7 @@ export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
   private interval: any;
   private isNew: boolean;
   private highlighted: boolean;
-  private subscription: Subscription;
+  private questionSubscription: Subscription;
   private scoreSubscription: Subscription;
 
   constructor(
@@ -31,7 +31,8 @@ export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   ngOnInit(): void {
     this.scoreSubscription = this.syncScoreService.currentValue.subscribe(
-      score => this.score = score
+      (score: IScore) => this.score = score,
+      error => console.error(error)
     );
     this.getAnRandomQuestion();
   }
@@ -45,31 +46,24 @@ export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   ngOnDestroy(): void {
     this.scoreSubscription.unsubscribe();
-    this.subscription.unsubscribe();
+    this.questionUnsubscribe();
   }
 
   private getAnRandomQuestion() {
     this.reset();
     const $this = this;
-    this.subscription = this.questionService.getQuestion().subscribe(
-      question => $this.setQuestion(question),
-      error => console.log(error)
+    this.questionSubscription = this.questionService.getQuestion(1).subscribe(
+      question => $this.question = question,
+      error => console.error(error),
+      () => {
+        $this.isNew = true;
+        setTimeout(() => $this.ngxUiLoaderService.stopAll(), 250);
+      }
     );
   }
 
-  private setQuestion(question: Question) {
-    this.question = question;
-    const $this = this;
-    setTimeout(() => {
-      this.isNew = true;
-      $this.ngxUiLoaderService.stopAll();
-    }, 200);
-  }
-
   private reset() {
-    if (this.subscription instanceof Subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.questionUnsubscribe();
     if (this.interval) {
       clearInterval(this.interval);
       this.interval = null;
@@ -80,6 +74,12 @@ export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.isCorrect = false;
     this.btnText = 'Get next question now ';
     this.question = new Question();
+  }
+
+  private questionUnsubscribe() {
+    if (this.questionSubscription instanceof Subscription) {
+      this.questionSubscription.unsubscribe();
+    }
   }
 
   onValidate(countDown: number = 10) {

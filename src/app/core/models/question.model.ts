@@ -29,4 +29,8 @@ export class Question implements IQuestion {
 
     return isCorrect;
   }
+
+  public randomizeAnswers() {
+    this.answerRows.sort(() => Math.random() - 0.5);
+  }
 }

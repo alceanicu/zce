@@ -1,5 +1,10 @@
 # CHROME extension changelog
 
+### 2.0.4 [2019.09.20]
+
+- npm update
+- update service
+
 ### 2.0.3 [2019.09.19]
 
 - npm update

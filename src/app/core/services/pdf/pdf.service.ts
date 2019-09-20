@@ -20,13 +20,11 @@ export class PdfService {
 
   public exportTestAsPDF(questionNumber: number = 1) {
     this.questionArray = [];
-    this.questionService.getQuestion(questionNumber).subscribe(question => {
-      this.questionArray.push(question as IQuestion);
-    }, error => {
-      console.error(error);
-    }, () => {
-      this.generatePDF();
-    });
+    this.questionService.getQuestion(questionNumber).subscribe(
+      (question: IQuestion) => this.questionArray.push(question),
+      error => console.error(error),
+      () => this.generatePDF()
+    );
   }
 
   private generatePDF() {
