@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, Subscriber } from 'rxjs';
 import { Helper } from '../../utils';
 import { PhpQuestionService } from '../firestore/php-question.service';
 import { LocalStorageService } from '../local-storage/local-storage.service';
@@ -25,46 +25,49 @@ export class QuestionService {
   ) {
   }
 
-  public getQuestion(questionNumber: number = 1): Observable<any> {
+  public getQuestion(questionNumber: number = 1): Observable<Question> {
     const $this = this;
     this.internalCounter = 0;
     this.questionNumber = questionNumber;
 
-    return new Observable((observer) => {
+    return new Observable((subscribe: Subscriber<Question>) => {
       for (let i = 0; i < questionNumber; i++) {
-        $this.getAnRandomQuestion(observer);
+        $this.getAnRandomQuestion(subscribe);
       }
     });
   }
 
-  private getAnRandomQuestion(observer) {
-    this.localStorageService.getAppConfig().subscribe((config) => {
-      const randomId = this.generateRandomIdWithoutRepeatInLastN(config);
-      this.getQuestionById(randomId, observer);
-    });
-  }
-
-  public getOneQuestionById(id: number): Observable<any> {
+  private getAnRandomQuestion(subscribe: Subscriber<Question>) {
     const $this = this;
-    return new Observable((observer) => {
-      $this.getQuestionById(id, observer);
+    this.localStorageService.getAppConfig().subscribe(
+      config => $this.getQuestionById($this.generateRandomIdWithoutRepeatInLastN(config), subscribe),
+      error => console.error(error)
+    );
+  }
+
+  public getOneQuestionById(id: number): Observable<Question> {
+    const $this = this;
+    this.internalCounter = 0;
+    this.questionNumber = 1;
+    return new Observable((subscribe: Subscriber<Question>) => {
+      $this.getQuestionById(id, subscribe);
     });
   }
 
-  private getQuestionById(id, observer) {
+  private getQuestionById(id: number, subscribe: Subscriber<Question>) {
     const $this = this;
     this.indexedDbQuizService
       .getQuestionById(id)
       .then(async (question) => {
         if (question) {
-          $this.setQuestion(new Question(question), observer);
+          $this.setQuestion(new Question(question), subscribe);
         } else {
-          $this.getQuestionFromFirebase(id, observer);
+          $this.getQuestionFromFirebase(id, subscribe);
         }
       })
       .catch(e => {
         console.error(e.stack || e);
-        $this.getQuestionFromFirebase(id, observer);
+        $this.getQuestionFromFirebase(id, subscribe);
       });
   }
 
@@ -85,25 +88,20 @@ export class QuestionService {
     }
   }
 
-  private getQuestionFromFirebase(id, observer) {
+  private getQuestionFromFirebase(id: number, subscribe: Subscriber<IQuestion>) {
     const $this = this;
-    this.firestorePhpQuestionService.getQuestion(String(id)).subscribe(
+    this.firestorePhpQuestionService.getQuestion(id).subscribe(
       DocumentSnapshot => {
         const question = new Question(DocumentSnapshot.data() as IQuestion);
-
         if (question) {
           $this.saveToIndexedDb(question);
-          $this.setQuestion(question, observer);
+          $this.setQuestion(question, subscribe);
         } else {
           throw new Error('bad robot');
         }
       },
-      (error) => {
-        console.error(error);
-      },
-      () => {
-        console.log('Question from FIREBASE complete');
-      }
+      error => console.error(error),
+      () => console.log('Question from FIREBASE complete')
     );
   }
 
@@ -119,12 +117,12 @@ export class QuestionService {
       });
   }
 
-  private setQuestion(question: IQuestion, observer) {
+  private setQuestion(question: Question, subscribe: Subscriber<IQuestion>) {
     this.internalCounter++;
-    question.answerRows.sort(() => Math.random() - 0.5);
-    observer.next(question);
+    question.randomizeAnswers();
+    subscribe.next(question);
     if (this.internalCounter === this.questionNumber) {
-      observer.complete();
+      subscribe.complete();
     }
   }
 }

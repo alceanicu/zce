@@ -4,6 +4,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { IConfig, IQuestion } from '../../interfaces';
+import { firestore } from 'firebase';
 
 
 @Injectable({
@@ -28,7 +29,7 @@ export class PhpQuestionService implements OnInit {
     return this.phpConfigDoc.get();
   }
 
-  getQuestion(id: string): Observable<any> {
+  getQuestion(id: string | number): Observable<firestore.DocumentSnapshot> {
     this.quizDoc = this.db.doc<IQuestion>(`${environment.configPHP.phpPath}/${id}`);
     return this.quizDoc.get();
   }

@@ -32,11 +32,11 @@ export class IndexedDbQuizService {
     return this.db.questionTable.put(question);
   }
 
-  deleteQuestion(id): Promise<any> {
+  deleteQuestion(id: number): Promise<any> {
     return this.db.questionTable.delete(id);
   }
 
-  getQuestionById(id): Promise<IQuestion> {
+  getQuestionById(id: number): Promise<IQuestion> {
     return this.db.questionTable.get(id);
   }
 

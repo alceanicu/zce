@@ -22,8 +22,9 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   public examQuestion?: IExamQuestion;
   public index?: number;
   public markForReviewArray = [];
-  private subscriptions: Subscription[] = [];
-  private subscription: Subscription;
+  private localStorageSubscription: Subscription;
+  private questionSubscription: Subscription;
+  private countdownSubscription: Subscription;
   private isNew: boolean;
   private highlighted: boolean;
 
@@ -68,16 +69,15 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   ngOnInit(): void {
     const $this = this;
     this.exam = new Exam();
-    this.subscriptions.push(this.localStorageService.getAppConfig().subscribe(
+    this.localStorageSubscription = this.localStorageService.getAppConfig().subscribe(
       config => $this.exam.setMax(config.counter),
-      error => console.log(error)
-    ));
+      error => console.error(error)
+    );
 
     const startTime = this.moment(this.exam.startAt);
     const endTime = this.moment(startTime).add(5400, 'seconds');
 
-    // first subscriber subscribes
-    this.subscriptions.push(this.countdownService.countdown().subscribe(
+    this.countdownSubscription = this.countdownService.countdown().subscribe(
       (seconds: number) => {
         if (seconds === 3600) {
           $this.toastrService.success('You have another hour to finish the exam', 'Time left');
@@ -96,9 +96,9 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
         obj.time = $this.getTimeString(endTime);
         $this.syncCountdownTimeService.setValue(obj);
       },
-      error => console.log(error),
+      error => console.error(error),
       () => this.finishExam()
-    ));
+    );
 
     // countdown is started
     this.countdownService.start(5400);
@@ -114,10 +114,9 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
-    if (this.subscription instanceof Subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.localStorageSubscription.unsubscribe();
+    this.questionSubscriptionUnsubscribe();
+    this.countdownSubscriptionUnsubscribe();
   }
 
   private getTimeString(endTime: Moment): string {
@@ -163,13 +162,14 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     return this.exam;
   }
 
-  public getQuestion(id, index) {
+  public getQuestion(id: number, index: number) {
     this.reset();
     const $this = this;
     this.index = index;
 
     if (this.exam.questions[index] === undefined) {
-      this.subscription = this.questionService.getOneQuestionById(id).subscribe(
+      // we try to get question from IndexedDB || Firebase
+      this.questionSubscription = this.questionService.getOneQuestionById(id).subscribe(
         (question: IQuestion) => {
           const currentQuestion = {
             id: id,
@@ -180,9 +180,10 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
           $this.exam.setQuestion(index, currentQuestion);
           $this.setCurrentQuestion(currentQuestion);
         },
-        error => console.log(error),
+        error => console.error(error),
       );
     } else {
+      // question is already exist in exam object
       this.setCurrentQuestion(this.exam.questions[index]);
     }
   }
@@ -199,13 +200,11 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     setTimeout(() => {
       this.isNew = true;
       $this.ngxUiLoaderService.stopAll();
-    }, 200);
+    }, 250);
   }
 
   private reset() {
-    if (this.subscription instanceof Subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.questionSubscriptionUnsubscribe();
     this.validateCurrentExamQuestion();
     this.ngxUiLoaderService.start();
     this.isNew = false;
@@ -251,22 +250,40 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   }
 
   public finishExam() {
+    this.countdownSubscriptionUnsubscribe();
     this.validateCurrentExamQuestion();
     this.exam.finish();
     const $this = this;
-    let result;
+
+    const subscriber = {
+      next() {
+        $this.goToHome();
+      },
+      error(error) {
+        console.error(error);
+      },
+      complete() {
+        console.log(`You answered correctly to ${$this.exam.score} questions from 70`);
+      }
+    };
+
     if (this.exam.score >= 50) {
       const message = 'Congratulations you passed the exam!';
-      result = this.toastrService.success(message, 'Exam result!', {closeButton: true});
+      this.toastrService.success(message, 'Exam result!', {closeButton: true}).onHidden.subscribe(subscriber);
     } else {
       const message = 'You did not passed the exam!';
-      result = this.toastrService.warning(message, 'Exam result!', {closeButton: true});
+      this.toastrService.warning(message, 'Exam result!', {closeButton: true}).onHidden.subscribe(subscriber);
     }
+  }
 
-    result.onHidden.subscribe(
-      () => $this.goToHome(),
-      error => console.log(error),
-      () => console.log(`You answered correctly to ${$this.exam.score} questions from 70`)
-    );
+  private countdownSubscriptionUnsubscribe(): void {
+    if (this.countdownSubscription instanceof Subscription) {
+      this.countdownSubscription.unsubscribe();
+    }
+  }
+  private questionSubscriptionUnsubscribe(): void {
+    if (this.questionSubscription instanceof Subscription) {
+      this.questionSubscription.unsubscribe();
+    }
   }
 }
