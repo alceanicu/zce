@@ -4,8 +4,7 @@
       <label class="form-check-label">
         <input class="form-check-input" type="checkbox"
                [(ngModel)]="answerRow.userAnswer"
-               [disabled]="disabled"
-               [attr.data-correct]="answerRow.correct">
+               [disabled]="disabled">
         {{letters[i]}} <span class="form-check-sign"></span>
       </label>
     </div>

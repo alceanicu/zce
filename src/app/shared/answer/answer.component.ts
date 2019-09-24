@@ -12,9 +12,8 @@ export class AnswerComponent implements OnInit {
   @Input('answerRow') answerRow: IAnswerRow;
   @Input('disabled') disabled: boolean;
   @Input('i') i: number;
-
-  public letters: Array<string>;
   public extensionsAllowed: Array<string>;
+  public letters: Array<string>;
 
   ngOnInit(): void {
     this.extensionsAllowed = environment.configPHP.extensionsAllowed;
