@@ -45,7 +45,6 @@ export class QuestionService {
   }
 
   public getOneQuestionById(id: number): Observable<Question> {
-    // const $this = this;
     this.internalCounter = 0;
     this.questionNumber = 1;
     return new Observable((subscriber: Subscriber<Question>) => {
@@ -53,20 +52,19 @@ export class QuestionService {
     });
   }
 
-  private getQuestionById(id: number, subscribe: Subscriber<Question>) {
-    const $this = this;
+  private getQuestionById(id: number, subscriber: Subscriber<Question>) {
     this.indexedDbQuizService
       .getQuestionById(id)
       .then(async (question) => {
         if (question) {
-          this.setQuestion(new Question(question), subscribe);
+          this.setQuestion(new Question(question), subscriber);
         } else {
-          this.getQuestionFromFirebase(id, subscribe);
+          this.getQuestionFromFirebase(id, subscriber);
         }
       })
       .catch(e => {
         console.error(e.stack || e);
-        this.getQuestionFromFirebase(id, subscribe);
+        this.getQuestionFromFirebase(id, subscriber);
       });
   }
 
@@ -87,13 +85,13 @@ export class QuestionService {
     }
   }
 
-  private getQuestionFromFirebase(id: number, subscribe: Subscriber<IQuestion>) {
+  private getQuestionFromFirebase(id: number, subscriber: Subscriber<IQuestion>) {
     this.firestorePhpQuestionService.getQuestion(id).subscribe(
       (DocumentSnapshot) => {
         const question = new Question(DocumentSnapshot.data() as IQuestion);
         if (question) {
           this.saveToIndexedDb(question);
-          this.setQuestion(question, subscribe);
+          this.setQuestion(question, subscriber);
         } else {
           throw new Error('bad robot');
         }
@@ -115,12 +113,12 @@ export class QuestionService {
       });
   }
 
-  private setQuestion(question: Question, subscribe: Subscriber<IQuestion>) {
+  private setQuestion(question: Question, subscriber: Subscriber<IQuestion>) {
     this.internalCounter++;
     question.randomizeAnswers();
-    subscribe.next(question);
+    subscriber.next(question);
     if (this.internalCounter === this.questionNumber) {
-      subscribe.complete();
+      subscriber.complete();
     }
   }
 }
