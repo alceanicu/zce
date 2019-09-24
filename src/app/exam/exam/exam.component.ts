@@ -67,10 +67,9 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   }
 
   ngOnInit(): void {
-    const $this = this;
     this.exam = new Exam();
     this.localStorageSubscription = this.localStorageService.getAppConfig().subscribe(
-      config => $this.exam.setMax(config.counter),
+      config => this.exam.setMax(config.counter),
       error => console.error(error)
     );
 
@@ -80,21 +79,21 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     this.countdownSubscription = this.countdownService.countdown().subscribe(
       (seconds: number) => {
         if (seconds === 3600) {
-          $this.toastrService.success('You have another hour to finish the exam', 'Time left');
+          this.toastrService.success('You have another hour to finish the exam', 'Time left');
         }
         if (seconds === 1800) {
-          $this.toastrService.success('You have another 30 minutes to finish the exam', 'Time left');
+          this.toastrService.success('You have another 30 minutes to finish the exam', 'Time left');
         }
         if (seconds === 600) {
-          $this.toastrService.success('You have another 10 minutes to finish the exam', 'Time left');
+          this.toastrService.success('You have another 10 minutes to finish the exam', 'Time left');
         }
         if (seconds === 300) {
-          $this.toastrService.success('You have less than 5 minutes to finish the exam', 'Times left!');
+          this.toastrService.success('You have less than 5 minutes to finish the exam', 'Times left!');
         }
 
-        const obj = $this.syncCountdownTimeService.getValue();
-        obj.time = $this.getTimeString(endTime);
-        $this.syncCountdownTimeService.setValue(obj);
+        const obj = this.syncCountdownTimeService.getValue();
+        obj.time = this.getTimeString(endTime);
+        this.syncCountdownTimeService.setValue(obj);
       },
       error => console.error(error),
       () => this.finishExam()
@@ -164,7 +163,6 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
 
   public getQuestion(id: number, index: number) {
     this.reset();
-    const $this = this;
     this.index = index;
 
     if (this.exam.questions[index] === undefined) {
@@ -177,8 +175,8 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
             markForReview: false,
             correct: false
           } as IExamQuestion;
-          $this.exam.setQuestion(index, currentQuestion);
-          $this.setCurrentQuestion(currentQuestion);
+          this.exam.setQuestion(index, currentQuestion);
+          this.setCurrentQuestion(currentQuestion);
         },
         error => console.error(error),
       );
@@ -196,10 +194,9 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
 
   private setCurrentQuestion(question: IExamQuestion) {
     this.examQuestion = question;
-    const $this = this;
     setTimeout(() => {
       this.isNew = true;
-      $this.ngxUiLoaderService.stopAll();
+      this.ngxUiLoaderService.stopAll();
     }, 250);
   }
 

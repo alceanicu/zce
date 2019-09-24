@@ -43,7 +43,7 @@
     "ngx-simple-modal": "^1.4.3",
     "ngx-toastr": "^10.2.0",
     "ngx-ui-loader": "^8.0.0",
-    "pdfmake": "^0.1.59",
+    "pdfmake": "^0.1.60",
     "prismjs": "^1.17.1",
     "rxjs": "^6.5.3",
     "tslib": "^1.10.0",
@@ -69,6 +69,6 @@
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
     "typescript": "~3.5.3",
-    "webpack-bundle-analyzer": "^3.5.0"
+    "webpack-bundle-analyzer": "^3.5.1"
   }
 }

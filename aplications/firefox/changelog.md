@@ -1,9 +1,10 @@
 ## FIREFOX extension changelog
 
-### 2.0.4 [2019.09.20]
+### 2.0.4 [2019.09.24]
 
 - npm update
 - update service
+- remove $this = this
 
 ### 2.0.3 [2019.09.19]
 
