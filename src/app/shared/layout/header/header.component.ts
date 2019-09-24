@@ -51,16 +51,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   sidebarOpen() {
-    const $this = this;
     setTimeout(() => {
-      $this.toggleButton.classList.add('toggled');
-    }, 500);
+      this.toggleButton.classList.add('toggled'); // fixme
+    }, 3500);
     this.html.classList.add('nav-open');
     this.sidebarVisible = true;
   }
 
   sidebarClose() {
-    this.toggleButton.classList.remove('toggled');
+    this.toggleButton.classList.remove('toggled'); // fixme
     this.sidebarVisible = false;
     this.html.classList.remove('nav-open');
   }

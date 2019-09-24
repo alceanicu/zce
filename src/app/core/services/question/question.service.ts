@@ -26,31 +26,30 @@ export class QuestionService {
   }
 
   public getQuestion(questionNumber: number = 1): Observable<Question> {
-    const $this = this;
     this.internalCounter = 0;
     this.questionNumber = questionNumber;
 
-    return new Observable((subscribe: Subscriber<Question>) => {
+    return new Observable((subscriber: Subscriber<Question>) => {
       for (let i = 0; i < questionNumber; i++) {
-        $this.getAnRandomQuestion(subscribe);
+        this.getAnRandomQuestion(subscriber);
       }
     });
   }
 
-  private getAnRandomQuestion(subscribe: Subscriber<Question>) {
+  private getAnRandomQuestion(subscriber: Subscriber<Question>) {
     const $this = this;
     this.localStorageService.getAppConfig().subscribe(
-      config => $this.getQuestionById($this.generateRandomIdWithoutRepeatInLastN(config), subscribe),
+      config => $this.getQuestionById($this.generateRandomIdWithoutRepeatInLastN(config), subscriber),
       error => console.error(error)
     );
   }
 
   public getOneQuestionById(id: number): Observable<Question> {
-    const $this = this;
+    // const $this = this;
     this.internalCounter = 0;
     this.questionNumber = 1;
-    return new Observable((subscribe: Subscriber<Question>) => {
-      $this.getQuestionById(id, subscribe);
+    return new Observable((subscriber: Subscriber<Question>) => {
+      this.getQuestionById(id, subscriber);
     });
   }
 
@@ -60,14 +59,14 @@ export class QuestionService {
       .getQuestionById(id)
       .then(async (question) => {
         if (question) {
-          $this.setQuestion(new Question(question), subscribe);
+          this.setQuestion(new Question(question), subscribe);
         } else {
-          $this.getQuestionFromFirebase(id, subscribe);
+          this.getQuestionFromFirebase(id, subscribe);
         }
       })
       .catch(e => {
         console.error(e.stack || e);
-        $this.getQuestionFromFirebase(id, subscribe);
+        this.getQuestionFromFirebase(id, subscribe);
       });
   }
 
@@ -89,13 +88,12 @@ export class QuestionService {
   }
 
   private getQuestionFromFirebase(id: number, subscribe: Subscriber<IQuestion>) {
-    const $this = this;
     this.firestorePhpQuestionService.getQuestion(id).subscribe(
-      DocumentSnapshot => {
+      (DocumentSnapshot) => {
         const question = new Question(DocumentSnapshot.data() as IQuestion);
         if (question) {
-          $this.saveToIndexedDb(question);
-          $this.setQuestion(question, subscribe);
+          this.saveToIndexedDb(question);
+          this.setQuestion(question, subscribe);
         } else {
           throw new Error('bad robot');
         }
