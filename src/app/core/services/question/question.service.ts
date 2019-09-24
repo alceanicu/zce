@@ -57,7 +57,7 @@ export class QuestionService {
       .getQuestionById(id)
       .then(async (question) => {
         if (question) {
-          this.setQuestion(new Question(question), subscriber);
+          await this.setQuestion(new Question(question), subscriber);
         } else {
           this.getQuestionFromFirebase(id, subscriber);
         }
@@ -104,7 +104,7 @@ export class QuestionService {
   private saveToIndexedDb(question: IQuestion) {
     this.indexedDbQuizService
       .addQuestion(question)
-      .then(async (key) => {
+      .then(key => {
         console.log(`Question is now saved in IndexedDB [id=${key}]`);
       })
       .catch(e => {
