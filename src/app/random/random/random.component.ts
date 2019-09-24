@@ -51,13 +51,12 @@ export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   private getAnRandomQuestion() {
     this.reset();
-    const $this = this;
     this.questionSubscription = this.questionService.getQuestion(1).subscribe(
-      question => $this.question = question,
+      question => this.question = question,
       error => console.error(error),
       () => {
-        $this.isNew = true;
-        setTimeout(() => $this.ngxUiLoaderService.stopAll(), 250);
+        this.isNew = true;
+        setTimeout(() => this.ngxUiLoaderService.stopAll(), 250);
       }
     );
   }
@@ -83,23 +82,22 @@ export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   onValidate(countDown: number = 10) {
-    const $this = this;
     this.isCorrect = this.question.validate(true);
 
     this.syncScoreService.setValue(this.updateScore(this.isCorrect));
     const ansType = this.isCorrect ? 'Correct' : 'Wrong';
     this.btnText = `${ansType} [new quiz in ${countDown} seconds]`;
 
-    $this.interval = setInterval(() => {
+    this.interval = setInterval(() => {
       countDown--;
       if (countDown === 1) {
-        $this.btnText = `${ansType} [new quiz in ${countDown} second] or push to get it now`;
+        this.btnText = `${ansType} [new quiz in ${countDown} second] or push to get it now`;
       } else {
-        $this.btnText = `${ansType} [new quiz in ${countDown} seconds] or push to get it now`;
+        this.btnText = `${ansType} [new quiz in ${countDown} seconds] or push to get it now`;
       }
 
       if (countDown === 0) {
-        $this.getAnRandomQuestion();
+        this.getAnRandomQuestion();
       }
     }, 1000);
   }
