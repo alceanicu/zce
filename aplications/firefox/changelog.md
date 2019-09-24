@@ -5,6 +5,7 @@
 - npm update
 - update service
 - remove $this = this
+- check questions with id in [100-200]
 
 ### 2.0.3 [2019.09.19]
 
