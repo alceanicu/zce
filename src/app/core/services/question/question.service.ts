@@ -37,9 +37,8 @@ export class QuestionService {
   }
 
   private getAnRandomQuestion(subscriber: Subscriber<Question>) {
-    const $this = this;
     this.localStorageService.getAppConfig().subscribe(
-      config => $this.getQuestionById($this.generateRandomIdWithoutRepeatInLastN(config), subscriber),
+      config => this.getQuestionById(this.generateRandomIdWithoutRepeatInLastN(config), subscriber),
       error => console.error(error)
     );
   }
@@ -74,8 +73,9 @@ export class QuestionService {
     if (internalCounter === 100) {
       return randomId;
     }
-    if (phpLastNIds.indexOf(String(randomId)) === -1) {
-      phpLastNIds.unshift(String(randomId));
+    const randomIdStr = String(randomId);
+    if (phpLastNIds.indexOf(randomIdStr) === -1) {
+      phpLastNIds.unshift(randomIdStr);
       phpLastNIds = phpLastNIds.filter((value, key) => key < 10);
       this.sessionStorageService.setItem('phpLastNIds', phpLastNIds);
       return randomId;
