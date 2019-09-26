@@ -37,9 +37,8 @@ export class QuestionService {
   }
 
   private getAnRandomQuestion(subscriber: Subscriber<Question>) {
-    const $this = this;
     this.localStorageService.getAppConfig().subscribe(
-      config => $this.getQuestionById($this.generateRandomIdWithoutRepeatInLastN(config), subscriber),
+      config => this.getQuestionById(this.generateRandomIdWithoutRepeatInLastN(config), subscriber),
       error => console.error(error)
     );
   }
@@ -57,7 +56,7 @@ export class QuestionService {
       .getQuestionById(id)
       .then(async (question) => {
         if (question) {
-          this.setQuestion(new Question(question), subscriber);
+          await this.setQuestion(new Question(question), subscriber);
         } else {
           this.getQuestionFromFirebase(id, subscriber);
         }
@@ -74,8 +73,9 @@ export class QuestionService {
     if (internalCounter === 100) {
       return randomId;
     }
-    if (phpLastNIds.indexOf(String(randomId)) === -1) {
-      phpLastNIds.unshift(String(randomId));
+    const randomIdStr = String(randomId);
+    if (phpLastNIds.indexOf(randomIdStr) === -1) {
+      phpLastNIds.unshift(randomIdStr);
       phpLastNIds = phpLastNIds.filter((value, key) => key < 10);
       this.sessionStorageService.setItem('phpLastNIds', phpLastNIds);
       return randomId;
@@ -104,7 +104,7 @@ export class QuestionService {
   private saveToIndexedDb(question: IQuestion) {
     this.indexedDbQuizService
       .addQuestion(question)
-      .then(async (key) => {
+      .then(key => {
         console.log(`Question is now saved in IndexedDB [id=${key}]`);
       })
       .catch(e => {
