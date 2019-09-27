@@ -1,6 +1,6 @@
 ## FIREFOX extension changelog
 
-### 2.0.4 [2019.09.26]
+### 2.0.4 [2019.09.27]
 
 - npm update
 - update service
