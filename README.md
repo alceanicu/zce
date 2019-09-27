@@ -26,13 +26,3 @@ This application is licensed under the [MIT](http://opensource.org/licenses/MIT)
 > Not all questions are checked, some of them might have wrong answers.
 >
 > This application is not affiliated with or endorsed by [PHP Group](https://www.php.net/) or [ZEND](https://www.zend.com/en).
-
-
-
-```mermaid
-graph TD;
-  A-->B;
-  A-->C;
-  B-->D;
-  C-->D;
-```
