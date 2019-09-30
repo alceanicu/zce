@@ -10,9 +10,8 @@ From version 1.0.2 you can export tests in PDF format, tests can have 5 or 10 ra
 
 If you find this application useful, you can star as on GitHub(https://github.com/alceanicu/zce), also there you can find application source code.
 
-## You can try this application as: 
+## You can try this application also as an: 
 
-* [CHROME extension (v2.0.4)](https://chrome.google.com/webstore/detail/php-zend-certification-exam/kdjolhghoglghipajmbmlmldbpncimge)
 * [FIREFOX extension (v2.0.4)](https://addons.mozilla.org/ro/firefox/addon/php-zend-certification-exam/)
 * [GitHub Page (v2.0.4)](https://alceanicu.github.io/zce/)
 * Android mobile application (v1.1.2 - beta) - soon
