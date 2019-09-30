@@ -115,8 +115,27 @@ export class PdfService {
       });
     });
 
+    content.push({text: '\n\r'});
+    content.push({qr: 'https://alceanicu.github.io/zce'});
+
+    const name = this.moment().format('YYYY_MM_DD_HH:mm:ss');
+
     const docDefinition = {
       content: content,
+      watermark: {
+        text: 'ZCE - Exam Simulator',
+        color: 'blue',
+        opacity: 0.1,
+        bold: true,
+        italics: false
+      },
+      info: {
+        title: 'ZCE - Exam Simulator',
+        author: 'Nicu ALCEA',
+        subject: 'ZCE - Exam Simulator for Zend PHP Engineer Certification',
+        keywords: 'PHP, question, test, certification, zend',
+        creationDate: name
+      },
       styles: {
         invoiceTable: {
           margin: [0, 5, 0, 15]
@@ -137,8 +156,6 @@ export class PdfService {
         fontSize: 8
       }
     };
-
-    const name = this.moment().format('YYYY_MM_DD_HH:mm:ss');
 
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
     pdfMake.createPdf(docDefinition).download(`${name}.pdf`);
