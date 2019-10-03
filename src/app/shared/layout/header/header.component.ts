@@ -12,13 +12,13 @@ import { SyncCountdownTimeService, SyncLocationService, SyncScoreService } from 
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  public currentRoute: string;
+  public scoreObj: IScore;
+  public countdownTimeObj: ICountdownTime;
   private html: any;
   private toggleButton: any;
   private sidebarVisible: boolean;
   private subscriptions: Subscription[] = [];
-  public currentRoute: string;
-  public scoreObj: IScore;
-  public countdownTimeObj: ICountdownTime;
 
   constructor(
     @Inject(DOCUMENT) private document: Document,

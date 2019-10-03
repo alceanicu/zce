@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { SessionStorageService } from '../session-storage/session-storage.service';
-import { ICountdownTime } from '../../interfaces';
-import { CountdownTime } from '../../models';
-import { SyncAbstract } from '../../utils/abstract/sync-abstract';
+import { SessionStorageService } from '@app/core/services/session-storage/session-storage.service';
+import { ICountdownTime } from '@app/core/interfaces';
+import { CountdownTime } from '@app/core/models';
+import { SyncAbstract } from '@app/core/utils/abstract/sync-abstract';
 
 
 @Injectable({

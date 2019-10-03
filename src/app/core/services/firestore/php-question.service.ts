@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 
 import { Observable } from 'rxjs';
@@ -10,7 +10,7 @@ import { IConfig, IQuestion } from '@app/core/interfaces';
 @Injectable({
   providedIn: 'root'
 })
-export class PhpQuestionService implements OnInit {
+export class PhpQuestionService {
   public quizCollection: AngularFirestoreCollection<IQuestion>;
   private quizDoc: AngularFirestoreDocument<IQuestion>;
   private phpConfigDoc: AngularFirestoreDocument<IConfig>;
@@ -18,9 +18,10 @@ export class PhpQuestionService implements OnInit {
   constructor(
     private db: AngularFirestore
   ) {
+    this.init();
   }
 
-  ngOnInit(): void {
+  init(): void {
     this.quizCollection = this.db.collection<IQuestion>(environment.configPHP.phpPath);
   }
 

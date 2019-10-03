@@ -19,8 +19,8 @@ const log = new Logger('App');
 export class AppComponent implements OnInit, OnDestroy {
   public title = 'ZCE';
   public currentRoute: string;
-  private subscriptions: Subscription[] = [];
   @ViewChild(HeaderComponent, {static: false}) headerComponent: HeaderComponent;
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private element: ElementRef,
