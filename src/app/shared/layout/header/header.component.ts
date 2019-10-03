@@ -1,9 +1,9 @@
 import { Component, ElementRef, Inject, OnDestroy, OnInit } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 
-import { ICountdownTime, IScore } from '../../../core/interfaces';
-import { SyncCountdownTimeService, SyncLocationService, SyncScoreService } from '../../../core/services';
 import { Subscription } from 'rxjs';
+import { ICountdownTime, IScore } from '@app/core/interfaces';
+import { SyncCountdownTimeService, SyncLocationService, SyncScoreService } from '@app/core/services';
 
 
 @Component({

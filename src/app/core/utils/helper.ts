@@ -1,4 +1,4 @@
-import { IOption } from '../interfaces';
+import { IOption } from '@app/core/interfaces';
 
 
 export class Helper {

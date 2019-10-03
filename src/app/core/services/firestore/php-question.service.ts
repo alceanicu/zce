@@ -2,9 +2,9 @@ import { Injectable, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 
 import { Observable } from 'rxjs';
-import { environment } from '../../../../environments/environment';
-import { IConfig, IQuestion } from '../../interfaces';
 import { firestore } from 'firebase';
+import { environment } from '@env/environment';
+import { IConfig, IQuestion } from '@app/core/interfaces';
 
 
 @Injectable({
@@ -71,7 +71,7 @@ export class PhpQuestionService implements OnInit {
     });
   }
 
-  deleteQuestion(id): Observable<any> {
+  deleteQuestion(id: number): Observable<any> {
     return new Observable((observer) => {
       this.quizDoc = this.db.doc<IQuestion>(`${environment.configPHP.phpPath}/${id}`);
       this.quizDoc.delete().then(() => {

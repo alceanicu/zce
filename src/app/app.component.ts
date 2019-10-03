@@ -1,13 +1,16 @@
-import { Component, ElementRef, Inject, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { DOCUMENT, Location } from '@angular/common';
+import { Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Location } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 import { Subscription } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
-import { HeaderComponent } from './shared/layout';
-import { SyncLocationService } from './core/services';
+import { HeaderComponent } from '@app/shared/layout';
+import { Logger, SyncLocationService } from '@app/core/services';
+import { environment } from '@env/environment';
 
+
+const log = new Logger('App');
 
 @Component({
   selector: 'app-root',
@@ -20,7 +23,6 @@ export class AppComponent implements OnInit, OnDestroy {
   @ViewChild(HeaderComponent, {static: false}) headerComponent: HeaderComponent;
 
   constructor(
-    @Inject(DOCUMENT) private document: Document,
     private element: ElementRef,
     private renderer: Renderer2,
     private location: Location,
@@ -31,7 +33,14 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {
   }
 
+
   ngOnInit(): void {
+    if (environment.production) {
+      Logger.enableProductionMode();
+    }
+
+    log.info('Logger init');
+
     this.subscriptions.push(this.syncLocationService.currentValue.subscribe(value => {
       this.currentRoute = value;
     }));

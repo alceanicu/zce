@@ -15,7 +15,7 @@ export class Question implements IQuestion {
       Object.assign(this, values);
     }
 
-    this.answerRows.forEach((answerRow, key) => {
+    this.answerRows.forEach((answerRow: IAnswerRow) => {
       answerRow.userAnswer = false;
     });
   }

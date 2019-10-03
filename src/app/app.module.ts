@@ -7,9 +7,9 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FooterComponent, HeaderComponent, SharedModule } from './shared';
-import { CoreModule } from './core';
+import { CoreModule } from '@app/core';
 import { ToastrModule } from 'ngx-toastr';
-import { environment } from '../environments/environment';
+import { environment } from '@env/environment';
 import { ROUND_PROGRESS_DEFAULTS, RoundProgressModule } from 'angular-svg-round-progressbar';
 import * as moment from 'moment';
 

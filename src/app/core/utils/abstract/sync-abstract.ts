@@ -1,10 +1,10 @@
 import { BehaviorSubject, Observable } from 'rxjs';
-import { SessionStorageService } from '../../services/session-storage/session-storage.service';
-import { IDataService } from '../../interfaces/i-data-service.interface';
+import { SessionStorageService } from '@app/core/services/session-storage/session-storage.service';
+import { IDataService } from '@app/core/interfaces/i-data-service.interface';
 
 export abstract class SyncAbstract implements IDataService {
-  private messageSource: BehaviorSubject<any>;
   public currentValue: Observable<any>;
+  private messageSource: BehaviorSubject<any>;
 
   protected constructor(
     private readonly key: string,
@@ -18,17 +18,17 @@ export abstract class SyncAbstract implements IDataService {
     this.currentValue = this.messageSource.asObservable();
   }
 
+  public abstract getValue(): any;
+
+  public abstract setValue(value: any): void;
+
   protected getCurrentValue() {
     return this.sessionStorageService.getItem(this.key) || this.defaultValue;
   }
 
-  protected updateCurrentValue(value) {
+  protected updateCurrentValue(value: any) {
     this.sessionStorageService.setItem(this.key, value);
     this.messageSource.next(value);
   }
-
-  public abstract getValue();
-
-  public abstract setValue(value): void;
 }
 

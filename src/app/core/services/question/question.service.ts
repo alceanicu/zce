@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 
 import { Observable, Subscriber } from 'rxjs';
-import { Helper } from '../../utils';
-import { PhpQuestionService } from '../firestore/php-question.service';
-import { LocalStorageService } from '../local-storage/local-storage.service';
-import { IndexedDbQuizService } from '../indexeddb/indexed-db-quiz.service';
-import { SessionStorageService } from '../session-storage/session-storage.service';
-import { IConfig, IQuestion } from '../../interfaces';
-import { Question } from '../../models';
+import { Helper } from '@app/core/utils';
+import { PhpQuestionService } from '@app/core/services/firestore/php-question.service';
+import { LocalStorageService } from '@app/core/services/local-storage/local-storage.service';
+import { IndexedDbQuizService } from '@app/core/services/indexeddb/indexed-db-quiz.service';
+import { SessionStorageService } from '@app/core/services/session-storage/session-storage.service';
+import { IConfig, IQuestion } from '@app/core/interfaces';
+import { Question } from '@app/core/models';
+import { Logger } from '@app/core/services/logger/logger.service';
 
+const log = new Logger('QuestionService');
 
 @Injectable({
   providedIn: 'root'
@@ -36,19 +38,19 @@ export class QuestionService {
     });
   }
 
-  private getAnRandomQuestion(subscriber: Subscriber<Question>) {
-    this.localStorageService.getAppConfig().subscribe(
-      config => this.getQuestionById(this.generateRandomIdWithoutRepeatInLastN(config), subscriber),
-      error => console.error(error)
-    );
-  }
-
   public getOneQuestionById(id: number): Observable<Question> {
     this.internalCounter = 0;
     this.questionNumber = 1;
     return new Observable((subscriber: Subscriber<Question>) => {
       this.getQuestionById(id, subscriber);
     });
+  }
+
+  private getAnRandomQuestion(subscriber: Subscriber<Question>) {
+    this.localStorageService.getAppConfig().subscribe(
+      config => this.getQuestionById(this.generateRandomIdWithoutRepeatInLastN(config), subscriber),
+      error => log.error(error)
+    );
   }
 
   private getQuestionById(id: number, subscriber: Subscriber<Question>) {
@@ -62,7 +64,7 @@ export class QuestionService {
         }
       })
       .catch(e => {
-        console.error(e.stack || e);
+        log.error(e);
         this.getQuestionFromFirebase(id, subscriber);
       });
   }
@@ -76,7 +78,7 @@ export class QuestionService {
     const randomIdStr = String(randomId);
     if (phpLastNIds.indexOf(randomIdStr) === -1) {
       phpLastNIds.unshift(randomIdStr);
-      phpLastNIds = phpLastNIds.filter((value, key) => key < 10);
+      phpLastNIds = phpLastNIds.filter((value: any, key: number) => key < 10);
       this.sessionStorageService.setItem('phpLastNIds', phpLastNIds);
       return randomId;
     } else {
@@ -96,8 +98,8 @@ export class QuestionService {
           throw new Error('bad robot');
         }
       },
-      error => console.error(error),
-      () => console.log('Question from FIREBASE complete')
+      error => log.error(error),
+      () => log.info('Question from FIREBASE complete')
     );
   }
 
@@ -105,11 +107,11 @@ export class QuestionService {
     this.indexedDbQuizService
       .addQuestion(question)
       .then(key => {
-        console.log(`Question is now saved in IndexedDB [id=${key}]`);
+        log.info(`Question is now saved in IndexedDB [id=${key}]`);
       })
       .catch(e => {
-        console.log(`Question can not be saved in IndexedDB`);
-        console.error(e.stack || e);
+        log.error(`Question can not be saved in IndexedDB`);
+        log.error(e);
       });
   }
 

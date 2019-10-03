@@ -68,6 +68,7 @@ ng g s core/services/sync-countdown-time/sync-countdown-time
 ng g s core/services/sync-score/sync-score
 ng g s core/services/sync-location/sync-location
 ng g s core/services/pdf/pdf
+ng g s core/services/logger/logger
 
 -- guards
 ng g guard core/guards/exam/exam

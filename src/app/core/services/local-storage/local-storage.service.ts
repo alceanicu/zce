@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { PhpQuestionService } from '../firestore/php-question.service';
-import { IConfig } from '../../interfaces';
+import { IConfig } from '@app/core/interfaces';
 
 @Injectable({
   providedIn: 'root'

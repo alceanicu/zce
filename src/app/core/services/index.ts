@@ -1,5 +1,6 @@
 export * from './countdown/countdown.service';
 export * from './local-storage/local-storage.service';
+export * from './logger/logger.service';
 export * from './prism/prism.service';
 export * from './question/question.service';
 export * from './session-storage/session-storage.service';

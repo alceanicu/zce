@@ -1,6 +1,6 @@
 import { Helper } from '../utils';
 import { IExam, IExamQuestion } from '../interfaces';
-import { environment } from '../../../environments/environment';
+import { environment } from '@env/environment';
 
 
 export class Exam implements IExam {
@@ -8,7 +8,7 @@ export class Exam implements IExam {
   public endAt?: number;
   public questions?: { [key: string]: IExamQuestion };
   public questionsArray?: Array<number> = [];
-  public score?: number;
+  public score?: number = 0;
   public finished?: boolean;
 
   private examQuestionNumber = 70;
@@ -44,14 +44,14 @@ export class Exam implements IExam {
     }
   }
 
-  public setQuestion(key, question: IExamQuestion): void {
+  public setQuestion(key: number, question: IExamQuestion): void {
     this.questions[key] = question;
   }
 
   /**
    * Set an array with 70 unique random numbers
    */
-  private initQuestionsArray() {
+  private initQuestionsArray(): Array<number> {
     if (this.questionsArray.length === this.examQuestionNumber) {
       return this.questionsArray;
     } else {

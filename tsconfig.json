@@ -2,6 +2,10 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
+    "paths": {
+      "@app/*": ["src/app/*"],
+      "@env/*": ["src/environments/*"]
+    },
     "downlevelIteration": true,
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
@@ -9,7 +13,19 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "removeComments": true,
     "importHelpers": true,
+    "noImplicitAny": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitThis": true,
+//    "strictNullChecks": true,
+//    "noImplicitReturns": true,
+//    "noUnusedLocals": true,
+//    "noUnusedParameters": true,
+    "suppressImplicitAnyIndexErrors": true,
     "module": "esnext",
     "target": "es2015",
     "typeRoots": [

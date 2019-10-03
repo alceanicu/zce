@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { IQuestion } from '../../interfaces';
+import { IQuestion } from '@app/core/interfaces';
 import Dexie from 'dexie';
 
 class QuestionDatabase extends Dexie {

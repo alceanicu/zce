@@ -1,10 +1,12 @@
 import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
 
-import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { PrismService, QuestionService, SyncScoreService } from '../../core/services';
-import { Question } from '../../core/models';
-import { IScore } from '../../core/interfaces';
 import { Subscription } from 'rxjs';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { Logger, PrismService, QuestionService, SyncScoreService } from '@app/core/services';
+import { Question } from '@app/core/models';
+import { IScore } from '@app/core/interfaces';
+
+const log = new Logger('RandomComponent');
 
 @Component({
   selector: 'app-random',
@@ -32,7 +34,7 @@ export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
   ngOnInit(): void {
     this.scoreSubscription = this.syncScoreService.currentValue.subscribe(
       (score: IScore) => this.score = score,
-      error => console.error(error)
+      error => log.error(error)
     );
     this.getAnRandomQuestion();
   }
@@ -49,11 +51,31 @@ export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.questionUnsubscribe();
   }
 
+  public onValidate(countDown: number = 10) {
+    this.isCorrect = this.question.validate(true);
+    this.syncScoreService.setValue(this.updateScore(this.isCorrect));
+    const ansType = this.isCorrect ? 'Correct' : 'Wrong';
+    this.btnText = `${ansType} [new quiz in ${countDown} seconds]`;
+
+    this.interval = setInterval(() => {
+      countDown--;
+      if (countDown === 1) {
+        this.btnText = `${ansType} [new quiz in ${countDown} second] or push to get it now`;
+      } else {
+        this.btnText = `${ansType} [new quiz in ${countDown} seconds] or push to get it now`;
+      }
+
+      if (countDown === 0) {
+        this.getAnRandomQuestion();
+      }
+    }, 1000);
+  }
+
   private getAnRandomQuestion() {
     this.reset();
     this.questionSubscription = this.questionService.getQuestion(1).subscribe(
       question => this.question = question,
-      error => console.error(error),
+      error => log.error(error),
       () => {
         this.isNew = true;
         setTimeout(() => this.ngxUiLoaderService.stopAll(), 250);
@@ -79,27 +101,6 @@ export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
     if (this.questionSubscription instanceof Subscription) {
       this.questionSubscription.unsubscribe();
     }
-  }
-
-  onValidate(countDown: number = 10) {
-    this.isCorrect = this.question.validate(true);
-
-    this.syncScoreService.setValue(this.updateScore(this.isCorrect));
-    const ansType = this.isCorrect ? 'Correct' : 'Wrong';
-    this.btnText = `${ansType} [new quiz in ${countDown} seconds]`;
-
-    this.interval = setInterval(() => {
-      countDown--;
-      if (countDown === 1) {
-        this.btnText = `${ansType} [new quiz in ${countDown} second] or push to get it now`;
-      } else {
-        this.btnText = `${ansType} [new quiz in ${countDown} seconds] or push to get it now`;
-      }
-
-      if (countDown === 0) {
-        this.getAnRandomQuestion();
-      }
-    }, 1000);
   }
 
   private updateScore(isCorrect: boolean): IScore {

@@ -1,7 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { SimpleModalComponent } from 'ngx-simple-modal';
-import { IConfirm } from '../../core/interfaces';
+import { IConfirm } from '@app/core/interfaces';
+import { Logger } from '@app/core/services';
+
+const log = new Logger('ConfirmComponent');
 
 @Component({
   selector: 'app-confirm',
@@ -21,7 +24,7 @@ export class ConfirmComponent extends SimpleModalComponent<IConfirm, boolean> im
     // then we can get modal result from caller code
     this.result = true;
     this.close().then(() => {
-      // console.log('ok');
+      log.info('Confirm closed');
     });
   }
 }

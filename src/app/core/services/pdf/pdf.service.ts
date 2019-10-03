@@ -1,10 +1,12 @@
 import { Inject, Injectable } from '@angular/core';
 
-import { QuestionService } from '../question/question.service';
-import { IQuestion } from '../../interfaces';
-import { environment } from '../../../../environments/environment';
-import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
+import { IAnswerRow, IQuestion, IQuestionRow } from '@app/core/interfaces';
+import { Logger, QuestionService } from '@app/core/services';
+import { environment } from '@env/environment';
+import * as pdfMake from 'pdfmake/build/pdfmake.js';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts.js';
+
+const log = new Logger('PdfService');
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,7 @@ export class PdfService {
 
   constructor(
     private questionService: QuestionService,
-    @Inject('moment') private moment
+    @Inject('moment') private moment: any
   ) {
   }
 
@@ -22,27 +24,27 @@ export class PdfService {
     this.questionArray = [];
     this.questionService.getQuestion(questionNumber).subscribe(
       (question: IQuestion) => this.questionArray.push(question),
-      error => console.error(error),
+      error => log.error(error),
       () => this.generatePDF()
     );
   }
 
   private generatePDF() {
     const letters = environment.configPHP.letters;
-    const content = [];
-    const correctAnswer = [];
+    const content: Array<any> = [];
+    const correctAnswer: Array<any> = [];
 
     for (let i = 0; i < this.questionArray.length; i++) {
       const question = this.questionArray[i];
-      const questionBody = [];
-      const answerBody = [];
-      const correct = [];
+      const questionBody: Array<any> = [];
+      const answerBody: Array<any> = [];
+      const correct: Array<any> = [];
       content.push({
         text: 'Question ' + (i + 1),
         style: 'h1'
       });
 
-      question.questionRows.forEach((obj, key) => {
+      question.questionRows.forEach((obj: IQuestionRow) => {
         const questionRow = {
           text: obj.text,
           fontSize: 8,
@@ -66,7 +68,7 @@ export class PdfService {
         layout: 'headerLineOnly'
       });
 
-      question.answerRows.forEach((obj, key) => {
+      question.answerRows.forEach((obj: IAnswerRow, key: number) => {
         const answerRow = {
           text: obj.text,
           fillColor: '#FFF'

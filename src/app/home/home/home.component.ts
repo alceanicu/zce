@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { PdfService } from '../../core/services/pdf/pdf.service';
+import { PdfService } from '@app/core/services/pdf/pdf.service';
 
 
 @Component({
