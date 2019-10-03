@@ -22,7 +22,6 @@ import * as moment from 'moment';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     SharedModule,
@@ -35,7 +34,8 @@ import * as moment from 'moment';
       newestOnTop: false,
       progressBar: true,
       maxOpened: 1
-    })
+    }),
+    AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
   providers: [
     {provide: 'moment', useFactory: (): any => moment},
