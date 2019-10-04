@@ -6,10 +6,10 @@ import { environment } from '@env/environment';
 export class Exam implements IExam {
   public startAt: number;
   public endAt?: number;
-  public questions?: { [key: string]: IExamQuestion };
-  public questionsArray?: Array<number> = [];
-  public score?: number = 0;
-  public finished?: boolean;
+  public questions: { [key: string]: IExamQuestion } = {};
+  public questionsArray: Array<number> = [];
+  public score: number = 0;
+  public finished: boolean = false;
 
   private examQuestionNumber = 70;
   private max: number;
