@@ -9,7 +9,7 @@ import { IQuestionRow } from '@app/core/interfaces';
   styleUrls: ['./question.component.scss']
 })
 export class QuestionComponent implements OnInit {
-  @Input('questionRow') questionRow: IQuestionRow;
+  @Input() questionRow: IQuestionRow;
   public extensionsAllowed: Array<string>;
 
   ngOnInit(): void {

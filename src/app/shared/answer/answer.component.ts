@@ -9,9 +9,9 @@ import { IAnswerRow } from '@app/core';
   styleUrls: ['./answer.component.scss']
 })
 export class AnswerComponent implements OnInit {
-  @Input('answerRow') answerRow: IAnswerRow;
-  @Input('disabled') disabled: boolean;
-  @Input('i') i: number;
+  @Input() answerRow: IAnswerRow;
+  @Input() disabled: boolean;
+  @Input() i: number;
   public extensionsAllowed: Array<string>;
   public letters: Array<string>;
 

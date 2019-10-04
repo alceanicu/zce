@@ -100,15 +100,15 @@
     "no-inputs-metadata-property": true,
     "no-outputs-metadata-property": true,
     "no-host-metadata-property": true,
-//    "no-input-rename": true,
-//    "no-output-rename": true,
+    "no-input-rename": true,
+    "no-output-rename": true,
     "use-lifecycle-interface": true,
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
     "directive-class-suffix": true,
     "no-angle-bracket-type-assertion": false,
     "template-banana-in-box": true,
-    "template-no-negated-async": true
-//    "contextual-lifecycle": true
+    "template-no-negated-async": true,
+    "contextual-lifecycle": true
   }
 }
