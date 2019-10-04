@@ -104,11 +104,13 @@ export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   private updateScore(isCorrect: boolean): IScore {
-    const score = this.syncScoreService.getValue();
-    score.total = score.total + 1;
-    score.correct = isCorrect ? (score.correct + 1) : score.correct;
-    score.percentage = Math.floor((score.correct * 100) / score.total);
+    this.score = this.syncScoreService.getValue();
+    ++this.score.total;
+    if (isCorrect) {
+      ++this.score.correct;
+    }
+    this.score.percentage = Math.floor((this.score.correct * 100) / this.score.total);
 
-    return score;
+    return this.score;
   }
 }
