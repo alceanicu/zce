@@ -6,9 +6,9 @@ import { PhpQuestionService } from '@app/core/services/firestore/php-question.se
 import { LocalStorageService } from '@app/core/services/local-storage/local-storage.service';
 import { IndexedDbQuizService } from '@app/core/services/indexeddb/indexed-db-quiz.service';
 import { SessionStorageService } from '@app/core/services/session-storage/session-storage.service';
+import { Logger } from '@app/core/services/logger/logger.service';
 import { IConfig, IQuestion } from '@app/core/interfaces';
 import { Question } from '@app/core/models';
-import { Logger } from '@app/core/services/logger/logger.service';
 
 const log = new Logger('QuestionService');
 
@@ -87,7 +87,7 @@ export class QuestionService {
     }
   }
 
-  private getQuestionFromFirebase(id: number, subscriber: Subscriber<IQuestion>) {
+  private getQuestionFromFirebase(id: number, subscriber: Subscriber<IQuestion>): void {
     this.firestorePhpQuestionService.getQuestion(id).subscribe(
       (DocumentSnapshot) => {
         const question = new Question(DocumentSnapshot.data() as IQuestion);
@@ -103,7 +103,7 @@ export class QuestionService {
     );
   }
 
-  private saveToIndexedDb(question: IQuestion) {
+  private saveToIndexedDb(question: IQuestion): void {
     this.indexedDbQuizService
       .addQuestion(question)
       .then(key => {
@@ -115,7 +115,7 @@ export class QuestionService {
       });
   }
 
-  private setQuestion(question: Question, subscriber: Subscriber<IQuestion>) {
+  private setQuestion(question: Question, subscriber: Subscriber<IQuestion>): void {
     this.internalCounter++;
     question.randomizeAnswers();
     subscriber.next(question);

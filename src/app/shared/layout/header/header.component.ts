@@ -50,7 +50,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  sidebarOpen() {
+  sidebarOpen(): void {
     setTimeout(() => {
       this.toggleButton.classList.add('toggled'); // fixme
     }, 3500);
@@ -58,13 +58,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.sidebarVisible = true;
   }
 
-  sidebarClose() {
+  sidebarClose(): void {
     this.toggleButton.classList.remove('toggled'); // fixme
     this.sidebarVisible = false;
     this.html.classList.remove('nav-open');
   }
 
-  sidebarToggle() {
+  sidebarToggle(): void {
     (this.sidebarVisible === false) ? this.sidebarOpen() : this.sidebarClose();
   }
 }

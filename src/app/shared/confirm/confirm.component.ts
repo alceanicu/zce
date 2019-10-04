@@ -12,8 +12,8 @@ const log = new Logger('ConfirmComponent');
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConfirmComponent extends SimpleModalComponent<IConfirm, boolean> implements IConfirm {
-  title: string;
-  message: string;
+  public title: string;
+  public message: string;
 
   constructor() {
     super();

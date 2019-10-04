@@ -20,7 +20,7 @@ export class PdfService {
   ) {
   }
 
-  public exportTestAsPDF(questionNumber: number = 1) {
+  public exportTestAsPDF(questionNumber: number = 1): void {
     this.questionArray = [];
     this.questionService.getQuestion(questionNumber).subscribe(
       (question: IQuestion) => this.questionArray.push(question),
@@ -29,7 +29,7 @@ export class PdfService {
     );
   }
 
-  private generatePDF() {
+  private generatePDF(): void {
     const letters = environment.configPHP.letters;
     const content: Array<any> = [];
     const correctAnswer: Array<any> = [];

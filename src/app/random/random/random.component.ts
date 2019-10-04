@@ -39,7 +39,7 @@ export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.getAnRandomQuestion();
   }
 
-  ngAfterViewChecked() {
+  ngAfterViewChecked(): void {
     if (this.isNew && !this.highlighted) {
       this.prismService.highlightAll();
       this.highlighted = true;
@@ -51,7 +51,7 @@ export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.questionUnsubscribe();
   }
 
-  public onValidate(countDown: number = 10) {
+  public onValidate(countDown: number = 10): void {
     this.isCorrect = this.question.validate(true);
     this.syncScoreService.setValue(this.updateScore(this.isCorrect));
     const ansType = this.isCorrect ? 'Correct' : 'Wrong';
@@ -71,7 +71,7 @@ export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
     }, 1000);
   }
 
-  private getAnRandomQuestion() {
+  private getAnRandomQuestion(): void {
     this.reset();
     this.questionSubscription = this.questionService.getQuestion(1).subscribe(
       question => this.question = question,
@@ -83,7 +83,7 @@ export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
     );
   }
 
-  private reset() {
+  private reset(): void {
     this.questionUnsubscribe();
     if (this.interval) {
       clearInterval(this.interval);
@@ -97,7 +97,7 @@ export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.question = new Question();
   }
 
-  private questionUnsubscribe() {
+  private questionUnsubscribe(): void {
     if (this.questionSubscription instanceof Subscription) {
       this.questionSubscription.unsubscribe();
     }

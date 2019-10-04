@@ -37,18 +37,18 @@ ng g c shared/confirm
 ng g c shared/page-not-found
 
 -- interfaces
-ng g i core/interfaces/i-answer-row --type=interface
-ng g i core/interfaces/i-config --type=interface
-ng g i core/interfaces/i-confirm --type=interface
-ng g i core/interfaces/i-countdown-time --type=interface
-ng g i core/interfaces/i-deactivate-component --type=interface
-ng g i core/interfaces/i-exam --type=interface
-ng g i core/interfaces/i-exam-question --type=interface
-ng g i core/interfaces/i-question --type=interface
-ng g i core/interfaces/i-question-row --type=interface
-ng g i core/interfaces/i-score --type=interface
-ng g i core/interfaces/i-option --type=interface
-ng g i core/interfaces/i-data-service --type=interface
+ng g i core/interfaces/answer-row --type=interface
+ng g i core/interfaces/config --type=interface
+ng g i core/interfaces/confirm --type=interface
+ng g i core/interfaces/countdown-time --type=interface
+ng g i core/interfaces/deactivate-component --type=interface
+ng g i core/interfaces/exam --type=interface
+ng g i core/interfaces/exam-question --type=interface
+ng g i core/interfaces/question --type=interface
+ng g i core/interfaces/question-row --type=interface
+ng g i core/interfaces/score --type=interface
+ng g i core/interfaces/option --type=interface
+ng g i core/interfaces/data-service --type=interface
 
 -- class (model)
 ng g class core/models/countdown-time --type=model

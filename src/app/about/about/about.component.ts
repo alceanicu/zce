@@ -10,7 +10,7 @@ import { environment } from '@env/environment';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AboutComponent implements OnInit {
-  version: string;
+  public version: string = '';
 
   ngOnInit(): void {
     this.version = environment.appVersion;

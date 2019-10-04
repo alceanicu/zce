@@ -64,7 +64,7 @@ export class Logger {
    * Enables production mode.
    * Sets logging level to LogLevel.Warning.
    */
-  static enableProductionMode() {
+  static enableProductionMode(): void {
     Logger.level = LogLevel.Warning;
   }
 
@@ -75,7 +75,7 @@ export class Logger {
    * Logs messages or objects  with the debug level.
    * Works the same as console.log().
    */
-  debug(...objects: any[]) {
+  debug(...objects: any[]): void {
     this.log(console.log, LogLevel.Debug, objects);
   }
 
@@ -83,7 +83,7 @@ export class Logger {
    * Logs messages or objects  with the info level.
    * Works the same as console.log().
    */
-  info(...objects: any[]) {
+  info(...objects: any[]): void {
     this.log(console.info, LogLevel.Info, objects);
   }
 
@@ -91,7 +91,7 @@ export class Logger {
    * Logs messages or objects  with the warning level.
    * Works the same as console.log().
    */
-  warn(...objects: any[]) {
+  warn(...objects: any[]): void {
     this.log(console.warn, LogLevel.Warning, objects);
   }
 
@@ -99,11 +99,11 @@ export class Logger {
    * Logs messages or objects  with the error level.
    * Works the same as console.log().
    */
-  error(...objects: any[]) {
+  error(...objects: any[]): void {
     this.log(console.error, LogLevel.Error, objects);
   }
 
-  private log(func: (...args: any[]) => void, level: LogLevel, objects: any[]) {
+  private log(func: (...args: any[]) => void, level: LogLevel, objects: any[]): void {
     if (level <= Logger.level) {
       const log = this.source ? ['[' + this.source + ']'].concat(objects) : objects;
       func.apply(console, log);

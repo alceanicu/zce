@@ -1,6 +1,7 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import { SessionStorageService } from '@app/core/services/session-storage/session-storage.service';
-import { IDataService } from '@app/core/interfaces/i-data-service.interface';
+import { IDataService } from '@app/core/interfaces';
+
 
 export abstract class SyncAbstract implements IDataService {
   public currentValue: Observable<any>;
@@ -26,7 +27,7 @@ export abstract class SyncAbstract implements IDataService {
     return this.sessionStorageService.getItem(this.key) || this.defaultValue;
   }
 
-  protected updateCurrentValue(value: any) {
+  protected updateCurrentValue(value: any): void {
     this.sessionStorageService.setItem(this.key, value);
     this.messageSource.next(value);
   }

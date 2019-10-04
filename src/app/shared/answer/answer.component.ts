@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { environment } from '@env/environment';
-import { IAnswerRow } from '@app/core';
+import { IAnswerRow } from '@app/core/interfaces';
 
 @Component({
   selector: 'app-answer,[app-answer]',
