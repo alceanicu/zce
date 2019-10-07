@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { SyncLocationService } from '../../../core/services';
+import { SyncLocationService } from '@app/core/services';
 import { Subscription } from 'rxjs';
 
 @Component({

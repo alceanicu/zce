@@ -5,7 +5,7 @@
 import { configPHP } from './configPHP';
 
 export const environment = {
-  appVersion: '2.0.4',
+  appVersion: '2.0.5',
   production: false,
   firebase: {
     apiKey: 'AIzaSyCPo9FJxt-5zsARU-Br-9MOSVs0CJoEOsQ',

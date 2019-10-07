@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireModule } from '@angular/fire';
@@ -7,13 +7,28 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FooterComponent, HeaderComponent, SharedModule } from './shared';
-import { CoreModule } from './core';
+import { CoreModule, Logger } from '@app/core';
 import { ToastrModule } from 'ngx-toastr';
-import { environment } from '../environments/environment';
+import { environment } from '@env/environment';
 import { ROUND_PROGRESS_DEFAULTS, RoundProgressModule } from 'angular-svg-round-progressbar';
 import * as moment from 'moment';
 import { NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { IndexedDbQuizService } from '@app/core/services/indexeddb/indexed-db-quiz.service';
 
+const log = new Logger('AppModule');
+
+export function initApp(indexedDbQuizService: IndexedDbQuizService) {
+  return (): Promise<any> => { // fixme
+    // log.info('In initApp');
+    // return indexedDbQuizService.clearQuestionTable();
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        log.info('In initApp');
+        resolve();
+      }, 50);
+    });
+  };
+}
 
 @NgModule({
   declarations: [
@@ -25,7 +40,6 @@ import { NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
     NgbModule,
     NgbPaginationModule,
     BrowserModule,
-    AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     SharedModule,
@@ -38,7 +52,8 @@ import { NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
       newestOnTop: false,
       progressBar: true,
       maxOpened: 1
-    })
+    }),
+    AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
   providers: [
     {provide: 'moment', useFactory: (): any => moment},
@@ -48,7 +63,14 @@ import { NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
         color: '#0F0',
         background: '#F00'
       }
-    }],
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initApp,
+      multi: true,
+      deps: [IndexedDbQuizService]
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

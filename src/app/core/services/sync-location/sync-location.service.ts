@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 
-import { IDataService } from '../../interfaces/i-data-service.interface';
+import { IDataService } from '@app/core/interfaces';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SyncLocationService implements IDataService {
-  private messageSource: BehaviorSubject<string>;
   public currentValue: Observable<string>;
+  private messageSource: BehaviorSubject<string>;
 
   constructor() {
     this.messageSource = new BehaviorSubject('/home');

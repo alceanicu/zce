@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { IQuestion } from '../../interfaces';
+import { IQuestion } from '@app/core/interfaces';
 import Dexie from 'dexie';
 
 class QuestionDatabase extends Dexie {
@@ -9,7 +9,7 @@ class QuestionDatabase extends Dexie {
   constructor() {
     super('QuestionDatabase');
     this.version(1).stores({
-      questionTable: 'id,category,difficulty,type'
+      questionTable: '++id,category,difficulty,type,finalAnswer,questionRows,answerRows'
     });
   }
 }
@@ -42,5 +42,9 @@ export class IndexedDbQuizService {
 
   getAllQuestions(): Promise<IQuestion[]> {
     return this.db.questionTable.toArray();
+  }
+
+  clearQuestionTable(): Promise<void> {
+    return this.db.questionTable.clear();
   }
 }

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { environment } from '../../../environments/environment';
-import { IAnswerRow } from '../../core';
+import { environment } from '@env/environment';
+import { IAnswerRow } from '@app/core/interfaces';
 
 @Component({
   selector: 'app-answer,[app-answer]',
@@ -9,9 +9,9 @@ import { IAnswerRow } from '../../core';
   styleUrls: ['./answer.component.scss']
 })
 export class AnswerComponent implements OnInit {
-  @Input('answerRow') answerRow: IAnswerRow;
-  @Input('disabled') disabled: boolean;
-  @Input('i') i: number;
+  @Input() answerRow: IAnswerRow;
+  @Input() disabled: boolean;
+  @Input() i: number;
   public extensionsAllowed: Array<string>;
   public letters: Array<string>;
 

@@ -22,8 +22,8 @@ export const configPHP = {
   difficultyOptions: ['Easy', 'Medium', 'Hard'],
   typeOptions: ['Radio', 'Checkbox', 'Text'],
   correctOptions: [
-    {value: true, text: 'DA'},
-    {value: false, text: 'NU'}
+    {value: true, text: 'YES'},
+    {value: false, text: 'NO'}
   ],
   apiUrl: 'http://localhost/rest-api/'
 };

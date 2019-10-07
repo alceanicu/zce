@@ -7,10 +7,11 @@ import { ToastrService } from 'ngx-toastr';
 import { Moment } from 'moment';
 import { Subscription } from 'rxjs';
 import { SimpleModalService } from 'ngx-simple-modal';
-import { CountdownService, LocalStorageService, PrismService, QuestionService, SyncCountdownTimeService } from '../../core/services';
-import { ConfirmComponent } from '../../shared';
-import { Exam, IDeactivateComponent, IExamQuestion, IQuestion } from '../../core';
+import { CountdownService, LocalStorageService, Logger, PrismService, QuestionService, SyncCountdownTimeService } from '@app/core/services';
+import { ConfirmComponent } from '@app/shared';
+import { Exam, IDeactivateComponent, IExam, IExamQuestion, IQuestion } from '@app/core';
 
+const log = new Logger('ExamComponent');
 
 @Component({
   selector: 'app-exam',
@@ -18,10 +19,19 @@ import { Exam, IDeactivateComponent, IExamQuestion, IQuestion } from '../../core
   styleUrls: ['./exam.component.scss']
 })
 export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChecked, OnDestroy {
-  private exam: Exam;
+
+  get questionsArray(): Array<number> {
+    return this.exam.questionsArray;
+  }
+
+  get currentExam(): IExam {
+    return this.exam;
+  }
+
   public examQuestion?: IExamQuestion;
   public index?: number;
-  public markForReviewArray = [];
+  public markForReviewArray: Array<number> = [];
+  private exam: Exam;
   private localStorageSubscription: Subscription;
   private questionSubscription: Subscription;
   private countdownSubscription: Subscription;
@@ -30,7 +40,7 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
 
   constructor(
     private simpleModalService: SimpleModalService,
-    @Inject('moment') private moment,
+    @Inject('moment') private moment: any,
     private countdownService: CountdownService,
     private syncCountdownTimeService: SyncCountdownTimeService,
     private prismService: PrismService,
@@ -43,7 +53,7 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   ) {
   }
 
-  public canExit(): boolean {
+  public canExit(): boolean { // fixme
     if (this.exam.finished) {
       return true;
     } else {
@@ -70,7 +80,7 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     this.exam = new Exam();
     this.localStorageSubscription = this.localStorageService.getAppConfig().subscribe(
       config => this.exam.setMax(config.counter),
-      error => console.error(error)
+      error => log.error(error)
     );
 
     const startTime = this.moment(this.exam.startAt);
@@ -95,7 +105,7 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
         obj.time = this.getTimeString(endTime);
         this.syncCountdownTimeService.setValue(obj);
       },
-      error => console.error(error),
+      error => log.error(error),
       () => this.finishExam()
     );
 
@@ -105,7 +115,7 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     this.toastrService.success('You have 90 minutes to finish your exam. Good luck!', 'Exam simulation start!');
   }
 
-  ngAfterViewChecked() {
+  ngAfterViewChecked(): void {
     if (this.isNew && !this.highlighted) {
       this.prismService.highlightAll();
       this.highlighted = true;
@@ -118,18 +128,7 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     this.countdownSubscriptionUnsubscribe();
   }
 
-  private getTimeString(endTime: Moment): string {
-    const now = this.moment();
-    const duration = this.moment.duration(endTime.diff(now));
-
-    const hh = duration.hours().toString().padStart(2, '0');
-    const mm = duration.minutes().toString().padStart(2, '0');
-    const ss = duration.seconds().toString().padStart(2, '0');
-
-    return hh + ':' + mm + ':' + ss;
-  }
-
-  public setBtnClasses(index) {
+  public setBtnClasses(index: number): object { // fixme
     let seen = false;
     for (const key in this.exam.questions) {
       if (this.exam.questions.hasOwnProperty(index)) {
@@ -151,14 +150,8 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     if ((this.index !== index) && seen) {
       return {'btn-success': true};
     }
-  }
 
-  get questionsArray() {
-    return this.exam.questionsArray;
-  }
-
-  get currentExam() {
-    return this.exam;
+    return {};
   }
 
   public getQuestion(id: number, index: number) {
@@ -178,7 +171,7 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
           this.exam.setQuestion(index, currentQuestion);
           this.setCurrentQuestion(currentQuestion);
         },
-        error => console.error(error),
+        error => log.error(error),
       );
     } else {
       // question is already exist in exam object
@@ -186,51 +179,29 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     }
   }
 
-  private validateCurrentExamQuestion() {
-    if (this.examQuestion !== undefined) {
-      this.examQuestion.correct = this.examQuestion.question.validate(false);
-    }
-  }
-
-  private setCurrentQuestion(question: IExamQuestion) {
-    this.examQuestion = question;
-    setTimeout(() => {
-      this.isNew = true;
-      this.ngxUiLoaderService.stopAll();
-    }, 250);
-  }
-
-  private reset() {
-    this.questionSubscriptionUnsubscribe();
-    this.validateCurrentExamQuestion();
-    this.ngxUiLoaderService.start();
-    this.isNew = false;
-    this.highlighted = false;
-  }
-
-  public disabledPrevBtn() {
+  public disabledPrevBtn(): boolean {
     return (this.index === undefined) || (this.index <= 0);
   }
 
-  public disabledMarkForReviewBtn() {
+  public disabledMarkForReviewBtn(): boolean {
     return (this.index === undefined);
   }
 
-  public disabledNextBtn() {
+  public disabledNextBtn(): boolean {
     return (this.index === undefined) || (this.index >= 69);
   }
 
-  public getPrevQuestion() {
+  public getPrevQuestion(): void {
     const index = --this.index;
     this.getQuestion(this.exam.questionsArray[index], index);
   }
 
-  public getNextQuestion() {
+  public getNextQuestion(): void {
     const index = ++this.index;
     this.getQuestion(this.exam.questionsArray[index], index);
   }
 
-  public markForReview() {
+  public markForReview(): void {
     const idx = this.markForReviewArray.indexOf(this.index);
     if (idx === -1) {
       this.markForReviewArray.push(this.index);
@@ -239,14 +210,14 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     }
   }
 
-  public goToHome() {
+  public goToHome(): void {
     const pageFromUrl = this.location.prepareExternalUrl(this.location.path());
     if (['/exam', '/zce/exam'].indexOf(pageFromUrl) !== -1) {
       this.router.navigate(['/home']).then();
     }
   }
 
-  public finishExam() {
+  public finishExam(): void {
     this.countdownSubscriptionUnsubscribe();
     this.validateCurrentExamQuestion();
     this.exam.finish();
@@ -256,11 +227,11 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
       next() {
         $this.goToHome();
       },
-      error(error) {
-        console.error(error);
+      error(error: any) {
+        log.error(error);
       },
       complete() {
-        console.log(`You answered correctly to ${$this.exam.score} questions from 70`);
+        log.info(`You answered correctly to ${$this.exam.score} questions from 70`);
       }
     };
 
@@ -273,11 +244,45 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     }
   }
 
+  private getTimeString(endTime: Moment): string {
+    const now = this.moment();
+    const duration = this.moment.duration(endTime.diff(now));
+
+    const hh = duration.hours().toString().padStart(2, '0');
+    const mm = duration.minutes().toString().padStart(2, '0');
+    const ss = duration.seconds().toString().padStart(2, '0');
+
+    return hh + ':' + mm + ':' + ss;
+  }
+
+  private validateCurrentExamQuestion(): void {
+    if (this.examQuestion !== undefined) {
+      this.examQuestion.correct = this.examQuestion.question.validate(false);
+    }
+  }
+
+  private setCurrentQuestion(question: IExamQuestion): void {
+    this.examQuestion = question;
+    setTimeout(() => {
+      this.isNew = true;
+      this.ngxUiLoaderService.stopAll();
+    }, 250);
+  }
+
+  private reset(): void {
+    this.questionSubscriptionUnsubscribe();
+    this.validateCurrentExamQuestion();
+    this.ngxUiLoaderService.start();
+    this.isNew = false;
+    this.highlighted = false;
+  }
+
   private countdownSubscriptionUnsubscribe(): void {
     if (this.countdownSubscription instanceof Subscription) {
       this.countdownSubscription.unsubscribe();
     }
   }
+
   private questionSubscriptionUnsubscribe(): void {
     if (this.questionSubscription instanceof Subscription) {
       this.questionSubscription.unsubscribe();

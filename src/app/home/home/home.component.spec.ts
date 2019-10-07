@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HomeComponent } from './home.component';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { environment } from '../../../environments/environment';
+import { environment } from '@env/environment';
 import { ROUND_PROGRESS_DEFAULTS } from 'angular-svg-round-progressbar';
 import * as moment from 'moment';
 

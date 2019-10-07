@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { PhpQuestionService } from '../../core/services/firestore/php-question.service';
-import { IOption, IQuestion } from '../../core/interfaces';
-import { environment } from '../../../environments/environment';
-import { Helper } from '../../core/utils';
+import { PhpQuestionService } from '@app/core/services/firestore/php-question.service';
+import { IOption, IQuestion } from '@app/core/interfaces';
+import { environment } from '@env/environment';
+import { Helper } from '@app/core/utils';
 
 
 @Component({
@@ -18,6 +18,7 @@ export class PhpEditComponent implements OnInit {
   public form: FormGroup;
   public questionRowsArray: FormArray;
   public type: string;
+  public value: number;
 
   constructor(
     public firestorePhpQuestionService: PhpQuestionService,
@@ -84,9 +85,8 @@ export class PhpEditComponent implements OnInit {
 
   /**
    * get the formGroup under questionRowsArray form array
-   * @param index id
    */
-  getQuestionRowFormGroup(index): FormGroup {
+  getQuestionRowFormGroup(index: number): FormGroup {
     return this.questionRowsArray.controls[index] as FormGroup;
   }
 
@@ -97,6 +97,7 @@ export class PhpEditComponent implements OnInit {
     return this.formBuilder.group({
       text: ['', Validators.required],
       language: ['none', Validators.required],
+      value: [0, Validators.required]
     });
   }
 
@@ -107,7 +108,8 @@ export class PhpEditComponent implements OnInit {
     return this.formBuilder.group({
       text: ['', Validators.required],
       language: ['none', Validators.required],
-      correct: [correct, Validators.required]
+      correct: [correct, Validators.required],
+      value: [0, Validators.required]
     });
   }
 
@@ -120,9 +122,8 @@ export class PhpEditComponent implements OnInit {
 
   /**
    * remove a Quiz form group
-   * @param index id
    */
-  removeQuizRow(index) {
+  removeQuizRow(index: number) {
     if (this.questionRowsArray.length > 1) {
       this.questionRowsArray.removeAt(index);
     }

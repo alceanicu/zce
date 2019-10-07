@@ -1,10 +1,12 @@
 import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
 
-import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { PrismService, QuestionService, SyncScoreService } from '../../core/services';
-import { Question } from '../../core/models';
-import { IScore } from '../../core/interfaces';
 import { Subscription } from 'rxjs';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { Logger, PrismService, QuestionService, SyncScoreService } from '@app/core/services';
+import { Question } from '@app/core/models';
+import { IScore } from '@app/core/interfaces';
+
+const log = new Logger('RandomComponent');
 
 @Component({
   selector: 'app-random',
@@ -32,12 +34,12 @@ export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
   ngOnInit(): void {
     this.scoreSubscription = this.syncScoreService.currentValue.subscribe(
       (score: IScore) => this.score = score,
-      error => console.error(error)
+      error => log.error(error)
     );
     this.getAnRandomQuestion();
   }
 
-  ngAfterViewChecked() {
+  ngAfterViewChecked(): void {
     if (this.isNew && !this.highlighted) {
       this.prismService.highlightAll();
       this.highlighted = true;
@@ -49,41 +51,8 @@ export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.questionUnsubscribe();
   }
 
-  private getAnRandomQuestion() {
-    this.reset();
-    this.questionSubscription = this.questionService.getQuestion(1).subscribe(
-      question => this.question = question,
-      error => console.error(error),
-      () => {
-        this.isNew = true;
-        setTimeout(() => this.ngxUiLoaderService.stopAll(), 250);
-      }
-    );
-  }
-
-  private reset() {
-    this.questionUnsubscribe();
-    if (this.interval) {
-      clearInterval(this.interval);
-      this.interval = null;
-    }
-    this.ngxUiLoaderService.start();
-    this.isNew = false;
-    this.highlighted = false;
-    this.isCorrect = false;
-    this.btnText = 'Get next question now ';
-    this.question = new Question();
-  }
-
-  private questionUnsubscribe() {
-    if (this.questionSubscription instanceof Subscription) {
-      this.questionSubscription.unsubscribe();
-    }
-  }
-
-  onValidate(countDown: number = 10) {
+  public onValidate(countDown: number = 10): void {
     this.isCorrect = this.question.validate(true);
-
     this.syncScoreService.setValue(this.updateScore(this.isCorrect));
     const ansType = this.isCorrect ? 'Correct' : 'Wrong';
     this.btnText = `${ansType} [new quiz in ${countDown} seconds]`;
@@ -102,12 +71,46 @@ export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
     }, 1000);
   }
 
-  private updateScore(isCorrect: boolean): IScore {
-    const score = this.syncScoreService.getValue();
-    score.total = score.total + 1;
-    score.correct = isCorrect ? (score.correct + 1) : score.correct;
-    score.percentage = Math.floor((score.correct * 100) / score.total);
+  private getAnRandomQuestion(): void {
+    this.reset();
+    this.questionSubscription = this.questionService.getQuestion(1).subscribe(
+      question => this.question = question,
+      error => log.error(error),
+      () => {
+        this.isNew = true;
+        setTimeout(() => this.ngxUiLoaderService.stopAll(), 250);
+      }
+    );
+  }
 
-    return score;
+  private reset(): void {
+    this.questionUnsubscribe();
+    if (this.interval) {
+      clearInterval(this.interval);
+      this.interval = null;
+    }
+    this.ngxUiLoaderService.start();
+    this.isNew = false;
+    this.highlighted = false;
+    this.isCorrect = false;
+    this.btnText = 'Get next question now ';
+    this.question = new Question();
+  }
+
+  private questionUnsubscribe(): void {
+    if (this.questionSubscription instanceof Subscription) {
+      this.questionSubscription.unsubscribe();
+    }
+  }
+
+  private updateScore(isCorrect: boolean): IScore {
+    this.score = this.syncScoreService.getValue();
+    ++this.score.total;
+    if (isCorrect) {
+      ++this.score.correct;
+    }
+    this.score.percentage = Math.floor((this.score.correct * 100) / this.score.total);
+
+    return this.score;
   }
 }

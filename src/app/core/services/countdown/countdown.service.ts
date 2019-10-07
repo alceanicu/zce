@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 
 import { Observable, Subject, timer } from 'rxjs';
 import { map, takeWhile } from 'rxjs/operators';
+import { Logger } from '@app/core/services/logger/logger.service';
 
+const log = new Logger('CountdownService');
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +30,7 @@ export class CountdownService {
           (seconds: number) => {
             this.countdownSubject.next(seconds);
           },
-          error => console.error(error),
+          error => log.error(error),
           () => {
             this.countdownSubject.complete();
             this.isCounting = false;

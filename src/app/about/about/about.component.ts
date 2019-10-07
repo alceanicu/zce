@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
-import { environment } from '../../../environments/environment';
+import { environment } from '@env/environment';
 
 
 @Component({
@@ -10,7 +10,7 @@ import { environment } from '../../../environments/environment';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AboutComponent implements OnInit {
-  version: string;
+  public version: string = '';
 
   ngOnInit(): void {
     this.version = environment.appVersion;

@@ -9,8 +9,7 @@ import { take } from 'rxjs/operators';
   templateUrl: './page-not-found.component.html',
 })
 export class PageNotFoundComponent implements OnInit {
-
-  path: string;
+  private path: string;
 
   constructor(
     private route: ActivatedRoute
@@ -23,5 +22,4 @@ export class PageNotFoundComponent implements OnInit {
         this.path = data.path;
       });
   }
-
 }
