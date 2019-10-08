@@ -4,11 +4,12 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
-import { LocalStorageService } from '@app/core/services';
+import { LocalStorageService, Logger } from '@app/core/services';
 import { IConfig, IQuestion } from '@app/core/interfaces';
 import { environment } from '@env/environment';
 import { PhpQuestionService } from '@app/core/services/firestore/php-question.service';
 
+const log = new Logger('PhpListComponent');
 
 @Component({
   selector: 'app-php-list',
@@ -35,12 +36,14 @@ export class PhpListComponent implements OnInit {
     this.page$ = new BehaviorSubject('1');
     const $this = this;
     const config = JSON.parse(localStorage.getItem('config')) as IConfig;
-    this.localStorageService.getAppConfig().subscribe((c) => {
-      if (config !== null) {
-        $this.totalItemsNumber = Number(c.counter);
-        console.log(`totalPageNumber=${$this.totalItemsNumber}`);
-      }
-    });
+    this.localStorageService.getAppConfig().subscribe(
+      c => {
+        if (config !== null) {
+          $this.totalItemsNumber = Number(c.counter);
+          log.info(`totalPageNumber=${$this.totalItemsNumber}`);
+        }
+      },
+      error => log.error(error));
 
     this.questionList = combineLatest([this.page$]).pipe(
       switchMap(([page]) => this.db.collection(environment.configPHP.phpPath, ref => {
@@ -48,7 +51,7 @@ export class PhpListComponent implements OnInit {
           if (page) {
             $this.page = Number(page);
             const startAt = +(1 + (this.perPage * (Number(page) - 1)));
-            console.log(`startAt=${startAt}`);
+            log.info(`startAt=${startAt}`);
             query = query.where('id', '>=', startAt).orderBy('id').limit(this.perPage);
           }
           return query;
@@ -56,12 +59,13 @@ export class PhpListComponent implements OnInit {
       )
     );
 
-    this.questionList.subscribe(data => {
+    this.questionList.subscribe(
+      data => {
         if (data.length <= 0) {
           this.goToPage(1);
         }
       },
-      err => console.error('something wrong occurred: ' + err)
+      error => log.error(`something wrong occurred: ${error}`)
     );
   }
 
@@ -71,9 +75,11 @@ export class PhpListComponent implements OnInit {
 
   deleteQuestion(id: number) {
     if (window.confirm(`Are sure you want to delete question with ID=${id}?`)) {
-      this.firestorePhpQuestionService.deleteQuestion(id).subscribe(i => {
-        this.toastrService.success(`Successfully deleted question with id=${id}`);
-      }, err => console.error(err));
+      this.firestorePhpQuestionService.deleteQuestion(id).subscribe(
+        i => {
+          this.toastrService.success(`Successfully deleted question with id=${id}`);
+        },
+        error => log.error(error));
     }
   }
 }

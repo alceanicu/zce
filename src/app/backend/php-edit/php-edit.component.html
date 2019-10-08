@@ -1,27 +1,27 @@
 <div class="row" style="margin-top: 50px">
 
-<!--  <div class="row">-->
-<!--    <div class="input-group mb-3">-->
-<!--      <input type="text" class="form-control"-->
-<!--             [(ngModel)]="idDb">-->
-<!--      <div class="input-group-append">-->
-<!--        <a class="btn btn-danger" type="button" (click)="getQuizFromDB()"> GET IT</a>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
+  <!--  <div class="row">-->
+  <!--    <div class="input-group mb-3">-->
+  <!--      <input type="text" class="form-control"-->
+  <!--             [(ngModel)]="idDb">-->
+  <!--      <div class="input-group-append">-->
+  <!--        <a class="btn btn-danger" type="button" (click)="getQuizFromDB()"> GET IT</a>-->
+  <!--      </div>-->
+  <!--    </div>-->
+  <!--  </div>-->
 
   <form [formGroup]="form" (submit)="onSubmit()">
 
-<!--    <div class="row">-->
-<!--      <div class="form-group col-3">-->
-<!--        <input type="text" class="form-control form-control-sm" formControlName="id_db">-->
-<!--      </div>-->
-<!--      <div class="form-group col-3">-->
-<!--        <a class="btn btn-sm btn-success m-1" (click)="getQuizFromDB()">-->
-<!--          <i class="fa fa-floppy-o" aria-hidden="true"></i> Save-->
-<!--        </a>-->
-<!--      </div>-->
-<!--    </div>-->
+    <!--    <div class="row">-->
+    <!--      <div class="form-group col-3">-->
+    <!--        <input type="text" class="form-control form-control-sm" formControlName="id_db">-->
+    <!--      </div>-->
+    <!--      <div class="form-group col-3">-->
+    <!--        <a class="btn btn-sm btn-success m-1" (click)="getQuizFromDB()">-->
+    <!--          <i class="fa fa-floppy-o" aria-hidden="true"></i> Save-->
+    <!--        </a>-->
+    <!--      </div>-->
+    <!--    </div>-->
 
     <div class="row">
       <div class="form-group col-3">
@@ -53,6 +53,16 @@
         </select>
         <span class="text-danger"
               *ngIf="form.controls['type'].touched && form.controls['type'].hasError('required')">Type is required!</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-3">
+        <label for="id">#Value</label>
+        <input type="text" id="value" class="form-control form-control-sm" readonly formControlName="value">
+        <span class="text-danger"
+              *ngIf="form.controls['value'].touched && form.controls['value'].hasError('required')"
+        >value is required!</span>
       </div>
     </div>
 
@@ -93,9 +103,12 @@
 
             <div [formGroupName]="i" class="row">
               <div class="form-group col-6">
-                <label>Correct</label>
-                <select class="form-control form-control-sm" formControlName="correct">
+                <label for="correct_{{i}}">Correct</label>
+                <select class="form-control form-control-sm" formControlName="correct" id="correct_{{i}}">
                   <option *ngFor="let op of correctOptions" [ngValue]="op.value">{{op.text}}</option>
+                </select>
+                <select class="form-control form-control-sm" formControlName="value" (ngModelChange)="onChangeVal()">
+                  <option *ngFor="let v of valueOptions(i)" [ngValue]="v.value">{{v.text}} - {{v.value}}</option>
                 </select>
               </div>
               <div class="form-group col-6">
@@ -106,8 +119,7 @@
               </div>
               <div class="form-group col-12">
                 <label>Answer</label>
-                <textarea class="form-control form-control-sm" formControlName="text"
-                          type="text"></textarea>
+                <textarea class="form-control form-control-sm" formControlName="text"></textarea>
                 <br>
               </div>
             </div>

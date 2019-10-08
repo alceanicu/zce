@@ -6,7 +6,9 @@ import { PhpQuestionService } from '@app/core/services/firestore/php-question.se
 import { IOption, IQuestion } from '@app/core/interfaces';
 import { environment } from '@env/environment';
 import { Helper } from '@app/core/utils';
+import { Logger } from '@app/core';
 
+const log = new Logger('PhpEditComponent');
 
 @Component({
   selector: 'app-php-edit',
@@ -45,8 +47,8 @@ export class PhpEditComponent implements OnInit {
           // question.id_db = '';
           this.form.setValue(question);
         },
-        (err) => console.error(`Update on question with ID=${id} ${err}`),
-        () => console.log('Update complete')
+        error => log.error(`Error on update question with ID=${id} ${error}`),
+        () => log.info('Update complete')
       );
     } else {
       this.type = 'CREATE';
@@ -58,14 +60,16 @@ export class PhpEditComponent implements OnInit {
    * Contains Reactive Form logic
    */
   buildForm() {
+    const rows = [this.initAnswerRow(0, true), this.initAnswerRow(1), this.initAnswerRow(2), this.initAnswerRow(3)];
     this.form = this.formBuilder.group({
       id: [null],
       // id_db: [null],
       category: [1, Validators.required],
       difficulty: [2, Validators.required],
       type: [1, Validators.required],
+      value: [0, Validators.required],
       questionRows: this.formBuilder.array([]),
-      answerRows: this.formBuilder.array([this.initAnswerRow(true), this.initAnswerRow(), this.initAnswerRow(), this.initAnswerRow()])
+      answerRows: this.formBuilder.array(rows)
     });
 
     // set questionRowsArray to this field
@@ -97,19 +101,18 @@ export class PhpEditComponent implements OnInit {
     return this.formBuilder.group({
       text: ['', Validators.required],
       language: ['none', Validators.required],
-      value: [0, Validators.required]
     });
   }
 
   /**
    * init Answer formGroup
    */
-  initAnswerRow(correct: boolean = false): FormGroup {
+  initAnswerRow(i: number, correct: boolean = false): FormGroup {
     return this.formBuilder.group({
       text: ['', Validators.required],
       language: ['none', Validators.required],
       correct: [correct, Validators.required],
-      value: [0, Validators.required]
+      value: [Math.pow(2, i), Validators.required]
     });
   }
 
@@ -133,19 +136,24 @@ export class PhpEditComponent implements OnInit {
    * method triggered when form is submitted
    */
   onSubmit() {
-    console.log('submit ' + this.type);
     const question = this.form.value as IQuestion;
     if (this.type === 'EDIT') {
       this.firestorePhpQuestionService.updateQuestion(question).subscribe(
         id => {
-          this.router.navigate(['php-list']);
+          this.router
+            .navigate(['php-list'])
+            .then(d => log.info(`Update question with ID=${id}`));
         },
-        (err) => console.error('Update question with error: ' + err)
+        error => log.error('Update question with error: ' + error)
       );
     } else {
-      this.firestorePhpQuestionService.addQuestion(question).subscribe((id) => {
-        this.router.navigate(['php-list']);
-      }, (err) => console.error('Created question with error: ' + err));
+      this.firestorePhpQuestionService.addQuestion(question).subscribe(
+        id => {
+          this.router
+            .navigate(['php-list'])
+            .then(d => log.info(`Insert question with ID=${id}`));
+        },
+        error => log.error('Created question with error: ' + error));
     }
   }
 
@@ -169,12 +177,28 @@ export class PhpEditComponent implements OnInit {
     return environment.configPHP.correctOptions;
   }
 
+  valueOptions(i: number): Array<any> {
+    return [
+      {value: 0, text: 'NO'},
+      {value: Math.pow(2, i), text: 'YES'}
+    ];
+  }
+
+  onChangeVal() {
+    const v = this.form.value.answerRows[0].value +
+      this.form.value.answerRows[1].value +
+      this.form.value.answerRows[2].value +
+      this.form.value.answerRows[3].value;
+
+    this.form.controls.value.setValue(v);
+  }
+
   // getQuizFromDB() {
   //   const n = this.form.value.id_db;
   //   if (!isNaN(parseFloat(n)) && isFinite(n)) {
-  //     console.log(`${n} ok`);
+  //     log.info(`${n} ok`);
   //   } else {
-  //     console.log(`${n} nu e numar`);
+  //     log.info(`${n} nu e numar`);
   //   }
   // }
 
@@ -182,23 +206,22 @@ export class PhpEditComponent implements OnInit {
   //   const $this = this;
   //   const id = this.idDb;
   //   if (isFinite(id)) { // && !isNaN(parseFloat(id))
-  //     console.log(`${id} ok`);
+  //     log.info(`${id} ok`);
   //     $this.removeAllQuestionRow();
   //
-  //     this.apiService.getQuestionById(id).subscribe(question => {
-  //       const qLength = (question.questionRows.length || 0);
-  //       for (let i = 0; i < qLength; i++) {
-  //         $this.addQuestionRow();
-  //       }
-  //       console.log(question);
-  //       $this.form.setValue(question);
-  //     }, error => {
-  //       console.log(error);
-  //     }, () => {
-  //       console.log('ok');
-  //     });
+  //     this.apiService.getQuestionById(id).subscribe((question: any) => {
+  //         const qLength = (question.questionRows.length || 0);
+  //         for (let i = 0; i < qLength; i++) {
+  //           $this.addQuestionRow();
+  //         }
+  //         log.info(question);
+  //         $this.form.setValue(question);
+  //       },
+  //       error => log.error(error),
+  //       () => log.info('ok')
+  //     );
   //   } else {
-  //     console.log(`${id} nu e numar`);
+  //     log.info(`${id} nu e numar`);
   //   }
   // }
 }
