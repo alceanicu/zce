@@ -106,12 +106,10 @@ export class QuestionService {
   private saveToIndexedDb(question: IQuestion): void {
     this.indexedDbQuizService
       .addQuestion(question)
-      .then(key => {
-        log.info(`Question is now saved in IndexedDB [id=${key}]`);
-      })
-      .catch(e => {
+      .then(key => log.info(`Question is now saved in IndexedDB [id=${key}]`))
+      .catch(error => {
         log.error(`Question can not be saved in IndexedDB`);
-        log.error(e);
+        log.error(error);
       });
   }
 

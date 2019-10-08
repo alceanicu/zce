@@ -12,6 +12,7 @@ import { IConfig, IQuestion } from '@app/core/interfaces';
 })
 export class PhpQuestionService {
   public quizCollection: AngularFirestoreCollection<IQuestion>;
+  public configCollection: AngularFirestoreCollection<IConfig>;
   private quizDoc: AngularFirestoreDocument<IQuestion>;
   private phpConfigDoc: AngularFirestoreDocument<IConfig>;
 
@@ -23,6 +24,7 @@ export class PhpQuestionService {
 
   init(): void {
     this.quizCollection = this.db.collection<IQuestion>(environment.configPHP.phpPath);
+    this.configCollection = this.db.collection<IConfig>(environment.configPHP.configPath);
   }
 
   getConfig(id: string): Observable<any> {
@@ -30,56 +32,63 @@ export class PhpQuestionService {
     return this.phpConfigDoc.get();
   }
 
-  getQuestion(id: string | number): Observable<firestore.DocumentSnapshot> {
+  getQuestion(id: number): Observable<firestore.DocumentSnapshot> {
     this.quizDoc = this.db.doc<IQuestion>(`${environment.configPHP.phpPath}/${id}`);
     return this.quizDoc.get();
   }
 
+  /**
+   * Used by backend
+   */
   addQuestion(question: IQuestion): Observable<any> {
     return new Observable((observer) => {
       const configDocRef = this.db.firestore.collection(environment.configPHP.configPath).doc('php');
-      this.db.firestore.runTransaction(transaction =>
-        transaction.get(configDocRef).then(configDoc => {
-          const counter = (configDoc.data().counter || 0) + 1;
-          transaction.update(configDocRef, {counter});
-          return counter;
-        }))
-        .then(counter => {
+      this.db.firestore
+        .runTransaction(
+          transaction => transaction.get(configDocRef)
+            .then(
+              configDoc => {
+                const counter = (configDoc.data().counter || 0) + 1;
+                transaction.update(configDocRef, {counter});
+                return counter;
+              }
+            )
+        )
+        .then((counter: number) => {
           question.id = counter;
-          this.quizCollection.doc(String(question.id)).set(question).then(() => {
-            // update config
-            observer.next(question.id);
-          }).catch((err) => {
-            observer.error(err);
-          });
+          this.quizCollection
+            .doc(String(question.id))
+            .set(question)
+            .then(() => observer.next(question.id))
+            .catch(error => observer.error(error));
         })
-        .catch((err) => {
-          observer.error(err);
-        });
+        .catch(error => observer.error(error));
     });
   }
 
+  /**
+   * Used by backend
+   */
   updateQuestion(question: IQuestion): Observable<any> {
     return new Observable((observer) => {
       this.quizDoc = this.db.doc<IQuestion>(`${environment.configPHP.phpPath}/${question.id}`);
-      this.quizDoc.update(question)
-        .then(() => {
-          observer.next(question.id);
-        })
-        .catch(err => {
-          observer.error(err);
-        });
+      this.quizDoc
+        .update(question)
+        .then(() => observer.next(question.id))
+        .catch(error => observer.error(error));
     });
   }
 
+  /**
+   * Used by backend
+   */
   deleteQuestion(id: number): Observable<any> {
     return new Observable((observer) => {
       this.quizDoc = this.db.doc<IQuestion>(`${environment.configPHP.phpPath}/${id}`);
-      this.quizDoc.delete().then(() => {
-        observer.next(id);
-      }).catch(err => {
-        observer.error(err);
-      });
+      this.quizDoc
+        .delete()
+        .then(() => observer.next(id))
+        .catch(error => observer.error(error));
     });
   }
 }

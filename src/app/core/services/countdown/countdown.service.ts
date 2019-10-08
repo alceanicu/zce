@@ -27,9 +27,7 @@ export class CountdownService {
           map(t => count - t)
         )
         .subscribe(
-          (seconds: number) => {
-            this.countdownSubject.next(seconds);
-          },
+          (seconds: number) => this.countdownSubject.next(seconds),
           error => log.error(error),
           () => {
             this.countdownSubject.complete();
