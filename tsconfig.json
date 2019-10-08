@@ -1,6 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "incremental": true,
     "baseUrl": "./",
     "paths": {
       "@app/*": ["src/app/*"],
@@ -27,7 +28,7 @@
 //    "noUnusedParameters": true,
     "suppressImplicitAnyIndexErrors": true,
     "module": "esnext",
-    "target": "es2015",
+    "target": "es5",
     "typeRoots": [
       "node_modules/@types"
     ],
