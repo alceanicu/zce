@@ -12,6 +12,7 @@ import { IConfig, IQuestion } from '@app/core/interfaces';
 })
 export class PhpQuestionService {
   public quizCollection: AngularFirestoreCollection<IQuestion>;
+  public configCollection: AngularFirestoreCollection<IConfig>;
   private quizDoc: AngularFirestoreDocument<IQuestion>;
   private phpConfigDoc: AngularFirestoreDocument<IConfig>;
 
@@ -23,6 +24,7 @@ export class PhpQuestionService {
 
   init(): void {
     this.quizCollection = this.db.collection<IQuestion>(environment.configPHP.phpPath);
+    this.configCollection = this.db.collection<IConfig>(environment.configPHP.configPath);
   }
 
   getConfig(id: string): Observable<any> {
@@ -30,7 +32,7 @@ export class PhpQuestionService {
     return this.phpConfigDoc.get();
   }
 
-  getQuestion(id: string | number): Observable<firestore.DocumentSnapshot> {
+  getQuestion(id: number): Observable<firestore.DocumentSnapshot> {
     this.quizDoc = this.db.doc<IQuestion>(`${environment.configPHP.phpPath}/${id}`);
     return this.quizDoc.get();
   }
