@@ -1,4 +1,4 @@
-import { IScore } from '../interfaces';
+import { IScore } from '@app/core/interfaces';
 
 
 export class Score implements IScore {

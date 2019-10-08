@@ -26,12 +26,13 @@ export class LocalStorageService implements Storage {
       let localStorageConfig = this.getItem('config') as IConfig | null;
       const now = new Date();
       if ((localStorageConfig === null) || (now.getDate() >= localStorageConfig.timestamp)) {
-        this.setFreshAppConfigInLocalStorage(now).subscribe((freshConfig) => {
-          localStorageConfig = freshConfig;
-          observer.next(freshConfig);
-        }, (error) => {
-          observer.error(error);
-        });
+        this.setFreshAppConfigInLocalStorage(now).subscribe(
+          freshConfig => {
+            localStorageConfig = freshConfig;
+            observer.next(freshConfig);
+          },
+          error => observer.error(error)
+        );
       } else {
         observer.next(localStorageConfig);
       }
@@ -52,9 +53,7 @@ export class LocalStorageService implements Storage {
           this.setItem('config', newAppConfig);
           observer.next(newAppConfig);
         },
-        (error) => {
-          observer.error(error);
-        }
+        error => observer.error(error)
       );
     });
   }

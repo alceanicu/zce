@@ -9,7 +9,7 @@ class QuestionDatabase extends Dexie {
   constructor() {
     super('QuestionDatabase');
     this.version(1).stores({
-      questionTable: '++id,category,difficulty,type,finalAnswer,questionRows,answerRows'
+      questionTable: '++id,category,difficulty,type,finalAnswer,questionRows,answerRows,value'
     });
   }
 }
@@ -28,6 +28,14 @@ export class IndexedDbQuizService {
     return this.db.questionTable.add(question);
   }
 
+  getQuestionById(id: number): Promise<IQuestion> {
+    return this.db.questionTable.get(id);
+  }
+
+  clearQuestionTable(): Promise<void> {
+    return this.db.questionTable.clear();
+  }
+
   updateQuestion(question: IQuestion): Promise<any> {
     return this.db.questionTable.put(question);
   }
@@ -36,15 +44,7 @@ export class IndexedDbQuizService {
     return this.db.questionTable.delete(id);
   }
 
-  getQuestionById(id: number): Promise<IQuestion> {
-    return this.db.questionTable.get(id);
-  }
-
   getAllQuestions(): Promise<IQuestion[]> {
     return this.db.questionTable.toArray();
-  }
-
-  clearQuestionTable(): Promise<void> {
-    return this.db.questionTable.clear();
   }
 }
