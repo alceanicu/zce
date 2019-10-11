@@ -1,7 +1,8 @@
 # CHROME extension changelog
 
-### 2.0.5 [2019.09.30] 
+### 2.0.5 [2019.10.11] 
 
+ - update prepare module
  - update pdf module
  
 ### 2.0.4 [2019.09.27]
