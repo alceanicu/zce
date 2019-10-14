@@ -1,7 +1,8 @@
 ## FIREFOX extension changelog
 
-### 2.0.5 [2019.10.11] 
+### 2.0.5 [2019.10.14] 
 
+ - npm update
  - update prepare module
  - update pdf module
  
