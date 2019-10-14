@@ -23,6 +23,8 @@
           <a [routerLink]="['/backend/php-edit/', question.id]" title="edit"> <i class="fa fa-edit"></i> </a>
           <span> </span>
           <a (click)="deleteQuestion(question.id)" title="delete"> <i class="fa fa-trash"></i> </a>
+          <span> </span>
+          <a (click)="generateMarkdownFile(question)" title="Download markdown file"> <i class="fa fa-download"></i></a>
         </td>
       </tr>
       </tbody>

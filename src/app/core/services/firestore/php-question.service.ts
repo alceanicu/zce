@@ -40,7 +40,7 @@ export class PhpQuestionService {
   /**
    * Used by backend
    */
-  addQuestion(question: IQuestion): Observable<any> {
+  addQuestion(question: IQuestion): Observable<number | any> {
     return new Observable((observer) => {
       const configDocRef = this.db.firestore.collection(environment.configPHP.configPath).doc('php');
       this.db.firestore
@@ -69,7 +69,7 @@ export class PhpQuestionService {
   /**
    * Used by backend
    */
-  updateQuestion(question: IQuestion): Observable<any> {
+  updateQuestion(question: IQuestion): Observable<number | any> {
     return new Observable((observer) => {
       this.quizDoc = this.db.doc<IQuestion>(`${environment.configPHP.phpPath}/${question.id}`);
       this.quizDoc
@@ -82,7 +82,7 @@ export class PhpQuestionService {
   /**
    * Used by backend
    */
-  deleteQuestion(id: number): Observable<any> {
+  deleteQuestion(id: number): Observable<number | any> {
     return new Observable((observer) => {
       this.quizDoc = this.db.doc<IQuestion>(`${environment.configPHP.phpPath}/${id}`);
       this.quizDoc

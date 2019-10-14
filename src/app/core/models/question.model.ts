@@ -1,5 +1,5 @@
 import { IAnswerRow, IQuestion, IQuestionRow } from '../interfaces';
-
+import { environment } from '@env/environment';
 
 export class Question implements IQuestion {
   id?: number;

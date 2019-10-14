@@ -2,6 +2,7 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -14,6 +15,8 @@ import { ROUND_PROGRESS_DEFAULTS, RoundProgressModule } from 'angular-svg-round-
 import * as moment from 'moment';
 import { NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { IndexedDbQuizService } from '@app/core/services/indexeddb/indexed-db-quiz.service';
+import { AuthService } from '@app/backend/core/auth.service';
+import { AuthGuard } from '@app/backend/core/auth.guard';
 
 const log = new Logger('AppModule');
 
@@ -41,6 +44,7 @@ export function initApp(indexedDbQuizService: IndexedDbQuizService) {
     NgbPaginationModule,
     BrowserModule,
     AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
     AngularFirestoreModule,
     SharedModule,
     CoreModule,
@@ -56,6 +60,8 @@ export function initApp(indexedDbQuizService: IndexedDbQuizService) {
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
   providers: [
+    AuthService,
+    AuthGuard,
     {provide: 'moment', useFactory: (): any => moment},
     {
       provide: ROUND_PROGRESS_DEFAULTS,

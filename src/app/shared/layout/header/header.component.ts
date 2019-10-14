@@ -4,6 +4,7 @@ import { DOCUMENT } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { ICountdownTime, IScore } from '@app/core/interfaces';
 import { SyncCountdownTimeService, SyncLocationService, SyncScoreService } from '@app/core/services';
+import { AuthService } from '@app/backend/core/auth.service';
 
 
 @Component({
@@ -25,7 +26,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private element: ElementRef,
     private syncScoreService: SyncScoreService,
     private syncLocationService: SyncLocationService,
-    private syncCountdownTimeService: SyncCountdownTimeService
+    private syncCountdownTimeService: SyncCountdownTimeService,
+    private authService: AuthService
   ) {
   }
 
@@ -66,5 +68,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   sidebarToggle(): void {
     (this.sidebarVisible === false) ? this.sidebarOpen() : this.sidebarClose();
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }

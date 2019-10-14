@@ -9,7 +9,7 @@ export interface IQuestion {
   finalAnswer: boolean; // fixme - deprecated @ 3.0.0
   questionRows: Array<IQuestionRow>;
   answerRows: Array<IAnswerRow>;
-  value: number;
+  value?: number;
 
   validate(finalAnswer: boolean): boolean;
 }

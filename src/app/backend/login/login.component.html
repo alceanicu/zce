@@ -1,0 +1,20 @@
+<h1>Sign In</h1>
+<div class="row">
+  <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+    <span *ngIf="error" (click)="removeError()">{{ error }}</span>
+    <form (ngSubmit)="onLogin(f)" #f="ngForm">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" ngModel class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" ngModel class="form-control">
+      </div>
+
+      <div class="form-group">
+        <button class="btn btn-primary">Login</button>
+      </div>
+    </form>
+  </div>
+</div>

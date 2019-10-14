@@ -3,10 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { PhpQuestionService } from '@app/core/services/firestore/php-question.service';
-import { IOption, IQuestion } from '@app/core/interfaces';
+import { IAnswerRow, IOption, IQuestion } from '@app/core/interfaces';
 import { environment } from '@env/environment';
 import { Helper } from '@app/core/utils';
-import { Logger } from '@app/core';
+import { Logger, Question } from '@app/core';
+import { firestore } from 'firebase';
 
 const log = new Logger('PhpEditComponent');
 
@@ -37,17 +38,29 @@ export class PhpEditComponent implements OnInit {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if (id) {
       this.type = 'EDIT';
-      this.firestorePhpQuestionService.getQuestion(id).subscribe(
-        DocumentSnapshot => {
+      this.firestorePhpQuestionService.getQuestion(Number(id)).subscribe(
+        (DocumentSnapshot: firestore.DocumentSnapshot) => {
           const question = DocumentSnapshot.data() as IQuestion;
           const qLength = (question.questionRows.length || 0);
           for (let i = 0; i < qLength; i++) {
             this.addQuestionRow();
           }
+
+          // fixme
+          if (!question.hasOwnProperty('value')) {
+            question.value = 0;
+          }
+
+          question.answerRows.forEach((row: IAnswerRow, k) => {
+            if (!row.hasOwnProperty('value')) {
+              question.answerRows[k].value = 0;
+            }
+          });
+          //
           // question.id_db = '';
           this.form.setValue(question);
         },
-        error => log.error(`Error on update question with ID=${id} ${error}`),
+        (error: any) => log.error(`Error on update question with ID=${id} ${error}`),
         () => log.info('Update complete')
       );
     } else {
@@ -141,7 +154,7 @@ export class PhpEditComponent implements OnInit {
       this.firestorePhpQuestionService.updateQuestion(question).subscribe(
         id => {
           this.router
-            .navigate(['php-list'])
+            .navigate(['/backend/php-list'])
             .then(d => log.info(`Update question with ID=${id}`));
         },
         error => log.error('Update question with error: ' + error)
@@ -150,7 +163,7 @@ export class PhpEditComponent implements OnInit {
       this.firestorePhpQuestionService.addQuestion(question).subscribe(
         id => {
           this.router
-            .navigate(['php-list'])
+            .navigate(['/backend/php-list'])
             .then(d => log.info(`Insert question with ID=${id}`));
         },
         error => log.error('Created question with error: ' + error));
