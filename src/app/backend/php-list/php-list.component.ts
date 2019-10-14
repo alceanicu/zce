@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { AngularFirestore } from '@angular/fire/firestore';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { LocalStorageService, Logger } from '@app/core/services';
@@ -19,12 +19,14 @@ const log = new Logger('PhpListComponent');
   styleUrls: ['./php-list.component.scss']
 })
 
-export class PhpListComponent implements OnInit {
+export class PhpListComponent implements OnInit, OnDestroy {
   public questionList: Observable<IQuestion[] | {}[]>;
   public page$: BehaviorSubject<string | null>;
   public page: number;
   public perPage = 5;
   public totalItemsNumber: number;
+  private localStorageSubscription: Subscription;
+  private listQuizSubscription: Subscription;
   private setting = {
     element: {
       dynamicDownload: null as HTMLElement
@@ -43,14 +45,15 @@ export class PhpListComponent implements OnInit {
     this.page$ = new BehaviorSubject('1');
     const $this = this;
     const config = JSON.parse(localStorage.getItem('config')) as IConfig;
-    this.localStorageService.getAppConfig().subscribe(
+    this.localStorageSubscription = this.localStorageService.getAppConfig().subscribe(
       c => {
         if (config !== null) {
           $this.totalItemsNumber = Number(c.counter);
           log.info(`totalPageNumber=${$this.totalItemsNumber}`);
         }
       },
-      (error: any) => log.error(error));
+      (error: any) => log.error(error)
+    );
 
     this.questionList = combineLatest([this.page$]).pipe(
       switchMap(([page]) => this.db.collection(environment.configPHP.phpPath, queryFn => {
@@ -69,7 +72,7 @@ export class PhpListComponent implements OnInit {
       )
     );
 
-    this.questionList.subscribe(
+    this.listQuizSubscription = this.questionList.subscribe(
       data => {
         if (data.length <= 0) {
           this.goToPage(1);
@@ -77,6 +80,11 @@ export class PhpListComponent implements OnInit {
       },
       error => log.error(`something wrong occurred: ${error}`)
     );
+  }
+
+  ngOnDestroy(): void {
+    this.localStorageSubscription.unsubscribe();
+    this.listQuizSubscription.unsubscribe();
   }
 
   goToPage(page: number = 1) {
