@@ -19,7 +19,7 @@ ng new zce --routing=true --style=scss
 -- modules
 ng g m home --routing=true
 ng g m about --routing=true
-ng g m random --routing=true
+ng g m prepare --routing=true
 ng g m exam --routing=true
 ng g m shared
 ng g m core
@@ -27,7 +27,7 @@ ng g m core
 -- components
 ng g c home/home
 ng g c about/about
-ng g c random/random
+ng g c prepare/prepare
 ng g c exam/exam
 ng g c shared/layout/footer
 ng g c shared/layout/header
@@ -95,7 +95,7 @@ npm i --save ngx-toastr
 npm i --save ngx-ui-loader
 npm i --save bootstrap
 
-npm igit  webpack-bundle-analyzer -D
+npm i webpack-bundle-analyzer -D
 ```
 
 ### others

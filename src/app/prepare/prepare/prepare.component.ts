@@ -6,13 +6,13 @@ import { Logger, PrismService, QuestionService, SyncScoreService } from '@app/co
 import { Question } from '@app/core/models';
 import { IScore } from '@app/core/interfaces';
 
-const log = new Logger('RandomComponent');
+const log = new Logger('PrepareComponent');
 
 @Component({
-  selector: 'app-random',
-  templateUrl: './random.component.html'
+  selector: 'app-prepare',
+  templateUrl: './prepare.component.html'
 })
-export class RandomComponent implements OnInit, AfterViewChecked, OnDestroy {
+export class PrepareComponent implements OnInit, AfterViewChecked, OnDestroy {
   public isCorrect: boolean;
   public btnText: string;
   public question: Question;

@@ -10,7 +10,7 @@ const routes: Routes = [
   {path: 'page-not-found', component: PageNotFoundComponent},
   {path: 'home', loadChildren: () => import('./home/home.module').then(m => m.HomeModule)},
   {path: 'about', loadChildren: () => import('./about/about.module').then(m => m.AboutModule)},
-  {path: 'random', loadChildren: () => import('./random/random.module').then(m => m.RandomModule)},
+  {path: 'prepare', loadChildren: () => import('./prepare/prepare.module').then(m => m.PrepareModule)},
   {path: 'exam', loadChildren: () => import('./exam/exam.module').then(m => m.ExamModule)},
   {path: 'backend', loadChildren: () => import('./backend/backend.module').then(m => m.BackendModule)},
   {path: '**', redirectTo: '/page-not-found'},

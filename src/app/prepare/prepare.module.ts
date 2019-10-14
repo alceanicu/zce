@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { RandomRoutingModule } from './random-routing.module';
-import { RandomComponent } from './random/random.component';
+import { PrepareRoutingModule } from './prepare-routing.module';
+import { PrepareComponent } from './prepare/prepare.component';
 import { SharedModule } from '@app/shared';
 
 @NgModule({
   imports: [
     CommonModule,
-    RandomRoutingModule,
+    PrepareRoutingModule,
     SharedModule,
   ],
   declarations: [
-    RandomComponent,
+    PrepareComponent,
   ]
 })
-export class RandomModule {
+export class PrepareModule {
 }
