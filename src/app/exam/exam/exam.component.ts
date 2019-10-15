@@ -2,10 +2,11 @@ import { AfterViewChecked, Component, Inject, OnDestroy, OnInit } from '@angular
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 
+import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { Moment } from 'moment';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ToastrService } from 'ngx-toastr';
-import { Moment } from 'moment';
-import { Subscription } from 'rxjs';
 import { SimpleModalService } from 'ngx-simple-modal';
 import { CountdownService, LocalStorageService, Logger, PrismService, QuestionService, SyncCountdownTimeService } from '@app/core/services';
 import { ConfirmComponent } from '@app/shared';
@@ -32,7 +33,6 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   public index?: number;
   public markForReviewArray: Array<number> = [];
   private exam: Exam;
-  private localStorageSubscription: Subscription;
   private questionSubscription: Subscription;
   private countdownSubscription: Subscription;
   private isNew: boolean;
@@ -61,14 +61,17 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
         title: 'Confirm',
         message: 'Do you wish to finish the current exam?'
       };
-      const disposable = this.simpleModalService.addModal(ConfirmComponent, data).subscribe(isConfirmed => {
-        if (isConfirmed) {
-          this.finishExam();
-          return true;
-        } else {
-          return false;
-        }
-      });
+      const disposable = this.simpleModalService
+        .addModal(ConfirmComponent, data)
+        .pipe(take(1))
+        .subscribe(canFinishExam => {
+          if (canFinishExam) {
+            this.finishExam();
+            return true;
+          } else {
+            return false;
+          }
+        });
 
       // We can close modal calling disposable.unsubscribe();
       // If modal was not closed manually close it by timeout
@@ -78,11 +81,6 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
 
   ngOnInit(): void {
     this.exam = new Exam();
-    this.localStorageSubscription = this.localStorageService.getAppConfig().subscribe(
-      config => this.exam.setMax(config.counter),
-      error => log.error(error)
-    );
-
     const startTime = this.moment(this.exam.startAt);
     const endTime = this.moment(startTime).add(5400, 'seconds');
 
@@ -123,7 +121,6 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   }
 
   ngOnDestroy(): void {
-    this.localStorageSubscription.unsubscribe();
     this.questionSubscriptionUnsubscribe();
     this.countdownSubscriptionUnsubscribe();
   }
@@ -160,19 +157,21 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
 
     if (this.exam.questions[index] === undefined) {
       // we try to get question from IndexedDB || Firebase
-      this.questionSubscription = this.questionService.getOneQuestionById(id).subscribe(
-        (question: IQuestion) => {
-          const currentQuestion = {
-            id: id,
-            question: question,
-            markForReview: false,
-            correct: false
-          } as IExamQuestion;
-          this.exam.setQuestion(index, currentQuestion);
-          this.setCurrentQuestion(currentQuestion);
-        },
-        error => log.error(error),
-      );
+      this.questionSubscription = this.questionService
+        .getOneQuestionById(id)
+        .subscribe(
+          (question: IQuestion) => {
+            const currentQuestion = {
+              id: id,
+              question: question,
+              markForReview: false,
+              correct: false
+            } as IExamQuestion;
+            this.exam.setQuestion(index, currentQuestion);
+            this.setCurrentQuestion(currentQuestion);
+          },
+          error => log.error(error),
+        );
     } else {
       // question is already exist in exam object
       this.setCurrentQuestion(this.exam.questions[index]);

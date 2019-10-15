@@ -1,17 +1,17 @@
-import {async, TestBed} from '@angular/core/testing';
-import {LocalStorageService} from './local-storage.service';
-import {HomeComponent} from '../../../home/home/home.component';
-import {AngularFireModule} from '@angular/fire';
-import {environment} from '../../../../environments/environment';
-import {AngularFirestoreModule} from '@angular/fire/firestore';
-import {ROUND_PROGRESS_DEFAULTS} from 'angular-svg-round-progressbar';
-import {IConfig} from '../../interfaces';
+import { async, TestBed } from '@angular/core/testing';
+import { AngularFireModule } from '@angular/fire';
+import { HomeComponent } from '@app/home/home/home.component';
+import { environment } from '@env/environment';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { ROUND_PROGRESS_DEFAULTS } from 'angular-svg-round-progressbar';
+import { IConfig } from '@app/core/interfaces';
+import { LocalStorageService } from '@app/core/services/local-storage/local-storage.service';
 import * as moment from 'moment';
 
 describe('LocalStorageService', () => {
   const now: Date = new Date('2019-12-01T03:24:00');
   const key: string = 'config';
-  const obj: IConfig = {counter: environment.configPHP.max, timestamp: now.getTime()}; // FIXME
+  const obj: IConfig = {counter: environment.configPHP.max, timestamp: now.getTime(), version: '2.0.0'}; // FIXME
 
   let service: LocalStorageService;
 
@@ -36,15 +36,6 @@ describe('LocalStorageService', () => {
     service = TestBed.get(LocalStorageService);
     service.setItem(key, obj);
   }));
-
-  // it('#setFreshAppConfigInLocalStorage should return value from observable', (done: DoneFn) => {
-  //   service.setFreshAppConfigInLocalStorage(now).subscribe(value => {
-  //     const d = now;
-  //     d.setDate(now.getDate() + 10);
-  //     expect(value.timestamp).toEqual(d.getTime());
-  //     done();
-  //   });
-  // });
 
   it('should be created', async () => {
     await expect(service).toBeTruthy();

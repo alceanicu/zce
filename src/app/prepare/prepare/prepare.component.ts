@@ -73,14 +73,16 @@ export class PrepareComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   private getAnRandomQuestion(): void {
     this.reset();
-    this.questionSubscription = this.questionService.getQuestion(1).subscribe(
-      question => this.question = question,
-      error => log.error(error),
-      () => {
-        this.isNew = true;
-        setTimeout(() => this.ngxUiLoaderService.stopAll(), 250);
-      }
-    );
+    this.questionSubscription = this.questionService
+      .getQuestion(1)
+      .subscribe(
+        question => this.question = question,
+        error => log.error(error),
+        () => {
+          this.isNew = true;
+          setTimeout(() => this.ngxUiLoaderService.stopAll(), 250);
+        }
+      );
   }
 
   private reset(): void {

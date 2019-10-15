@@ -11,9 +11,6 @@ export class Exam implements IExam {
   public score: number = 0;
   public finished: boolean = false;
 
-  private examQuestionNumber = 70;
-  private max: number;
-
   constructor(values?: Exam) {
     if (values) {
       Object.assign(this, values);
@@ -22,12 +19,7 @@ export class Exam implements IExam {
     this.questions = {};
     this.score = 0;
     this.finished = false;
-    this.max = environment.configPHP.max;
-    this.questionsArray = this.initQuestionsArray();
-  }
-
-  public setMax(max: number) {
-    this.max = max;
+    this.questionsArray = Helper.generateArrayWithRandomUniqueElement(70, environment.configPHP.max);
   }
 
   public finish() {
@@ -46,26 +38,5 @@ export class Exam implements IExam {
 
   public setQuestion(key: number, question: IExamQuestion): void {
     this.questions[key] = question;
-  }
-
-  /**
-   * Set an array with 70 unique random numbers
-   */
-  private initQuestionsArray(): Array<number> {
-    if (this.questionsArray.length === this.examQuestionNumber) {
-      return this.questionsArray;
-    } else {
-      const randomId = Helper.randomNumberFromInterval(this.max);
-      if (this.questionsArray.indexOf(randomId) === -1) {
-        this.questionsArray.push(randomId);
-        if (this.questionsArray.length === this.examQuestionNumber) {
-          return this.questionsArray;
-        } else {
-          return this.initQuestionsArray();
-        }
-      } else {
-        return this.initQuestionsArray();
-      }
-    }
   }
 }

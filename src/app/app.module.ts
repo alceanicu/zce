@@ -4,27 +4,35 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 
+import * as moment from 'moment';
+import { take } from 'rxjs/operators';
+import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FooterComponent, HeaderComponent, SharedModule } from './shared';
 import { CoreModule, Logger } from '@app/core';
-import { ToastrModule } from 'ngx-toastr';
 import { environment } from '@env/environment';
 import { ROUND_PROGRESS_DEFAULTS, RoundProgressModule } from 'angular-svg-round-progressbar';
-import * as moment from 'moment';
-import { IndexedDbQuizService } from '@app/core/services/indexeddb/indexed-db-quiz.service';
+import { PhpQuestionService } from '@app/core/services/firestore/php-question.service';
 
 const log = new Logger('AppModule');
 
-export function initApp(indexedDbQuizService: IndexedDbQuizService) {
-  return (): Promise<any> => { // fixme
-    // log.info('In initApp');
-    // return indexedDbQuizService.clearQuestionTable();
+export function initApp(phpQuestionService: PhpQuestionService) {
+  return (): Promise<any> => {
     return new Promise((resolve) => {
-      setTimeout(() => {
-        log.info('In initApp');
-        resolve();
-      }, 50);
+      phpQuestionService
+        .getPhpConfig()
+        .pipe(take(1))
+        .subscribe(
+          DocumentSnapshot => {
+            if (DocumentSnapshot.data().version !== environment.appVersion) {
+              window.alert(`Please consider to upgrade this application to latest version!`);
+            }
+            resolve();
+          },
+          error => window.alert(error),
+          () => log.info('App INIT')
+        );
     });
   };
 }
@@ -53,7 +61,16 @@ export function initApp(indexedDbQuizService: IndexedDbQuizService) {
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
   providers: [
-    {provide: 'moment', useFactory: (): any => moment},
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initApp,
+      multi: true,
+      deps: [PhpQuestionService]
+    },
+    {
+      provide: 'moment',
+      useFactory: (): any => moment
+    },
     {
       provide: ROUND_PROGRESS_DEFAULTS,
       useValue: {
@@ -61,12 +78,6 @@ export function initApp(indexedDbQuizService: IndexedDbQuizService) {
         background: '#F00'
       }
     },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initApp,
-      multi: true,
-      deps: [IndexedDbQuizService]
-    }
   ],
   bootstrap: [AppComponent]
 })

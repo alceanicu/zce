@@ -14,9 +14,6 @@ export class Helper {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  /**
-   * FIXME - new version
-   */
   public static generateArrayWithRandomUniqueElement(
     arraySize: number,
     max: number,

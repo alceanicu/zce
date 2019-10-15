@@ -27,8 +27,8 @@ export class PhpQuestionService {
     this.configCollection = this.db.collection<IConfig>(environment.configPHP.configPath);
   }
 
-  getConfig(id: string): Observable<any> {
-    this.phpConfigDoc = this.db.doc<IConfig>(`${environment.configPHP.configPath}/${id}`);
+  getPhpConfig(): Observable<firestore.DocumentSnapshot> {
+    this.phpConfigDoc = this.db.doc<IConfig>(`${environment.configPHP.configPath}/php`);
     return this.phpConfigDoc.get();
   }
 
