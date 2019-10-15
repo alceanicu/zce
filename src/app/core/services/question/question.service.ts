@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 
 import { Observable, Subscriber } from 'rxjs';
 import { Helper } from '@app/core/utils';
+import { environment } from '@env/environment';
 import { PhpQuestionService } from '@app/core/services/firestore/php-question.service';
 import { LocalStorageService } from '@app/core/services/local-storage/local-storage.service';
 import { IndexedDbQuizService } from '@app/core/services/indexeddb/indexed-db-quiz.service';
 import { SessionStorageService } from '@app/core/services/session-storage/session-storage.service';
 import { Logger } from '@app/core/services/logger/logger.service';
-import { IConfig, IQuestion } from '@app/core/interfaces';
+import { IQuestion } from '@app/core/interfaces';
 import { Question } from '@app/core/models';
 
 const log = new Logger('QuestionService');
@@ -16,8 +17,8 @@ const log = new Logger('QuestionService');
   providedIn: 'root'
 })
 export class QuestionService {
-  private internalCounter: number;
-  private questionNumber: number;
+  private internalCounter: number = 0;
+  private questionNumber: number = 1;
 
   constructor(
     private firestorePhpQuestionService: PhpQuestionService,
@@ -28,29 +29,26 @@ export class QuestionService {
   }
 
   public getQuestion(questionNumber: number = 1): Observable<Question> {
-    this.internalCounter = 0;
-    this.questionNumber = questionNumber;
+    this.setInternalParams(questionNumber);
 
     return new Observable((subscriber: Subscriber<Question>) => {
       for (let i = 0; i < questionNumber; i++) {
-        this.getAnRandomQuestion(subscriber);
+        this.getQuestionById(this.generateRandomIdWithoutRepeatInLastN(), subscriber);
       }
     });
   }
 
   public getOneQuestionById(id: number): Observable<Question> {
-    this.internalCounter = 0;
-    this.questionNumber = 1;
+    this.setInternalParams(1);
+
     return new Observable((subscriber: Subscriber<Question>) => {
       this.getQuestionById(id, subscriber);
     });
   }
 
-  private getAnRandomQuestion(subscriber: Subscriber<Question>) {
-    this.localStorageService.getAppConfig().subscribe(
-      config => this.getQuestionById(this.generateRandomIdWithoutRepeatInLastN(config), subscriber),
-      error => log.error(error)
-    );
+  private setInternalParams(questionNumber: number = 1, internalCounter: number = 0): void {
+    this.questionNumber = questionNumber;
+    this.internalCounter = internalCounter;
   }
 
   private getQuestionById(id: number, subscriber: Subscriber<Question>) {
@@ -69,8 +67,8 @@ export class QuestionService {
       });
   }
 
-  private generateRandomIdWithoutRepeatInLastN(config: IConfig, internalCounter: number = 0): number {
-    const randomId = Helper.randomNumberFromInterval(config.counter);
+  private generateRandomIdWithoutRepeatInLastN(internalCounter: number = 0): number {
+    const randomId = Helper.randomNumberFromInterval(environment.configPHP.max);
     let phpLastNIds = this.sessionStorageService.getItem('phpLastNIds') || [];
     if (internalCounter === 100) {
       return randomId;
@@ -83,24 +81,26 @@ export class QuestionService {
       return randomId;
     } else {
       internalCounter++;
-      return this.generateRandomIdWithoutRepeatInLastN(config, internalCounter);
+      return this.generateRandomIdWithoutRepeatInLastN(internalCounter);
     }
   }
 
   private getQuestionFromFirebase(id: number, subscriber: Subscriber<IQuestion>): void {
-    this.firestorePhpQuestionService.getQuestion(id).subscribe(
-      (DocumentSnapshot) => {
-        const question = new Question(DocumentSnapshot.data() as IQuestion);
-        if (question) {
-          this.saveToIndexedDb(question);
-          this.setQuestion(question, subscriber);
-        } else {
-          throw new Error('bad robot');
-        }
-      },
-      error => log.error(error),
-      () => log.info('Question from FIREBASE complete')
-    );
+    this.firestorePhpQuestionService
+      .getQuestion(id)
+      .subscribe(
+        DocumentSnapshot => {
+          const question = new Question(DocumentSnapshot.data() as IQuestion);
+          if (question) {
+            this.saveToIndexedDb(question);
+            this.setQuestion(question, subscriber);
+          } else {
+            throw new Error('Bad robot!');
+          }
+        },
+        error => log.error(error),
+        () => log.info('Question from FIREBASE complete')
+      );
   }
 
   private saveToIndexedDb(question: IQuestion): void {

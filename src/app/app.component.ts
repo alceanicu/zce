@@ -9,9 +9,6 @@ import { HeaderComponent } from '@app/shared/layout';
 import { Logger, SyncLocationService } from '@app/core/services';
 import { environment } from '@env/environment';
 
-
-const log = new Logger('App');
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html'
@@ -33,13 +30,10 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {
   }
 
-
   ngOnInit(): void {
     if (environment.production) {
       Logger.enableProductionMode();
     }
-
-    log.info('Logger init');
 
     this.subscriptions.push(this.syncLocationService.currentValue.subscribe(value => {
       this.currentRoute = value;

@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
 import { PhpQuestionService } from '@app/core/services/firestore/php-question.service';
-import { IConfig } from '@app/core/interfaces';
+
 
 @Injectable({
   providedIn: 'root'
@@ -19,43 +18,6 @@ export class LocalStorageService implements Storage {
     if (typeof (Storage) === 'undefined') {
       throw new Error('No web storage Support');
     }
-  }
-
-  getAppConfig(): Observable<IConfig> {
-    return new Observable((observer) => {
-      let localStorageConfig = this.getItem('config') as IConfig | null;
-      const now = new Date();
-      if ((localStorageConfig === null) || (now.getDate() >= localStorageConfig.timestamp)) {
-        this.setFreshAppConfigInLocalStorage(now).subscribe(
-          freshConfig => {
-            localStorageConfig = freshConfig;
-            observer.next(freshConfig);
-          },
-          error => observer.error(error)
-        );
-      } else {
-        observer.next(localStorageConfig);
-      }
-    });
-  }
-
-  setFreshAppConfigInLocalStorage(now: Date): Observable<IConfig> {
-    this.clear();
-    return new Observable((observer) => {
-      this.firestorePhpQuestionService.getConfig('php').subscribe(
-        DocumentSnapshot => {
-          // AppConfig will expire after 10 days
-          now.setDate(now.getDate() + 10);
-          const newAppConfig = {
-            counter: DocumentSnapshot.data().counter,
-            timestamp: now.getTime()
-          } as IConfig;
-          this.setItem('config', newAppConfig);
-          observer.next(newAppConfig);
-        },
-        error => observer.error(error)
-      );
-    });
   }
 
   /**

@@ -3,10 +3,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
-import { switchMap, take, takeUntil } from 'rxjs/operators';
+import { switchMap, takeUntil } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { LocalStorageService, Logger } from '@app/core/services';
-import { IAnswerRow, IConfig, IQuestion, IQuestionRow } from '@app/core/interfaces';
+import { IAnswerRow, IQuestion, IQuestionRow } from '@app/core/interfaces';
 import { environment } from '@env/environment';
 import { PhpQuestionService } from '@app/core/services/firestore/php-question.service';
 import { Question } from '@app/core';
@@ -42,19 +42,7 @@ export class PhpListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.page$ = new BehaviorSubject('1');
-    const config = JSON.parse(localStorage.getItem('config')) as IConfig;
-    this.localStorageService.getAppConfig()
-      .pipe(take(1))
-      .subscribe(
-        c => {
-          if (config !== null) {
-            this.totalItemsNumber = Number(c.counter);
-            log.info(`totalPageNumber=${this.totalItemsNumber}`);
-          }
-        },
-        (error: any) => log.error(error),
-        () => log.info(`complete => totalPageNumber=${this.totalItemsNumber}`)
-      );
+    this.totalItemsNumber = environment.configPHP.max;
 
     this.questionList = combineLatest([this.page$])
       .pipe(
