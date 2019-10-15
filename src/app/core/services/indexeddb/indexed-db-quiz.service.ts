@@ -8,9 +8,8 @@ class QuestionDatabase extends Dexie {
 
   constructor() {
     super('QuestionDatabase');
-    this.version(1).stores({
-      questionTable: '++id,category,difficulty,type,finalAnswer,questionRows,answerRows,value'
-    });
+    this.version(1)
+      .stores({questionTable: '++id,*category,difficulty,type,finalAnswer,value,*questionRows,*answerRows'});
   }
 }
 
