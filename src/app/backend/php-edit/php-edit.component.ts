@@ -6,28 +6,30 @@ import { PhpQuestionService } from '@app/core/services/firestore/php-question.se
 import { IAnswerRow, IOption, IQuestion } from '@app/core/interfaces';
 import { environment } from '@env/environment';
 import { Helper } from '@app/core/utils';
-import { Logger, Question } from '@app/core';
+import { Logger } from '@app/core';
 import { firestore } from 'firebase';
+import { ToastrService } from 'ngx-toastr';
 
 const log = new Logger('PhpEditComponent');
 
 @Component({
   selector: 'app-php-edit',
-  templateUrl: './php-edit.component.html',
-  styleUrls: ['./php-edit.component.scss']
+  templateUrl: './php-edit.component.html'
 })
 export class PhpEditComponent implements OnInit {
   // public idDb: number;
   public form: FormGroup;
   public questionRowsArray: FormArray;
   public type: string;
-  public value: number;
+
+  // public value: number;
 
   constructor(
     public firestorePhpQuestionService: PhpQuestionService,
     public formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private toastrService: ToastrService
     // private apiService: ApiService,
   ) {
   }
@@ -118,14 +120,14 @@ export class PhpEditComponent implements OnInit {
   }
 
   /**
-   * init Answer formGroup
+   * init Answer formGroup - FIXME correct
    */
   initAnswerRow(i: number, correct: boolean = false): FormGroup {
     return this.formBuilder.group({
       text: ['', Validators.required],
       language: ['none', Validators.required],
-      correct: [correct, Validators.required],
-      value: [Math.pow(2, i), Validators.required]
+      value: [Math.pow(2, i), Validators.required],
+      correct: [correct],
     });
   }
 
@@ -150,23 +152,25 @@ export class PhpEditComponent implements OnInit {
    */
   onSubmit() {
     const question = this.form.value as IQuestion;
+
+    question.answerRows.forEach((o, k) => { // fixme correct
+      question.answerRows[k].correct = (o.value > 0);
+    });
+
     if (this.type === 'EDIT') {
-      this.firestorePhpQuestionService.updateQuestion(question).subscribe(
-        id => {
-          this.router
-            .navigate(['/backend/php-list'])
-            .then(d => log.info(`Update question with ID=${id}`));
-        },
-        error => log.error('Update question with error: ' + error)
-      );
+      this.firestorePhpQuestionService
+        .updateQuestion(question)
+        .subscribe(
+          id => this.toastrService.success(`Update question with ID=${id}`, 'Edit question'),
+          error => this.toastrService.error('Update question with error: ' + error)
+        );
     } else {
-      this.firestorePhpQuestionService.addQuestion(question).subscribe(
-        id => {
-          this.router
-            .navigate(['/backend/php-list'])
-            .then(d => log.info(`Insert question with ID=${id}`));
-        },
-        error => log.error('Created question with error: ' + error));
+      this.firestorePhpQuestionService
+        .addQuestion(question)
+        .subscribe(
+          id => this.toastrService.success(`Insert question with ID=${id}`, 'Insert question'),
+          error => this.toastrService.error('Created question with error: ' + error)
+        );
     }
   }
 
@@ -186,7 +190,7 @@ export class PhpEditComponent implements OnInit {
     return Helper.arrayConfigToIOptionArray(environment.configPHP.extensionsAllowed);
   }
 
-  get correctOptions(): Array<any> {
+  get correctOptions(): Array<any> { // fixme
     return environment.configPHP.correctOptions;
   }
 

@@ -42,7 +42,7 @@ export class AuthService {
   login(email: string, password: string) {
     return this.afAuth.auth
       .signInWithEmailAndPassword(email, password)
-      .then((result) => {
+      .then((result) => { // FIXME not google & ngZone
         this.ngZone.run(() => {
           this.router.navigate(['/backend/php-list']);
         });

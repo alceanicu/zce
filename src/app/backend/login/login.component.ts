@@ -11,25 +11,26 @@ import { User } from '@app/backend/core/user.interface';
 })
 export class LoginComponent implements OnInit {
   @ViewChild('f', {static: false}) form: NgForm;
-  error: string;
+  error?: string = null;
   user: User;
 
   constructor(
     private authService: AuthService,
     private router: Router
   ) {
-    this.error = null;
   }
 
   ngOnInit() {
+    if (this.authService.isLoggedIn) {
+      this.router.navigate(['/backend/php-list']);
+    }
   }
 
   onLogin(form: NgForm) {
     this.authService
       .login(this.form.value.email, this.form.value.password)
-      .then((user) => {
-        console.log(user);
-        this.router.navigateByUrl('php-list');
+      .then(() => {
+        this.router.navigate(['/backend/php-list']);
       })
       .catch(err => this.error = err.message);
 

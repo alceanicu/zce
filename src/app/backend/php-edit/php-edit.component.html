@@ -28,15 +28,15 @@
         <label for="id">#ID</label>
         <input type="text" id="id" class="form-control form-control-sm" readonly formControlName="id">
         <span class="text-danger"
-              *ngIf="form.controls['id'].touched && form.controls['id'].hasError('required')">ID is required!</span>
+              *ngIf="form.controls['id'].touched && form.controls['id'].hasError('required')"
+        >ID is required!</span>
       </div>
       <div class="form-group col-3">
-        <label for="category">#Category</label>
-        <select class="form-control form-control-sm" id="category" formControlName="category">
-          <option *ngFor="let op of categoryOptions" [ngValue]="op.value">{{op.text}}</option>
-        </select>
+        <label for="id">#Value</label>
+        <input type="text" id="value" class="form-control form-control-sm" readonly formControlName="value">
         <span class="text-danger"
-              *ngIf="form.controls['category'].touched && form.controls['category'].hasError('required')">Category is required!</span>
+              *ngIf="form.controls['value'].touched && form.controls['value'].hasError('required')"
+        >value is required!</span>
       </div>
       <div class="form-group col-3">
         <label for="difficulty">#Difficulty</label>
@@ -44,7 +44,8 @@
           <option *ngFor="let op of difficultyOptions" [ngValue]="op.value">{{op.text}}</option>
         </select>
         <span class="text-danger"
-              *ngIf="form.controls['difficulty'].touched && form.controls['difficulty'].hasError('required')">Difficulty level is required!</span>
+              *ngIf="form.controls['difficulty'].touched && form.controls['difficulty'].hasError('required')"
+        >Difficulty level is required!</span>
       </div>
       <div class="form-group col-3">
         <label for="type">#Type</label>
@@ -52,17 +53,20 @@
           <option *ngFor="let op of typeOptions" [ngValue]="op.value">{{op.text}}</option>
         </select>
         <span class="text-danger"
-              *ngIf="form.controls['type'].touched && form.controls['type'].hasError('required')">Type is required!</span>
+              *ngIf="form.controls['type'].touched && form.controls['type'].hasError('required')"
+        >Type is required!</span>
       </div>
     </div>
 
     <div class="row">
       <div class="form-group col-3">
-        <label for="id">#Value</label>
-        <input type="text" id="value" class="form-control form-control-sm" readonly formControlName="value">
+        <label for="category">#Category</label>
+        <select class="form-control form-control-sm" id="category" multiple [multiple] formControlName="category">
+          <option *ngFor="let op of categoryOptions" [ngValue]="op.value">{{op.text}}</option>
+        </select>
         <span class="text-danger"
-              *ngIf="form.controls['value'].touched && form.controls['value'].hasError('required')"
-        >value is required!</span>
+              *ngIf="form.controls['category'].touched && form.controls['category'].hasError('required')"
+        >Category is required!</span>
       </div>
     </div>
 
@@ -78,7 +82,8 @@
           <div class="col-md-10">
             <textarea class="form-control" formControlName="text" type="text" rows="6"></textarea>
             <span class="text-danger"
-                  *ngIf="getQuestionRowFormGroup(i).controls['text'].touched && getQuestionRowFormGroup(i).controls['text'].hasError('required')">text is required! </span>
+                  *ngIf="getQuestionRowFormGroup(i).controls['text'].touched && getQuestionRowFormGroup(i).controls['text'].hasError('required')"
+            >text is required! </span>
           </div>
 
           <div class="col-md-2">
@@ -103,23 +108,27 @@
 
             <div [formGroupName]="i" class="row">
               <div class="form-group col-6">
-                <label for="correct_{{i}}">Correct</label>
-                <select class="form-control form-control-sm" formControlName="correct" id="correct_{{i}}">
-                  <option *ngFor="let op of correctOptions" [ngValue]="op.value">{{op.text}}</option>
-                </select>
-                <select class="form-control form-control-sm" formControlName="value" (ngModelChange)="onChangeVal()">
+                <label for="value_{{i}}">Correct</label>
+<!--                <select class="form-control form-control-sm" formControlName="correct" id="correct_{{i}}">-->
+<!--                  <option *ngFor="let op of correctOptions" [ngValue]="op.value">{{op.text}}</option>-->
+<!--                </select>-->
+                <select class="form-control form-control-sm" id="value_{{i}}"
+                        formControlName="value"
+                        (ngModelChange)="onChangeVal()">
                   <option *ngFor="let v of valueOptions(i)" [ngValue]="v.value">{{v.text}} - {{v.value}}</option>
                 </select>
               </div>
               <div class="form-group col-6">
-                <label>Language</label>
-                <select class="form-control form-control-sm" formControlName="language">
+                <label for="language_{{i}}">Language</label>
+                <select class="form-control form-control-sm" id="language_{{i}}"
+                        formControlName="language">
                   <option *ngFor="let op of languageOptions" [ngValue]="op.value">{{op.text}}</option>
                 </select>
               </div>
               <div class="form-group col-12">
-                <label>Answer</label>
-                <textarea class="form-control form-control-sm" formControlName="text"></textarea>
+                <label for="text_{{i}}">Answer</label>
+                <textarea class="form-control form-control-sm" id="text_{{i}}"
+                          formControlName="text"></textarea>
                 <br>
               </div>
             </div>
@@ -138,14 +147,14 @@
       </div>
     </div>
 
-<!--    <div class="card">-->
-<!--      <div class="card-header">-->
-<!--        <pre>Is Form valid?: <strong>{{form.valid | json}}</strong></pre>-->
-<!--      </div>-->
-<!--      <div class="card-body ">-->
-<!--        <pre>form value: <br>{{form.value | json}}</pre>-->
-<!--      </div>-->
-<!--    </div>-->
+    <div class="card">
+      <div class="card-header">
+        <pre>Is Form valid?: <strong>{{form.valid | json}}</strong></pre>
+      </div>
+      <div class="card-body ">
+        <pre>form value: <br>{{form.value | json}}</pre>
+      </div>
+    </div>
 
   </form>
 </div>
