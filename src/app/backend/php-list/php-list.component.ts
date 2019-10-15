@@ -121,8 +121,6 @@ export class PhpListComponent implements OnInit, OnDestroy {
 
   private generateMdArray(question: Question): Array<any> {
     const mdArray: Array<any> = [];
-    console.log(this);
-    console.log(environment.configPHP.extensionsAllowed);
     const id = 'Question ID#' + String(question.id).padStart(4, '0') + '.md ';
     let prev = '';
     let next = '';
