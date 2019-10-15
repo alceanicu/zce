@@ -1,14 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { AngularFirestore } from '@angular/fire/firestore';
-import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import * as firebase from 'firebase';
+import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
+import { switchMap, take, takeUntil } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { LocalStorageService, Logger } from '@app/core/services';
 import { IAnswerRow, IConfig, IQuestion, IQuestionRow } from '@app/core/interfaces';
 import { environment } from '@env/environment';
 import { PhpQuestionService } from '@app/core/services/firestore/php-question.service';
-import * as firebase from 'firebase';
 import { Question } from '@app/core';
 
 const log = new Logger('PhpListComponent');
@@ -25,13 +25,12 @@ export class PhpListComponent implements OnInit, OnDestroy {
   public page: number;
   public perPage = 5;
   public totalItemsNumber: number;
-  private localStorageSubscription: Subscription;
-  private listQuizSubscription: Subscription;
   private setting = {
     element: {
       dynamicDownload: null as HTMLElement
     }
   };
+  private unsubscribe$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private readonly db: AngularFirestore,
@@ -43,48 +42,43 @@ export class PhpListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.page$ = new BehaviorSubject('1');
-    const $this = this;
     const config = JSON.parse(localStorage.getItem('config')) as IConfig;
-    this.localStorageSubscription = this.localStorageService.getAppConfig().subscribe(
-      c => {
-        if (config !== null) {
-          $this.totalItemsNumber = Number(c.counter);
-          log.info(`totalPageNumber=${$this.totalItemsNumber}`);
-        }
-      },
-      (error: any) => log.error(error)
-    );
-
-    this.questionList = combineLatest([this.page$]).pipe(
-      switchMap(([page]) => this.db.collection(environment.configPHP.phpPath, queryFn => {
-          let query: firebase.firestore.CollectionReference | firebase.firestore.Query = queryFn;
-          if (page) {
-            $this.page = Number(page);
-            const startAt = +(1 + (this.perPage * (Number(page) - 1)));
-            log.info(`startAt=${startAt}`);
-            query = query
-              .where('id', '>=', startAt)
-              .orderBy('id')
-              .limit(this.perPage);
+    this.localStorageService.getAppConfig()
+      .pipe(take(1))
+      .subscribe(
+        c => {
+          if (config !== null) {
+            this.totalItemsNumber = Number(c.counter);
+            log.info(`totalPageNumber=${this.totalItemsNumber}`);
           }
-          return query;
-        }).valueChanges()
-      )
-    );
+        },
+        (error: any) => log.error(error),
+        () => log.info(`complete => totalPageNumber=${this.totalItemsNumber}`)
+      );
 
-    this.listQuizSubscription = this.questionList.subscribe(
-      data => {
-        if (data.length <= 0) {
-          this.goToPage(1);
-        }
-      },
-      error => log.error(`something wrong occurred: ${error}`)
-    );
+    this.questionList = combineLatest([this.page$])
+      .pipe(
+        switchMap(([page]) => this.db.collection(environment.configPHP.phpPath, queryFn => {
+            let query: firebase.firestore.CollectionReference | firebase.firestore.Query = queryFn;
+            if (page) {
+              this.page = Number(page);
+              const startAt = +(1 + (this.perPage * (Number(page) - 1)));
+              log.info(`startAt=${startAt}`);
+              query = query
+                .where('id', '>=', startAt)
+                .orderBy('id')
+                .limit(this.perPage);
+            }
+            return query;
+          }).valueChanges()
+        ),
+        takeUntil(this.unsubscribe$)
+      );
   }
 
   ngOnDestroy(): void {
-    this.localStorageSubscription.unsubscribe();
-    this.listQuizSubscription.unsubscribe();
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   goToPage(page: number = 1) {
@@ -107,16 +101,14 @@ export class PhpListComponent implements OnInit, OnDestroy {
       this.setting.element.dynamicDownload = document.createElement('a');
     }
     const element = this.setting.element.dynamicDownload;
-    const arr = this.generateMdArray(question);
 
-    const file = new Blob(arr, {type: 'text/markdowntext/markdown; charset=UTF-8'});
+    const file = new Blob(this.generateMdArray(question), {type: 'text/markdowntext/markdown; charset=UTF-8'});
 
     element.setAttribute('href', URL.createObjectURL(file));
     element.setAttribute('download', String(question.id).padStart(4, '0') + '.md');
 
     const event = new MouseEvent('click');
     element.dispatchEvent(event);
-    // log.info(`Generate Markdown File ${question.id}`);
   }
 
   private generateMdArray(question: Question): Array<any> {
@@ -171,32 +163,4 @@ export class PhpListComponent implements OnInit, OnDestroy {
 
     return mdArray;
   }
-
-  // private dyanmicDownloadByHtmlTag(arg: {
-  //                                    fileName: string,
-  //                                    text: string
-  //                                  }
-  // ) {
-  //   if (!this.setting.element.dynamicDownload) {
-  //     this.setting.element.dynamicDownload = document.createElement('a');
-  //   }
-  //   const element = this.setting.element.dynamicDownload;
-  //   const fileType = arg.fileName.indexOf('.json') > -1 ? 'text/json' : 'text/plain';
-  //   element.setAttribute('href', `data:${fileType};charset=utf-8,${encodeURIComponent(arg.text)}`);
-  //   element.setAttribute('download', arg.fileName);
-  //
-  //   const event = new MouseEvent('click');
-  //   element.dispatchEvent(event);
-  // }
-
-  /*
- setTimeout("create('Hello world!', 'myfile.md', 'text/markdowntext/markdown; charset=UTF-8')");
-
- function create(text, name, type) {
-      const dlBtn = document.getElementById("dlBtn");
-      let file = new Blob([text, '\n', 'dddd'], {type: type});
-      dlBtn.href = URL.createObjectURL(file);
-      dlBtn.download = name;
-  }
-   */
 }
