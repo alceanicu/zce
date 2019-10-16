@@ -21,15 +21,11 @@ const log = new Logger('PhpListComponent');
 
 export class PhpListComponent implements OnInit, OnDestroy {
   public questionList: Observable<IQuestion[] | {}[]>;
-  public page$: BehaviorSubject<string | null>;
+  public page$: BehaviorSubject<number>;
   public page: number;
   public perPage = 5;
-  public totalItemsNumber: number;
-  private setting = {
-    element: {
-      dynamicDownload: null as HTMLElement
-    }
-  };
+  public totalItemsNumber: number = environment.configPHP.max;
+  private setting = {element: {dynamicDownload: null as HTMLElement}};
   private unsubscribe$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -41,24 +37,24 @@ export class PhpListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.page$ = new BehaviorSubject('1');
-    this.totalItemsNumber = environment.configPHP.max;
+    this.page$ = new BehaviorSubject(1);
 
     this.questionList = combineLatest([this.page$])
       .pipe(
         switchMap(([page]) => this.db.collection(environment.configPHP.phpPath, queryFn => {
-            let query: firebase.firestore.CollectionReference | firebase.firestore.Query = queryFn;
+            let query: firebase.firestore.Query = queryFn;
             if (page) {
-              this.page = Number(page);
-              const startAt = +(1 + (this.perPage * (Number(page) - 1)));
-              log.info(`startAt=${startAt}`);
+              this.page = page;
+              const startAt = 1 + (this.perPage * (this.page - 1));
+              log.info(`load page=${page} startAt=${startAt} perPage=${this.perPage}`);
               query = query
                 .where('id', '>=', startAt)
                 .orderBy('id')
                 .limit(this.perPage);
             }
             return query;
-          }).valueChanges()
+          })
+            .valueChanges()
         ),
         takeUntil(this.unsubscribe$)
       );
@@ -70,16 +66,16 @@ export class PhpListComponent implements OnInit, OnDestroy {
   }
 
   goToPage(page: number = 1) {
-    this.page$.next(String(page));
+    this.page$.next(page);
   }
 
   deleteQuestion(id: number) {
     if (window.confirm(`Are sure you want to delete question with ID=${id}?`)) {
-      this.firestorePhpQuestionService.deleteQuestion(id).subscribe(
-        i => {
-          this.toastrService.success(`Successfully deleted question with id=${i}`);
-        },
-        error => log.error(error));
+      this.firestorePhpQuestionService
+        .deleteQuestion(id)
+        .subscribe(
+          delId => this.toastrService.success(`Successfully deleted question with id=${delId}`),
+          error => log.error(error));
     }
   }
 

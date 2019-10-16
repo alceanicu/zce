@@ -7,7 +7,6 @@ import { IAnswerRow, IOption, IQuestion } from '@app/core/interfaces';
 import { environment } from '@env/environment';
 import { Helper } from '@app/core/utils';
 import { Logger } from '@app/core';
-import { firestore } from 'firebase';
 import { ToastrService } from 'ngx-toastr';
 
 const log = new Logger('PhpEditComponent');
@@ -40,31 +39,39 @@ export class PhpEditComponent implements OnInit {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if (id) {
       this.type = 'EDIT';
-      this.firestorePhpQuestionService.getQuestion(Number(id)).subscribe(
-        (DocumentSnapshot: firestore.DocumentSnapshot) => {
-          const question = DocumentSnapshot.data() as IQuestion;
-          const qLength = (question.questionRows.length || 0);
-          for (let i = 0; i < qLength; i++) {
-            this.addQuestionRow();
-          }
-
-          // fixme
-          if (!question.hasOwnProperty('value')) {
-            question.value = 0;
-          }
-
-          question.answerRows.forEach((row: IAnswerRow, k) => {
-            if (!row.hasOwnProperty('value')) {
-              question.answerRows[k].value = 0;
+      this.firestorePhpQuestionService
+        .getQuestion(Number(id))
+        .subscribe(
+          DocumentSnapshot => {
+            const question = DocumentSnapshot.data() as IQuestion;
+            const qLength = (question.questionRows.length || 0);
+            for (let i = 0; i < qLength; i++) {
+              this.addQuestionRow();
             }
-          });
-          //
-          // question.id_db = '';
-          this.form.setValue(question);
-        },
-        (error: any) => log.error(`Error on update question with ID=${id} ${error}`),
-        () => log.info('Update complete')
-      );
+
+            // fixme
+            if (!question.hasOwnProperty('value')) {
+              question.value = 0;
+            }
+
+            question.answerRows.forEach((row: IAnswerRow, k) => {
+              if (!row.hasOwnProperty('value')) {
+                question.answerRows[k].value = 0;
+              }
+
+              // fixme
+              if (question.answerRows[k].correct) {
+                question.answerRows[k].value = Math.pow(2, k);
+                question.value += question.answerRows[k].value;
+              }
+            });
+            //
+            // question.id_db = '';
+            this.form.setValue(question);
+          },
+          (error: any) => log.error(`Error on update question with ID=${id} ${error}`),
+          () => log.info('Update complete')
+        );
     } else {
       this.type = 'CREATE';
       this.addQuestionRow();
