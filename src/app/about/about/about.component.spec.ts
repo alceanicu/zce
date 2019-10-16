@@ -13,7 +13,8 @@ describe('AboutComponent', () => {
       declarations: [AboutComponent],
       imports: [
         AngularFireModule.initializeApp(environment.firebase),
-        AngularFirestoreModule]
+        AngularFirestoreModule
+      ]
     }).compileComponents();
   }));
 
