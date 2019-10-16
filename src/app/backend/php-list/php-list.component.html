@@ -12,6 +12,7 @@
       <tr>
         <th scope="col">ID</th>
         <th scope="col">Question</th>
+        <th scope="col">Value</th>
         <th style="width: 10%">Actions</th>
       </tr>
       </thead>
@@ -19,6 +20,7 @@
       <tr *ngFor="let question of questionList | async; let i = index;">
         <td>{{question.id}}</td>
         <td>{{question.questionRows[0].text}}</td>
+        <td>{{question.value}}</td>
         <td class="text-center action-block bg-white">
           <a [routerLink]="['/backend/php-edit/', question.id]" title="edit"> <i class="fa fa-edit"></i> </a>
           <span> </span>

@@ -1,6 +1,7 @@
 import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
 
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Logger, PrismService, QuestionService, SyncScoreService } from '@app/core/services';
 import { Question } from '@app/core/models';
@@ -13,15 +14,18 @@ const log = new Logger('PrepareComponent');
   templateUrl: './prepare.component.html'
 })
 export class PrepareComponent implements OnInit, AfterViewChecked, OnDestroy {
-  public isCorrect: boolean;
+  public isCorrect: boolean = false;
   public btnText: string;
-  public question: Question;
+  private question: Question;
   private score: IScore;
   private interval: any;
   private isNew: boolean;
   private highlighted: boolean;
-  private questionSubscription: Subscription;
-  private scoreSubscription: Subscription;
+  private unsubscribe$: Subject<boolean> = new Subject<boolean>();
+
+  get currentQuestion(): Question {
+    return this.question;
+  }
 
   constructor(
     private ngxUiLoaderService: NgxUiLoaderService,
@@ -32,11 +36,13 @@ export class PrepareComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.scoreSubscription = this.syncScoreService.currentValue.subscribe(
-      (score: IScore) => this.score = score,
-      error => log.error(error)
-    );
-    this.getAnRandomQuestion();
+    this.syncScoreService.currentValue
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(
+        score => this.score = score,
+        error => log.error(error)
+      );
+    this.getRandomQuestion();
   }
 
   ngAfterViewChecked(): void {
@@ -47,8 +53,8 @@ export class PrepareComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.scoreSubscription.unsubscribe();
-    this.questionUnsubscribe();
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   public onValidate(countDown: number = 10): void {
@@ -66,15 +72,16 @@ export class PrepareComponent implements OnInit, AfterViewChecked, OnDestroy {
       }
 
       if (countDown === 0) {
-        this.getAnRandomQuestion();
+        this.getRandomQuestion();
       }
     }, 1000);
   }
 
-  private getAnRandomQuestion(): void {
+  private getRandomQuestion(): void {
     this.reset();
-    this.questionSubscription = this.questionService
+    this.questionService
       .getQuestion(1)
+      .pipe(take(1))
       .subscribe(
         question => this.question = question,
         error => log.error(error),
@@ -86,7 +93,6 @@ export class PrepareComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   private reset(): void {
-    this.questionUnsubscribe();
     if (this.interval) {
       clearInterval(this.interval);
       this.interval = null;
@@ -97,12 +103,6 @@ export class PrepareComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.isCorrect = false;
     this.btnText = 'Get next question now ';
     this.question = new Question();
-  }
-
-  private questionUnsubscribe(): void {
-    if (this.questionSubscription instanceof Subscription) {
-      this.questionSubscription.unsubscribe();
-    }
   }
 
   private updateScore(isCorrect: boolean): IScore {

@@ -4,18 +4,16 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
-import { AnswerComponent } from './answer/answer.component';
-import { ConfirmComponent } from './confirm/confirm.component';
-import { QuestionComponent } from './question/question.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { SimpleModalModule } from 'ngx-simple-modal';
+import { ConfirmComponent } from './confirm/confirm.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { QuestionDisplayComponent } from '@app/question-display/question-display.component';
 
 @NgModule({
   declarations: [
-    AnswerComponent,
     ConfirmComponent,
-    QuestionComponent,
+    QuestionDisplayComponent,
     PageNotFoundComponent
   ],
   imports: [
@@ -59,11 +57,10 @@ import { SimpleModalModule } from 'ngx-simple-modal';
     FormsModule,
     HttpClientModule,
     RouterModule,
-    AnswerComponent,
     PageNotFoundComponent,
     NgxUiLoaderModule,
     ConfirmComponent,
-    QuestionComponent
+    QuestionDisplayComponent
   ]
 })
 export class SharedModule {

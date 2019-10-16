@@ -8,6 +8,7 @@ import { environment } from '@env/environment';
 import { Helper } from '@app/core/utils';
 import { Logger } from '@app/core';
 import { ToastrService } from 'ngx-toastr';
+import { take } from 'rxjs/operators';
 
 const log = new Logger('PhpEditComponent');
 
@@ -36,11 +37,12 @@ export class PhpEditComponent implements OnInit {
   ngOnInit() {
     this.buildForm();
 
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
-    if (id) {
+    const id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    if (id > 0) {
       this.type = 'EDIT';
       this.firestorePhpQuestionService
-        .getQuestion(Number(id))
+        .getQuestion(id)
+        .pipe(take(1))
         .subscribe(
           DocumentSnapshot => {
             const question = DocumentSnapshot.data() as IQuestion;
@@ -50,10 +52,11 @@ export class PhpEditComponent implements OnInit {
             }
 
             // fixme
-            if (!question.hasOwnProperty('value')) {
-              question.value = 0;
-            }
+            // if (!question.hasOwnProperty('value')) {
+            //   question.value = 0;
+            // }
 
+            let v = 0;
             question.answerRows.forEach((row: IAnswerRow, k) => {
               if (!row.hasOwnProperty('value')) {
                 question.answerRows[k].value = 0;
@@ -62,9 +65,10 @@ export class PhpEditComponent implements OnInit {
               // fixme
               if (question.answerRows[k].correct) {
                 question.answerRows[k].value = Math.pow(2, k);
-                question.value += question.answerRows[k].value;
+                v += question.answerRows[k].value;
               }
             });
+            question.value = v;
             //
             // question.id_db = '';
             this.form.setValue(question);
@@ -167,6 +171,7 @@ export class PhpEditComponent implements OnInit {
     if (this.type === 'EDIT') {
       this.firestorePhpQuestionService
         .updateQuestion(question)
+        .pipe(take(1))
         .subscribe(
           id => this.toastrService.success(`Update question with ID=${id}`, 'Edit question'),
           error => this.toastrService.error('Update question with error: ' + error)
@@ -174,6 +179,7 @@ export class PhpEditComponent implements OnInit {
     } else {
       this.firestorePhpQuestionService
         .addQuestion(question)
+        .pipe(take(1))
         .subscribe(
           id => this.toastrService.success(`Insert question with ID=${id}`, 'Insert question'),
           error => this.toastrService.error('Created question with error: ' + error)

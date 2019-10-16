@@ -1,6 +1,0 @@
-<!-- 2 == plain text -->
-<pre class="line-numbers" *ngIf="(questionRow.language !== 2); else plainText;"><code
-  class="language-{{extensionsAllowed[questionRow.language]}}">{{questionRow.text}}</code></pre>
-
-<ng-template #plainText><p class="lead card-text text-white"><strong>{{questionRow.text}}</strong></p></ng-template>
-<br>
