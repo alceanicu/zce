@@ -27,6 +27,7 @@ ng g m core
 -- components
 ng g c home/home
 ng g c about/about
+ng g c question-display
 ng g c prepare/prepare
 ng g c exam/exam
 ng g c shared/layout/footer

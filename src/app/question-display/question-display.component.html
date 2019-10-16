@@ -1,0 +1,30 @@
+<div *ngFor="let questionRow of question.questionRows">
+  <!-- 2 == plain text -->
+  <pre class="line-numbers" *ngIf="(questionRow.language !== 2); else plainText;"><code
+    class="language-{{extensionsAllowed[questionRow.language]}}">{{questionRow.text}}</code></pre>
+
+  <ng-template #plainText><p class="lead card-text text-white"><strong>{{questionRow.text}}</strong></p></ng-template>
+  <br>
+</div>
+
+<div *ngFor="let answerRow of question.answerRows, let i = index">
+  <div class="card" [ngClass]="!question.finalAnswer ? '' : (question.isValidRowAnswer(i) ? 'isCorrect' : 'isWrong')">
+    <div class="card-header">
+      <div class="form-check">
+        <label class="form-check-label">
+          <input class="form-check-input" type="checkbox"
+                 [checked]="answerRow.userAnswer"
+                 (change)="question.answerChange($event, i)"
+                 [disabled]="question.finalAnswer">
+          {{letters[i]}} <span class="form-check-sign"></span>
+        </label>
+      </div>
+    </div>
+    <div class="card-body">
+      <!-- 2 == plain text -->
+      <pre *ngIf="(answerRow.language !== 2); else plainText;"><code
+        class="language-{{extensionsAllowed[answerRow.language]}}">{{answerRow.text}}</code></pre>
+      <ng-template #plainText><p class="card-text">{{answerRow.text}}</p></ng-template>
+    </div>
+  </div>
+</div>

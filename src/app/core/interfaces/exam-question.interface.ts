@@ -1,9 +1,9 @@
-import { IQuestion } from '.';
+import { Question } from '@app/core';
 
 
 export interface IExamQuestion {
   id: number;
-  question?: IQuestion;
+  question?: Question;
   markForReview: boolean;
   correct: boolean;
 }

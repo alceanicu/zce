@@ -20,7 +20,6 @@ const log = new Logger('ExamComponent');
   styleUrls: ['./exam.component.scss']
 })
 export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChecked, OnDestroy {
-
   get questionsArray(): Array<number> {
     return this.exam.questionsArray;
   }
@@ -33,7 +32,6 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   public index?: number;
   public markForReviewArray: Array<number> = [];
   private exam: Exam;
-  private questionSubscription: Subscription;
   private countdownSubscription: Subscription;
   private isNew: boolean;
   private highlighted: boolean;
@@ -75,7 +73,11 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
 
       // We can close modal calling disposable.unsubscribe();
       // If modal was not closed manually close it by timeout
-      setTimeout(() => disposable.unsubscribe(), 10000);
+      setTimeout(() => {
+        if (disposable instanceof Subscription) {
+          disposable.unsubscribe();
+        }
+      }, 10000);
     }
   }
 
@@ -84,28 +86,30 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     const startTime = this.moment(this.exam.startAt);
     const endTime = this.moment(startTime).add(5400, 'seconds');
 
-    this.countdownSubscription = this.countdownService.countdown().subscribe(
-      (seconds: number) => {
-        if (seconds === 3600) {
-          this.toastrService.success('You have another hour to finish the exam', 'Time left');
-        }
-        if (seconds === 1800) {
-          this.toastrService.success('You have another 30 minutes to finish the exam', 'Time left');
-        }
-        if (seconds === 600) {
-          this.toastrService.success('You have another 10 minutes to finish the exam', 'Time left');
-        }
-        if (seconds === 300) {
-          this.toastrService.success('You have less than 5 minutes to finish the exam', 'Times left!');
-        }
+    this.countdownSubscription = this.countdownService
+      .countdown()
+      .subscribe(
+        (seconds: number) => {
+          if (seconds === 3600) {
+            this.toastrService.success('You have another hour to finish the exam', 'Time left');
+          }
+          if (seconds === 1800) {
+            this.toastrService.success('You have another 30 minutes to finish the exam', 'Time left');
+          }
+          if (seconds === 600) {
+            this.toastrService.success('You have another 10 minutes to finish the exam', 'Time left');
+          }
+          if (seconds === 300) {
+            this.toastrService.success('You have less than 5 minutes to finish the exam', 'Times left!');
+          }
 
-        const obj = this.syncCountdownTimeService.getValue();
-        obj.time = this.getTimeString(endTime);
-        this.syncCountdownTimeService.setValue(obj);
-      },
-      error => log.error(error),
-      () => this.finishExam()
-    );
+          const obj = this.syncCountdownTimeService.getValue();
+          obj.time = this.getTimeString(endTime);
+          this.syncCountdownTimeService.setValue(obj);
+        },
+        error => log.error(error),
+        () => this.finishExam()
+      );
 
     // countdown is started
     this.countdownService.start(5400);
@@ -121,7 +125,6 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   }
 
   ngOnDestroy(): void {
-    this.questionSubscriptionUnsubscribe();
     this.countdownSubscriptionUnsubscribe();
   }
 
@@ -157,10 +160,11 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
 
     if (this.exam.questions[index] === undefined) {
       // we try to get question from IndexedDB || Firebase
-      this.questionSubscription = this.questionService
+      this.questionService
         .getOneQuestionById(id)
+        .pipe(take(1))
         .subscribe(
-          (question: IQuestion) => {
+          question => {
             const currentQuestion = {
               id: id,
               question: question,
@@ -170,7 +174,7 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
             this.exam.setQuestion(index, currentQuestion);
             this.setCurrentQuestion(currentQuestion);
           },
-          error => log.error(error),
+          error => log.error(error)
         );
     } else {
       // question is already exist in exam object
@@ -269,7 +273,6 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   }
 
   private reset(): void {
-    this.questionSubscriptionUnsubscribe();
     this.validateCurrentExamQuestion();
     this.ngxUiLoaderService.start();
     this.isNew = false;
@@ -279,12 +282,6 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   private countdownSubscriptionUnsubscribe(): void {
     if (this.countdownSubscription instanceof Subscription) {
       this.countdownSubscription.unsubscribe();
-    }
-  }
-
-  private questionSubscriptionUnsubscribe(): void {
-    if (this.questionSubscription instanceof Subscription) {
-      this.questionSubscription.unsubscribe();
     }
   }
 }
