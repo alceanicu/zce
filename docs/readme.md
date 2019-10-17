@@ -1,6 +1,6 @@
-# ZCE
+# ZCE - Question list
 
-## Question list
+### If you find an error, or if you have new questions please make a pull  request
 
 * [0001](0001.md) | [0021](0021.md) | [0051](0051.md) | [0071](0071.md) | [0091](0091.md)
 * [0002](0002.md) | [0022](0022.md) | [0052](0052.md) | [0072](0072.md) | [0092](0092.md)
