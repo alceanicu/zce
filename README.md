@@ -19,7 +19,7 @@ This application is licensed under the [MIT](http://opensource.org/licenses/MIT)
 * [Basselin GitHub repo](https://github.com/basselin/php-certification-training)
 * [CarlosBuenosvinos](https://fr.slideshare.net/carlosbuenosvinos/zend-php-53-demo-certification-test)
 
-## [Questions list](docs/readme.md)
+## [Questions list](questions/readme.md)
 
 > If you find questions with error, or if you have new questions please make a pull request!
 
