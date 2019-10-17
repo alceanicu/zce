@@ -10,6 +10,7 @@ const routes: Routes = [
   {path: '', component: LoginComponent},
   {path: 'login', component: LoginComponent},
   {path: 'php-list', component: PhpListComponent, canActivate: [AuthGuard]},
+  {path: 'php-list/:page', component: PhpListComponent, canActivate: [AuthGuard]},
   {path: 'php-edit', component: PhpEditComponent, canActivate: [AuthGuard]},
   {path: 'php-edit/:id', component: PhpEditComponent, canActivate: [AuthGuard]},
   {path: '**', redirectTo: '/page-not-found'}

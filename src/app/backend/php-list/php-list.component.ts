@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-
+import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
+
 import * as firebase from 'firebase';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { switchMap, takeUntil } from 'rxjs/operators';
@@ -32,12 +33,16 @@ export class PhpListComponent implements OnInit, OnDestroy {
     private readonly db: AngularFirestore,
     private firestorePhpQuestionService: PhpQuestionService,
     private localStorageService: LocalStorageService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
   ) {
   }
 
   ngOnInit() {
-    this.page$ = new BehaviorSubject(1);
+    let pag = Number(this.activatedRoute.snapshot.paramMap.get('page'));
+    pag = (pag < 1) ? 1 : pag;
+    this.page$ = new BehaviorSubject(pag);
 
     this.questionList = combineLatest([this.page$])
       .pipe(
@@ -66,7 +71,8 @@ export class PhpListComponent implements OnInit, OnDestroy {
   }
 
   goToPage(page: number = 1) {
-    this.page$.next(page);
+    this.router.navigate(['/backend/php-list/' + page])
+      .then(() => this.page$.next(page));
   }
 
   deleteQuestion(id: number) {
@@ -127,7 +133,7 @@ export class PhpListComponent implements OnInit, OnDestroy {
     mdArray.push('\n');
 
     question.answerRows.forEach((answerRow: IAnswerRow, k) => {
-      const correct = question.isValidRowAnswer(k) ? '- [x] ' : '- [ ] ';
+      const correct =  (answerRow.value > 0) ? '- [x] ' : '- [ ] ';
       const variant = (answerRow.language === 2) ? '' : environment.configPHP.letters[k];
 
       mdArray.push(correct + variant);
