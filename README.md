@@ -21,7 +21,7 @@ This application is licensed under the [MIT](http://opensource.org/licenses/MIT)
 
 ## [Questions list](docs/readme.md)
 
-> If you find an error, or if you have new questions please make a pull request
+> If you find questions with error, or if you have new questions please make a pull request!
 
 ## Disclaimer
 
