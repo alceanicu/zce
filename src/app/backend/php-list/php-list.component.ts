@@ -104,7 +104,7 @@ export class PhpListComponent implements OnInit, OnDestroy {
     if (question.id > 1) {
       prev = '[<<< Previous question <<<](' + String(question.id - 1).padStart(4, '0') + '.md) ';
     }
-    if (question.id < environment.configPHP.max) {
+    if (question.id <= environment.configPHP.max) {
       next = '[>>> Next question >>>](' + String(question.id + 1).padStart(4, '0') + '.md)';
     }
 
@@ -113,7 +113,7 @@ export class PhpListComponent implements OnInit, OnDestroy {
 
     question.questionRows.forEach((questionRow: IQuestionRow) => {
       if (questionRow.language !== 2) {
-        mdArray.push('```' + questionRow);
+        mdArray.push('```' + environment.configPHP.extensionsAllowed[questionRow.language]);
         mdArray.push('\n');
       }
       mdArray.push(questionRow.text);
@@ -126,22 +126,24 @@ export class PhpListComponent implements OnInit, OnDestroy {
 
     mdArray.push('\n');
 
-    question.answerRows.forEach((answerRow: IAnswerRow) => {
-      if (answerRow.correct) {
-        mdArray.push('- [x] ');
-      } else {
-        mdArray.push('- [ ] ');
+    question.answerRows.forEach((answerRow: IAnswerRow, k) => {
+      const correct = question.isValidRowAnswer(k) ? '- [x] ' : '- [ ] ';
+      const variant = (answerRow.language === 2) ? '' : environment.configPHP.letters[k];
+
+      mdArray.push(correct + variant);
+
+      if (answerRow.language !== 2) {
+        mdArray.push('\n');
+        mdArray.push('```' + environment.configPHP.extensionsAllowed[answerRow.language]);
+        mdArray.push('\n');
       }
+      mdArray.push(answerRow.text);
       if (answerRow.language !== 2) {
         mdArray.push('\n');
         mdArray.push('```');
         mdArray.push('\n');
       }
-      mdArray.push(answerRow.text);
-      if (answerRow.language === 1) {
-        mdArray.push('\n');
-        mdArray.push('```');
-      }
+
       mdArray.push('\n');
     });
 
