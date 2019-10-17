@@ -124,7 +124,7 @@ export class PhpListComponent implements OnInit, OnDestroy {
         mdArray.push('\n');
       }
       mdArray.push(questionRow.text);
-      if (questionRow.language === 1) {
+      if (questionRow.language !== 2) {
         mdArray.push('\n');
         mdArray.push('```');
       }
