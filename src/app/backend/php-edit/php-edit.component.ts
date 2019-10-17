@@ -166,7 +166,7 @@ export class PhpEditComponent implements OnInit {
         .updateQuestion(question)
         .pipe(take(1))
         .subscribe(
-          id => this.toastrService.success(`Update question with ID=${id}`, 'Edit question'),
+          id => this.toastrService.success(`Update question with ID=${id}`, 'Edit question', {timeOut: 1000}),
           error => this.toastrService.error('Update question with error: ' + error),
           () => this.router.navigate([`/backend/php-edit/${question.id + 1}`]).then(() => 'next')
         );
