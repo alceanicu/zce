@@ -17,12 +17,9 @@ const log = new Logger('PhpEditComponent');
   templateUrl: './php-edit.component.html'
 })
 export class PhpEditComponent implements OnInit {
-  // public idDb: number;
   public form: FormGroup;
   public questionRowsArray: FormArray;
   public type: string;
-
-  // public value: number;
 
   constructor(
     public firestorePhpQuestionService: PhpQuestionService,
@@ -30,8 +27,10 @@ export class PhpEditComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private toastrService: ToastrService
-    // private apiService: ApiService,
   ) {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => {
+      return false;
+    };
   }
 
   ngOnInit() {
@@ -52,10 +51,6 @@ export class PhpEditComponent implements OnInit {
             }
 
             // fixme
-            // if (!question.hasOwnProperty('value')) {
-            //   question.value = 0;
-            // }
-
             let v = 0;
             question.answerRows.forEach((row: IAnswerRow, k) => {
               if (!row.hasOwnProperty('value')) {
@@ -69,8 +64,7 @@ export class PhpEditComponent implements OnInit {
               }
             });
             question.value = v;
-            //
-            // question.id_db = '';
+
             this.form.setValue(question);
           },
           (error: any) => log.error(`Error on update question with ID=${id} ${error}`),
@@ -89,7 +83,6 @@ export class PhpEditComponent implements OnInit {
     const rows = [this.initAnswerRow(0, true), this.initAnswerRow(1), this.initAnswerRow(2), this.initAnswerRow(3)];
     this.form = this.formBuilder.group({
       id: [null],
-      // id_db: [null],
       category: [1, Validators.required],
       difficulty: [2, Validators.required],
       type: [1, Validators.required],
@@ -174,7 +167,8 @@ export class PhpEditComponent implements OnInit {
         .pipe(take(1))
         .subscribe(
           id => this.toastrService.success(`Update question with ID=${id}`, 'Edit question'),
-          error => this.toastrService.error('Update question with error: ' + error)
+          error => this.toastrService.error('Update question with error: ' + error),
+          () => this.router.navigate([`/backend/php-edit/${question.id + 1}`]).then(() => 'next')
         );
     } else {
       this.firestorePhpQuestionService
@@ -222,37 +216,5 @@ export class PhpEditComponent implements OnInit {
 
     this.form.controls.value.setValue(v);
   }
-
-  // getQuizFromDB() {
-  //   const n = this.form.value.id_db;
-  //   if (!isNaN(parseFloat(n)) && isFinite(n)) {
-  //     log.info(`${n} ok`);
-  //   } else {
-  //     log.info(`${n} nu e numar`);
-  //   }
-  // }
-
-  // getQuizFromDB() {
-  //   const $this = this;
-  //   const id = this.idDb;
-  //   if (isFinite(id)) { // && !isNaN(parseFloat(id))
-  //     log.info(`${id} ok`);
-  //     $this.removeAllQuestionRow();
-  //
-  //     this.apiService.getQuestionById(id).subscribe((question: any) => {
-  //         const qLength = (question.questionRows.length || 0);
-  //         for (let i = 0; i < qLength; i++) {
-  //           $this.addQuestionRow();
-  //         }
-  //         log.info(question);
-  //         $this.form.setValue(question);
-  //       },
-  //       error => log.error(error),
-  //       () => log.info('ok')
-  //     );
-  //   } else {
-  //     log.info(`${id} nu e numar`);
-  //   }
-  // }
 }
 

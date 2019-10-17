@@ -24,7 +24,7 @@ export class PhpListComponent implements OnInit, OnDestroy {
   public questionList: Observable<IQuestion[] | {}[]>;
   public page$: BehaviorSubject<number>;
   public page: number;
-  public perPage = 5;
+  public perPage = 10;
   public totalItemsNumber: number = environment.configPHP.max;
   private setting = {element: {dynamicDownload: null as HTMLElement}};
   private unsubscribe$: Subject<boolean> = new Subject<boolean>();
@@ -71,7 +71,8 @@ export class PhpListComponent implements OnInit, OnDestroy {
   }
 
   goToPage(page: number = 1) {
-    this.router.navigate(['/backend/php-list/' + page])
+    this.router
+      .navigate(['/backend/php-list/' + page])
       .then(() => this.page$.next(page));
   }
 
