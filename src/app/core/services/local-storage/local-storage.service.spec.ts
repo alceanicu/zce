@@ -11,7 +11,7 @@ import * as moment from 'moment';
 describe('LocalStorageService', () => {
   const now: Date = new Date('2019-12-01T03:24:00');
   const key: string = 'config';
-  const obj: IConfig = {counter: environment.configPHP.max, timestamp: now.getTime(), version: '2.0.0'}; // FIXME
+  const obj: IConfig = {counter: environment.configPHP.max, timestamp: now.getTime(), version: '2.0.0'};
 
   let service: LocalStorageService;
 
