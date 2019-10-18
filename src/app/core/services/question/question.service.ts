@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Observable, Subscriber } from 'rxjs';
+import { Observable, pipe, Subscriber } from 'rxjs';
 import { Helper } from '@app/core/utils';
 import { environment } from '@env/environment';
 import { PhpQuestionService } from '@app/core/services/firestore/php-question.service';
@@ -99,14 +99,14 @@ export class QuestionService {
           }
         },
         error => log.error(error),
-        () => log.info('Question from FIREBASE complete')
+        () => log.info(`get question with [ID=${id}] from FIREBASE 👌`)
       );
   }
 
   private saveToIndexedDb(question: IQuestion): void {
     this.indexedDbQuizService
       .addQuestion(question)
-      .then(key => log.info(`Question is now saved in IndexedDB [id=${key}]`))
+      .then(key => log.info(`save question to IndexedDB [ID=${key}] 👍`))
       .catch(error => {
         log.error(`Question can not be saved in IndexedDB`);
         log.error(error);

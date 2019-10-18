@@ -1,20 +1,13 @@
 <div class="row">
   <div class="col-lg-12 col-md-12" *ngIf="currentQuestion">
-
     <!--{{question | json}}-->
     <app-question-display [question]="currentQuestion"></app-question-display>
-    <!--    <app-question *ngFor="let questionRow of currentQuestion.questionRows" [questionRow]="questionRow"></app-question>-->
-
-    <!--    <app-answer *ngFor="let answerRow of currentQuestion.answerRows, let i = index"-->
-    <!--      [answerRow]="answerRow"-->
-    <!--      [disabled]="currentQuestion.finalAnswer"-->
-    <!--      [i]="i"></app-answer>-->
 
     <div class="card">
       <div class="card-footer">
         <button class="btn btn-sm btn-info"
                 *ngIf="!this.question.finalAnswer"
-                (click)="onValidate(10)"> Validate
+                (click)="onValidate()"> Validate
         </button>
 
         <button class="btn btn-sm"
