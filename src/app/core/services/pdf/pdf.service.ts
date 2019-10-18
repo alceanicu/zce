@@ -1,18 +1,22 @@
-import { Inject, Injectable } from '@angular/core';
+import { Inject, Injectable, OnDestroy } from '@angular/core';
 
-import { IAnswerRow, IQuestion, IQuestionRow } from '@app/core/interfaces';
-import { Logger, QuestionService } from '@app/core/services';
-import { environment } from '@env/environment';
 import * as pdfMake from 'pdfmake/build/pdfmake.js';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts.js';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { environment } from '@env/environment';
+import { IAnswerRow, IQuestionRow } from '@app/core/interfaces';
+import { Logger, QuestionService } from '@app/core/services';
+import { Question } from '@app/core/models';
 
 const log = new Logger('PdfService');
 
 @Injectable({
   providedIn: 'root'
 })
-export class PdfService {
-  private questionArray: IQuestion[] = [];
+export class PdfService implements OnDestroy {
+  private questionArray: Question[] = [];
+  private unsubscribe$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private questionService: QuestionService,
@@ -22,11 +26,19 @@ export class PdfService {
 
   public exportTestAsPDF(questionNumber: number = 1): void {
     this.questionArray = [];
-    this.questionService.getQuestion(questionNumber).subscribe(
-      (question: IQuestion) => this.questionArray.push(question),
-      error => log.error(error),
-      () => this.generatePDF()
-    );
+    this.questionService
+      .getQuestion(questionNumber)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(
+        question => this.questionArray.push(question),
+        error => log.error(error),
+        () => this.generatePDF()
+      );
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   private generatePDF(): void {
@@ -38,7 +50,8 @@ export class PdfService {
       const question = this.questionArray[i];
       const questionBody: Array<any> = [];
       const answerBody: Array<any> = [];
-      const correct: Array<any> = [];
+      const correct: Array<string> = [];
+
       content.push({
         text: 'Question ' + (i + 1),
         style: 'h1'
@@ -73,7 +86,7 @@ export class PdfService {
           text: obj.text,
           fillColor: '#FFF'
         };
-        if (obj.correct === true) {
+        if (obj.value > 0) {
           correct.push(letters[key]);
         }
         if (obj.language === 1) {

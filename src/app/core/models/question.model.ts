@@ -22,35 +22,25 @@ export class Question implements IQuestion {
   }
 
   answerChange(event: any, i: number) {
-    console.log('answerChange');
     this.answerRows[i].userAnswer = event.currentTarget.checked;
   }
 
-  isValidRowAnswer(i: number): boolean { // fixme
-    if (this.answerRows[i].userAnswer) {
-      // tslint:disable-next-line:no-bitwise
-      return Boolean(this.value & this.answerRows[i].value);
-    } else {
-      return this.answerRows[i].value === 0;
-    }
+  isValidRowAnswer(i: number): boolean {
+    // tslint:disable-next-line:no-bitwise
+    const correct = Boolean(this.value & this.answerRows[i].value);
+    return (this.answerRows[i].userAnswer) ? correct : !correct;
   }
 
-  public validate(finalAnswer: boolean = false): boolean { // fixme
+  public validate(finalAnswer: boolean = false): boolean {
     this.finalAnswer = finalAnswer;
-    // let calcValue = 0;
-    // this.answerRows.forEach((answerRow: IAnswerRow) => {
-    //   if (answerRow.userAnswer) {
-    //     calcValue += answerRow.value;
-    //   }
-    // });
-    //
-    // return this.value === calcValue;
-    let isCorrect = true;
-    this.answerRows.forEach((obj: IAnswerRow) => {
-      isCorrect = isCorrect && (obj.correct === obj.userAnswer);
+    let calcValue = 0;
+    this.answerRows.forEach((answerRow: IAnswerRow) => {
+      if (answerRow.userAnswer) {
+        calcValue += answerRow.value;
+      }
     });
 
-    return isCorrect;
+    return this.value === calcValue;
   }
 
   public randomizeAnswers() {
