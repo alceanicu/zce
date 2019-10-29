@@ -1,14 +1,21 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8"/>
+  <!-- needs to be right at the top to prevent Chrome from reloading favicon on every route change -->
+  <link rel="icon" type="image/png" href="assets/img/favicon.ico">
   <title>ZCE</title>
   <base href="./">
+  <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'/>
+  <meta name="theme-color" content="#4e8ef7"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <!--  <link rel="manifest" href="manifest.json"/> -->
 
-  <link rel="icon" type="image/png" href="assets/img/favicon.ico">
+  <!-- add to homescreen for ios -->
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
   <link rel="apple-touch-icon" sizes="76x76" href="assets/icons/apple-icon-76x76.png">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+
   <!-- Fonts and icons -->
   <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'>
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
@@ -26,6 +33,13 @@
   </script>
 <link rel="stylesheet" href="styles.6a588dc9928a558ed024.css"></head>
 <body>
-  <app-root></app-root>
-<script src="runtime-es2015.40a9ec02a3361600512b.js" type="module"></script><script src="polyfills-es2015.e3cdafb1821c9c62a7d7.js" type="module"></script><script src="runtime-es5.0b1f2642f446c59b2961.js" nomodule defer></script><script src="polyfills-es5.894bbd51ba81767a2eec.js" nomodule defer></script><script src="main-es2015.41b6c002e3a69c36e533.js" type="module"></script><script src="main-es5.08e8264096dd74fe2f4c.js" nomodule defer></script></body>
+<!--[if lt IE 10]>
+<p>You are using an <strong>outdated</strong></p>
+<p>Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+<noscript>
+  <p>This page requires JavaScript to work properly. Please enable JavaScript in your browser.</p>
+</noscript>
+<app-root></app-root>
+<script src="runtime.78780d266743e1f88ad7.js" defer></script><script src="polyfills-es5.e43d86eb999ca41ec5a9.js" nomodule defer></script><script src="polyfills.f30b4b49574002ff9843.js" defer></script><script src="main.30c7e69f46e5692ed282.js" defer></script></body>
 </html>
