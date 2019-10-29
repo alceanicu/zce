@@ -12,8 +12,8 @@ If you find this application useful, you can star as on <a title="Star as on Git
 
 <strong>You can try this application also as an:</strong>
 <ul>
-    <li><a href="https://chrome.google.com/webstore/detail/php-zend-certification-exam/kdjolhghoglghipajmbmlmldbpncimge">CHROME extension (v2.0.4)</a></li>
-    <li><a href="https://alceanicu.github.io/zce/">GitHub Page (v2.0.4)</a></li>
+    <li><a href="https://chrome.google.com/webstore/detail/php-zend-certification-exam/kdjolhghoglghipajmbmlmldbpncimge">CHROME extension (v2.0.5)</a></li>
+    <li><a href="https://alceanicu.github.io/zce/">GitHub Page (v2.0.5)</a></li>
     <li>Android mobile application (v1.1.2 - beta) - soon</li>
 </ul>
 
