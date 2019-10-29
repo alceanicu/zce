@@ -51,7 +51,7 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
   ) {
   }
 
-  public canExit(): boolean { // fixme
+  public canExit(): boolean {
     if (this.exam.finished) {
       return true;
     } else {
@@ -128,7 +128,7 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
     this.countdownSubscriptionUnsubscribe();
   }
 
-  public setBtnClasses(index: number): object { // fixme
+  public setBtnClasses(index: number): object {
     let seen = false;
     for (const key in this.exam.questions) {
       if (this.exam.questions.hasOwnProperty(index)) {
