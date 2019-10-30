@@ -12,8 +12,8 @@ If you find this application useful, you can star as on GitHub(https://github.co
 
 ## You can try this application also as an: 
 
-* [FIREFOX extension (v2.0.4)](https://addons.mozilla.org/ro/firefox/addon/php-zend-certification-exam/)
-* [GitHub Page (v2.0.4)](https://alceanicu.github.io/zce/)
+* [FIREFOX extension (v2.0.5)](https://addons.mozilla.org/ro/firefox/addon/php-zend-certification-exam/)
+* [GitHub Page (v2.0.5)](https://alceanicu.github.io/zce/)
 * Android mobile application (v1.1.2 - beta) - soon
 
 ## License
