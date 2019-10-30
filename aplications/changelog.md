@@ -1,5 +1,10 @@
 ## FIREFOX extension changelog
 
+### 2.0.6 [2019.10.30] 
+
+ - npm update
+ - SEO
+ 
 ### 2.0.5 [2019.10.29] 
 
  - npm update

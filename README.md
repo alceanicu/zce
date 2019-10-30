@@ -4,7 +4,7 @@
 
 * [CHROME extension (v2.0.5)](https://chrome.google.com/webstore/detail/php-zend-certification-exam/kdjolhghoglghipajmbmlmldbpncimge)
 * [FIREFOX extension (v2.0.5)](https://addons.mozilla.org/ro/firefox/addon/php-zend-certification-exam/)
-* [GitHub Page (v2.0.5)](https://alceanicu.github.io/zce/)
+* [GitHub Page (v2.0.6)](https://alceanicu.github.io/zce/)
 * Android mobile application (v1.1.2 - beta) - soon
 
 ## License
