@@ -2,11 +2,14 @@
   "name": "zce",
   "author": "Nicu ALCEA <nicualcea@gmail.com>",
   "license": "MIT",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "keywords": [
     "PHP",
     "ZCE",
-    "ZEND"
+    "ZEND",
+    "exam",
+    "simulator",
+    "preparation"
   ],
   "description": "ZCE - Exam Simulator for Zend PHP Engineer Certification",
   "repository": {
@@ -38,10 +41,10 @@
     "bootstrap": "^4.3.1",
     "core-js": "^2.6.10",
     "dexie": "^2.0.4",
-    "firebase": "^6.6.2",
+    "firebase": "^7.2.2",
     "moment": "^2.24.0",
     "ngx-simple-modal": "^1.4.4",
-    "ngx-toastr": "^10.2.0",
+    "ngx-toastr": "^11.1.2",
     "ngx-ui-loader": "^8.0.0",
     "pdfmake": "^0.1.61",
     "prismjs": "^1.17.1",
