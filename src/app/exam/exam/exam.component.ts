@@ -10,7 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SimpleModalService } from 'ngx-simple-modal';
 import { CountdownService, LocalStorageService, Logger, PrismService, QuestionService, SyncCountdownTimeService } from '@app/core/services';
 import { ConfirmComponent } from '@app/shared';
-import { Exam, IDeactivateComponent, IExam, IExamQuestion, IQuestion } from '@app/core';
+import { Exam, IDeactivateComponent, IExam, IExamQuestion } from '@app/core';
 
 const log = new Logger('ExamComponent');
 
@@ -62,7 +62,7 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
       const disposable = this.simpleModalService
         .addModal(ConfirmComponent, data)
         .pipe(take(1))
-        .subscribe(canFinishExam => {
+        .subscribe((canFinishExam: any) => {
           if (canFinishExam) {
             this.finishExam();
             return true;
