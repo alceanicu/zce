@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Observable, Subject, timer } from 'rxjs';
-import { map, takeWhile } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { Logger } from '@app/core/services/logger/logger.service';
 
 const log = new Logger('CountdownService');
@@ -23,7 +23,7 @@ export class CountdownService {
       this.isCounting = true;
       timer(0, 1000)
         .pipe(
-          takeWhile(t => t < count),
+          take(5400),
           map(t => count - t)
         )
         .subscribe(
