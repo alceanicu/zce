@@ -42,7 +42,7 @@
     "dexie": "^2.0.4",
     "firebase": "^7.2.3",
     "moment": "^2.24.0",
-    "ngx-simple-modal": "^1.4.4",
+    "ngx-simple-modal": "^1.4.8",
     "ngx-toastr": "^11.2.0",
     "ngx-ui-loader": "^8.0.0",
     "pdfmake": "^0.1.62",
