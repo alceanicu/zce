@@ -46,7 +46,7 @@
     "ngx-simple-modal": "^1.4.4",
     "ngx-toastr": "^11.2.0",
     "ngx-ui-loader": "^8.0.0",
-    "pdfmake": "^0.1.61",
+    "pdfmake": "^0.1.62",
     "prismjs": "^1.17.1",
     "rxjs": "^6.5.3",
     "tslib": "^1.10.0",

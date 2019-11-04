@@ -2,19 +2,13 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-import { configPHP } from './configPHP';
+import { configFirebase } from '@env/configFirebase';
+import { configPHP } from '@env/configPHP';
 
 export const environment = {
   appVersion: '2.0.5',
   production: false,
-  firebase: {
-    apiKey: 'AIzaSyCPo9FJxt-5zsARU-Br-9MOSVs0CJoEOsQ',
-    authDomain: 'php-alma-test.firebaseapp.com',
-    databaseURL: 'https://php-alma-test.firebaseio.com',
-    projectId: 'php-alma-test',
-    storageBucket: 'php-alma-test.appspot.com',
-    messagingSenderId: '486664010402'
-  },
+  firebase: configFirebase,
   configPHP: configPHP
 };
 
