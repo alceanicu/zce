@@ -97,6 +97,7 @@ npm i --save ngx-ui-loader
 npm i --save bootstrap
 
 npm i webpack-bundle-analyzer -D
+npm cache clear
 ```
 
 ### others
