@@ -5,7 +5,6 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 import * as moment from 'moment';
-import { take } from 'rxjs/operators';
 import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,25 +16,25 @@ import { PhpQuestionService } from '@app/core/services/firestore/php-question.se
 
 const log = new Logger('AppModule');
 
-export function initApp(phpQuestionService: PhpQuestionService) {
-  return (): Promise<any> => {
-    return new Promise((resolve) => {
-      phpQuestionService
-        .getPhpConfig()
-        .pipe(take(1))
-        .subscribe(
-          DocumentSnapshot => {
-            if (DocumentSnapshot.data().version !== environment.appVersion) {
-              window.alert(`Please consider to upgrade this application to latest version!`);
-            }
-            resolve();
-          },
-          error => window.alert(error),
-          () => log.info('App INIT')
-        );
-    });
-  };
-}
+// export function initApp(phpQuestionService: PhpQuestionService) {
+//   return (): Promise<any> => {
+//     return new Promise((resolve) => {
+//       phpQuestionService
+//         .getPhpConfig()
+//         .pipe(take(1))
+//         .subscribe(
+//           DocumentSnapshot => {
+//             if (DocumentSnapshot.data().version !== environment.appVersion) {
+//               // window.alert(`Please consider to upgrade this application to latest version!`);
+//             }
+//             resolve();
+//           },
+//           error => log.error(error),
+//           () => log.info('App INIT')
+//         );
+//     });
+//   };
+// }
 
 @NgModule({
   declarations: [
@@ -61,12 +60,12 @@ export function initApp(phpQuestionService: PhpQuestionService) {
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
   providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initApp,
-      multi: true,
-      deps: [PhpQuestionService]
-    },
+    // {
+    //   provide: APP_INITIALIZER,
+    //   useFactory: initApp,
+    //   multi: true,
+    //   deps: [PhpQuestionService]
+    // },
     {
       provide: 'moment',
       useFactory: (): any => moment
