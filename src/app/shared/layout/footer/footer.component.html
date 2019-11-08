@@ -1,7 +1,7 @@
-<footer class="footer" *ngIf="currentRoute !== '/exam'">
+<footer class="footer">
   <div class="container">
     <div class="row">
-      <nav class="footer-nav">
+      <nav class="footer-nav" *ngIf="currentRoute !== '/exam'">
         <ul>
           <li *ngIf="currentRoute !== '/home'"><a title="Home" routerLink="/home">Home</a></li>
           <li *ngIf="currentRoute !== '/about'"><a title="About" routerLink="/about">About</a></li>
