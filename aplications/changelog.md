@@ -7,7 +7,7 @@
  
 #### 2.0.5 [2019.10.29] 
 
- - npm updategit
+ - npm update
  - update prepare module
  - update pdf module
  - review all question (*.md) 

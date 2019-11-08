@@ -73,3 +73,10 @@
 .modal-footer {
   border-top: 1px solid #cecece;
 }
+
+@media (max-width: 768px) {
+  .scroll-area-x {
+    margin: 0 10px;
+    overflow-x: scroll;
+  }
+}
