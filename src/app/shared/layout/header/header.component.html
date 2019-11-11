@@ -15,7 +15,7 @@
     <div class="navbar-collapse" id="navbarToggler">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item"
-            *ngIf="currentRoute === '/prepare'" >
+            *ngIf="currentRoute === '#/prepare'" >
           <div class="progress-percentage-wrapper">
             <div class="progress-percentage ng-cloak"
                  title="Corect {{scoreObj.correct}} from {{scoreObj.total}}">{{scoreObj.percentage}}
@@ -37,16 +37,16 @@
           </div>
         </li>
         <li class="nav-item" style="font-weight: 600;color: #ff0000; padding-right: 20px"
-            *ngIf="currentRoute === '/exam'">
+            *ngIf="currentRoute === '#/exam'">
           {{countdownTimeObj.time}}
         </li>
         <li class="nav-item"
-            *ngIf="currentRoute === '/home'">
+            *ngIf="currentRoute === '#/home'">
           <a title="About" class="lead nav-link"
              [routerLink]="['/about']"><i class="nc-icon nc-book-bookmark"></i> About</a>
         </li>
         <li class="nav-item"
-            *ngIf="currentRoute === '/about'">
+            *ngIf="currentRoute === '#/about'">
           <a title="Home" class="lead nav-link"
              [routerLink]="['/home']"><i class="nc-icon nc-book-bookmark"></i> Home</a>
         </li>

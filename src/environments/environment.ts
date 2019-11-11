@@ -6,7 +6,7 @@ import { configFirebase } from '@env/configFirebase';
 import { configPHP } from '@env/configPHP';
 
 export const environment = {
-  appVersion: '2.0.6',
+  appVersion: '2.0.7',
   production: false,
   firebase: configFirebase,
   configPHP: configPHP
