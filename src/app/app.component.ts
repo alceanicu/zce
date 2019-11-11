@@ -70,7 +70,7 @@ export class AppComponent implements OnInit, OnDestroy {
     const navbar: HTMLElement = this.element.nativeElement.children[0].children[0];
     this.renderer.listen('window', 'scroll', (event) => {
       const size = window.scrollY;
-      if (size > 150 || window.pageYOffset > 150) {
+      if (size > 10 || window.pageYOffset > 10) {
         // add logic
         navbar.classList.remove('navbar-transparent');
       } else {

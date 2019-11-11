@@ -1,13 +1,13 @@
 ## CHANGELOG
 
-#### 2.0.6 [2019.10.30] 
+#### 2.0.6 [2019.11.08] 
 
  - npm update
  - SEO
  
 #### 2.0.5 [2019.10.29] 
 
- - npm updategit
+ - npm update
  - update prepare module
  - update pdf module
  - review all question (*.md) 

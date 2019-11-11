@@ -5,12 +5,12 @@ FEATURES & DESCRIPTION
 •    From version 1.0.2 you can export tests in PDF format, tests can have 5 or 10 random questions.
 
 YOU CAN TRY THIS APPLICATION ALSO AS AN
-•    [FIREFOX extension (v2.0.5)](https://addons.mozilla.org/ro/firefox/addon/php-zend-certification-exam/)
-•    [GitHub Page (v2.0.6)](https://alceanicu.github.io/zce/)
+•    FIREFOX extension (v2.0.6)(https://addons.mozilla.org/ro/firefox/addon/php-zend-certification-exam/)
+•    GitHub Page (v2.0.6)(https://alceanicu.github.io/zce/)
 •    Android mobile application (v1.1.3 - beta) - soon
 
 LICENSE
-•    This application is licensed under the [MIT](https://github.com/alceanicu/zce/blob/master/LICENSE.md) license.
+•    This application is licensed under the MIT(https://github.com/alceanicu/zce/blob/master/LICENSE.md) license.
 
 PRIVACY
 •    No tracking, no advertising, and nothing else nefarious.
@@ -23,4 +23,4 @@ BUGS/SUGGESTIONS
 
 DISCLAIMER
 •    Not all questions are checked, some of them might have wrong answers.
-•    This application is not affiliated with or endorsed by [PHP Group](https://www.php.net/) or [ZEND](https://www.zend.com/en).
+•    This application is not affiliated with or endorsed by PHP Group(https://www.php.net/) or ZEND(https://www.zend.com/en).

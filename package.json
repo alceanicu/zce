@@ -2,7 +2,7 @@
   "name": "zce",
   "author": "Nicu ALCEA <nicualcea@gmail.com>",
   "license": "MIT",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "keywords": [
     "PHP",
     "ZCE",
@@ -16,6 +16,7 @@
     "type": "git",
     "url": "https://github.com/alceanicu/zce"
   },
+  "private": true,
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -25,7 +26,6 @@
     "e2e": "ng e2e",
     "analyze": "webpack-bundle-analyzer dist/zce/stats.json"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "^8.2.12",
     "@angular/common": "^8.2.12",
@@ -41,10 +41,10 @@
     "bootstrap": "^4.3.1",
     "core-js": "^2.6.10",
     "dexie": "^2.0.4",
-    "firebase": "^7.2.3",
+    "firebase": "^7.3.0",
     "moment": "^2.24.0",
     "ngx-simple-modal": "^1.4.8",
-    "ngx-toastr": "^11.2.0",
+    "ngx-toastr": "^11.2.1",
     "ngx-ui-loader": "^8.0.0",
     "pdfmake": "^0.1.62",
     "prismjs": "^1.17.1",
@@ -53,8 +53,8 @@
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.802.2",
-    "@angular/cli": "^8.3.17",
+    "@angular-devkit/build-angular": "~0.803.15",
+    "@angular/cli": "^8.3.18",
     "@angular/compiler-cli": "^8.2.13",
     "@angular/language-service": "^8.2.13",
     "@types/jasmine": "~3.3.8",
