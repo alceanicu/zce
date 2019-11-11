@@ -215,7 +215,7 @@ export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChe
 
   public goToHome(): void {
     const pageFromUrl = this.location.prepareExternalUrl(this.location.path());
-    if (['/exam', '/zce/exam'].indexOf(pageFromUrl) !== -1) {
+    if (['#/exam', '#/zce/exam'].indexOf(pageFromUrl) !== -1) {
       this.router.navigate(['/home']).then();
     }
   }
