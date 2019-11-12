@@ -8,9 +8,8 @@
 
 <strong>YOU CAN TRY THIS APPLICATION ALSO AS AN</strong>
 <ul>
-    <li><a href="https://chrome.google.com/webstore/detail/php-zend-certification-exam/kdjolhghoglghipajmbmlmldbpncimge" title="CHROME extension">CHROME extension (v2.0.6)</a></li>
-    <li><a href="https://alceanicu.github.io/zce/" title="GitHub Page">GitHub Page (v2.0.6)</a></li>
-    <li>Android mobile application (v1.1.2 - beta) - soon</li>
+    <li><a href="https://chrome.google.com/webstore/detail/php-zend-certification-exam/kdjolhghoglghipajmbmlmldbpncimge" title="CHROME extension">CHROME extension (v2.0.7)</a></li>
+    <li><a href="https://alceanicu.github.io/zce/" title="GitHub Page">GitHub Page (v2.0.7)</a></li>
 </ul>
 
 <strong>LICENSE</strong>

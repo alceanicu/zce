@@ -10,7 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SimpleModalService } from 'ngx-simple-modal';
 import { CountdownService, LocalStorageService, Logger, PrismService, QuestionService, SyncCountdownTimeService } from '@app/core/services';
 import { ConfirmComponent } from '@app/shared';
-import { Exam, IDeactivateComponent, IExam, IExamQuestion } from '@app/core';
+import { Exam, IDeactivate, IExam, IExamQuestion } from '@app/core';
 
 const log = new Logger('ExamComponent');
 
@@ -19,7 +19,7 @@ const log = new Logger('ExamComponent');
   templateUrl: './exam.component.html',
   styleUrls: ['./exam.component.scss']
 })
-export class ExamComponent implements IDeactivateComponent, OnInit, AfterViewChecked, OnDestroy {
+export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnDestroy {
   get questionsArray(): Array<number> {
     return this.exam.questionsArray;
   }

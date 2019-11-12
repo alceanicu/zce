@@ -3,7 +3,7 @@ export * from './config.interface';
 export * from './confirm.interface';
 export * from './countdown-time.interface';
 export * from './data-service.interface';
-export * from './deactivate-component.interface';
+export * from './deactivate.interface';
 export * from './exam.interface';
 export * from './exam-question.interface';
 export * from './option.interface';

@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot } from '@angular/router';
 
 import { Observable } from 'rxjs';
-import { IDeactivateComponent } from '@app/core/interfaces';
+import { IDeactivate } from '@app/core/interfaces';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class ExamGuard implements CanDeactivate<IDeactivateComponent> {
+export class ExamGuard implements CanDeactivate<IDeactivate> {
   public canDeactivate(
-    component: IDeactivateComponent,
+    component: IDeactivate,
     currentRoute: ActivatedRouteSnapshot,
     currentState: RouterStateSnapshot,
     nextState?: RouterStateSnapshot
