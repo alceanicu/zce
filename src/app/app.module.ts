@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireModule } from '@angular/fire';
@@ -9,12 +9,9 @@ import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FooterComponent, HeaderComponent, SharedModule } from './shared';
-import { CoreModule, Logger } from '@app/core';
+import { CoreModule } from '@app/core';
 import { environment } from '@env/environment';
 import { ROUND_PROGRESS_DEFAULTS, RoundProgressModule } from 'angular-svg-round-progressbar';
-import { PhpQuestionService } from '@app/core/services/firestore/php-question.service';
-
-const log = new Logger('AppModule');
 
 // export function initApp(phpQuestionService: PhpQuestionService) {
 //   return (): Promise<any> => {
