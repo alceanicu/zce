@@ -62,6 +62,7 @@ export class PdfService implements OnDestroy {
           text: obj.text,
           fontSize: 8,
           fillColor: '#FFF',
+          preserveLeadingSpaces: true
         };
         if (obj.language === 2) {
           questionRow.fontSize = 12;
@@ -84,7 +85,8 @@ export class PdfService implements OnDestroy {
       question.answerRows.forEach((obj: IAnswerRow, key: number) => {
         const answerRow = {
           text: obj.text,
-          fillColor: '#FFF'
+          fillColor: '#FFF',
+          preserveLeadingSpaces: true
         };
         if (obj.value > 0) {
           correct.push(letters[key]);
@@ -169,6 +171,25 @@ export class PdfService implements OnDestroy {
       },
       defaultStyle: {
         fontSize: 8
+      },
+      footer: (cPage: number, pageCount: number) => {
+        const page = cPage.toString();
+        return {
+          margin: 5,
+          columns: [
+            {
+              fontSize: 9,
+              text: [
+                {
+                  text: '_______________________________________________________________________________________________________________\n',
+                  margin: [0, 40]
+                },
+                {text: `${page} / ${pageCount}`}
+              ],
+              alignment: 'center'
+            }
+          ]
+        };
       }
     };
 
