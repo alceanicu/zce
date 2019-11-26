@@ -1,5 +1,10 @@
 ## CHANGELOG
 
+#### 2.0.7 [2019.11.26] 
+
+- npm update
+- update PDF
+
 #### 2.0.6 [2019.11.12] 
 
 - npm update
