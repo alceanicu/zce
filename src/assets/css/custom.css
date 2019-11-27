@@ -5,40 +5,11 @@
   padding-bottom: 4rem;
 }
 
-.section-xl
-{
-  padding-top: 8rem;
-  padding-bottom: 8rem;
-}
-
-.section-lg
-{
-  padding-top: 6rem;
-  padding-bottom: 6rem;
-}
-
-.section-sm
-{
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-}
-
-@media (min-width: 768px)
-{
-  .section-hero
-  {
-    min-height: 1200px;
-  }
-}
-
 .section-shaped
 {
   position: relative;
 }
-.section-shaped .stars-and-coded
-{
-  margin-top: 8rem;
-}
+
 .section-shaped .shape
 {
   position: absolute;
@@ -58,28 +29,7 @@
 
   height: 100%;
 }
-.section-shaped .shape.shape-skew + .container
-{
-  padding-top: 0;
-}
-.section-shaped .shape.shape-skew + .container .col
-{
-  margin-top: -100px;
-}
-.section-shaped .shape.shape-skew + .shape-container
-{
-  padding-top: 18rem;
-  padding-bottom: 19rem;
-}
-.section-shaped .shape-skew
-{
-  transform: skewY(-4deg);
-  transform-origin: 0;
-}
-.section-shaped .shape-skew span
-{
-  transform: skew(4deg);
-}
+
 .section-shaped .shape-primary
 {
   background: linear-gradient(150deg, #281483 15%, #8f6ed5 70%, #d782d9 94%);
@@ -128,30 +78,7 @@
 {
   background: #6adaff;
 }
-.section-shaped .shape-light
-{
-  background: linear-gradient(150deg, shapes-light-color('step-1-gradient-bg') 15%, shapes-light-color('step-2-gradient-bg') 70%, shapes-light-color('step-3-gradient-bg') 94%);
-}
-.section-shaped .shape-light :nth-child(1)
-{
-  background: shapes-light-color('span-1-bg');
-}
-.section-shaped .shape-light :nth-child(2)
-{
-  background: shapes-light-color('span-2-bg');
-}
-.section-shaped .shape-light :nth-child(3)
-{
-  background: shapes-light-color('span-3-bg');
-}
-.section-shaped .shape-light :nth-child(4)
-{
-  background: shapes-light-color('span-4-bg');
-}
-.section-shaped .shape-light :nth-child(5)
-{
-  background: shapes-light-color('span-5-bg');
-}
+
 .section-shaped .shape-dark
 {
   background: linear-gradient(150deg, #32325d 15%, #32325d 70%, #32325d 94%);
@@ -306,71 +233,12 @@
 {
   background: linear-gradient(150deg, #7795f8 15%, #6772e5 70%, #555abf 94%);
 }
-.section-shaped .shape-style-1.shape-light
-{
-  background: linear-gradient(150deg, shapes-light-color('step-1-gradient-bg') 15%, shapes-light-color('step-2-gradient-bg') 70%, shapes-light-color('step-3-gradient-bg') 94%);
-}
+
 .section-shaped .shape-style-1.shape-dark
 {
   background: linear-gradient(150deg, #32325d 15%, #32325d 70%, #32325d 94%);
 }
-.section-shaped .shape-style-2 span
-{
-  height: 190px;
-}
-.section-shaped .shape-style-2 .span-sm
-{
-  height: 100px;
-}
-.section-shaped .shape-style-2 :nth-child(1)
-{
-  top: 0;
-  left: -16.66666%;
 
-  width: 33.33333%;
-}
-.section-shaped .shape-style-2 :nth-child(2)
-{
-  top: 0;
-  right: auto;
-  left: 16.66666%;
-
-  width: 33.33333%;
-}
-.section-shaped .shape-style-2 :nth-child(3)
-{
-  bottom: auto;
-  left: 49.99999%;
-
-  width: 33.33333%;
-}
-.section-shaped .shape-style-2 :nth-child(4)
-{
-  top: 55%;
-  right: -16.66666%;
-
-  width: 33.33333%;
-}
-.section-shaped .shape-style-2 :nth-child(5)
-{
-  bottom: 0;
-
-  width: 33.33333%;
-}
-@media (max-width: 991.98px)
-{
-  .section-shaped .shape-style-2 span
-  {
-    height: 120px;
-  }
-}
-@media (max-width: 767.98px)
-{
-  .section-shaped .shape-style-2 span
-  {
-    height: 90px;
-  }
-}
 .section-shaped .shape-style-3 span
 {
   height: 140px;
