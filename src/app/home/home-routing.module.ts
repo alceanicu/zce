@@ -3,10 +3,9 @@ import {RouterModule, Routes} from '@angular/router';
 
 import {HomeComponent} from './home/home.component';
 
-
 const routes: Routes = [
   {path: '', component: HomeComponent, data: {title: 'ZCE'}},
-  {path: '**', redirectTo: '/page-not-found', data: {title: 'ZCE - Page not found!'}}
+  {path: '**', redirectTo: '/home', data: {title: 'ZCE - Page not found!'}}
 ];
 
 @NgModule({
