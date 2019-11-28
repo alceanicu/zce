@@ -26,8 +26,8 @@
         cursor: pointer;
         border-radius: 3px;
         top: 0;
-        background-color: #AAA7A4;
-        border: 1px solid $light-gray;
+        background-color: #8965e0;
+        border: 1px solid #000;
         @include transition-opacity(0.3s, linear);
     }
     .form-check-sign::after{
@@ -46,6 +46,7 @@
             color: $dark-gray;
             opacity: .5;
             cursor: not-allowed;
+            background-color: #1fa2ff;
         }
     }
 
@@ -107,7 +108,7 @@
 }
 
 .form-check-label input[type="checkbox"]:checked + .form-check-sign:before{
-    background-color: #66615B;
+    background-color: green;
 }
 
 .form-check-radio input[type="radio"] + .form-check-sign:after,
