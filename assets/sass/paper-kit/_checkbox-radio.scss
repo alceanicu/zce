@@ -26,14 +26,14 @@
         cursor: pointer;
         border-radius: 3px;
         top: 0;
-        background-color: #8965e0;
-        border: 1px solid #000;
+        background-color: #fff;
+        border: 1px solid #1fa2ff;
         @include transition-opacity(0.3s, linear);
     }
     .form-check-sign::after{
         font-family: 'FontAwesome';
         content: "\f00c";
-        top: 0px;
+        top: 0;
         text-align: center;
         font-size: 14px;
         opacity: 0;
@@ -46,7 +46,6 @@
             color: $dark-gray;
             opacity: .5;
             cursor: not-allowed;
-            background-color: #1fa2ff;
         }
     }
 
