@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { Question } from '@app/core';
 import { environment } from '@env/environment';
-
+import { PhpAnswerType } from '@env/configPHP';
 
 @Component({
   selector: 'app-question-display,[app-question-display]',
@@ -11,6 +11,7 @@ import { environment } from '@env/environment';
 })
 export class QuestionDisplayComponent implements OnInit {
   @Input() public question: Question;
+  public PhpAnswerType = PhpAnswerType;
 
   get extensionsAllowed(): Array<string> {
     return environment.configPHP.extensionsAllowed;

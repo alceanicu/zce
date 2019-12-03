@@ -35,7 +35,7 @@ ng g c shared/layout/header
 ng g c shared/answer
 ng g c shared/question
 ng g c shared/confirm
-ng g c shared/page-not-found
+ng g c shared/modal
 
 -- interfaces
 ng g i core/interfaces/answer-row --type=interface

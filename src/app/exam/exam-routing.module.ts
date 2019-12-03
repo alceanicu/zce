@@ -7,7 +7,7 @@ import { ExamGuard } from '../core/';
 
 const routes: Routes = [
   {path: '', component: ExamComponent, canDeactivate: [ExamGuard], data: {title: 'ZCE - Exam'}},
-  {path: '**', redirectTo: '/page-not-found', data: {title: 'ZCE - Page not found!'}}
+  {path: '**', redirectTo: '/home', data: {title: 'ZCE - Page not found!'}}
 ];
 
 @NgModule({

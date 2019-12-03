@@ -85,14 +85,11 @@ export class PdfService implements OnDestroy {
       question.answerRows.forEach((obj: IAnswerRow, key: number) => {
         const answerRow = {
           text: obj.text,
-          fillColor: '#FFF',
+          fillColor: '#F6F8FA',
           preserveLeadingSpaces: true
         };
         if (obj.value > 0) {
           correct.push(letters[key]);
-        }
-        if (obj.language === 1) {
-          answerRow.fillColor = '#F6F8FA';
         }
         answerBody.push([{
           table: {

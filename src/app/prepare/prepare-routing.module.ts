@@ -5,7 +5,7 @@ import { PrepareComponent } from './prepare/prepare.component';
 
 const routes: Routes = [
   {path: '', component: PrepareComponent, data: {title: 'ZCE - Prepare'}},
-  {path: '**', redirectTo: '/page-not-found', data: {title: 'ZCE - Page not found!'}}
+  {path: '**', redirectTo: '/home', data: {title: 'ZCE - Page not found!'}}
 ];
 
 @NgModule({

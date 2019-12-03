@@ -7,14 +7,12 @@ import { RouterModule } from '@angular/router';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { SimpleModalModule } from 'ngx-simple-modal';
 import { ConfirmComponent } from './confirm/confirm.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { QuestionDisplayComponent } from '@app/question-display/question-display.component';
 
 @NgModule({
   declarations: [
     ConfirmComponent,
-    QuestionDisplayComponent,
-    PageNotFoundComponent
+    QuestionDisplayComponent
   ],
   imports: [
     CommonModule,
@@ -57,7 +55,6 @@ import { QuestionDisplayComponent } from '@app/question-display/question-display
     FormsModule,
     HttpClientModule,
     RouterModule,
-    PageNotFoundComponent,
     NgxUiLoaderModule,
     ConfirmComponent,
     QuestionDisplayComponent
