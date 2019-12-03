@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 
 import { IQuestion } from '@app/core/interfaces';
 import Dexie from 'dexie';
+import { environment } from '@env/environment';
 
 class QuestionDatabase extends Dexie {
   public questionTable!: Dexie.Table<IQuestion, number>; // id is number in this case
 
   constructor() {
-    super('QuestionDatabase');
+    super( `${environment.appVersion}_QuestionDatabase`);
     this.version(1)
       .stores({questionTable: '++id,*category,difficulty,type,finalAnswer,value,*questionRows,*answerRows'});
   }
