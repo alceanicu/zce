@@ -9,6 +9,7 @@ import { Helper } from '@app/core/utils';
 import { Logger } from '@app/core';
 import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
+import { PhpAnswerType, PhpCategory, PhpQuestionDifficulty } from '@env/configPHP';
 
 const log = new Logger('PhpEditComponent');
 
@@ -20,6 +21,11 @@ export class PhpEditComponent implements OnInit {
   public form: FormGroup;
   public questionRowsArray: FormArray;
   public type: string;
+
+  public keys = Object.keys;
+  public PhpAnswerType = PhpAnswerType;
+  public PhpQuestionDifficulty = PhpQuestionDifficulty;
+  public PhpCategory = PhpCategory;
 
   constructor(
     public firestorePhpQuestionService: PhpQuestionService,
@@ -181,16 +187,16 @@ export class PhpEditComponent implements OnInit {
     }
   }
 
-  get categoryOptions(): IOption[] {
-    return Helper.arrayConfigToIOptionArray(environment.configPHP.categoryOptions);
-  }
-
-  get difficultyOptions(): IOption[] {
+  get difficultyOptions(): IOption[] { // fixme
     return Helper.arrayConfigToIOptionArray(environment.configPHP.difficultyOptions);
   }
 
-  get typeOptions(): IOption[] {
+  get typeOptions(): IOption[] { // fixme
     return Helper.arrayConfigToIOptionArray(environment.configPHP.typeOptions);
+  }
+
+  get categoryOptions(): IOption[] { // fixme
+    return Helper.arrayConfigToIOptionArray(environment.configPHP.categoryOptions);
   }
 
   get languageOptions(): IOption[] {

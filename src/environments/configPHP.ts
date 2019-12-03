@@ -20,7 +20,7 @@ export const configPHP = {
     'I/O'
   ],
   difficultyOptions: ['Easy', 'Medium', 'Hard'],
-  typeOptions: ['Radio', 'git', 'Text'],
+  typeOptions: ['Radio', 'Checkbox', 'Text'],
   correctOptions: [
     {value: true, text: 'YES'},
     {value: false, text: 'NO'}
@@ -29,8 +29,8 @@ export const configPHP = {
 };
 
 export enum PhpAnswerType {
-  RADIO = '0',
-  CHECKBOX = '1',
+  CHECKBOX = '0',
+  RADIO = '1',
   TEXT = '2'
 }
 

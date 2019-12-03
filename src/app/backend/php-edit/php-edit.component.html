@@ -18,7 +18,9 @@
     <div class="form-group col-3">
       <label for="difficulty">#Difficulty</label>
       <select class="form-control form-control-sm" id="difficulty" formControlName="difficulty">
-        <option *ngFor="let op of difficultyOptions" [ngValue]="op.value">{{op.text}}</option>
+<!--        <option *ngFor="let op of difficultyOptions" [ngValue]="op.value">{{op.text}}</option>-->
+        <option *ngFor="let diff of keys(PhpQuestionDifficulty)"
+                [ngValue]="+PhpQuestionDifficulty[diff]">{{diff}}</option>
       </select>
       <span class="text-danger"
             *ngIf="form.controls['difficulty'].touched && form.controls['difficulty'].hasError('required')"
@@ -27,7 +29,8 @@
     <div class="form-group col-3">
       <label for="type">#Type</label>
       <select class="form-control form-control-sm" id="type" formControlName="type">
-        <option *ngFor="let op of typeOptions" [ngValue]="op.value">{{op.text}}</option>
+<!--        <option *ngFor="let op of typeOptions" [ngValue]="op.value">{{op.text}}</option>-->
+        <option *ngFor="let type of keys(PhpAnswerType)" [ngValue]="+PhpAnswerType[type]">{{type}}</option>
       </select>
       <span class="text-danger"
             *ngIf="form.controls['type'].touched && form.controls['type'].hasError('required')"
@@ -41,7 +44,8 @@
       <select class="form-control form-control-sm" id="category" size="11" multiple="multiple"
               [multiple]
               formControlName="category">
-        <option *ngFor="let op of categoryOptions" [ngValue]="op.value">{{op.text}}</option>
+        <option *ngFor="let cat of keys(PhpCategory)" [ngValue]="+PhpCategory[cat]">{{cat}}</option>
+<!--        <option *ngFor="let op of categoryOptions" [ngValue]="op.value">{{op.text}}</option>-->
       </select>
       <span class="text-danger"
             *ngIf="form.controls['category'].touched && form.controls['category'].hasError('required')"
@@ -88,9 +92,9 @@
           <div [formGroupName]="i" class="row">
             <div class="form-group col-6">
               <label for="value_{{i}}">Correct</label>
-              <!--                <select class="form-control form-control-sm" formControlName="correct" id="correct_{{i}}">-->
-              <!--                  <option *ngFor="let op of correctOptions" [ngValue]="op.value">{{op.text}}</option>-->
-              <!--                </select>-->
+<!--              <select class="form-control form-control-sm" formControlName="correct" id="correct_{{i}}">-->
+<!--                <option *ngFor="let op of correctOptions" [ngValue]="op.value">{{op.text}}</option>-->
+<!--              </select>-->
               <select class="form-control form-control-sm" id="value_{{i}}"
                       formControlName="value"
                       (ngModelChange)="onChangeVal()">

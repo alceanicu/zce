@@ -11,6 +11,7 @@ import { IAnswerRow, IQuestion, IQuestionRow } from '@app/core/interfaces';
 import { environment } from '@env/environment';
 import { PhpQuestionService } from '@app/core/services/firestore/php-question.service';
 import { Question } from '@app/core';
+import { PhpAnswerType, PhpCategory, PhpQuestionDifficulty } from '@env/configPHP';
 
 const log = new Logger('PhpListComponent');
 
@@ -21,6 +22,8 @@ const log = new Logger('PhpListComponent');
 })
 
 export class PhpListComponent implements OnInit, OnDestroy {
+  public PhpAnswerType = PhpAnswerType;
+  public PhpQuestionDifficulty = PhpQuestionDifficulty;
   public questionList: Observable<IQuestion[] | {}[]>;
   public page$: BehaviorSubject<number>;
   public page: number;

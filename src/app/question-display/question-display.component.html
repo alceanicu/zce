@@ -9,7 +9,7 @@
 
 <div [ngSwitch]="question.type">
 
-  <div *ngSwitchCase="PhpAnswerType.RADIO">
+  <div *ngSwitchCase="PhpAnswerType.CHECKBOX">
     <div *ngFor="let answerRow of question.answerRows, let i = index">
       <div class="card" [ngClass]="!question.finalAnswer ? '' : (question.isValidRowAnswer(i) ? 'isCorrect' : 'isWrong')">
         <div class="card-header">
@@ -35,7 +35,7 @@
     </div>
   </div>
 
-  <div *ngSwitchCase="PhpAnswerType.CHECKBOX">
+  <div *ngSwitchCase="PhpAnswerType.RADIO">
     <div *ngFor="let answerRow of question.answerRows, let i = index">
       <div class="card" [ngClass]="!question.finalAnswer ? '' : (question.isValidRowAnswer(i) ? 'isCorrect' : 'isWrong')">
         <div class="card-header">

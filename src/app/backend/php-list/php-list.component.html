@@ -13,14 +13,31 @@
         <th scope="col">ID</th>
         <th scope="col">Question</th>
         <th scope="col">Value</th>
+        <th scope="col">Type</th>
+        <th scope="col">Diff</th>
         <th style="width: 10%">Actions</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let question of questionList | async; let i = index;">
-        <td>{{question.id}}</td>
+        <td><strong>{{question.id}}</strong></td>
         <td>{{question.questionRows[0].text}}</td>
         <td>{{question.value}}</td>
+
+        <td *ngIf="question.type === +PhpAnswerType.RADIO"><i class="fa fa-dot-circle-o"></i></td>
+        <td *ngIf="question.type === +PhpAnswerType.CHECKBOX"><i class="fa fa-check-square-o"></i></td>
+        <td *ngIf="question.type === +PhpAnswerType.TEXT"><i class="fa fa-text-width"></i></td>
+
+        <td *ngIf="question.difficulty === +PhpQuestionDifficulty.EASY" title="EASY">
+          <i class="fa fa-battery-empty"></i>
+        </td>
+        <td *ngIf="question.difficulty === +PhpQuestionDifficulty.MEDIUM" title="MEDIUM">
+          <i class="fa fa-battery-half"></i>
+        </td>
+        <td *ngIf="question.difficulty === +PhpQuestionDifficulty.HARD" title="HARD">
+          <i class="fa fa-battery-full"></i>
+        </td>
+
         <td class="text-center action-block bg-white">
           <a [routerLink]="['/backend/php-edit/', question.id]" title="edit"> <i class="fa fa-edit"></i> </a>
           <span> </span>
