@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { IQuestion } from '@app/core/interfaces';
 import Dexie from 'dexie';
-import { environment } from '@env/environment';
 
 class ZCEDatabase extends Dexie {
   public questionTable!: Dexie.Table<IQuestion, number>; // id is number in this case
 
   constructor() {
-    super(`${environment.appVersion}_ZCE_DB`);
+    super('ZCE_DB');
     const schema = {questionTable: '++id,*category,difficulty,type,finalAnswer,value,*questionRows,*answerRows'};
     this.version(1).stores(schema);
     this.version(2).stores({questionTable: null}); // >= v 2.1.0
@@ -23,10 +22,6 @@ export class IndexedDbQuizService {
 
   constructor() {
     this.db = new ZCEDatabase();
-  }
-
-  get dbName(): string {
-    return this.db.name;
   }
 
   addQuestion(question: IQuestion): Promise<any> {
