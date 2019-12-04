@@ -4,12 +4,10 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { PhpQuestionService } from '@app/core/services/firestore/php-question.service';
 import { IAnswerRow, IOption, IQuestion } from '@app/core/interfaces';
-import { environment } from '@env/environment';
-import { Helper } from '@app/core/utils';
 import { Logger } from '@app/core';
 import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
-import { PhpAnswerType, PhpCategory, PhpQuestionDifficulty } from '@env/configPHP';
+import { Extension, PhpAnswerType, PhpCategory, PhpQuestionDifficulty } from '@app/core/enum/config';
 
 const log = new Logger('PhpEditComponent');
 
@@ -18,14 +16,14 @@ const log = new Logger('PhpEditComponent');
   templateUrl: './php-edit.component.html'
 })
 export class PhpEditComponent implements OnInit {
+  public keys = Object.keys;
+  public Extension = Extension;
+  public PhpAnswerType = PhpAnswerType;
+  public PhpCategory = PhpCategory;
+  public PhpQuestionDifficulty = PhpQuestionDifficulty;
   public form: FormGroup;
   public questionRowsArray: FormArray;
   public type: string;
-
-  public keys = Object.keys;
-  public PhpAnswerType = PhpAnswerType;
-  public PhpQuestionDifficulty = PhpQuestionDifficulty;
-  public PhpCategory = PhpCategory;
 
   constructor(
     public firestorePhpQuestionService: PhpQuestionService,
@@ -187,25 +185,25 @@ export class PhpEditComponent implements OnInit {
     }
   }
 
-  get difficultyOptions(): IOption[] { // fixme
-    return Helper.arrayConfigToIOptionArray(environment.configPHP.difficultyOptions);
-  }
+  // get difficultyOptions(): IOption[] { // fixme
+  //   return Helper.arrayConfigToIOptionArray(environment.configPHP.difficultyOptions);
+  // }
 
-  get typeOptions(): IOption[] { // fixme
-    return Helper.arrayConfigToIOptionArray(environment.configPHP.typeOptions);
-  }
+  // get typeOptions(): IOption[] { // fixme
+  //   return Helper.arrayConfigToIOptionArray(environment.configPHP.typeOptions);
+  // }
 
-  get categoryOptions(): IOption[] { // fixme
-    return Helper.arrayConfigToIOptionArray(environment.configPHP.categoryOptions);
-  }
+  // get categoryOptions(): IOption[] { // fixme
+  //   return Helper.arrayConfigToIOptionArray(environment.configPHP.categoryOptions);
+  // }
 
-  get languageOptions(): IOption[] {
-    return Helper.arrayConfigToIOptionArray(environment.configPHP.extensionsAllowed);
-  }
+  // get languageOptions(): IOption[] {
+  //   return Helper.arrayConfigToIOptionArray(environment.configPHP.extensionsAllowed);
+  // }
 
-  get correctOptions(): Array<any> { // fixme
-    return environment.configPHP.correctOptions;
-  }
+  // get correctOptions(): Array<any> { // fixme
+  //   return environment.configPHP.correctOptions;
+  // }
 
   valueOptions(i: number): Array<any> {
     return [

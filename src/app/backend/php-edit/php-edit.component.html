@@ -18,7 +18,6 @@
     <div class="form-group col-3">
       <label for="difficulty">#Difficulty</label>
       <select class="form-control form-control-sm" id="difficulty" formControlName="difficulty">
-<!--        <option *ngFor="let op of difficultyOptions" [ngValue]="op.value">{{op.text}}</option>-->
         <option *ngFor="let diff of keys(PhpQuestionDifficulty)"
                 [ngValue]="+PhpQuestionDifficulty[diff]">{{diff}}</option>
       </select>
@@ -29,7 +28,6 @@
     <div class="form-group col-3">
       <label for="type">#Type</label>
       <select class="form-control form-control-sm" id="type" formControlName="type">
-<!--        <option *ngFor="let op of typeOptions" [ngValue]="op.value">{{op.text}}</option>-->
         <option *ngFor="let type of keys(PhpAnswerType)" [ngValue]="+PhpAnswerType[type]">{{type}}</option>
       </select>
       <span class="text-danger"
@@ -45,7 +43,6 @@
               [multiple]
               formControlName="category">
         <option *ngFor="let cat of keys(PhpCategory)" [ngValue]="+PhpCategory[cat]">{{cat}}</option>
-<!--        <option *ngFor="let op of categoryOptions" [ngValue]="op.value">{{op.text}}</option>-->
       </select>
       <span class="text-danger"
             *ngIf="form.controls['category'].touched && form.controls['category'].hasError('required')"
@@ -53,10 +50,15 @@
     </div>
   </div>
 
-  <div class="card-header">
-    <button class="btn btn-sm btn-primary m-1" type="button"
-            (click)="addQuestionRow()"><i class="fa fa-plus" aria-hidden="true"></i> Add Quiz Row
-    </button>
+  <div class="card">
+    <div class="card-footer">
+      <button class="btn btn-sm btn-success m-1" type="submit"
+              [disabled]="!form.valid"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save
+      </button>
+      <button class="btn btn-sm btn-primary m-1" type="button"
+              (click)="addQuestionRow()"><i class="fa fa-plus" aria-hidden="true"></i> Add Quiz Row
+      </button>
+    </div>
   </div>
 
   <div class="col-12" *ngFor="let questionRow of questionRowsFormGroup.controls; let i = index;">
@@ -71,7 +73,8 @@
 
         <div class="col-md-2">
           <select class="form-control form-control-sm" formControlName="language">
-            <option *ngFor="let op of languageOptions" [ngValue]="op.value">{{op.text}}</option>
+            <option *ngFor="let lang of keys(Extension)"
+                    [ngValue]="+Extension[lang]">{{lang}}</option>
           </select>
           <br>
           <button type="button" class="btn btn-sm btn-danger" title="Remove row"
@@ -92,9 +95,6 @@
           <div [formGroupName]="i" class="row">
             <div class="form-group col-6">
               <label for="value_{{i}}">Correct</label>
-<!--              <select class="form-control form-control-sm" formControlName="correct" id="correct_{{i}}">-->
-<!--                <option *ngFor="let op of correctOptions" [ngValue]="op.value">{{op.text}}</option>-->
-<!--              </select>-->
               <select class="form-control form-control-sm" id="value_{{i}}"
                       formControlName="value"
                       (ngModelChange)="onChangeVal()">
@@ -105,7 +105,8 @@
               <label for="language_{{i}}">Language</label>
               <select class="form-control form-control-sm" id="language_{{i}}"
                       formControlName="language">
-                <option *ngFor="let op of languageOptions" [ngValue]="op.value">{{op.text}}</option>
+                <option *ngFor="let lang of keys(Extension)"
+                        [ngValue]="+Extension[lang]">{{lang}}</option>
               </select>
             </div>
             <div class="form-group col-12">

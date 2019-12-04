@@ -11,7 +11,7 @@ import { IAnswerRow, IQuestion, IQuestionRow } from '@app/core/interfaces';
 import { environment } from '@env/environment';
 import { PhpQuestionService } from '@app/core/services/firestore/php-question.service';
 import { Question } from '@app/core';
-import { PhpAnswerType, PhpCategory, PhpQuestionDifficulty } from '@env/configPHP';
+import { Extension, PhpAnswerType, PhpQuestionDifficulty } from '@app/core/enum/config';
 
 const log = new Logger('PhpListComponent');
 
@@ -22,8 +22,10 @@ const log = new Logger('PhpListComponent');
 })
 
 export class PhpListComponent implements OnInit, OnDestroy {
+  public Extension = Extension;
   public PhpAnswerType = PhpAnswerType;
   public PhpQuestionDifficulty = PhpQuestionDifficulty;
+  public keys = Object.keys;
   public questionList: Observable<IQuestion[] | {}[]>;
   public page$: BehaviorSubject<number>;
   public page: number;
@@ -123,7 +125,7 @@ export class PhpListComponent implements OnInit, OnDestroy {
 
     question.questionRows.forEach((questionRow: IQuestionRow) => {
       if (questionRow.language !== 2) {
-        mdArray.push('```' + environment.configPHP.extensionsAllowed[questionRow.language]);
+        mdArray.push('```' + this.keys(Extension)[questionRow.language]);
         mdArray.push('\n');
       }
       mdArray.push(questionRow.text);
@@ -144,7 +146,7 @@ export class PhpListComponent implements OnInit, OnDestroy {
 
       if (answerRow.language !== 2) {
         mdArray.push('\n');
-        mdArray.push('```' + environment.configPHP.extensionsAllowed[answerRow.language]);
+        mdArray.push('```' + this.keys(Extension)[answerRow.language]);
         mdArray.push('\n');
       }
       mdArray.push(answerRow.text);
