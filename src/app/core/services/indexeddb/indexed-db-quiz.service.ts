@@ -7,10 +7,11 @@ class ZCEDatabase extends Dexie {
   public questionTable!: Dexie.Table<IQuestion, number>; // id is number in this case
 
   constructor() {
-
     super(`${environment.appVersion}_ZCE_DB`);
-    this.version(1)
-      .stores({questionTable: '++id,*category,difficulty,type,finalAnswer,value,*questionRows,*answerRows'});
+    const schema = {questionTable: '++id,*category,difficulty,type,finalAnswer,value,*questionRows,*answerRows'};
+    this.version(1).stores(schema);
+    this.version(2).stores({questionTable: null}); // >= v 2.1.0
+    this.version(3).stores(schema);
   }
 }
 
