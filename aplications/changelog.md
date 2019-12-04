@@ -1,5 +1,10 @@
 ## CHANGELOG
 
+#### 2.1.0 [2019.12.04] 
+
+- update DB
+- add Radio Btn
+
 #### 2.0.9 [2019.11.28] 
 
 - fix CSS 
