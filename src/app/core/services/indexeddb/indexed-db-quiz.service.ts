@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-
 import { IQuestion } from '@app/core/interfaces';
 import Dexie from 'dexie';
+import { environment } from '@env/environment';
 
-class QuestionDatabase extends Dexie {
+class ZCEDatabase extends Dexie {
   public questionTable!: Dexie.Table<IQuestion, number>; // id is number in this case
 
   constructor() {
-    super('QuestionDatabase');
+
+    super(`${environment.appVersion}_ZCE_DB`);
     this.version(1)
       .stores({questionTable: '++id,*category,difficulty,type,finalAnswer,value,*questionRows,*answerRows'});
   }
@@ -17,10 +18,14 @@ class QuestionDatabase extends Dexie {
   providedIn: 'root'
 })
 export class IndexedDbQuizService {
-  private db: QuestionDatabase;
+  private db: ZCEDatabase;
 
   constructor() {
-    this.db = new QuestionDatabase();
+    this.db = new ZCEDatabase();
+  }
+
+  get dbName(): string {
+    return this.db.name;
   }
 
   addQuestion(question: IQuestion): Promise<any> {

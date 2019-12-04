@@ -1,13 +1,12 @@
 import { Inject, Injectable, OnDestroy } from '@angular/core';
-
 import * as pdfMake from 'pdfmake/build/pdfmake.js';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts.js';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { environment } from '@env/environment';
 import { IAnswerRow, IQuestionRow } from '@app/core/interfaces';
 import { Logger, QuestionService } from '@app/core/services';
 import { Question } from '@app/core/models';
+import { AnswerOptions } from '@app/core/enum/config';
 
 const log = new Logger('PdfService');
 
@@ -37,12 +36,12 @@ export class PdfService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    console.log('gata');
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
 
   private generatePDF(): void {
-    const letters = environment.configPHP.letters;
     const content: Array<any> = [];
     const correctAnswer: Array<any> = [];
 
@@ -89,12 +88,12 @@ export class PdfService implements OnDestroy {
           preserveLeadingSpaces: true
         };
         if (obj.value > 0) {
-          correct.push(letters[key]);
+          correct.push(Object.keys(AnswerOptions)[key]);
         }
         answerBody.push([{
           table: {
             body: [
-              [letters[key]]
+              [Object.keys(AnswerOptions)[key]]
             ]
           }
         }]);

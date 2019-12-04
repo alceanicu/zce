@@ -1,29 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
-
+import { Component, Input } from '@angular/core';
 import { Question } from '@app/core';
-import { environment } from '@env/environment';
-import { PhpAnswerType } from '@env/configPHP';
+import { AnswerOptions, Extension, PhpAnswerType } from '@app/core/enum/config';
 
 @Component({
   selector: 'app-question-display,[app-question-display]',
   templateUrl: './question-display.component.html',
   styleUrls: ['./question-display.component.scss']
 })
-export class QuestionDisplayComponent implements OnInit {
+export class QuestionDisplayComponent {
   @Input() public question: Question;
   public PhpAnswerType = PhpAnswerType;
-
-  get extensionsAllowed(): Array<string> {
-    return environment.configPHP.extensionsAllowed;
-  }
-
-  get letters(): Array<string> {
-    return environment.configPHP.letters;
-  }
-
-  constructor() {
-  }
-
-  ngOnInit(): void {
-  }
+  public AnswerOptions = AnswerOptions;
+  public Extension = Extension;
+  keys = Object.keys;
 }
