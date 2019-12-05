@@ -1,6 +1,5 @@
 import { IAnswerRow, IQuestionRow } from '.';
 
-
 export interface IQuestion {
   id?: number;
   category: Array<number>;

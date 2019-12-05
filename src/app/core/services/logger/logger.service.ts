@@ -48,7 +48,6 @@ export enum LogLevel {
 export type LogOutput = (source: string | undefined, level: LogLevel, ...objects: any[]) => void;
 
 export class Logger {
-
   /**
    * Current logging level.
    * Set it to LogLevel.Off to disable logs completely.
@@ -110,5 +109,4 @@ export class Logger {
       Logger.outputs.forEach(output => output.apply(output, [this.source, level, ...objects]));
     }
   }
-
 }

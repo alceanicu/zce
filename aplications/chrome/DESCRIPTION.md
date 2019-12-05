@@ -6,7 +6,7 @@ FEATURES & DESCRIPTION
 
 YOU CAN TRY THIS APPLICATION ALSO AS AN
 •    FIREFOX extension (v2.0.9)(https://addons.mozilla.org/ro/firefox/addon/php-zend-certification-exam/)
-•    GitHub Page (v2.0.9)(https://alceanicu.github.io/zce/)
+•    GitHub Page (v2.1.0)(https://alceanicu.github.io/zce/)
 
 LICENSE
 •    This application is licensed under the MIT(https://github.com/alceanicu/zce/blob/master/LICENSE.md) license.

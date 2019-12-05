@@ -1,5 +1,4 @@
 import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
-
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { NgxUiLoaderService } from 'ngx-ui-loader';

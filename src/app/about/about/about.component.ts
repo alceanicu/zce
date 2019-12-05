@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-
 import { environment } from '@env/environment';
-
 
 @Component({
   selector: 'app-about',

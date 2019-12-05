@@ -18,5 +18,5 @@
 
 ```
 ng build --prod --base-href="./" --aot --buildOptimizer=true --extractLicenses=true --optimization=true
-ngh --dir dist/zce --message="V 2.0.9"
+ngh --dir dist/zce --message="V 2.1.0"
 ```

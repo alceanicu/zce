@@ -1,6 +1,5 @@
 import { IExamQuestion } from '.';
 
-
 export interface IExam {
   startAt: number;
   endAt?: number;

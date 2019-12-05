@@ -1,6 +1,5 @@
 import { IOption } from '@app/core/interfaces';
 
-
 export class Helper {
   /**
    * Returns a random integer between min (inclusive) and max (inclusive).

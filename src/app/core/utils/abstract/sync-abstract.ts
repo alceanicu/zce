@@ -2,7 +2,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { SessionStorageService } from '@app/core/services/session-storage/session-storage.service';
 import { IDataService } from '@app/core/interfaces';
 
-
 export abstract class SyncAbstract implements IDataService {
   public currentValue: Observable<any>;
   private messageSource: BehaviorSubject<any>;
@@ -32,4 +31,3 @@ export abstract class SyncAbstract implements IDataService {
     this.messageSource.next(value);
   }
 }
-
