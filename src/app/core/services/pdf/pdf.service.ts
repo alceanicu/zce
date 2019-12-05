@@ -1,52 +1,25 @@
-import { Inject, Injectable, OnDestroy } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import * as pdfMake from 'pdfmake/build/pdfmake.js';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts.js';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { IAnswerRow, IQuestionRow } from '@app/core/interfaces';
-import { Logger, QuestionService } from '@app/core/services';
 import { Question } from '@app/core/models';
 import { AnswerOptions } from '@app/core/enum/config';
-
-const log = new Logger('PdfService');
 
 @Injectable({
   providedIn: 'root'
 })
-export class PdfService implements OnDestroy {
-  private questionArray: Question[] = [];
-  private unsubscribe$: Subject<boolean> = new Subject<boolean>();
-
+export class PdfService {
   constructor(
-    private questionService: QuestionService,
     @Inject('moment') private moment: any
   ) {
   }
 
-  public exportTestAsPDF(questionNumber: number = 1): void {
-    this.questionArray = [];
-    this.questionService
-      .getQuestion(questionNumber)
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(
-        question => this.questionArray.push(question),
-        error => log.error(error),
-        () => this.generatePDF()
-      );
-  }
-
-  ngOnDestroy(): void {
-    console.log('gata');
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
-  }
-
-  private generatePDF(): void {
+  public generatePDF(questionArray: Question[], pdfName: string = ''): void {
     const content: Array<any> = [];
     const correctAnswer: Array<any> = [];
 
-    for (let i = 0; i < this.questionArray.length; i++) {
-      const question = this.questionArray[i];
+    for (let i = 0; i < questionArray.length; i++) {
+      const question = questionArray[i];
       const questionBody: Array<any> = [];
       const answerBody: Array<any> = [];
       const correct: Array<string> = [];
@@ -131,7 +104,9 @@ export class PdfService implements OnDestroy {
     content.push({text: '\n\r'});
     content.push({qr: 'https://alceanicu.github.io/zce'});
 
-    const name = this.moment().format('YYYY_MM_DD_HH:mm:ss');
+    if (pdfName === '') {
+      pdfName = this.moment().format('YYYY_MM_DD_HH:mm:ss');
+    }
 
     const docDefinition = {
       content: content,
@@ -190,6 +165,6 @@ export class PdfService implements OnDestroy {
     };
 
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
-    pdfMake.createPdf(docDefinition).download(`${name}.pdf`);
+    pdfMake.createPdf(docDefinition).download(`${pdfName}.pdf`);
   }
 }
