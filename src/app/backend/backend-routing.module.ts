@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
 import { PhpListComponent } from './php-list/php-list.component';
 import { PhpEditComponent } from './php-edit/php-edit.component';
 import { LoginComponent } from './login/login.component';

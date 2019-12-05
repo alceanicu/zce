@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
-
 import * as firebase from 'firebase';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { switchMap, takeUntil } from 'rxjs/operators';
@@ -11,7 +10,7 @@ import { IAnswerRow, IQuestion, IQuestionRow } from '@app/core/interfaces';
 import { environment } from '@env/environment';
 import { PhpQuestionService } from '@app/core/services/firestore/php-question.service';
 import { Question } from '@app/core';
-import { Extension, PhpAnswerType, PhpQuestionDifficulty } from '@app/core/enum/config';
+import { AnswerOptions, Extension, PhpAnswerType, PhpQuestionDifficulty } from '@app/core/enum/config';
 
 const log = new Logger('PhpListComponent');
 
@@ -20,12 +19,9 @@ const log = new Logger('PhpListComponent');
   templateUrl: './php-list.component.html',
   styleUrls: ['./php-list.component.scss']
 })
-
 export class PhpListComponent implements OnInit, OnDestroy {
-  public Extension = Extension;
   public PhpAnswerType = PhpAnswerType;
   public PhpQuestionDifficulty = PhpQuestionDifficulty;
-  public keys = Object.keys;
   public questionList: Observable<IQuestion[] | {}[]>;
   public page$: BehaviorSubject<number>;
   public page: number;
@@ -124,12 +120,12 @@ export class PhpListComponent implements OnInit, OnDestroy {
     mdArray.push('\n');
 
     question.questionRows.forEach((questionRow: IQuestionRow) => {
-      if (questionRow.language !== 2) {
-        mdArray.push('```' + this.keys(Extension)[questionRow.language]);
+      if (questionRow.language !== +Extension.NONE) {
+        mdArray.push('```' + Object.keys(Extension)[questionRow.language].toLowerCase());
         mdArray.push('\n');
       }
       mdArray.push(questionRow.text);
-      if (questionRow.language !== 2) {
+      if (questionRow.language !== +Extension.NONE) {
         mdArray.push('\n');
         mdArray.push('```');
       }
@@ -140,17 +136,17 @@ export class PhpListComponent implements OnInit, OnDestroy {
 
     question.answerRows.forEach((answerRow: IAnswerRow, k) => {
       const correct =  (answerRow.value > 0) ? '- [x] ' : '- [ ] ';
-      const variant = (answerRow.language === 2) ? '' : environment.configPHP.letters[k];
+      const variant = (answerRow.language === +Extension.NONE) ? '' : Object.keys(AnswerOptions)[k];
 
       mdArray.push(correct + variant);
 
-      if (answerRow.language !== 2) {
+      if (answerRow.language !== +Extension.NONE) {
         mdArray.push('\n');
-        mdArray.push('```' + this.keys(Extension)[answerRow.language]);
+        mdArray.push('```' + Object.keys(Extension)[answerRow.language]);
         mdArray.push('\n');
       }
       mdArray.push(answerRow.text);
-      if (answerRow.language !== 2) {
+      if (answerRow.language !== +Extension.NONE) {
         mdArray.push('\n');
         mdArray.push('```');
         mdArray.push('\n');
