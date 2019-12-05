@@ -10,7 +10,13 @@ import { AnswerOptions, Extension, PhpAnswerType } from '@app/core/enum/config';
 export class QuestionDisplayComponent {
   @Input() public question: Question;
   public PhpAnswerType = PhpAnswerType;
-  public AnswerOptions = AnswerOptions;
   public Extension = Extension;
-  keys = Object.keys;
+
+  get extensions(): Array<string> {
+    return Object.keys(Extension);
+  }
+
+  get options(): Array<string> {
+    return Object.keys(AnswerOptions);
+  }
 }
