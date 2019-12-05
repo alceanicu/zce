@@ -18,8 +18,7 @@
     <div class="form-group col-3">
       <label for="difficulty">#Difficulty</label>
       <select class="form-control form-control-sm" id="difficulty" formControlName="difficulty">
-        <option *ngFor="let diff of keys(PhpQuestionDifficulty)"
-                [ngValue]="+PhpQuestionDifficulty[diff]">{{diff}}</option>
+        <option *ngFor="let diff of difficultyOptions" [ngValue]="+PhpQuestionDifficulty[diff]">{{diff}}</option>
       </select>
       <span class="text-danger"
             *ngIf="form.controls['difficulty'].touched && form.controls['difficulty'].hasError('required')"
@@ -28,7 +27,7 @@
     <div class="form-group col-3">
       <label for="type">#Type</label>
       <select class="form-control form-control-sm" id="type" formControlName="type">
-        <option *ngFor="let type of keys(PhpAnswerType)" [ngValue]="+PhpAnswerType[type]">{{type}}</option>
+        <option *ngFor="let type of typeOptions" [ngValue]="+PhpAnswerType[type]">{{type}}</option>
       </select>
       <span class="text-danger"
             *ngIf="form.controls['type'].touched && form.controls['type'].hasError('required')"
@@ -40,9 +39,8 @@
     <div class="form-group col-3">
       <label for="category">#Category</label>
       <select class="form-control form-control-sm" id="category" size="11" multiple="multiple"
-              [multiple]
               formControlName="category">
-        <option *ngFor="let cat of keys(PhpCategory)" [ngValue]="+PhpCategory[cat]">{{cat}}</option>
+        <option *ngFor="let cat of categoryOptions" [ngValue]="+PhpCategory[cat]">{{cat}}</option>
       </select>
       <span class="text-danger"
             *ngIf="form.controls['category'].touched && form.controls['category'].hasError('required')"
@@ -73,7 +71,7 @@
 
         <div class="col-md-2">
           <select class="form-control form-control-sm" formControlName="language">
-            <option *ngFor="let lang of keys(Extension)"
+            <option *ngFor="let lang of languageOptions"
                     [ngValue]="+Extension[lang]">{{lang}}</option>
           </select>
           <br>
@@ -105,8 +103,7 @@
               <label for="language_{{i}}">Language</label>
               <select class="form-control form-control-sm" id="language_{{i}}"
                       formControlName="language">
-                <option *ngFor="let lang of keys(Extension)"
-                        [ngValue]="+Extension[lang]">{{lang}}</option>
+                <option *ngFor="let lang of languageOptions" [ngValue]="+Extension[lang]">{{lang}}</option>
               </select>
             </div>
             <div class="form-group col-12">

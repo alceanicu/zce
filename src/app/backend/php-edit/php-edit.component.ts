@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-
 import { PhpQuestionService } from '@app/core/services/firestore/php-question.service';
 import { IAnswerRow, IOption, IQuestion } from '@app/core/interfaces';
 import { Logger } from '@app/core';
@@ -16,7 +15,34 @@ const log = new Logger('PhpEditComponent');
   templateUrl: './php-edit.component.html'
 })
 export class PhpEditComponent implements OnInit {
-  public keys = Object.keys;
+
+  /**
+   * returns all form groups under questionRows
+   */
+  get questionRowsFormGroup(): FormArray {
+    return this.form.get('questionRows') as FormArray;
+  }
+
+  get answerRowsFormGroup(): FormArray {
+    return this.form.get('answerRows') as FormArray;
+  }
+
+  get difficultyOptions(): Array<string> {
+    return Object.keys(PhpQuestionDifficulty);
+  }
+
+  get typeOptions(): Array<string> {
+    return Object.keys(PhpAnswerType);
+  }
+
+  get categoryOptions(): Array<string> {
+    return Object.keys(PhpCategory);
+  }
+
+  get languageOptions(): Array<string> {
+    return Object.keys(Extension);
+  }
+
   public Extension = Extension;
   public PhpAnswerType = PhpAnswerType;
   public PhpCategory = PhpCategory;
@@ -37,7 +63,7 @@ export class PhpEditComponent implements OnInit {
     };
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.buildForm();
 
     const id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
@@ -81,75 +107,33 @@ export class PhpEditComponent implements OnInit {
   }
 
   /**
-   * Contains Reactive Form logic
-   */
-  buildForm() {
-    const rows = [this.initAnswerRow(0, true), this.initAnswerRow(1), this.initAnswerRow(2), this.initAnswerRow(3)];
-    this.form = this.formBuilder.group({
-      id: [null],
-      category: [1, Validators.required],
-      difficulty: [2, Validators.required],
-      type: [1, Validators.required],
-      value: [0, Validators.required],
-      questionRows: this.formBuilder.array([]),
-      answerRows: this.formBuilder.array(rows)
-    });
-
-    // set questionRowsArray to this field
-    this.questionRowsArray = this.form.get('questionRows') as FormArray;
-  }
-
-  /**
-   * returns all form groups under questionRows
-   */
-  get questionRowsFormGroup() {
-    return this.form.get('questionRows') as FormArray;
-  }
-
-  get answerRowsFormGroup() {
-    return this.form.get('answerRows') as FormArray;
-  }
-
-  /**
    * get the formGroup under questionRowsArray form array
    */
-  getQuestionRowFormGroup(index: number): FormGroup {
+  public getQuestionRowFormGroup(index: number): FormGroup {
     return this.questionRowsArray.controls[index] as FormGroup;
   }
 
   /**
    * init Quiz formGroup
    */
-  initQuestionRow(): FormGroup {
+  public initQuestionRow(): FormGroup {
     return this.formBuilder.group({
       text: ['', Validators.required],
-      language: ['none', Validators.required],
-    });
-  }
-
-  /**
-   * init Answer formGroup - FIXME correct
-   */
-  initAnswerRow(i: number, correct: boolean = false): FormGroup {
-    return this.formBuilder.group({
-      text: ['', Validators.required],
-      language: ['none', Validators.required],
-      value: [Math.pow(2, i), Validators.required],
-      correct: [correct],
+      language: [+Extension.NONE, Validators.required],
     });
   }
 
   /**
    * Add a Quiz form group
    */
-  addQuestionRow() {
+  public addQuestionRow(): void {
     this.questionRowsArray.push(this.initQuestionRow());
   }
 
   /**
    * remove a Quiz form group
    */
-  removeQuizRow(index: number) {
+  public removeQuizRow(index: number): void {
     if (this.questionRowsArray.length > 1) {
       this.questionRowsArray.removeAt(index);
     }
@@ -158,7 +142,7 @@ export class PhpEditComponent implements OnInit {
   /**
    * method triggered when form is submitted
    */
-  onSubmit() {
+  public onSubmit(): void {
     const question = this.form.value as IQuestion;
 
     question.answerRows.forEach((o, k) => { // fixme correct
@@ -185,40 +169,56 @@ export class PhpEditComponent implements OnInit {
     }
   }
 
-  // get difficultyOptions(): IOption[] { // fixme
-  //   return Helper.arrayConfigToIOptionArray(environment.configPHP.difficultyOptions);
-  // }
-
-  // get typeOptions(): IOption[] { // fixme
-  //   return Helper.arrayConfigToIOptionArray(environment.configPHP.typeOptions);
-  // }
-
-  // get categoryOptions(): IOption[] { // fixme
-  //   return Helper.arrayConfigToIOptionArray(environment.configPHP.categoryOptions);
-  // }
-
-  // get languageOptions(): IOption[] {
-  //   return Helper.arrayConfigToIOptionArray(environment.configPHP.extensionsAllowed);
-  // }
-
-  // get correctOptions(): Array<any> { // fixme
-  //   return environment.configPHP.correctOptions;
-  // }
-
-  valueOptions(i: number): Array<any> {
+  public valueOptions(i: number): IOption[] {
     return [
       {value: 0, text: 'NO'},
       {value: Math.pow(2, i), text: 'YES'}
     ];
   }
 
-  onChangeVal() {
+  public onChangeVal(): void {
     const v = this.form.value.answerRows[0].value +
       this.form.value.answerRows[1].value +
       this.form.value.answerRows[2].value +
       this.form.value.answerRows[3].value;
 
     this.form.controls.value.setValue(v);
+  }
+
+  /**
+   * init Answer formGroup - FIXME correct
+   */
+  private initAnswerRow(i: number, correct: boolean = false): FormGroup {
+    return this.formBuilder.group({
+      text: ['', Validators.required],
+      language: [+Extension.NONE, Validators.required],
+      value: [(i === 0) ? Math.pow(2, i) : 0, Validators.required],
+      correct: [correct],
+    });
+  }
+
+  /**
+   * Contains Reactive Form logic
+   */
+  private buildForm(): void {
+    const rows = [
+      this.initAnswerRow(0, true),
+      this.initAnswerRow(1),
+      this.initAnswerRow(2),
+      this.initAnswerRow(3)
+    ];
+    this.form = this.formBuilder.group({
+      id: [null],
+      category: [[+PhpCategory.PHP_BASICS], Validators.required],
+      difficulty: [+PhpQuestionDifficulty.EASY, Validators.required],
+      type: [+PhpAnswerType.RADIO, Validators.required],
+      value: [1, Validators.required],
+      questionRows: this.formBuilder.array([]),
+      answerRows: this.formBuilder.array(rows)
+    });
+
+    // set questionRowsArray to this field
+    this.questionRowsArray = this.form.get('questionRows') as FormArray;
   }
 }
 
