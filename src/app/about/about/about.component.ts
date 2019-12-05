@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-// @ts-ignore
-import { version } from '../../../../package.json';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-about',
@@ -8,6 +8,10 @@ import { version } from '../../../../package.json';
   styleUrls: ['./about.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AboutComponent {
-  public version: string = version;
+export class AboutComponent implements OnInit {
+  public version: string = '';
+
+  ngOnInit(): void {
+    this.version = environment.appVersion;
+  }
 }
