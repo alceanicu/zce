@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot } from '@angular/router';
-
 import { Observable } from 'rxjs';
 import { IDeactivate } from '@app/core/interfaces';
-
 
 @Injectable({
   providedIn: 'root'

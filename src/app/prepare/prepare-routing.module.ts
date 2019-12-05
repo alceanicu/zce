@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
 import { PrepareComponent } from './prepare/prepare.component';
 
 const routes: Routes = [

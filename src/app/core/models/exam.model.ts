@@ -2,7 +2,6 @@ import { Helper } from '../utils';
 import { IExam, IExamQuestion } from '../interfaces';
 import { environment } from '@env/environment';
 
-
 export class Exam implements IExam {
   public startAt: number;
   public endAt?: number;

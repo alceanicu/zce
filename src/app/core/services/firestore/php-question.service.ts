@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
-
 import { Observable } from 'rxjs';
 import { firestore } from 'firebase';
 import { environment } from '@env/environment';
 import { IConfig, IQuestion } from '@app/core/interfaces';
-
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +25,9 @@ export class PhpQuestionService {
     this.configCollection = this.db.collection<IConfig>(environment.configPHP.configPath);
   }
 
+  /**
+   * fixme
+   */
   getPhpConfig(): Observable<firestore.DocumentSnapshot> {
     this.phpConfigDoc = this.db.doc<IConfig>(`${environment.configPHP.configPath}/php`);
     return this.phpConfigDoc.get();

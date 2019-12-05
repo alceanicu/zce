@@ -1,6 +1,5 @@
 import { IScore } from '@app/core/interfaces';
 
-
 export class Score implements IScore {
   total: number = 0;
   correct: number = 0;

@@ -1,7 +1,6 @@
 import { AfterViewChecked, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
-
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Moment } from 'moment';
