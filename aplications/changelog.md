@@ -1,9 +1,10 @@
 ## CHANGELOG
 
-#### 2.1.0 [2019.12.04] 
+#### 2.1.0 [2019.12.06] 
 
 - update DB
 - add Radio Btn
+- fix reload
 
 #### 2.0.9 [2019.11.28] 
 
