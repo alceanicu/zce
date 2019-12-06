@@ -49,6 +49,9 @@ MIT
 @firebase/app
 Apache-2.0
 
+@firebase/component
+Apache-2.0
+
 @firebase/firestore
 Apache-2.0
 
