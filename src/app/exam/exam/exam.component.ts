@@ -7,7 +7,14 @@ import { Moment } from 'moment';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ToastrService } from 'ngx-toastr';
 import { SimpleModalService } from 'ngx-simple-modal';
-import { CountdownService, LocalStorageService, Logger, PrismService, QuestionService, SyncCountdownTimeService } from '@app/core/services';
+import {
+  CountdownService,
+  LocalStorageService,
+  Logger,
+  PrismService,
+  QuestionService,
+  SyncCountdownTimeService
+} from '@app/core/services';
 import { ConfirmComponent } from '@app/shared';
 import { Exam, IDeactivate, IExam, IExamQuestion } from '@app/core';
 
@@ -223,27 +230,9 @@ export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnD
     this.countdownSubscriptionUnsubscribe();
     this.validateCurrentExamQuestion();
     this.exam.finish();
-    const $this = this;
-
-    const subscriber = {
-      next() {
-        $this.goToHome();
-      },
-      error(error: any) {
-        log.error(error);
-      },
-      complete() {
-        log.info(`You answered correctly to ${$this.exam.score} questions from 70`);
-      }
-    };
-
-    if (this.exam.score >= 50) {
-      const message = 'Congratulations you passed the exam!';
-      this.toastrService.success(message, 'Exam result!', {closeButton: true}).onHidden.subscribe(subscriber);
-    } else {
-      const message = 'You did not passed the exam!';
-      this.toastrService.warning(message, 'Exam result!', {closeButton: true}).onHidden.subscribe(subscriber);
-    }
+    this.router
+      .navigate(['/home'], {state: {score: this.exam.score}})
+      .then();
   }
 
   private getTimeString(endTime: Moment): string {
@@ -279,6 +268,7 @@ export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnD
   }
 
   private countdownSubscriptionUnsubscribe(): void {
+    this.syncCountdownTimeService.clear();
     if (this.countdownSubscription instanceof Subscription) {
       this.countdownSubscription.unsubscribe();
     }
