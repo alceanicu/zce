@@ -43,8 +43,8 @@ export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnD
   private highlighted: boolean;
 
   constructor(
-    private simpleModalService: SimpleModalService,
     @Inject('moment') private moment: any,
+    private simpleModalService: SimpleModalService,
     private countdownService: CountdownService,
     private syncCountdownTimeService: SyncCountdownTimeService,
     private prismService: PrismService,
@@ -221,7 +221,7 @@ export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnD
 
   public goToHome(): void {
     const pageFromUrl = this.location.prepareExternalUrl(this.location.path());
-    if (['#/exam', '#/zce/exam'].indexOf(pageFromUrl) !== -1) {
+    if (['#/exam'].indexOf(pageFromUrl) !== -1) {
       this.router.navigate(['/home']).then();
     }
   }
