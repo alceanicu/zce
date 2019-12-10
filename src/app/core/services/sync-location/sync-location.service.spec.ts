@@ -1,12 +1,23 @@
 import { TestBed } from '@angular/core/testing';
-
-import { SyncLocationService } from './sync-location.service';
+import { SyncLocationService } from '@app/core';
 
 describe('SyncLocationService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  let service: SyncLocationService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    service = new SyncLocationService();
+  });
 
   it('should be created', () => {
-    const service: SyncLocationService = TestBed.get(SyncLocationService);
     expect(service).toBeTruthy();
+  });
+
+  it('should return same value after set', (done: DoneFn) => {
+    service.setValue('100');
+    service.getValue().subscribe(q => {
+      expect(q).toEqual('100');
+      done();
+    });
   });
 });

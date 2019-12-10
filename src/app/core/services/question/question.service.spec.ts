@@ -1,5 +1,5 @@
 import {async, TestBed} from '@angular/core/testing';
-import {QuestionService} from './question.service';
+import {QuestionService} from '@app/core';
 import {HomeComponent} from '@app/home/home/home.component';
 import {AngularFireModule} from '@angular/fire';
 import {environment} from '@env/environment';
