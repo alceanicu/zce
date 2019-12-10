@@ -5,12 +5,11 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '@env/environment';
 import { ROUND_PROGRESS_DEFAULTS } from 'angular-svg-round-progressbar';
 import * as moment from 'moment';
-import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { ToastrModule } from 'ngx-toastr';
 import { Question } from '@app/core';
 import { QuestionDisplayComponent } from '@app/question-display/question-display.component';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { SimpleModalService } from 'ngx-simple-modal';
-import { Location } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ExamComponent', () => {
