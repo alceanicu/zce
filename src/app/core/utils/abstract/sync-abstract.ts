@@ -30,4 +30,8 @@ export abstract class SyncAbstract implements IDataService {
     this.sessionStorageService.setItem(this.key, value);
     this.messageSource.next(value);
   }
+
+  protected destroy(key: string): void {
+    this.sessionStorageService.removeItem(key);
+  }
 }

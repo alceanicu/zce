@@ -22,4 +22,8 @@ export class SyncCountdownTimeService extends SyncAbstract {
   public setValue(value: ICountdownTime): void {
     this.updateCurrentValue(value);
   }
+
+  public clear(): void {
+    this.destroy('countdown-time');
+  }
 }

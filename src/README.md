@@ -10,6 +10,9 @@ npm outdated
 npm update
 
 ng test --code-coverage --no-watch
+
+ng build --prod --aot --buildOptimizer=true --extractLicenses=true --optimization=true --stats-json 
+webpack-bundle-analyzer dist/zce/stats.json
 ```
 
 ## ng
