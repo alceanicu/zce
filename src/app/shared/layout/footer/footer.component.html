@@ -1,19 +1,21 @@
 <footer class="footer">
-  <div class="container">
-    <div class="row">
-      <nav class="footer-nav" *ngIf="currentRoute !== '#/exam'">
-        <ul>
-          <li *ngIf="currentRoute !== '#/home'"><a title="Home" routerLink="/home">Home</a></li>
-          <li *ngIf="currentRoute !== '#/about'"><a title="About" routerLink="/about">About</a></li>
-        </ul>
-      </nav>
-      <div class="credits ml-auto">
-        <span class="copyright">made with <i class="fa fa-heart heart"></i> by <a href="https://github.com/alceanicu/zce"
-                                                   title="Star project on GitHub"
-                                                   rel="noreferrer"
-                                                   target="_blank"><strong style="color: #0b1011">niac</strong></a>
+    <div class="container">
+        <div class="row">
+            <nav class="footer-nav" *ngIf="currentRoute !== '#/exam'">
+                <ul>
+                    <li *ngIf="currentRoute !== '#/home'"><a title="Home" routerLink="/home">Home</a></li>
+                    <li *ngIf="currentRoute !== '#/about'"><a title="About" routerLink="/about">About</a></li>
+                </ul>
+            </nav>
+            <div class="credits ml-auto">
+        <span class="copyright">made with <i class="fa fa-heart heart"></i> by
+          <a href="https://github.com/alceanicu/zce"
+             title="Star project on GitHub"
+             rel="noreferrer"
+             target="_blank"
+             style="color: #0b1011; text-decoration: underline; font-weight: bold">niac</a>
         </span>
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
 </footer>
