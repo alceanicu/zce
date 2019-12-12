@@ -32,7 +32,16 @@ ZCE - Exam Simulator for Zend PHP Engineer Certification; Free PHP test in PDF f
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,300,700" rel="stylesheet" type="text/css">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet"
         type="text/css">
-  <style>
+  <style type="text/css">
+    app-root:empty::after {
+      content: "Loading...";
+      position: absolute;
+      display: block;
+      top: 50%;
+      left: 50%;
+      font-size: 20px;
+      transform: translate(-50%, -50%);
+    }
     .min {
       min-height: calc(100vh - 150px);
       margin-top: 50px;
