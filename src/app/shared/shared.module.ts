@@ -4,9 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
-import { SimpleModalModule } from 'ngx-simple-modal';
+import { ToastrModule } from 'ngx-toastr';
 import { ConfirmComponent } from './confirm/confirm.component';
-import { QuestionDisplayComponent } from '@app/question-display/question-display.component';
+import { QuestionDisplayComponent } from './question-display/question-display.component';
+import { RoundProgressModule } from 'angular-svg-round-progressbar';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { QuestionDisplayComponent } from '@app/question-display/question-display
     FormsModule,
     HttpClientModule,
     RouterModule,
+    RoundProgressModule,
     NgxUiLoaderModule.forRoot({
       bgsColor: '#00ACC1',
       bgsOpacity: 0.5,
@@ -44,7 +46,13 @@ import { QuestionDisplayComponent } from '@app/question-display/question-display
       textColor: '#FFFFFF',
       textPosition: 'center-center'
     }),
-    SimpleModalModule.forRoot({container: document.body}),
+    ToastrModule.forRoot({
+      timeOut: 5000,
+      preventDuplicates: true,
+      newestOnTop: false,
+      progressBar: true,
+      maxOpened: 1
+    }),
   ],
   entryComponents: [
     ConfirmComponent
@@ -54,6 +62,7 @@ import { QuestionDisplayComponent } from '@app/question-display/question-display
     FormsModule,
     HttpClientModule,
     RouterModule,
+    RoundProgressModule,
     NgxUiLoaderModule,
     ConfirmComponent,
     QuestionDisplayComponent

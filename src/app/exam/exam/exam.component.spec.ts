@@ -1,13 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ExamComponent } from './exam.component';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '@env/environment';
-import { ROUND_PROGRESS_DEFAULTS } from 'angular-svg-round-progressbar';
 import * as moment from 'moment';
 import { ToastrModule } from 'ngx-toastr';
 import { Question } from '@app/core';
-import { QuestionDisplayComponent } from '@app/question-display/question-display.component';
+import { QuestionDisplayComponent } from '@app/shared/question-display/question-display.component';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { SimpleModalService } from 'ngx-simple-modal';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -23,6 +23,7 @@ describe('ExamComponent', () => {
         QuestionDisplayComponent
       ],
       imports: [
+        BrowserAnimationsModule,
         RouterTestingModule,
         AngularFireModule.initializeApp(environment.firebase),
         AngularFirestoreModule,
@@ -61,15 +62,8 @@ describe('ExamComponent', () => {
         }),
       ],
       providers: [
-        SimpleModalService,
         {provide: 'moment', useFactory: (): any => moment},
-        {
-          provide: ROUND_PROGRESS_DEFAULTS,
-          useValue: {
-            color: '#0F0',
-            background: '#F00'
-          }
-        }
+        SimpleModalService
       ],
     }).compileComponents();
   }));

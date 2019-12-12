@@ -7,12 +7,10 @@ import { SharedModule } from '@app/shared';
 @NgModule({
   imports: [
     CommonModule,
-    PrepareRoutingModule,
     SharedModule,
+    PrepareRoutingModule
   ],
-  declarations: [
-    PrepareComponent,
-  ]
+  declarations: [PrepareComponent]
 })
 export class PrepareModule {
 }

@@ -3,7 +3,6 @@ import { AngularFireModule } from '@angular/fire';
 import { HomeComponent } from '@app/home/home/home.component';
 import { environment } from '@env/environment';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { ROUND_PROGRESS_DEFAULTS } from 'angular-svg-round-progressbar';
 import { IConfig } from '@app/core/interfaces';
 import { LocalStorageService } from '@app/core/services/local-storage/local-storage.service';
 import * as moment from 'moment';
@@ -24,13 +23,7 @@ describe('LocalStorageService', () => {
       ],
       providers: [
         {provide: 'moment', useFactory: (): any => moment},
-        {
-          provide: ROUND_PROGRESS_DEFAULTS,
-          useValue: {
-            color: '#0F0',
-            background: '#F00'
-          }
-        }],
+      ],
     }).compileComponents();
 
     service = TestBed.get(LocalStorageService);

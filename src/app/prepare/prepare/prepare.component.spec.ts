@@ -1,13 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PrepareComponent } from './prepare.component';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '@env/environment';
-import { ROUND_PROGRESS_DEFAULTS } from 'angular-svg-round-progressbar';
 import * as moment from 'moment';
 import { ToastrModule } from 'ngx-toastr';
 import { Question } from '@app/core';
-import { QuestionDisplayComponent } from '@app/question-display/question-display.component';
+import { QuestionDisplayComponent } from '@app/shared/question-display/question-display.component';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 
 describe('PrepareComponent', () => {
@@ -21,6 +21,7 @@ describe('PrepareComponent', () => {
         QuestionDisplayComponent
       ],
       imports: [
+        BrowserAnimationsModule,
         AngularFireModule.initializeApp(environment.firebase),
         AngularFirestoreModule,
         NgxUiLoaderModule.forRoot({
@@ -58,14 +59,7 @@ describe('PrepareComponent', () => {
         }),
       ],
       providers: [
-        {provide: 'moment', useFactory: (): any => moment},
-        {
-          provide: ROUND_PROGRESS_DEFAULTS,
-          useValue: {
-            color: '#0F0',
-            background: '#F00'
-          }
-        }
+        {provide: 'moment', useFactory: (): any => moment}
       ],
     }).compileComponents();
   }));
@@ -75,7 +69,7 @@ describe('PrepareComponent', () => {
     component = fixture.componentInstance;
     // @ts-ignore
     component.question = new Question();
-    component.ngOnInit();
+    // component.ngOnInit();
     fixture.detectChanges();
   });
 
