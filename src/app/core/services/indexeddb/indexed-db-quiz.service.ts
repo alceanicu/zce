@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { IQuestion } from '@app/core/interfaces';
 import Dexie from 'dexie';
+import {environment} from '@env/environment';
 
 class ZCEDatabase extends Dexie {
   public questionTable!: Dexie.Table<IQuestion, number>; // id is number in this case
 
   constructor() {
-    super('ZCE_DB');
-    const schema = {questionTable: '++id,*category,difficulty,type,finalAnswer,value,*questionRows,*answerRows'};
+    super('PHP_ZCE_DB');
+    const schema = {questionTable: '++id,*category,difficulty,type,finalAnswer,value,*questionRows,*answerRows,version'};
     this.version(1).stores(schema);
-    this.version(2).stores({questionTable: null}); // >= v 2.1.0
-    this.version(3).stores(schema);
   }
 }
 
@@ -25,6 +24,8 @@ export class IndexedDbQuizService {
   }
 
   addQuestion(question: IQuestion): Promise<any> {
+    // @ts-ignore
+    question.version = environment.appVersion;
     return this.db.questionTable.add(question);
   }
 
@@ -32,10 +33,18 @@ export class IndexedDbQuizService {
     return this.db.questionTable.get(id);
   }
 
+  async clearQuestionTableByVersion(): Promise<number> {
+    const promise = this.db.questionTable
+        .where('version')
+        .notEqual(environment.appVersion)
+        .delete();
+
+    return await promise;
+  }
+
   clearQuestionTable(): Promise<void> {
     return this.db.questionTable.clear();
   }
-
   updateQuestion(question: IQuestion): Promise<any> {
     return this.db.questionTable.put(question);
   }
