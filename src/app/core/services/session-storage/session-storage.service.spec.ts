@@ -1,9 +1,10 @@
 import {TestBed} from '@angular/core/testing';
 import {SessionStorageService} from './session-storage.service';
+import {environment} from '@env/environment';
 
 describe('SessionStorageService', () => {
   const key: string = 'config';
-  const obj: object = {counter: 806, timestamp: 1567246306157};
+  const obj: object = {counter: environment.configPHP.max, timestamp: 1567246306157};
 
   let service: SessionStorageService;
 
