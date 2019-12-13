@@ -105,7 +105,7 @@ export class PhpListComponent implements OnInit, OnDestroy {
 
   private generateMdArray(question: Question): Array<any> {
     const mdArray: Array<any> = [];
-    const id = 'Question ID#' + String(question.id).padStart(4, '0') + '.md ';
+    const id = 'Question ID#' + String(question.id).padStart(4, '0');
     let prev = '';
     let next = '';
 
@@ -142,7 +142,7 @@ export class PhpListComponent implements OnInit, OnDestroy {
 
       if (answerRow.language !== +Extension.NONE) {
         mdArray.push('\n');
-        mdArray.push('```' + Object.keys(Extension)[answerRow.language]);
+        mdArray.push('```' + Object.keys(Extension)[answerRow.language].toLowerCase());
         mdArray.push('\n');
       }
       mdArray.push(answerRow.text);
@@ -150,9 +150,9 @@ export class PhpListComponent implements OnInit, OnDestroy {
         mdArray.push('\n');
         mdArray.push('```');
         mdArray.push('\n');
+      } else {
+        mdArray.push('\n');
       }
-
-      mdArray.push('\n');
     });
 
     return mdArray;
