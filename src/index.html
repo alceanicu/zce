@@ -8,9 +8,11 @@
   <title>ZCE</title>
   <base href="#/">
   <meta name="description"
-        content="Test your knowledge and prepare to take the official Zend PHP Engineer Certification (ZCE) exam; ZCE - Exam Simulator for Zend PHP Engineer Certification; Free PHP test in PDF format"/>
+        content="Test your knowledge and prepare to take the official Zend PHP Engineer Certification (ZCE) exam;
+ZCE - Exam Simulator for Zend PHP Engineer Certification; Free PHP test in PDF format; PHP Interview Questions"/>
   <meta name="keywords"
-        content="ZEND,certified,certification,engineers,engineer,ZCE,PHP,exam,free,passing,2017-PHP,200-710,200-550,study,simulator,guide,preparation,questions"/>
+        content="ZEND,certified,certification,engineers,engineer,ZCE,ZCPE,PHP,exam,free,passing,2017-PHP,200-710,
+200-550,study,simulator,guide,preparation,questions"/>
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0, height=device-height, shrink-to-fit=no"/>
   <meta name="author" content="Nicu Alcea">
@@ -24,12 +26,22 @@
   <!-- add to homescreen for ios -->
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
-  <link rel="apple-touch-icon" sizes="76x76" href="assets/icons/apple-icon-76x76.png">
+  <link href="assets/icons/apple-icon-76x76.png" rel="apple-touch-icon" sizes="76x76" >
 
   <!-- Fonts and icons -->
-  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'>
-  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-  <style>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,300,700" rel="stylesheet" type="text/css">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet"
+        type="text/css">
+  <style type="text/css">
+    app-root:empty::after {
+      content: "Loading...";
+      position: absolute;
+      display: block;
+      top: 50%;
+      left: 50%;
+      font-size: 20px;
+      transform: translate(-50%, -50%);
+    }
     .min {
       min-height: calc(100vh - 150px);
       margin-top: 50px;

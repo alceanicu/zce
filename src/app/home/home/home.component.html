@@ -24,14 +24,16 @@
               </a>
             </div>
             <div class="btn-wrapper mt-2">
-              <a class="btn btn-lg btn-icon btn-danger mb-3 mb-sm-0 btn-github w100"
+              <a class="btn btn-lg btn-icon mb-3 mb-sm-0 w100 btn-danger btn-github"
                  title="Genarate PDF with 5 random question"
+                 [ngClass]="{'disabled': btnPdfDisabled}"
                  (click)="generatePDF(5)">
                 <span class="text-warning">PDF Test</span>
                 <span class="text-danger"> (5 Question)</span>
               </a>
-              <a class="btn btn-lg btn-icon mb-3 mb-sm-0 btn-white w100"
+              <a class="btn btn-lg btn-icon mb-3 mb-sm-0 w100 btn-white"
                  title="Genarate PDF with 10 random question"
+                 [ngClass]="{'disabled': btnPdfDisabled}"
                  (click)="generatePDF(10)">
                 <span style="color: #0b1011">PDF Test </span>
                 <span class="text-danger">(10 Question)</span>

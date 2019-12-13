@@ -15,7 +15,7 @@ import { environment } from '@env/environment';
 export class AppComponent implements OnInit, OnDestroy {
   public title = 'ZCE';
   public currentRoute: string;
-  @ViewChild(HeaderComponent, {static: false}) headerComponent: HeaderComponent;
+  @ViewChild(HeaderComponent, {static: false}) public headerComponent: HeaderComponent;
   private subscriptions: Subscription[] = [];
 
   constructor(

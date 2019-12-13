@@ -1,5 +1,10 @@
 ## CHANGELOG
 
+#### 2.1.1 [2019.12.10] 
+
+- npm update
+- update pdf export
+
 #### 2.1.0 [2019.12.06] 
 
 - update DB

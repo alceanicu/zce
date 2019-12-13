@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, OnDestroy, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -15,6 +15,11 @@ const log = new Logger('HomeComponent');
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  get btnPdfDisabled(): boolean {
+    return this.btnPdf;
+  }
+
+  private btnPdf: boolean = false;
   private unsubscribe$: Subject<boolean> = new Subject<boolean>();
   private readonly state: any;
 
@@ -22,7 +27,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     private pdfService: PdfService,
     private questionService: QuestionService,
     private toastrService: ToastrService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {
     this.state = this.router.getCurrentNavigation().extras.state;
   }
@@ -64,6 +70,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public generatePDF(questionNumber: number): void {
+    this.btnPdf = true;
     const questionArray: Question[] = [];
     this.questionService
       .getQuestion(questionNumber)
@@ -76,6 +83,8 @@ export class HomeComponent implements OnInit, OnDestroy {
           if (questionArray.length === questionNumber) {
             this.pdfService.generatePDF(questionArray);
           }
+          this.btnPdf = false;
+          this.cdr.detectChanges();
         }
       );
   }

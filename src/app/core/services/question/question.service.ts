@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, pipe, Subscriber } from 'rxjs';
+import { Observable, Subscriber } from 'rxjs';
 import { Helper } from '@app/core/utils';
 import { environment } from '@env/environment';
 import { PhpQuestionService } from '@app/core/services/firestore/php-question.service';

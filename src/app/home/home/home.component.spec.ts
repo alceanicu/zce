@@ -1,10 +1,24 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { HomeComponent } from './home.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { HomeComponent } from './home.component';
 import { environment } from '@env/environment';
-import { ROUND_PROGRESS_DEFAULTS } from 'angular-svg-round-progressbar';
 import * as moment from 'moment';
+import { ToastrModule } from 'ngx-toastr';
+import { Router } from '@angular/router';
+
+class RouterStub {
+  getCurrentNavigation() {
+    return {
+      extras: {
+        state: {
+          score: 45,
+        }
+      }
+    };
+  }
+}
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -14,18 +28,20 @@ describe('HomeComponent', () => {
     TestBed.configureTestingModule({
       declarations: [HomeComponent],
       imports: [
+        BrowserAnimationsModule,
         AngularFireModule.initializeApp(environment.firebase),
-        AngularFirestoreModule
+        AngularFirestoreModule,
+        ToastrModule.forRoot({
+          timeOut: 5000,
+          preventDuplicates: true,
+          newestOnTop: false,
+          progressBar: true,
+          maxOpened: 1
+        }),
       ],
       providers: [
         {provide: 'moment', useFactory: (): any => moment},
-        {
-          provide: ROUND_PROGRESS_DEFAULTS,
-          useValue: {
-            color: '#0F0',
-            background: '#F00'
-          }
-        }
+        {provide: Router, useClass: RouterStub},
       ],
     }).compileComponents();
   }));

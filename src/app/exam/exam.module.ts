@@ -3,16 +3,16 @@ import { CommonModule } from '@angular/common';
 import { ExamRoutingModule } from './exam-routing.module';
 import { ExamComponent } from './exam/exam.component';
 import { SharedModule } from '../shared';
+import { SimpleModalModule } from 'ngx-simple-modal';
 
 @NgModule({
   imports: [
     CommonModule,
-    ExamRoutingModule,
-    SharedModule
+    SharedModule,
+    SimpleModalModule.forRoot({container: document.body}),
+    ExamRoutingModule
   ],
-  declarations: [
-    ExamComponent
-  ],
+  declarations: [ExamComponent]
 })
 export class ExamModule {
 }

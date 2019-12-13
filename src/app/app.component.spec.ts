@@ -4,7 +4,6 @@ import { AppComponent } from './app.component';
 import { FooterComponent, HeaderComponent } from './shared/layout';
 import { RoundProgressModule } from 'angular-svg-round-progressbar';
 
-
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -15,7 +14,7 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent,
         HeaderComponent,
-        FooterComponent,
+        FooterComponent
       ],
     }).compileComponents();
   }));

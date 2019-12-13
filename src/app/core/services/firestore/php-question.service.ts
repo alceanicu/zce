@@ -17,25 +17,21 @@ export class PhpQuestionService {
   constructor(
     private db: AngularFirestore
   ) {
-    this.init();
-  }
-
-  init(): void {
     this.quizCollection = this.db.collection<IQuestion>(environment.configPHP.phpPath);
     this.configCollection = this.db.collection<IConfig>(environment.configPHP.configPath);
-  }
-
-  /**
-   * fixme
-   */
-  getPhpConfig(): Observable<firestore.DocumentSnapshot> {
-    this.phpConfigDoc = this.db.doc<IConfig>(`${environment.configPHP.configPath}/php`);
-    return this.phpConfigDoc.get();
   }
 
   getQuestion(id: number): Observable<firestore.DocumentSnapshot> {
     this.quizDoc = this.db.doc<IQuestion>(`${environment.configPHP.phpPath}/${id}`);
     return this.quizDoc.get();
+  }
+
+  /**
+   * Used by backend
+   */
+  getPhpConfig(): Observable<firestore.DocumentSnapshot> {
+    this.phpConfigDoc = this.db.doc<IConfig>(`${environment.configPHP.configPath}/php`);
+    return this.phpConfigDoc.get();
   }
 
   /**

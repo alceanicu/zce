@@ -1,8 +1,9 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {AboutComponent} from './about.component';
-import {AngularFireModule} from '@angular/fire';
-import {environment} from '@env/environment';
-import {AngularFirestoreModule} from '@angular/fire/firestore';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AboutComponent } from './about.component';
+import { environment } from '@env/environment';
 
 describe('AboutComponent', () => {
   let component: AboutComponent;
@@ -12,6 +13,7 @@ describe('AboutComponent', () => {
     TestBed.configureTestingModule({
       declarations: [AboutComponent],
       imports: [
+        BrowserAnimationsModule,
         AngularFireModule.initializeApp(environment.firebase),
         AngularFirestoreModule
       ]

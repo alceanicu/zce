@@ -1,3 +1,3 @@
-browser.browserAction.onClicked.addListener(function() {
+browser.browserAction.onClicked.addListener(() => {
   browser.tabs.create({"url": "./index.html"});
 });
