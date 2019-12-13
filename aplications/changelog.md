@@ -6,7 +6,7 @@
 - update pdf export
 - update question DB
 
-#### 2.1.0 [2019.12.06] 
+#### 2.1.0 [2019.12.13] 
 
 - update DB
 - add Radio Btn
