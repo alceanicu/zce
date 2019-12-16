@@ -10,6 +10,17 @@
 
 ### YOU CAN TRY THIS APPLICATION AS 
 
+<!-- markdownlint-disable line-length no-inline-html -->
+<table>
+    <tr height=240>
+        <td>
+            <a href="https://github.com/alrra/browser-logos/tree/896ab303b43decd25c518ea5dc0081e6974d344a/src/chrome">
+                <img width=30 src="https://raw.githubusercontent.com/alrra/browser-logos/896ab303b43decd25c518ea5dc0081e6974d344a/src/chrome/chrome.svg?sanitize=true" alt="Chrome browser logo">
+            </a>
+        </td>
+    </tr>
+</table>
+<!-- markdownlint-enable line-length no-inline-html -->
 * [CHROME extension (v2.1.1)](https://chrome.google.com/webstore/detail/php-zend-certification-exam/kdjolhghoglghipajmbmlmldbpncimge)
 * [FIREFOX extension (v2.1.1)](https://addons.mozilla.org/ro/firefox/addon/php-zend-certification-exam/)
 * [GitHub Page (v2.1.1)](https://alceanicu.github.io/zce/)
