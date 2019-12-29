@@ -46,13 +46,13 @@
     "ngx-ui-loader": "^8.0.0",
     "pdfmake": "^0.1.63",
     "prismjs": "^1.17.1",
-    "rxjs": "^6.5.3",
+    "rxjs": "^6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.803.20",
-    "@angular/cli": "^8.3.20",
+    "@angular-devkit/build-angular": "^0.803.21",
+    "@angular/cli": "^8.3.21",
     "@angular/compiler-cli": "^8.2.14",
     "@angular/language-service": "^8.2.14",
     "@types/chrome": "0.0.81",
@@ -68,14 +68,14 @@
     "karma-chrome-launcher": "~2.2.0",
     "karma-coverage-istanbul-reporter": "^2.1.1",
     "karma-jasmine": "~2.0.1",
-    "karma-jasmine-html-reporter": "^1.4.0",
+    "karma-jasmine-html-reporter": "^1.5.1",
     "npm-run-all": "^4.1.5",
     "protractor": "~5.4.0",
     "rimraf": "^2.6.3",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
     "typescript": "~3.5.3",
-    "webpack": "^4.41.4",
+    "webpack": "^4.41.5",
     "webpack-bundle-analyzer": "^3.6.0",
     "webpack-cli": "^3.3.0"
   }
