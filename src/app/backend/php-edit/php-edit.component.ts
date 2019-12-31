@@ -10,6 +10,11 @@ import { Extension, PhpAnswerType, PhpCategory, PhpQuestionDifficulty } from '@a
 
 const log = new Logger('PhpEditComponent');
 
+export enum Type {
+  CREATE = 'CREATE',
+  EDIT = 'EDIT'
+}
+
 @Component({
   selector: 'app-php-edit',
   templateUrl: './php-edit.component.html'
@@ -68,7 +73,7 @@ export class PhpEditComponent implements OnInit {
 
     const id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     if (id > 0) {
-      this.type = 'EDIT';
+      this.type = Type.EDIT;
       this.firestorePhpQuestionService
         .getQuestion(id)
         .pipe(take(1))
@@ -101,7 +106,7 @@ export class PhpEditComponent implements OnInit {
           () => log.info('Update complete')
         );
     } else {
-      this.type = 'CREATE';
+      this.type = Type.CREATE;
       this.addQuestionRow();
     }
   }
@@ -149,7 +154,7 @@ export class PhpEditComponent implements OnInit {
       question.answerRows[k].correct = (o.value > 0);
     });
 
-    if (this.type === 'EDIT') {
+    if (this.type === Type.EDIT) {
       this.firestorePhpQuestionService
         .updateQuestion(question)
         .pipe(take(1))

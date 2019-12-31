@@ -45,6 +45,7 @@ export class IndexedDbQuizService {
   clearQuestionTable(): Promise<void> {
     return this.db.questionTable.clear();
   }
+
   updateQuestion(question: IQuestion): Promise<any> {
     return this.db.questionTable.put(question);
   }
