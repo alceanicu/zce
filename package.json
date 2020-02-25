@@ -39,7 +39,7 @@
     "angular-svg-round-progressbar": "^3.0.1",
     "bootstrap": "^4.4.1",
     "dexie": "^2.0.4",
-    "firebase": "^7.9.0",
+    "firebase": "^7.9.1",
     "moment": "^2.24.0",
     "ngx-simple-modal": "^1.4.11",
     "ngx-toastr": "^11.3.3",
