@@ -4,9 +4,13 @@
   left: 0;
   right: 0;
   z-index: 100;
-  background: #fafafa; // #673ab7; //#281483;
+  background: #673ab7;
   box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12);
   height: 64px;
+}
+
+a {
+  color: #fff;
 }
 
 .logo {
@@ -39,9 +43,4 @@
   font-size: 0.6em;
   line-height: 1.1em;
   font-weight: bold;
-}
-
-.nav-caption {
-  padding-left: 0.7em;
-  text-transform: uppercase;
 }

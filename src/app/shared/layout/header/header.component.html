@@ -12,9 +12,9 @@
     </button>
 
     <div fxShow="true" fxHide.lt-md="true" fxFlexAlign="auto" *ngIf="currentRoute !== '/exam'">
-      <a mat-button *ngFor="let link of navigation" [routerLink]="link.url" [routerLinkActive]="'active'">
+      <a mat-button *ngFor="let link of navigation" [routerLink]="link.url" >
         <mat-icon *ngIf="link.icon">{{link.icon}}</mat-icon>
-        <span class="nav-caption">{{link.label}}</span>
+        <span [routerLinkActive]="'active'" class="nav-caption">{{link.label}}</span>
       </a>
 
       <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Backend menu">

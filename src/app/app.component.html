@@ -11,6 +11,7 @@
           <span class="nav-caption">{{link.label}}</span>
         </a>
 
+        <!-- backend -->
         <a mat-list-item [matMenuTriggerFor]="menu" aria-label="Backend menu">
           <mat-icon>more_vert</mat-icon>
           <span class="nav-caption">Backend</span>
@@ -25,9 +26,9 @@
             <span>List</span>
           </a>
         </mat-menu>
-
-        <a mat-list-item (click)="sidenav.toggle()" href="#">Close</a>
+        <!-- backend end-->
       </mat-nav-list>
+
     </mat-sidenav>
 
     <mat-sidenav-content class="main-container">

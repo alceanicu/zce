@@ -1,8 +1,3 @@
-.nav-caption {
-  padding-left: 0.7em;
-  text-transform: uppercase;
-}
-
 .content {
   padding-top: 64px;
   background: transparent;
@@ -32,7 +27,6 @@
   border-radius: 50%;
   opacity: 0.3;
   display: inline-block;
-  //position: absolute;
   background: #fafafa;
 }
 
@@ -42,7 +36,6 @@
   border-radius: 50%;
   opacity: 0.3;
   display: inline-block;
-  //position: absolute;
   background: #fafafa;
 }
 
@@ -86,4 +79,8 @@
   top: 33%;
   right: 5%;
   z-index: -1;
+}
+
+.mat-list-item.active{
+  color: red;
 }

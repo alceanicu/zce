@@ -73,14 +73,23 @@ info-snackbar {
   background: transparent;
 }
 
-.active {
-  color: red;
-}
-
 .isCorrect {
   border-left: 10px solid #80ff80;
 }
 
 .isWrong {
   border-left: 10px solid red;
+}
+
+a .active {
+  color: #ffd740;
+}
+
+a {
+  color: #fff;
+}
+
+.nav-caption {
+  padding-left: 0.7em;
+  text-transform: uppercase;
 }
