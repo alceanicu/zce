@@ -2,7 +2,6 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
-import { AuthService } from '@app/backend/core/auth.service';
 import { ICountdownTime, IScore } from '@app/core/interfaces';
 import { SyncCountdownTimeService, SyncLocationService, SyncScoreService } from '@app/core/services';
 import { INavigation } from '@app/core/interfaces/navigation.interface';
@@ -23,8 +22,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     private syncScoreService: SyncScoreService,
     private syncLocationService: SyncLocationService,
-    private syncCountdownTimeService: SyncCountdownTimeService,
-    public auth: AuthService
+    private syncCountdownTimeService: SyncCountdownTimeService
   ) {
   }
 
