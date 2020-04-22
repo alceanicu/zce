@@ -1,6 +1,9 @@
-td {
-  background-color: #FFF
+table {
+  width: 100%;
 }
-h3 {
-  color: #FFF;
+
+mat-cell > span.ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }

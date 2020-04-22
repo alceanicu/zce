@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+
 import { Observable } from 'rxjs';
+
 import { SessionStorageService } from '@app/core/services/session-storage/session-storage.service';
 import { ICountdownTime } from '@app/core/interfaces';
 import { CountdownTime } from '@app/core/models';

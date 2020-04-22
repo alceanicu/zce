@@ -1,43 +1,27 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "incremental": true,
-    "baseUrl": "./",
     "paths": {
       "@app/*": ["src/app/*"],
       "@env/*": ["src/environments/*"]
     },
-    "downlevelIteration": true,
+    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
+    "downlevelIteration": true,
     "experimentalDecorators": true,
-    "removeComments": true,
-    "importHelpers": true,
-    "noImplicitAny": true,
-    "forceConsistentCasingInFileNames": true,
-    "allowUnreachableCode": false,
-    "allowUnusedLabels": false,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitThis": true,
-//    "strictNullChecks": true,
-//    "noImplicitReturns": true,
-//    "noUnusedLocals": true,
-//    "noUnusedParameters": true,
-    "suppressImplicitAnyIndexErrors": true,
     "module": "esnext",
-    "target": "es5",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2015",
     "lib": [
       "es2018",
       "dom"
     ]
   },
   "angularCompilerOptions": {
-    "preserveWhitespaces": false
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true
   }
 }

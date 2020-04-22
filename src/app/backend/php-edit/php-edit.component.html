@@ -1,140 +1,177 @@
-<form [formGroup]="form" (submit)="onSubmit()" style="margin-top: 50px">
+<form [formGroup]="form" (submit)="onSubmit()">
 
-  <div class="row">
-    <div class="form-group col-3">
-      <label for="id">#ID</label>
-      <input type="text" id="id" class="form-control form-control-sm" readonly formControlName="id">
-      <span class="text-danger"
-            *ngIf="form.controls['id'].touched && form.controls['id'].hasError('required')"
-      >ID is required!</span>
-    </div>
-    <div class="form-group col-3">
-      <label for="id">#Value</label>
-      <input type="text" id="value" class="form-control form-control-sm" readonly formControlName="value">
-      <span class="text-danger"
-            *ngIf="form.controls['value'].touched && form.controls['value'].hasError('required')"
-      >value is required!</span>
-    </div>
-    <div class="form-group col-3">
-      <label for="difficulty">#Difficulty</label>
-      <select class="form-control form-control-sm" id="difficulty" formControlName="difficulty">
-        <option *ngFor="let diff of difficultyOptions" [ngValue]="+PhpQuestionDifficulty[diff]">{{diff}}</option>
-      </select>
-      <span class="text-danger"
-            *ngIf="form.controls['difficulty'].touched && form.controls['difficulty'].hasError('required')"
-      >Difficulty level is required!</span>
-    </div>
-    <div class="form-group col-3">
-      <label for="type">#Type</label>
-      <select class="form-control form-control-sm" id="type" formControlName="type">
-        <option *ngFor="let type of typeOptions" [ngValue]="+PhpAnswerType[type]">{{type}}</option>
-      </select>
-      <span class="text-danger"
-            *ngIf="form.controls['type'].touched && form.controls['type'].hasError('required')"
-      >Type is required!</span>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="form-group col-3">
-      <label for="category">#Category</label>
-      <select class="form-control form-control-sm" id="category" size="11" multiple="multiple"
-              formControlName="category">
-        <option *ngFor="let cat of categoryOptions" [ngValue]="+PhpCategory[cat]">{{cat}}</option>
-      </select>
-      <span class="text-danger"
-            *ngIf="form.controls['category'].touched && form.controls['category'].hasError('required')"
-      >Category is required!</span>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-footer">
-      <button class="btn btn-sm btn-success m-1" type="submit"
-              [disabled]="!form.valid"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save
+  <mat-card>
+    <mat-card-content fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-evenly center" fxLayoutGap="5%">
+      <button fxFlex="40" fxFlex.xs="100"
+              mat-raised-button color="primary"
+              type="submit" style="height: 2.5em; width: 100%"
+              [disabled]="!form.valid">Save
       </button>
-      <button class="btn btn-sm btn-primary m-1" type="button"
-              (click)="addQuestionRow()"><i class="fa fa-plus" aria-hidden="true"></i> Add Quiz Row
+      <button fxFlex="40" fxFlex.xs="100"
+              mat-raised-button
+              type="button" style="color: #fbc658; background: #000; height: 2.5em; width: 100%"
+              (click)="addQuestionRow()">Add Quiz Row
       </button>
-    </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Question fix -->
+  <mat-card>
+    <mat-card-content fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-evenly stretch">
+      <mat-form-field fxFlex="10" fxFlex.xs="90">
+        <mat-label>#ID</mat-label>
+        <input matInput formControlName="id" readonly/>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="10" fxFlex.xs="90">
+        <mat-label>#correctAnswerSum</mat-label>
+        <input matInput formControlName="correctAnswerSum"/>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="15" fxFlex.xs="90">
+        <mat-label>#Type</mat-label>
+        <mat-select formControlName="type">
+          <mat-option *ngFor="let type of typeOptions" [value]="PhpQuestionType[type]">{{type}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="15" fxFlex.xs="90">
+        <mat-label>#Difficulty</mat-label>
+        <mat-select formControlName="difficulty">
+          <mat-option *ngFor="let diff of difficultyOptions" [value]="PhpQuestionDifficulty[diff]">{{diff}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="45" fxFlex.xs="90">
+        <mat-label>#Category</mat-label>
+        <mat-select formControlName="category" multiple>
+          <mat-option *ngFor="let cat of categoryOptions" [value]="PhpQuestionCategory[cat]">{{cat}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.controls['category'].touched && form.controls['category'].hasError('required')"
+        >Category is required!
+        </mat-error>
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- QUESTION ROWS -->
+  <div *ngFor="let questionRow of questionRowsFormGroup.controls; let i = index;">
+    <mat-card>
+      <mat-card-header fxLayout="row" fxLayoutAlign="space-between center" fxFlexFill>
+        <mat-card-title>
+          Question row {{i + 1}}
+        </mat-card-title>
+
+        <span class="spacer"></span>
+
+        <button mat-icon-button color="accent" (click)="addQuestionRow()">
+          <mat-icon matTooltip="Add Question Row">add_to_photos</mat-icon>
+        </button>
+
+        <button mat-icon-button color="warn" (click)="removeQuizRow(i)"
+                [disabled]="questionRowsFormGroup.length===1">
+          <mat-icon matTooltip="Delete Question Row">delete_forever</mat-icon>
+        </button>
+      </mat-card-header>
+
+      <mat-card-content formArrayName="questionRows">
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between stretch"
+             [formGroupName]="i">
+          <mat-form-field fxFlex="10">
+            <mat-label>Language</mat-label>
+            <mat-select formControlName="language">
+              <mat-option *ngFor="let lang of languageOptions"
+                          [value]="PhpHighlightingLanguage[lang]">{{lang}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field fxFlex="85">
+            <mat-label>Row {{i + 1}}</mat-label>
+            <textarea matInput formControlName="text" rows="5"></textarea>
+            <mat-error
+              *ngIf="getQuestionRowFormGroup(i).controls['text'].touched && getQuestionRowFormGroup(i).controls['text'].hasError('required')">
+              text is required!
+            </mat-error>
+          </mat-form-field>
+
+<!--          <button fxFlex="15" fxFlex.xs="100" mat-raised-button color="accent"-->
+<!--                  type="button" title="Remove row" style="height: 2.5em"-->
+<!--                  [disabled]="questionRowsFormGroup.length===1"-->
+<!--                  (click)="removeQuizRow(i)">-->
+<!--            <mat-icon matTooltip="Delete Question Row">delete_forever</mat-icon>-->
+<!--            Delete-->
+<!--          </button>-->
+        </div>
+      </mat-card-content>
+    </mat-card>
   </div>
 
-  <div class="col-12" *ngFor="let questionRow of questionRowsFormGroup.controls; let i = index;">
-    <div class="card-body" formArrayName="questionRows">
-      <div [formGroupName]="i" class="form-row">
-        <div class="col-md-10">
-          <textarea class="form-control" formControlName="text" type="text" rows="6"></textarea>
-          <span class="text-danger"
-                *ngIf="getQuestionRowFormGroup(i).controls['text'].touched && getQuestionRowFormGroup(i).controls['text'].hasError('required')"
-          >text is required! </span>
+  <!-- ANSWERS ROWS -->
+  <div fxLayout="row wrap" fxLayoutAlign="space-between stretch">
+
+    <mat-card fxFlex="0 1 calc(25%-13px)" fxFlex.md="0 1 calc(50%-10px)" fxFlex.sm="100" fxFlex.xs="100"
+              *ngFor="let answer of answerRowsFormGroup.controls; let i = index;">
+      <mat-card-header style="background: #51bcda">
+        <mat-card-title>Answer {{options[i]}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content formArrayName="answerRows">
+
+        <div fxLayout="row wrap" fxLayoutAlign="space-between stretch"
+             [formGroupName]="i">
+
+          <mat-form-field>
+            <mat-label>Value</mat-label>
+            <input matInput formControlName="value" readonly/>
+          </mat-form-field>
+
+          <mat-form-field fxFlex="45">
+            <mat-label>Is Correct</mat-label>
+            <mat-select (selectionChange)="isCorrectSelect($event, i)" formControlName="isCorrect">
+              <mat-option [value]="false">NO</mat-option>
+              <mat-option [value]="true">YES</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field fxFlex="50">
+            <mat-label>Language</mat-label>
+            <mat-select formControlName="language">
+              <mat-option *ngFor="let lang of languageOptions"
+                          [value]="PhpHighlightingLanguage[lang]">{{lang}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field fxFlex="100">
+            <mat-label>Answer {{options[i]}}</mat-label>
+            <textarea matInput formControlName="text" rows="5" required></textarea>
+          </mat-form-field>
         </div>
 
-        <div class="col-md-2">
-          <select class="form-control form-control-sm" formControlName="language">
-            <option *ngFor="let lang of languageOptions"
-                    [ngValue]="+Extension[lang]">{{lang}}</option>
-          </select>
-          <br>
-          <button type="button" class="btn btn-sm btn-danger" title="Remove row"
-                  [hidden]="questionRowsFormGroup.length==1"
-                  (click)="removeQuizRow(i)"><i class="fa fa-trash" aria-hidden="true"></i>
-          </button>
-        </div>
-      </div>
-    </div>
+      </mat-card-content>
+    </mat-card>
+
   </div>
 
-  <div class="row">
-    <div class="col-6" *ngFor="let answer of answerRowsFormGroup.controls; let i = index;">
-      <div class="card">
-        <div class="card-header">Answers {{i + 1}}</div>
-        <div class="card-body" formArrayName="answerRows">
-
-          <div [formGroupName]="i" class="row">
-            <div class="form-group col-6">
-              <label for="value_{{i}}">Correct</label>
-              <select class="form-control form-control-sm" id="value_{{i}}"
-                      formControlName="value"
-                      (ngModelChange)="onChangeVal()">
-                <option *ngFor="let v of valueOptions(i)" [ngValue]="v.value">{{v.text}} - {{v.value}}</option>
-              </select>
-            </div>
-            <div class="form-group col-6">
-              <label for="language_{{i}}">Language</label>
-              <select class="form-control form-control-sm" id="language_{{i}}"
-                      formControlName="language">
-                <option *ngFor="let lang of languageOptions" [ngValue]="+Extension[lang]">{{lang}}</option>
-              </select>
-            </div>
-            <div class="form-group col-12">
-              <label for="text_{{i}}">Answer</label>
-              <textarea class="form-control form-control-sm" id="text_{{i}}"
-                        formControlName="text"></textarea>
-              <br>
-            </div>
-          </div>
-
-        </div>
-      </div>
-      <br>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-footer">
-      <button class="btn btn-sm btn-success m-1" type="submit"
-              [disabled]="!form.valid"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save
+  <!-- Button -->
+  <mat-card>
+    <mat-card-content fxLayout="row wrap" fxLayoutAlign="center center">
+      <button fxFlex="20" fxFlex.xs="100" mat-raised-button color="primary"
+              type="submit" style="height: 2.5em"
+              [disabled]="!form.valid"> Save
       </button>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <pre>Is Form valid?: <strong>{{form.valid | json}}</strong></pre>
-    </div>
-    <div class="card-body" style="width: 1100px !important;">
-      <pre>form value: <br>{{form.value | json}}</pre>
-    </div>
-  </div>
+    </mat-card-content>
+  </mat-card>
 
 </form>
+
+<!-- DEBUG -->
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      Is Form valid?: <strong>{{form.valid | json}}</strong>
+    </mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <pre>form value: <br>{{form.value | json}}</pre>
+  </mat-card-content>
+</mat-card>

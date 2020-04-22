@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { IDataService } from '@app/core/interfaces';
+
 import { BehaviorSubject, Observable } from 'rxjs';
+
+import { IDataService } from '@app/core/interfaces';
 
 @Injectable({
   providedIn: 'root'

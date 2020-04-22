@@ -1,6 +1,6 @@
 # ZCE - Exam Simulator for Zend PHP Engineer Certification
 
-![image info](./aplications/images/home.png)
+![image info](./aplications/images/capture.png)
 
 ### FEATURES & DESCRIPTION
 * This application serves as a practice exam to help anyone who are about to take the <a title="Zend PHP Certification" href="http://www.zend.com/en/services/certification/php-certification">Zend PHP Certification</a>.
@@ -10,9 +10,9 @@
 
 ### YOU CAN TRY THIS APPLICATION AS 
 
-* [CHROME extension (v2.1.1)](https://chrome.google.com/webstore/detail/php-zend-certification-exam/kdjolhghoglghipajmbmlmldbpncimge)
-* [FIREFOX extension (v2.1.1)](https://addons.mozilla.org/ro/firefox/addon/php-zend-certification-exam/)
-* [GitHub Page (v2.1.1)](https://alceanicu.github.io/zce/)
+* [CHROME extension (v3.0.0)](https://chrome.google.com/webstore/detail/php-zend-certification-exam/kdjolhghoglghipajmbmlmldbpncimge)
+* [FIREFOX extension (v3.0.0)](https://addons.mozilla.org/ro/firefox/addon/php-zend-certification-exam/)
+* [GitHub Page (v3.0.0)](https://alceanicu.github.io/zce/)
 
 ### LICENSE
 

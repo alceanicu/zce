@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { PrepareComponent } from './prepare/prepare.component';
+import { Routes, RouterModule } from '@angular/router';
+
+import { PrepareComponent } from './prepare.component';
 
 const routes: Routes = [
-  {path: '', component: PrepareComponent, data: {title: 'ZCE - Prepare'}},
-  {path: '**', redirectTo: '/home', data: {title: 'ZCE - Page not found!'}}
+  {path: '', component: PrepareComponent, data: {title: 'ZCE - prepare'}},
+  {path: '**', redirectTo: '/home', data: {title: 'ZCE'}}
 ];
 
 @NgModule({

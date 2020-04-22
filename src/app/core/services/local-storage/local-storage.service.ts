@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { PhpQuestionService } from '@app/core/services/firestore/php-question.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +9,7 @@ export class LocalStorageService implements Storage {
    */
   readonly length: number;
 
-  constructor(
-    private firestorePhpQuestionService: PhpQuestionService
-  ) {
+  public constructor() {
     if (typeof (Storage) === 'undefined') {
       throw new Error('No web storage Support');
     }
@@ -21,28 +18,28 @@ export class LocalStorageService implements Storage {
   /**
    * Add key and value to LocalStorage
    */
-  setItem(key: string, object: {}) {
+  public setItem(key: string, object: {}): void {
     window.localStorage.setItem(key, JSON.stringify(object));
   }
 
   /**
    * Retrieve a value by the key from LocalStorage
    */
-  getItem(key: string): any {
+  public getItem(key: string): string | null {
     return JSON.parse(window.localStorage.getItem(key));
   }
 
   /**
    * Remove an item by key from LocalStorage
    */
-  removeItem(key: string): void {
+  public removeItem(key: string): void {
     window.localStorage.removeItem(key);
   }
 
   /**
    * Clear all LocalStorage
    */
-  clear(): void {
+  public clear(): void {
     window.localStorage.clear();
   }
 

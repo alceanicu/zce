@@ -1,12 +1,7 @@
-<div class="modal-content">
-  <div class="modal-header">
-    <strong>{{title || 'Confirm'}}</strong>
-  </div>
-  <div class="modal-body">
-    <strong>{{message || 'Are you sure?'}}</strong>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-danger" (click)="close()">Cancel</button>
-    <button type="button" class="btn btn-primary" (click)="confirm()">OK</button>
-  </div>
-</div>
+<mat-dialog-content>
+  <p>{{message}}</p>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-raised-button color="primary" (click)="onConfirmClick()" tabindex="1">{{confirmButtonText}}</button>
+  <button mat-raised-button mat-dialog-close tabindex="-1">{{cancelButtonText}}</button>
+</mat-dialog-actions>

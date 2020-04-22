@@ -1,66 +1,68 @@
-<div class="row">
-  <div class="col-lg-12 col-md-12" style="margin: 10px">
-    <h3 class="title">PHP Question list</h3>
-    <a [routerLink]="['/backend/php-edit']" title="Add Question" class="btn btn-danger btn-round">Add Question</a>
-  </div>
-</div>
+<mat-card>
+  <mat-table #table [dataSource]="dataSource" matSort>
 
-<div class="row">
-  <div class="col-lg-12 col-md-12">
-    <table class="table table-striped">
-      <thead style="background: #FFF">
-      <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Question</th>
-        <th scope="col">Value</th>
-        <th scope="col">Type</th>
-        <th scope="col">Diff</th>
-        <th style="width: 10%">Actions</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let question of questionList | async; let i = index;">
-        <td><strong>{{question.id}}</strong></td>
-        <td>{{question.questionRows[0].text}}</td>
-        <td>{{question.value}}</td>
+    <ng-container matColumnDef="id">
+      <mat-header-cell fxFlex="4" *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+      <mat-cell fxFlex="4" *matCellDef="let row">{{row.id}}</mat-cell>
+    </ng-container>
 
-        <td *ngIf="question.type === +PhpAnswerType.RADIO"><i class="fa fa-dot-circle-o"></i></td>
-        <td *ngIf="question.type === +PhpAnswerType.CHECKBOX"><i class="fa fa-check-square-o"></i></td>
-        <td *ngIf="question.type === +PhpAnswerType.TEXT"><i class="fa fa-text-width"></i></td>
+    <ng-container matColumnDef="type">
+      <mat-header-cell fxFlex="5" *matHeaderCellDef mat-sort-header>TYPE</mat-header-cell>
+      <mat-cell fxFlex="5" *matCellDef="let row">
+        <mat-icon matTooltip="Question type: {{row.type}}" *ngIf="row.type === PhpQuestionType.RADIO">
+          radio_button_checked
+        </mat-icon>
+        <mat-icon matTooltip="Question type: {{row.type}}" *ngIf="row.type === PhpQuestionType.CHECKBOX">check_box
+        </mat-icon>
+      </mat-cell>
+    </ng-container>
 
-        <td *ngIf="question.difficulty === +PhpQuestionDifficulty.EASY" title="EASY">
-          <i class="fa fa-battery-empty"></i>
-        </td>
-        <td *ngIf="question.difficulty === +PhpQuestionDifficulty.MEDIUM" title="MEDIUM">
-          <i class="fa fa-battery-half"></i>
-        </td>
-        <td *ngIf="question.difficulty === +PhpQuestionDifficulty.HARD" title="HARD">
-          <i class="fa fa-battery-full"></i>
-        </td>
+    <ng-container matColumnDef="category">
+      <mat-header-cell fxFlex="30" *matHeaderCellDef mat-sort-header>CATEGORY</mat-header-cell>
+      <mat-cell fxFlex="30" *matCellDef="let row">
+        <i *ngFor="let id of row.category">{{PhpQuestionCategory[id]}}, </i>
+      </mat-cell>
+    </ng-container>
 
-        <td class="text-center action-block bg-white">
-          <a [routerLink]="['/backend/php-edit/', question.id]" title="edit"> <i class="fa fa-edit"></i> </a>
-          <span> </span>
-          <a (click)="deleteQuestion(question.id)" title="delete"> <i class="fa fa-trash"></i> </a>
-          <span> </span>
-          <a (click)="generateMarkdownFile(question)" title="Download markdown file"> <i class="fa fa-download"></i></a>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+    <ng-container matColumnDef="difficulty">
+      <mat-header-cell fxFlex="7" *matHeaderCellDef mat-sort-header>DIFFICULTY</mat-header-cell>
+      <mat-cell fxFlex="7" *matCellDef="let row">
+        <mat-icon matTooltip="Question difficulty: {{row.difficulty}}" *ngIf="row.difficulty === PhpQuestionDifficulty.EASY">
+          brightness_low
+        </mat-icon>
+        <mat-icon matTooltip="Question difficulty: {{row.difficulty}}"
+                  *ngIf="row.difficulty === PhpQuestionDifficulty.MEDIUM">brightness_medium
+        </mat-icon>
+        <mat-icon matTooltip="Question difficulty: {{row.difficulty}}" *ngIf="row.difficulty === PhpQuestionDifficulty.HARD">
+          brightness_high
+        </mat-icon>
+      </mat-cell>
+    </ng-container>
 
-<div class="d-flex justify-content-between p-2">
-  <ngb-pagination [collectionSize]="totalItemsNumber"
-                  [(page)]="page"
-                  (pageChange)="goToPage(page)"
-                  [maxSize]=10
-                  [pageSize]="perPage">
-    <ng-template ngbPaginationFirst>First</ng-template>
-    <ng-template ngbPaginationLast>Last</ng-template>
-    <ng-template ngbPaginationPrevious>Prev</ng-template>
-    <ng-template ngbPaginationNext>Next</ng-template>
-    <ng-template ngbPaginationEllipsis>...</ng-template>
-  </ngb-pagination>
-</div>
+    <ng-container matColumnDef="questionRows">
+      <mat-header-cell fxFlex="50" *matHeaderCellDef mat-sort-header>QUESTION</mat-header-cell>
+      <mat-cell fxFlex="50" *matCellDef="let row"><span class="ellipsis">{{row.questionRows[0].text}}</span></mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell fxFlex="3" *matHeaderCellDef>EDIT</mat-header-cell>
+      <mat-cell fxFlex="3" *matCellDef="let row">
+        <button mat-icon-button matTooltip="Click to Edit" color="primary" (click)="editQuiz(row.id)">
+          <mat-icon aria-label="Edit">edit</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;">
+    </mat-row>
+  </mat-table>
+
+  <mat-paginator #paginator
+                 [length]="length"
+                 [pageSize]="pageSize"
+                 [pageSizeOptions]="pageSizeOptions"
+                 [showFirstLastButtons]="true"
+                 (page)="onPageClick($event)">
+  </mat-paginator>
+</mat-card>

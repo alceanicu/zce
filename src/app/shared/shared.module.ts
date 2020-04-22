@@ -1,24 +1,73 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { FlexLayoutModule } from '@angular/flex-layout';
+
+import { MatMenuModule } from '@angular/material/menu';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatCardModule } from '@angular/material/card';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
-import { ToastrModule } from 'ngx-toastr';
-import { ConfirmComponent } from './confirm/confirm.component';
-import { QuestionDisplayComponent } from './question-display/question-display.component';
 import { RoundProgressModule } from 'angular-svg-round-progressbar';
+
+import { ConfirmComponent } from '@app/shared/confirm/confirm.component';
+import { QuestionCheckboxComponent } from '@app/shared/question-checkbox/question-checkbox.component';
+import { QuestionDisplayComponent } from '@app/shared/question-display/question-display.component';
+import { QuestionRadioComponent } from '@app/shared/question-radio/question-radio.component';
+
+const material = [
+  MatButtonModule,
+  MatButtonToggleModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatDialogModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatMenuModule,
+  MatPaginatorModule,
+  MatRadioModule,
+  MatSelectModule,
+  MatSidenavModule,
+  MatSnackBarModule,
+  MatSortModule,
+  MatTableModule,
+  MatTabsModule,
+  MatToolbarModule,
+  MatTooltipModule
+];
 
 @NgModule({
   declarations: [
-    ConfirmComponent,
-    QuestionDisplayComponent
+    QuestionDisplayComponent,
+    QuestionCheckboxComponent,
+    QuestionRadioComponent,
+    ConfirmComponent
+  ],
+  entryComponents: [
+    ConfirmComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
-    HttpClientModule,
-    RouterModule,
+    //
     RoundProgressModule,
     NgxUiLoaderModule.forRoot({
       bgsColor: '#00ACC1',
@@ -46,26 +95,23 @@ import { RoundProgressModule } from 'angular-svg-round-progressbar';
       textColor: '#FFFFFF',
       textPosition: 'center-center'
     }),
-    ToastrModule.forRoot({
-      timeOut: 5000,
-      preventDuplicates: true,
-      newestOnTop: false,
-      progressBar: true,
-      maxOpened: 1
-    }),
-  ],
-  entryComponents: [
-    ConfirmComponent
+    //
+    FlexLayoutModule,
+    //
+    ...material,
+    RouterModule,
   ],
   exports: [
-    CommonModule,
-    FormsModule,
-    HttpClientModule,
-    RouterModule,
     RoundProgressModule,
     NgxUiLoaderModule,
-    ConfirmComponent,
-    QuestionDisplayComponent
+    //
+    FlexLayoutModule,
+    //
+    ...material,
+    //
+    QuestionDisplayComponent,
+    QuestionCheckboxComponent,
+    QuestionRadioComponent
   ]
 })
 export class SharedModule {

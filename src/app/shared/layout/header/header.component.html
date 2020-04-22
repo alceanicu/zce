@@ -1,60 +1,66 @@
-<nav class="navbar navbar-expand-lg fixed-top navbar-transparent">
-  <div class="container">
-    <div class="navbar-translate">
-      <a class="navbar-brand" title="Home" [routerLink]="['/home']">
-        <img src="./assets/img/elephpant.svg" alt="Home" style="width: 50px;" class="img-fluid">
+<mat-toolbar class="header">
+  <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center" fxFlexFill>
+
+    <div fxFlex="10" fxShow fxHide.lt-md class="transparent"></div>
+
+    <mat-icon svgIcon="elephant" class="logo" routerLink="/home"></mat-icon>
+
+    <span class="spacer"></span>
+
+    <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm *ngIf="currentRoute !== '/exam'">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <div fxShow="true" fxHide.lt-md="true" fxFlexAlign="auto" *ngIf="currentRoute !== '/exam'">
+      <a mat-button *ngFor="let link of navigation" [routerLink]="link.url">
+        <mat-icon [routerLinkActive]="['active']" *ngIf="link.icon">{{link.icon}}</mat-icon>
+        <span [routerLinkActive]="'active'" class="nav-caption">{{link.label}}</span>
       </a>
-      <button class="navbar-toggler navbar-burger" type="button" data-toggle="collapse"
-              data-target="#navbarToggler" aria-expanded="false" aria-label="Toggle navigation"
-              (click)="sidebarToggle()">
-        <span class="navbar-toggler-bar"></span>
-        <span class="navbar-toggler-bar"></span>
-        <span class="navbar-toggler-bar"></span>
+
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Backend menu">
+        <mat-icon>more_vert</mat-icon>
       </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item [routerLink]="['php-edit']">
+          <mat-icon>edit</mat-icon>
+          <span>Add</span>
+        </button>
+        <button mat-menu-item [routerLink]="['php-list']">
+          <mat-icon>view_comfy</mat-icon>
+          <span>List</span>
+        </button>
+        <button mat-menu-item *ngIf="auth.isLoggedIn"
+          (click)="auth.logout()">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
     </div>
-    <div class="navbar-collapse" id="navbarToggler">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item"
-            *ngIf="currentRoute === '#/prepare'" >
-          <div class="progress-percentage-wrapper">
-            <div class="progress-percentage ng-cloak"
-                 title="Corect {{scoreObj.correct}} from {{scoreObj.total}}">{{scoreObj.percentage}}
-              %<br>{{scoreObj.correct}} | {{scoreObj.total}}</div>
-            <round-progress
-              [current]=scoreObj.percentage
-              [max]="100"
-              [color]="'#0F0'"
-              [background]="'#F00'"
-              [radius]="50"
-              [stroke]="5"
-              [semicircle]="true"
-              [rounded]="true"
-              [clockwise]="true"
-              [responsive]="false"
-              [duration]="800"
-              [animation]="'easeInOutQuart'"
-              [animationDelay]="0"></round-progress>
-          </div>
-        </li>
-        <li class="nav-item" style="font-weight: 600;color: #ff0000; padding-right: 20px"
-            *ngIf="currentRoute === '#/exam'">
-          {{countdownTimeObj.time}}
-        </li>
-        <li class="nav-item"
-            *ngIf="currentRoute === '#/home'">
-          <a title="About" class="lead nav-link"
-             [routerLink]="['/about']"> About</a>
-        </li>
-        <li class="nav-item"
-            *ngIf="currentRoute === '#/about'">
-          <a title="Home" class="lead nav-link"
-             [routerLink]="['/home']"> Home</a>
-        </li>
-        <li class="nav-item"
-            *ngIf="currentRoute === '/backend/php-list'">
-          <a title="Home" class="lead nav-link" (click)="logout()"> Logout</a>
-        </li>
-      </ul>
+
+    <div *ngIf="currentRoute === '/exam'" class="countdown">
+      {{countdownTimeObj.time}}
     </div>
-  </div>
-</nav>
+
+    <div [fxHide]="currentRoute !== '/prepare'" [fxHide.lt-md]="true"
+         class="score-wrapper" title="Correct {{scoreObj.correct}} from {{scoreObj.total}}">
+        <div class="score-percentage">{{scoreObj.percentage}} %<br>{{scoreObj.correct}} | {{scoreObj.total}}</div>
+        <round-progress
+          [current]=scoreObj.percentage
+          [max]="100"
+          [color]="'#0F0'"
+          [background]="'#F00'"
+          [radius]="50"
+          [stroke]="5"
+          [semicircle]="true"
+          [rounded]="true"
+          [clockwise]="true"
+          [responsive]="false"
+          [duration]="800"
+          [animation]="'easeInOutQuart'"
+          [animationDelay]="0"></round-progress>
+    </div>
+
+    <div fxFlex="10" fxShow fxHide.lt-md class="transparent"></div>
+
+  </mat-toolbar-row>
+</mat-toolbar>

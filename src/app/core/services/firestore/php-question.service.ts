@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
 import { firestore } from 'firebase';
+
+import { Observable } from 'rxjs';
 import { environment } from '@env/environment';
 import { IConfig, IQuestion } from '@app/core/interfaces';
+import { map, takeUntil } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
@@ -14,30 +17,53 @@ export class PhpQuestionService {
   private quizDoc: AngularFirestoreDocument<IQuestion>;
   private phpConfigDoc: AngularFirestoreDocument<IConfig>;
 
+  questions: Observable<IQuestion[]>;
+
   constructor(
     private db: AngularFirestore
   ) {
     this.quizCollection = this.db.collection<IQuestion>(environment.configPHP.phpPath);
     this.configCollection = this.db.collection<IConfig>(environment.configPHP.configPath);
+
+    // this.questions = this.quizCollection.snapshotChanges().pipe(
+    //   map(changes => {
+    //     return changes.map(a => {
+    //       const data = a.payload.doc.data() as IQuestion;
+    //       data.id = Number(a.payload.doc.id);
+    //       return data;
+    //     });
+    //   })
+    // );
   }
+  //
+  // getQuestions() {
+  //   return this.questions;
+  // }
+
+  // async getDocument(docId: string) {
+  //   const document = await this.db.doc(docId).get().toPromise();
+  //   return document.data();
+  // }
 
   getQuestion(id: number): Observable<firestore.DocumentSnapshot> {
-    this.quizDoc = this.db.doc<IQuestion>(`${environment.configPHP.phpPath}/${id}`);
-    return this.quizDoc.get();
+    return this.db
+      .doc<IQuestion>(`${environment.configPHP.phpPath}/${id}`)
+      .get();
   }
 
   /**
    * Used by backend
    */
   getPhpConfig(): Observable<firestore.DocumentSnapshot> {
-    this.phpConfigDoc = this.db.doc<IConfig>(`${environment.configPHP.configPath}/php`);
-    return this.phpConfigDoc.get();
+    return this.db
+      .doc<IConfig>(`${environment.configPHP.configPath}/php`)
+      .get();
   }
 
   /**
    * Used by backend
    */
-  addQuestion(question: IQuestion): Observable<number | any> {
+  addQuestion(question: IQuestion): Observable<any> {
     return new Observable((observer) => {
       const configDocRef = this.db.firestore.collection(environment.configPHP.configPath).doc('php');
       this.db.firestore
@@ -66,7 +92,7 @@ export class PhpQuestionService {
   /**
    * Used by backend
    */
-  updateQuestion(question: IQuestion): Observable<number | any> {
+  updateQuestion(question: IQuestion): Observable<any> {
     return new Observable((observer) => {
       this.quizDoc = this.db.doc<IQuestion>(`${environment.configPHP.phpPath}/${question.id}`);
       this.quizDoc
@@ -79,7 +105,7 @@ export class PhpQuestionService {
   /**
    * Used by backend
    */
-  deleteQuestion(id: number): Observable<number | any> {
+  deleteQuestion(id: number): Observable<any> {
     return new Observable((observer) => {
       this.quizDoc = this.db.doc<IQuestion>(`${environment.configPHP.phpPath}/${id}`);
       this.quizDoc
@@ -89,3 +115,4 @@ export class PhpQuestionService {
     });
   }
 }
+

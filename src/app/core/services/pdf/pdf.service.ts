@@ -1,9 +1,12 @@
 import { Inject, Injectable } from '@angular/core';
-import * as pdfMake from 'pdfmake/build/pdfmake.js';
-import * as pdfFonts from 'pdfmake/build/vfs_fonts.js';
+
+// @ts-ignore
+import pdfMake from 'pdfmake/build/pdfmake.js';
+// @ts-ignore
+import pdfFonts from 'pdfmake/build/vfs_fonts.js';
 import { IAnswerRow, IQuestionRow } from '@app/core/interfaces';
 import { Question } from '@app/core/models';
-import { AnswerOptions } from '@app/core/enum/config';
+import { PhpAnswerLabel, PhpHighlightingLanguage } from '@app/core/enum/config';
 
 @Injectable({
   providedIn: 'root'
@@ -36,10 +39,10 @@ export class PdfService {
           fillColor: '#FFF',
           preserveLeadingSpaces: true
         };
-        if (obj.language === 2) {
+        if (obj.language === PhpHighlightingLanguage.NONE) {
           questionRow.fontSize = 12;
         }
-        if (obj.language === 1) {
+        if (obj.language !== PhpHighlightingLanguage.NONE) {
           questionRow.fillColor = '#F6F8FA';
         }
         questionBody.push([questionRow]);
@@ -60,13 +63,13 @@ export class PdfService {
           fillColor: '#F6F8FA',
           preserveLeadingSpaces: true
         };
-        if (obj.value > 0) {
-          correct.push(Object.keys(AnswerOptions)[key]);
-        }
+        // if (obj.value > 0) {
+        //   correct.push(Object.keys(PhpAnswerLabel)[key]);
+        // }
         answerBody.push([{
           table: {
             body: [
-              [Object.keys(AnswerOptions)[key]]
+              [Object.keys(PhpAnswerLabel)[key]]
             ]
           }
         }]);
@@ -109,7 +112,7 @@ export class PdfService {
     }
 
     const docDefinition = {
-      content: content,
+      content,
       watermark: {
         text: 'ZCE - Exam Simulator',
         color: 'blue',

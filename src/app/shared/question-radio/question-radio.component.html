@@ -1,0 +1,19 @@
+<mat-radio-group [(ngModel)]="question._userAnswer" color="primary">
+  <mat-card *ngFor="let answerRow of question.answerRows, let i = index"
+            [ngClass]="!question._isValidated ? '' : (question.isValidRowAnswer(i) ? 'isCorrect' : 'isWrong')">
+    <mat-card-header>
+      <mat-radio-button color="primary"
+                        [value]="answerRow.value"
+                        [disabled]="question._isValidated"
+                        (change)="question.onChange($event, i, answerRow.value)"
+      >{{ PhpAnswerLabel[i] }}
+      </mat-radio-button>
+    </mat-card-header>
+    <mat-card-content>
+      <pre *ngIf="answerRow.language !== PhpHighlightingLanguage.NONE; else plainText;"><code
+        class="line-numbers language-{{ PhpHighlightingLanguage[answerRow.language.toUpperCase()] }}">{{answerRow.text}}</code></pre>
+
+      <ng-template #plainText><p>{{answerRow.text}}</p></ng-template>
+    </mat-card-content>
+  </mat-card>
+</mat-radio-group>

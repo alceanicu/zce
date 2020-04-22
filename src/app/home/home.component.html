@@ -1,0 +1,32 @@
+<div fxLayout="column" fxLayoutAlign="center center">
+  <mat-icon fxFlex="100" svgIcon="elephant"></mat-icon>
+</div>
+
+<h1 fxLayout="column" fxLayoutAlign="center center">Test your PHP knowledge.</h1>
+
+<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center">
+  <button mat-raised-button routerLink="/prepare"
+          fxFlex="20" fxFlex.lt-lg="40" fxFlex.xs="100"
+  >PREPARE MODULE
+  </button>
+
+  <button mat-raised-button routerLink="/exam"
+          style="color: #fbc658; background: #000;"
+          fxFlex="20" fxFlex.lt-lg="40" fxFlex.xs="100"
+  >SIMULATE ZCE <span style="color: red">EXAM</span>
+  </button>
+</div>
+
+<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center">
+  <button mat-raised-button
+          (click)="generatePDF(5)"
+          [disabled]="btnPdf5"
+          fxFlex="20" fxFlex.lt-lg="40" fxFlex.xs="100"
+          style="color: #fbc658; background: #000;"
+  >PDF TEST <span style="color: red">(5 QUESTIONS)</span></button>
+  <button mat-raised-button
+          (click)="generatePDF(10)"
+          [disabled]="btnPdf10"
+          fxFlex="20" fxFlex.lt-lg="40" fxFlex.xs="100" fxFlexOrder="1" fxFlexOrder.xs="-2"
+  >PDF TEST <span style="color: red">(10 QUESTIONS)</span></button>
+</div>

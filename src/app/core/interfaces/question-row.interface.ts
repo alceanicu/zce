@@ -1,4 +1,4 @@
 export interface IQuestionRow {
   text: string;
-  language?: number;
+  language: string;     // enum PhpHighlightingLanguage
 }
