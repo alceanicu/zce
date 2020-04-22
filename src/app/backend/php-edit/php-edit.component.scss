@@ -1,0 +1,22 @@
+mat-card {
+  margin: 10px 5px;
+  padding: 0;
+  border-radius: 5px;
+  // box-shadow: 0 3px 5px -1px rgba(0,0,0,.8), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);
+}
+
+mat-card-content {
+  padding: 10px;
+}
+
+mat-card-header {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 5px;
+  background: #2f72ff;
+  box-shadow: 0 3px 5px -1px rgba(0,0,0,.8), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);
+}
+
+.spacer {
+  flex: 1 1 auto;
+}

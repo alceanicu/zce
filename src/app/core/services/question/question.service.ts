@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
+
 import { Observable, Subscriber } from 'rxjs';
+import { take } from 'rxjs/operators';
+
 import { Helper } from '@app/core/utils';
 import { environment } from '@env/environment';
 import { PhpQuestionService } from '@app/core/services/firestore/php-question.service';
@@ -32,7 +35,7 @@ export class QuestionService {
 
     return new Observable((subscriber: Subscriber<Question>) => {
       for (let i = 0; i < questionNumber; i++) {
-        this.getQuestionById(this.generateRandomIdWithoutRepeatInLastN(), subscriber);
+        this.getQuestionById(this.generateRandomIdWithoutRepeatInLastN(), subscriber); //  1 , 6 this.generateRandomIdWithoutRepeatInLastN()
       }
     });
   }
@@ -55,6 +58,7 @@ export class QuestionService {
       .getQuestionById(id)
       .then(async (question) => {
         if (question) {
+          log.info(`get question with [ID=${question.id}] from indexedDb 👌`);
           await this.setQuestion(new Question(question), subscriber);
         } else {
           this.getQuestionFromFirebase(id, subscriber);
@@ -87,13 +91,15 @@ export class QuestionService {
   private getQuestionFromFirebase(id: number, subscriber: Subscriber<IQuestion>): void {
     this.firestorePhpQuestionService
       .getQuestion(id)
+      .pipe(take(1))
       .subscribe(
-        DocumentSnapshot => {
-          const question = new Question(DocumentSnapshot.data() as IQuestion);
+        (documentSnapshot ) => {
+          const question = new Question(documentSnapshot.data() as IQuestion);
           if (question) {
             this.saveToIndexedDb(question);
             this.setQuestion(question, subscriber);
           } else {
+            log.error('Bad robot!');
             throw new Error('Bad robot!');
           }
         },

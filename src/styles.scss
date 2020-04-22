@@ -1,11 +1,86 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~bootstrap/scss/bootstrap";
-
-@import "assets/css/custom.css";
-@import "assets/sass/paper-kit.scss";
-
-@import "~ngx-toastr/toastr.css";
-@import "~ngx-simple-modal/styles/simple-modal.css";
 
 @import "~prismjs/themes/prism-okaidia.css";
 @import "~prismjs/plugins/line-numbers/prism-line-numbers.css";
+
+* {
+  box-sizing: border-box;
+}
+
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%; // 100vh;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 1rem;
+  color: #fafafa;
+}
+
+h1 {
+  color: #fafafa;
+}
+
+:host {
+  min-height: 100vh;
+  display: flex;
+}
+
+mat-card {
+  margin: 15px 0;
+  padding: 0;
+}
+
+.mat-drawer-container {
+  background: transparent;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.main-container {
+  min-height: 100vh; /* will cover the 100% of viewport */
+  overflow: hidden;
+  display: block;
+  position: relative;
+  //padding-bottom: 64px; /* height of your footer */
+  background: linear-gradient(150deg, #281483 15%, #8f6ed5 70%, #d782d9 94%);
+}
+
+.success-snackbar {
+  background: #80ff80;;
+  color: black;
+}
+
+info-snackbar {
+  background: #2196F3;
+  color: black;
+}
+
+.error-snackbar {
+  background: #F44336;
+  color: black;
+}
+
+.transparent {
+  background: transparent;
+}
+
+.active {
+  color: red;
+}
+
+.isCorrect {
+  border-left: 10px solid #80ff80;
+}
+
+.isWrong {
+  border-left: 10px solid red;
+}

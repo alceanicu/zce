@@ -6,10 +6,10 @@ import { configFirebase } from '@env/configFirebase';
 import { configPHP } from '@env/configPHP';
 
 export const environment = {
-  appVersion: '2.1.1',
+  appVersion: '3.0.0',
   production: false,
   firebase: configFirebase,
-  configPHP: configPHP
+  configPHP
 };
 
 /*

@@ -8,5 +8,5 @@ export interface IExam {
     [key: number]: IExamQuestion
   };
   score?: number;
-  finished?: boolean;
+  isFinished?: boolean;
 }

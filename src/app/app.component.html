@@ -1,29 +1,59 @@
-<app-header></app-header>
+<div>
+  <app-header [navigation]="navigation" [sidenav]="sidenav"></app-header>
 
-<main>
-  <div class="position-relative">
-    <div class="position-static">
-      <section class="section section-hero section-shaped">
-        <div class="shape shape-style-1 shape-primary">
-          <span class="span-150"></span>
-          <span class="span-50"></span>
-          <span class="span-50"></span>
-          <span class="span-75"></span>
-          <span class="span-100"></span>
-          <span class="span-75"></span>
-          <span class="span-50"></span>
-          <span class="span-100"></span>
-          <span class="span-50"></span>
-          <span class="span-100"></span>
-        </div>
+  <mat-sidenav-container fxFlexFill>
+    <mat-sidenav #sidenav fixedTopGap="64" fixedInViewport mode="over">
+      <mat-nav-list>
+        <a mat-list-item *ngFor="let link of navigation"
+           (click)="sidenav.close()"
+           [routerLink]="link.url" [routerLinkActive]="'active'">
+          <mat-icon *ngIf="link.icon">{{link.icon}}</mat-icon>
+          <span class="nav-caption">{{link.label}}</span>
+        </a>
 
-        <div class="container min">
+        <a mat-list-item [matMenuTriggerFor]="menu" aria-label="Backend menu">
+          <mat-icon>more_vert</mat-icon>
+          <span class="nav-caption">Backend</span>
+        </a>
+        <mat-menu #menu="matMenu">
+          <a mat-menu-item [routerLink]="['php-edit']" (click)="sidenav.close()">
+            <mat-icon>edit</mat-icon>
+            <span>Add</span>
+          </a>
+          <a mat-menu-item [routerLink]="['php-list']" (click)="sidenav.close()">
+            <mat-icon>view_comfy</mat-icon>
+            <span>List</span>
+          </a>
+        </mat-menu>
+
+        <a mat-list-item (click)="sidenav.toggle()" href="#">Close</a>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="main-container">
+
+      <div fxLayout="row" fxLayout.xs="column" fxFlexFill class="content">
+
+        <div fxFlex="10" fxShow fxHide.lt-md class="transparent"></div>
+
+        <div fxFlex="80" fxFlex.lt-md="100" fxFlexFill class="transparent" style="padding: 1.5em 0.5em">
           <router-outlet></router-outlet>
         </div>
 
-      </section>
-    </div>
-  </div>
-</main>
+        <div fxFlex="10" fxShow fxHide.lt-md class="transparent"></div>
 
-<app-footer></app-footer>
+      </div>
+
+      <div class="dot-150 xy1"></div>
+      <div class="dot-100 xy2"></div>
+      <div class="dot-150 xy3"></div>
+      <div class="dot-50 xy2"></div>
+      <div class="dot-200 xy0"></div>
+      <div class="dot-50 xy2"></div>
+      <div class="dot-50 xy5"></div>
+
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+
+  <app-footer [navigation]="navigation"></app-footer>
+</div>

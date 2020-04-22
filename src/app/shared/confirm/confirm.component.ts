@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SimpleModalComponent } from 'ngx-simple-modal';
-import { IConfirm } from '@app/core/interfaces';
-import { Logger } from '@app/core/services';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+
+import { Logger } from '@app/core';
 
 const log = new Logger('ConfirmComponent');
 
@@ -10,20 +10,26 @@ const log = new Logger('ConfirmComponent');
   templateUrl: './confirm.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ConfirmComponent extends SimpleModalComponent<IConfirm, boolean> implements IConfirm {
-  public title: string;
-  public message: string;
+export class ConfirmComponent {
+  message: string = 'Are you sure?';
+  confirmButtonText = 'Yes';
+  cancelButtonText = 'Cancel';
 
-  constructor() {
-    super();
+  constructor(
+    @Inject(MAT_DIALOG_DATA) private data: any,
+    private dialogRef: MatDialogRef<ConfirmComponent>
+  ) {
+    log.info('on constructor');
+    if (data) {
+      this.message = data.message || this.message;
+      if (data.buttonText) {
+        this.confirmButtonText = data.buttonText.ok || this.confirmButtonText;
+        this.cancelButtonText = data.buttonText.cancel || this.cancelButtonText;
+      }
+    }
   }
 
-  confirm(): void {
-    // we set modal result as true on click on confirm button,
-    // then we can get modal result from caller code
-    this.result = true;
-    this.close().then(() => {
-      log.info('Confirm closed');
-    });
+  onConfirmClick(): void {
+    this.dialogRef.close(true);
   }
 }

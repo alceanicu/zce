@@ -1,16 +1,47 @@
-.progress-percentage-wrapper {
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: #fafafa; // #673ab7; //#281483;
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12);
+  height: 64px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 0;
+  width: 2.3em;
+  height: 2.3em;
+  line-height: 2.3em;
+}
+
+.countdown {
+  color: red;
+}
+
+.score-wrapper {
   position: relative;
-  margin-right: 10px;
-  font-size: 12px;
-  font-weight: bold;
   width: 100px;
   height: 50px;
 }
 
-.progress-percentage {
+.score-percentage {
   position: absolute;
+  top: 35%;
   color: #000;
   width: 100%;
   text-align: center !important;
-  top: 40%;
+  font-size: 0.6em;
+  line-height: 1.1em;
+  font-weight: bold;
+}
+
+.nav-caption {
+  padding-left: 0.7em;
+  text-transform: uppercase;
 }

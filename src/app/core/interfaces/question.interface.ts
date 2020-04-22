@@ -1,14 +1,17 @@
 import { IAnswerRow, IQuestionRow } from '.';
 
 export interface IQuestion {
-  id?: number;
-  category: Array<number>;
-  difficulty: number;
-  type: number;
-  finalAnswer: boolean; // fixme - deprecated @ 3.0.0
+  id?: number;                          // ??? string
+  type: string;                         // enum PhpQuestionType
+  category: Array<number>;              // enum PhpQuestionCategory
+  difficulty: string;                   // enum PhpQuestionDifficulty
   questionRows: Array<IQuestionRow>;
   answerRows: Array<IAnswerRow>;
-  value: number;
+  correctAnswerSum: number;
+  // virtual - fixme
+  _userAnswer?: number;
+  _isValidated?: boolean;
+  _version?: string;
 
-  validate(finalAnswer: boolean): boolean;
+  validate(isValidated: boolean): boolean;
 }

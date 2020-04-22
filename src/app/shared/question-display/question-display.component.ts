@@ -1,22 +1,33 @@
-import { Component, Input } from '@angular/core';
-import { Question } from '@app/core';
-import { AnswerOptions, Extension, PhpAnswerType } from '@app/core/enum/config';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+
+import { Logger, Question } from '@app/core';
+import { PhpHighlightingLanguage, PhpQuestionType } from '@app/core/enum/config';
+
+const log = new Logger('QuestionDisplayComponent');
 
 @Component({
-  selector: 'app-question-display,[app-question-display]',
+  selector: 'app-question-display',
   templateUrl: './question-display.component.html',
-  styleUrls: ['./question-display.component.scss']
+  styleUrls: ['./question-display.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class QuestionDisplayComponent {
+export class QuestionDisplayComponent implements OnInit, AfterViewInit {
   @Input() public question: Question;
-  public PhpAnswerType = PhpAnswerType;
-  public Extension = Extension;
+  public PhpHighlightingLanguage = PhpHighlightingLanguage;
+  public PhpQuestionType = PhpQuestionType;
 
-  get extensions(): Array<string> {
-    return Object.keys(Extension);
+  constructor(
+    private cdr: ChangeDetectorRef
+  ) {
   }
 
-  get options(): Array<string> {
-    return Object.keys(AnswerOptions);
+  ngOnInit(): void {
+    // this.userAnswer = 0;
+    // log.info('on ngOnInit');
+  }
+
+  ngAfterViewInit(): void {
+    // log.info('on ngAfterViewInit');
+    this.cdr.detectChanges();
   }
 }

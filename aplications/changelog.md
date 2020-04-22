@@ -1,5 +1,12 @@
 ## CHANGELOG
 
+#### 3.0.0 [2020.04.17]
+
+- update to @angular 9
+- add @angular/material && @angular/flex-layout
+- remove bootstrap css
+- npm update
+
 #### 2.1.2 [2019.12.29]
 
 - npm update
