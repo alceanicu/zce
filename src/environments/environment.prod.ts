@@ -5,5 +5,5 @@ export const environment = {
   appVersion: '3.0.0',
   production: true,
   firebase: configFirebase,
-  configPHP,
+  configPHP
 };

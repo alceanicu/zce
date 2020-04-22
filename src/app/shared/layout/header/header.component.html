@@ -12,8 +12,8 @@
     </button>
 
     <div fxShow="true" fxHide.lt-md="true" fxFlexAlign="auto" *ngIf="currentRoute !== '/exam'">
-      <a mat-button *ngFor="let link of navigation" [routerLink]="link.url" >
-        <mat-icon *ngIf="link.icon">{{link.icon}}</mat-icon>
+      <a mat-button *ngFor="let link of navigation" [routerLink]="link.url">
+        <mat-icon [routerLinkActive]="['active']" *ngIf="link.icon">{{link.icon}}</mat-icon>
         <span [routerLinkActive]="'active'" class="nav-caption">{{link.label}}</span>
       </a>
 

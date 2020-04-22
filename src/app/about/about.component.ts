@@ -1,8 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
-import { Logger } from '@app/core';
-
-const log = new Logger('AboutComponent');
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-about',
@@ -11,16 +9,18 @@ const log = new Logger('AboutComponent');
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AboutComponent implements OnInit, AfterViewInit {
+  public version: string = '';
+
   constructor(
     private cdr: ChangeDetectorRef
   ) {
   }
 
   ngOnInit(): void {
+    this.version = environment.appVersion;
   }
 
   ngAfterViewInit(): void {
-    log.info('on ngAfterViewInit');
     this.cdr.detectChanges();
   }
 }
