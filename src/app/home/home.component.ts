@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Subject } from 'rxjs';
@@ -7,7 +8,6 @@ import { takeUntil } from 'rxjs/operators';
 import { environment } from '@env/environment';
 import { PdfService } from '@app/core/services/pdf/pdf.service';
 import { Logger, Question, QuestionService } from '@app/core';
-import { Router } from '@angular/router';
 
 const log = new Logger('HomeComponent');
 
@@ -30,31 +30,16 @@ export class HomeComponent implements OnInit, OnDestroy {
     private router: Router,
     private cdr: ChangeDetectorRef,
   ) {
-    log.info('on constructor');
     this.state = this.router.getCurrentNavigation().extras.state;
-
-    // t.deleteTodo({id: 1, todo: 'todo', category: 'category'}).then(data => console.log(data)).catch(error => console.log(error));
-    // t.addTodo({todo: 'todo', category: 'category'}).then(data => console.log(data));
-
-    // t.getById(9)
-    //   // .pipe(take(1))
-    //   .subscribe(
-    //     // tslint:disable-next-line:variable-name
-    //     DocumentSnapshot => {
-    //       const question = DocumentSnapshot.data();
-    //       console.log('xx', question);
-    //     });
   }
 
   ngOnInit(): void {
-    log.info('on ngOnInit');
     if (this.state !== undefined) { // if we received exam score
       this.openSnackBar(`You answered correctly to ${this.state.score} questions from ${environment.configPHP.examSize}`, 'blue-snackbar');
     }
   }
 
   ngOnDestroy(): void {
-    log.info('on ngOnDestroy');
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }

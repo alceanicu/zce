@@ -1,12 +1,9 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-
-import * as moment from 'moment';
 
 import { AppComponent } from '@app/app.component';
 import { AppRoutingModule } from '@app/app-routing.module';
@@ -34,21 +31,19 @@ export function initApp(iDb: IndexedDbQuizService) {
   declarations: [
     AppComponent,
     HeaderComponent,
-    FooterComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
     //
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     //
     SharedModule,
     //
-    AppRoutingModule,
+    AppRoutingModule
   ],
   providers: [
     {
@@ -56,10 +51,6 @@ export function initApp(iDb: IndexedDbQuizService) {
       useFactory: initApp,
       multi: true,
       deps: [IndexedDbQuizService]
-    },
-    {
-      provide: 'moment',
-      useFactory: (): any => moment
     }
   ],
   bootstrap: [AppComponent]

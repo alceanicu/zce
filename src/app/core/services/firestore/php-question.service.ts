@@ -5,8 +5,6 @@ import { firestore } from 'firebase';
 import { Observable } from 'rxjs';
 import { environment } from '@env/environment';
 import { IConfig, IQuestion } from '@app/core/interfaces';
-import { map, takeUntil } from 'rxjs/operators';
-
 
 @Injectable({
   providedIn: 'root'
@@ -24,26 +22,7 @@ export class PhpQuestionService {
   ) {
     this.quizCollection = this.db.collection<IQuestion>(environment.configPHP.phpPath);
     this.configCollection = this.db.collection<IConfig>(environment.configPHP.configPath);
-
-    // this.questions = this.quizCollection.snapshotChanges().pipe(
-    //   map(changes => {
-    //     return changes.map(a => {
-    //       const data = a.payload.doc.data() as IQuestion;
-    //       data.id = Number(a.payload.doc.id);
-    //       return data;
-    //     });
-    //   })
-    // );
   }
-  //
-  // getQuestions() {
-  //   return this.questions;
-  // }
-
-  // async getDocument(docId: string) {
-  //   const document = await this.db.doc(docId).get().toPromise();
-  //   return document.data();
-  // }
 
   getQuestion(id: number): Observable<firestore.DocumentSnapshot> {
     return this.db
@@ -72,7 +51,7 @@ export class PhpQuestionService {
             .then(
               configDoc => {
                 const counter = (configDoc.data().counter || 0) + 1;
-                transaction.update(configDocRef, {counter});
+                transaction.update(configDocRef, { counter });
                 return counter;
               }
             )

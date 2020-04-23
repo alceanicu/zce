@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 
-import { Question } from '@app/core';
 import { PhpHighlightingLanguage } from '@app/core/enum/config';
+import { Question } from '@app/core';
 
 @Component({
   selector: 'app-question-display',

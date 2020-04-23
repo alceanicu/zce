@@ -16,7 +16,7 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes, {
       // useHash supports github.io demo page, remove in your app
-      useHash: false,
+      useHash: true,
       scrollPositionRestoration: 'enabled',
       // implement a custom preloading strategy for just some of the modules (PRs welcome 😉)
       preloadingStrategy: PreloadSelectedModuleStrategy

@@ -15,9 +15,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -42,13 +39,10 @@ const material = [
   MatInputModule,
   MatListModule,
   MatMenuModule,
-  MatPaginatorModule,
   MatRadioModule,
   MatSelectModule,
   MatSidenavModule,
   MatSnackBarModule,
-  MatSortModule,
-  MatTableModule,
   MatTabsModule,
   MatToolbarModule,
   MatTooltipModule
@@ -56,10 +50,10 @@ const material = [
 
 @NgModule({
   declarations: [
-    QuestionDisplayComponent,
+    ConfirmComponent,
     QuestionCheckboxComponent,
-    QuestionRadioComponent,
-    ConfirmComponent
+    QuestionDisplayComponent,
+    QuestionRadioComponent
   ],
   entryComponents: [
     ConfirmComponent
@@ -109,8 +103,8 @@ const material = [
     //
     ...material,
     //
-    QuestionDisplayComponent,
     QuestionCheckboxComponent,
+    QuestionDisplayComponent,
     QuestionRadioComponent
   ]
 })
