@@ -7,6 +7,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 import { AppComponent } from '@app/app.component';
 import { AppRoutingModule } from '@app/app-routing.module';
+import { BackendModule } from '@app/backend/backend.module';
 import { SharedModule } from '@app/shared/shared.module';
 import { environment } from '@env/environment';
 import { HeaderComponent } from '@app/shared/layout/header/header.component';
@@ -40,6 +41,8 @@ export function initApp(iDb: IndexedDbQuizService) {
     //
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
+    // backend
+    BackendModule,
     //
     SharedModule,
     //

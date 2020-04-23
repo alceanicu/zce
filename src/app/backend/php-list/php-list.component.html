@@ -1,0 +1,68 @@
+<mat-card>
+  <mat-table #table [dataSource]="dataSource" matSort>
+
+    <ng-container matColumnDef="id">
+      <mat-header-cell fxFlex="4" *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+      <mat-cell fxFlex="4" *matCellDef="let row">{{row.id}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="type">
+      <mat-header-cell fxFlex="5" *matHeaderCellDef mat-sort-header>TYPE</mat-header-cell>
+      <mat-cell fxFlex="5" *matCellDef="let row">
+        <mat-icon matTooltip="Question type: {{row.type}}" *ngIf="row.type === PhpQuestionType.RADIO">
+          radio_button_checked
+        </mat-icon>
+        <mat-icon matTooltip="Question type: {{row.type}}" *ngIf="row.type === PhpQuestionType.CHECKBOX">check_box
+        </mat-icon>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="category">
+      <mat-header-cell fxFlex="30" *matHeaderCellDef mat-sort-header>CATEGORY</mat-header-cell>
+      <mat-cell fxFlex="30" *matCellDef="let row">
+        <i *ngFor="let id of row.category">{{PhpQuestionCategory[id]}}, </i>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="difficulty">
+      <mat-header-cell fxFlex="7" *matHeaderCellDef mat-sort-header>DIFFICULTY</mat-header-cell>
+      <mat-cell fxFlex="7" *matCellDef="let row">
+        <mat-icon matTooltip="Question difficulty: {{row.difficulty}}" *ngIf="row.difficulty === PhpQuestionDifficulty.EASY">
+          brightness_low
+        </mat-icon>
+        <mat-icon matTooltip="Question difficulty: {{row.difficulty}}"
+                  *ngIf="row.difficulty === PhpQuestionDifficulty.MEDIUM">brightness_medium
+        </mat-icon>
+        <mat-icon matTooltip="Question difficulty: {{row.difficulty}}" *ngIf="row.difficulty === PhpQuestionDifficulty.HARD">
+          brightness_high
+        </mat-icon>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="questionRows">
+      <mat-header-cell fxFlex="50" *matHeaderCellDef mat-sort-header>QUESTION</mat-header-cell>
+      <mat-cell fxFlex="50" *matCellDef="let row"><span class="ellipsis">{{row.questionRows[0].text}}</span></mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell fxFlex="3" *matHeaderCellDef>EDIT</mat-header-cell>
+      <mat-cell fxFlex="3" *matCellDef="let row">
+        <button mat-icon-button matTooltip="Click to Edit" color="primary" (click)="editQuiz(row.id)">
+          <mat-icon aria-label="Edit">edit</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;">
+    </mat-row>
+  </mat-table>
+
+  <mat-paginator #paginator
+                 [length]="length"
+                 [pageSize]="pageSize"
+                 [pageSizeOptions]="pageSizeOptions"
+                 [showFirstLastButtons]="true"
+                 (page)="onPageClick($event)">
+  </mat-paginator>
+</mat-card>

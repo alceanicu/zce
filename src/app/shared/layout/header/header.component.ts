@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { ICountdownTime, IScore } from '@app/core/interfaces';
 import { SyncCountdownTimeService, SyncLocationService, SyncScoreService } from '@app/core/services';
 import { INavigation } from '@app/core/interfaces/navigation.interface';
+import { AuthService } from '@app/backend/core/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -22,7 +23,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     private syncScoreService: SyncScoreService,
     private syncLocationService: SyncLocationService,
-    private syncCountdownTimeService: SyncCountdownTimeService
+    private syncCountdownTimeService: SyncCountdownTimeService,
+    public auth: AuthService
   ) {
   }
 

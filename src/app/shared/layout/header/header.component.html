@@ -16,6 +16,27 @@
         <mat-icon [routerLinkActive]="['active']" *ngIf="link.icon">{{link.icon}}</mat-icon>
         <span [routerLinkActive]="'active'" class="nav-caption">{{link.label}}</span>
       </a>
+
+      <!-- backend -->
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Backend menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item [routerLink]="['php-edit']">
+          <mat-icon>edit</mat-icon>
+          <span>Add</span>
+        </button>
+        <button mat-menu-item [routerLink]="['php-list']">
+          <mat-icon>view_comfy</mat-icon>
+          <span>List</span>
+        </button>
+        <button mat-menu-item *ngIf="auth.isLoggedIn"
+                (click)="auth.logout()">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
+      <!-- end backend -->
     </div>
 
     <div *ngIf="currentRoute === '/exam'" class="countdown">
