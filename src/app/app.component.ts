@@ -81,6 +81,6 @@ export class AppComponent implements OnInit, OnDestroy {
   private getCurrentUrl(): string {
     return this.location
       .prepareExternalUrl(this.location.path())
-      .replace('/zce', '');
+      .replace('#', '');
   }
 }

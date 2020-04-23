@@ -3,8 +3,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { BehaviorSubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+
 import { Logger, PrismService, QuestionService, SyncScoreService } from '@app/core/services';
 import { Question } from '@app/core/models';
 import { IScore } from '@app/core/interfaces';

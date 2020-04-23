@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -8,11 +8,12 @@ import { MatButtonToggleChange } from '@angular/material/button-toggle';
 
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { Moment } from 'moment';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { Moment } from 'moment';
+import * as moment from 'moment';
 
-import { ConfirmComponent } from '@app/shared/confirm/confirm.component';
 import { environment } from '@env/environment';
+import { ConfirmComponent } from '@app/shared/confirm/confirm.component';
 import { CountdownService, Logger, PrismService, QuestionService, SyncCountdownTimeService } from '@app/core/services';
 import { Exam, IDeactivate, IExamQuestion } from '@app/core';
 import { PhpQuestionType } from '@app/core/enum/config';
@@ -31,7 +32,6 @@ export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnD
   public wasValidated$: BehaviorSubject<boolean>;
 
   public constructor(
-    @Inject('moment') private moment: any,
     private location: Location,
     private router: Router,
     private dialog: MatDialog,
@@ -49,23 +49,23 @@ export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnD
 
   ngOnInit(): void {
     this.exam = new Exam();
-    const startTime = this.moment(this.exam.startAt);
-    const endTime = this.moment(startTime).add(environment.configPHP.examTime, 'seconds');
+    const startTime = moment(this.exam.startAt);
+    const endTime = moment(startTime).add(environment.configPHP.examTime, 'seconds');
 
     this.countdownSubscription = this.countdownService
       .countdown()
       .subscribe(
         (seconds: number) => {
-          if (seconds === (environment.configPHP.examTime / 2)) {
+          if (seconds === 3600) {
             this.openSnackBar(`You have another hour to finish the exam`, 'info-snackbar');
           }
-          if (seconds === (environment.configPHP.examTime / 4)) {
+          if (seconds === 1800) {
             this.openSnackBar(`You have another 30 minutes to finish the exam`, 'info-snackbar');
           }
           if (seconds === 600) {
             this.openSnackBar(`You have another 10 minutes to finish the exam`, 'info-snackbar');
           }
-          if (seconds === 5) {
+          if (seconds === 300) {
             this.openSnackBar(`You have less than 5 minutes to finish the exam`, 'info-snackbar');
           }
 
@@ -96,7 +96,7 @@ export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnD
       setTimeout(() => this.prismService.highlightAll(), 10);
       this.isPageHighlighted = true;
     }
-    // log.info('on ngAfterViewInit');
+
     this.cdr.detectChanges();
   }
 
@@ -217,8 +217,8 @@ export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnD
   }
 
   private getTimeString(endTime: Moment): string {
-    const now = this.moment();
-    const duration = this.moment.duration(endTime.diff(now));
+    const now = moment();
+    const duration = moment.duration(endTime.diff(now));
 
     const hh = duration.hours().toString().padStart(2, '0');
     const mm = duration.minutes().toString().padStart(2, '0');
@@ -243,7 +243,7 @@ export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnD
 
   private openSnackBar(data: any, className: string, action: string = 'close'): void {
     this.snackBar.open(data, action, {
-      duration: 3 * 2000,
+      duration: 5000,
       panelClass: [className]
     });
   }

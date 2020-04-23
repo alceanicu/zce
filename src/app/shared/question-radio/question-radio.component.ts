@@ -1,9 +1,9 @@
-import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 
-import {Question} from '@app/core';
-import {PhpAnswerLabel, PhpHighlightingLanguage} from '@app/core/enum/config';
+import { Question } from '@app/core';
+import { PhpAnswerLabel, PhpHighlightingLanguage } from '@app/core/enum/config';
 
 @Component({
   selector: 'app-question-radio',

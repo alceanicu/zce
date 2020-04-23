@@ -10,23 +10,6 @@
           <mat-icon *ngIf="link.icon">{{link.icon}}</mat-icon>
           <span class="nav-caption">{{link.label}}</span>
         </a>
-
-        <!-- backend -->
-        <a mat-list-item [matMenuTriggerFor]="menu" aria-label="Backend menu">
-          <mat-icon>more_vert</mat-icon>
-          <span class="nav-caption">Backend</span>
-        </a>
-        <mat-menu #menu="matMenu">
-          <a mat-menu-item [routerLink]="['php-edit']" (click)="sidenav.close()">
-            <mat-icon>edit</mat-icon>
-            <span>Add</span>
-          </a>
-          <a mat-menu-item [routerLink]="['php-list']" (click)="sidenav.close()">
-            <mat-icon>view_comfy</mat-icon>
-            <span>List</span>
-          </a>
-        </mat-menu>
-        <!-- backend end-->
       </mat-nav-list>
 
     </mat-sidenav>

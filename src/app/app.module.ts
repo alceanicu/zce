@@ -1,23 +1,16 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { AngularFireAuthModule } from '@angular/fire/auth';
-
-import * as moment from 'moment';
 
 import { AppComponent } from '@app/app.component';
 import { AppRoutingModule } from '@app/app-routing.module';
 import { SharedModule } from '@app/shared/shared.module';
 import { environment } from '@env/environment';
-import { BackendModule } from '@app/backend/backend.module';
 import { HeaderComponent } from '@app/shared/layout/header/header.component';
 import { FooterComponent } from '@app/shared/layout/footer/footer.component';
-import { AuthService } from '@app/backend/core/auth.service';
-import { AuthGuard } from '@app/backend/core/auth.guard';
 import { IndexedDbQuizService } from '@app/core/services/indexeddb/indexed-db-quiz.service';
 import { Logger } from '@app/core';
 
@@ -38,37 +31,26 @@ export function initApp(iDb: IndexedDbQuizService) {
   declarations: [
     AppComponent,
     HeaderComponent,
-    FooterComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
     //
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
-    // backend
-    BackendModule,
-    AngularFireAuthModule,
     //
     SharedModule,
     //
-    AppRoutingModule,
+    AppRoutingModule
   ],
   providers: [
-    AuthService,
-    AuthGuard,
     {
       provide: APP_INITIALIZER,
       useFactory: initApp,
       multi: true,
       deps: [IndexedDbQuizService]
-    },
-    {
-      provide: 'moment',
-      useFactory: (): any => moment
     }
   ],
   bootstrap: [AppComponent]

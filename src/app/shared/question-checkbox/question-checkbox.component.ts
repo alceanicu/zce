@@ -1,11 +1,9 @@
-import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 
-import {Logger, Question} from '@app/core';
-import {PhpAnswerLabel, PhpHighlightingLanguage} from '@app/core/enum/config';
-
-const log = new Logger('QuestionCheckboxComponent');
+import { Question } from '@app/core';
+import { PhpAnswerLabel, PhpHighlightingLanguage } from '@app/core/enum/config';
 
 @Component({
   selector: 'app-question-checkbox',
@@ -25,7 +23,6 @@ export class QuestionCheckboxComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    log.info('on ngOnInit');
     this.wasValidated$.subscribe(value => {
       if (value) {
         this.cdr.detectChanges();
@@ -34,7 +31,6 @@ export class QuestionCheckboxComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // log.info('on ngAfterViewInit');
     this.cdr.detectChanges();
   }
 }

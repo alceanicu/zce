@@ -1,9 +1,11 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 // @ts-ignore
 import pdfMake from 'pdfmake/build/pdfmake.js';
 // @ts-ignore
 import pdfFonts from 'pdfmake/build/vfs_fonts.js';
+import * as moment from 'moment';
+
 import { IAnswerRow, IQuestionRow } from '@app/core/interfaces';
 import { Question } from '@app/core/models';
 import { PhpAnswerLabel, PhpHighlightingLanguage } from '@app/core/enum/config';
@@ -12,9 +14,7 @@ import { PhpAnswerLabel, PhpHighlightingLanguage } from '@app/core/enum/config';
   providedIn: 'root'
 })
 export class PdfService {
-  constructor(
-    @Inject('moment') private moment: any
-  ) {
+  constructor() {
   }
 
   public generatePDF(questionArray: Question[], pdfName: string = ''): void {
@@ -108,7 +108,7 @@ export class PdfService {
     content.push({qr: 'https://alceanicu.github.io/zce'});
 
     if (pdfName === '') {
-      pdfName = this.moment().format('YYYY_MM_DD_HH:mm:ss');
+      pdfName = moment().format('YYYY_MM_DD_HH:mm:ss');
     }
 
     const docDefinition = {
