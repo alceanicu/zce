@@ -170,9 +170,15 @@ export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnD
   }
 
   public goToHome(): void {
-    const pageFromUrl = this.location.prepareExternalUrl(this.location.path());
+    const pageFromUrl = this.location
+      .prepareExternalUrl(this.location.path())
+      .replace('#', '');
     if (['/exam'].indexOf(pageFromUrl) !== -1) {
-      this.router.navigate(['/home']).then();
+      this.router.navigate(['/home']).then(e => {
+        if (e) {
+          log.info('Go to home page');
+        }
+      });
     }
   }
 
@@ -181,7 +187,11 @@ export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnD
     this.exam.finish();
     this.router
       .navigate(['/home'], { state: { score: this.exam.score } })
-      .then();
+      .then(e => {
+        if (e) {
+          log.info('Go to home page');
+        }
+      });
   }
 
   private getQuestion(index: number): void {
