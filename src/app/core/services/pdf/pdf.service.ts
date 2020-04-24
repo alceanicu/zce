@@ -63,9 +63,9 @@ export class PdfService {
           fillColor: '#F6F8FA',
           preserveLeadingSpaces: true
         };
-        // if (obj.value > 0) {
-        //   correct.push(Object.keys(PhpAnswerLabel)[key]);
-        // }
+        if (obj.isCorrect) {
+          correct.push(PhpAnswerLabel[key]);
+        }
         answerBody.push([{
           table: {
             body: [
@@ -74,7 +74,7 @@ export class PdfService {
           }
         }]);
         answerBody.push([answerRow]);
-        answerBody.push([{text: '\n'}]);
+        answerBody.push([{ text: '\n' }]);
       });
       correctAnswer[i] = correct;
 
@@ -104,14 +104,20 @@ export class PdfService {
       });
     });
 
-    content.push({text: '\n\r'});
-    content.push({qr: 'https://alceanicu.github.io/zce'});
+    content.push({ text: '\n\r' });
+    content.push({ qr: 'https://alceanicu.github.io/zce' });
 
     if (pdfName === '') {
       pdfName = moment().format('YYYY_MM_DD_HH:mm:ss');
     }
 
     const docDefinition = {
+      info: {
+        title: 'ZCE - Exam Simulator PDF test',
+        author: 'Nicu ALCEA',
+        subject: 'ZCE - Exam Simulator for Zend PHP Engineer Certification',
+        keywords: 'PHP, question, test, certification, zend, PDF'
+      },
       content,
       watermark: {
         text: 'ZCE - Exam Simulator',
@@ -119,13 +125,6 @@ export class PdfService {
         opacity: 0.1,
         bold: true,
         italics: false
-      },
-      info: {
-        title: 'ZCE - Exam Simulator',
-        author: 'Nicu ALCEA',
-        subject: 'ZCE - Exam Simulator for Zend PHP Engineer Certification',
-        keywords: 'PHP, question, test, certification, zend',
-        creationDate: name
       },
       styles: {
         invoiceTable: {
@@ -158,7 +157,7 @@ export class PdfService {
                   text: '_______________________________________________________________________________________________________________\n',
                   margin: [0, 40]
                 },
-                {text: `${page} / ${pageCount}`}
+                { text: `${page} / ${pageCount}` }
               ],
               alignment: 'center'
             }

@@ -30,12 +30,10 @@ export class Exam implements IExam {
   }
 
   public finish(): void {
-    // ensure that current question was validated
-    this.validateCurrentExamQuestion();
     // update score
     for (const key in this.questions) {
       if (this.questions.hasOwnProperty(key)) {
-        if (this.questions[key].isQuestionAnswerCorrect === true) {
+        if (this.questions[key].question.validate(false)) {
           this.score++;
         }
       }
@@ -56,12 +54,6 @@ export class Exam implements IExam {
       this.markForReviewArray.push(this.index);
     } else {
       this.markForReviewArray.splice(idx, 1);
-    }
-  }
-
-  public validateCurrentExamQuestion(): void {
-    if (this.currentQuestion !== undefined) {
-      this.currentQuestion.isQuestionAnswerCorrect = this.currentQuestion.question.validate(false);
     }
   }
 }

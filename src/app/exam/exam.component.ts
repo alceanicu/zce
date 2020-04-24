@@ -196,7 +196,6 @@ export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnD
 
   private getQuestion(index: number): void {
     this.ngxUiLoaderService.start();
-    this.exam.validateCurrentExamQuestion();
     this.exam.isCurrentQuestionLoaded = false;
     this.isPageHighlighted = false;
     //
@@ -212,8 +211,7 @@ export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnD
           question => {
             const currentQuestion = {
               id,
-              question,
-              isQuestionAnswerCorrect: false
+              question
             } as IExamQuestion;
             this.exam.setQuestion(index, currentQuestion);
             this.stopLoaded();

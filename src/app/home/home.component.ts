@@ -78,7 +78,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
 
     // snack.afterDismissed().subscribe(() => {
-    //   console.log('The snack-bar was dismissed');
     //   this.getRandomQuestion();
     // });
   }

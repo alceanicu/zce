@@ -92,7 +92,6 @@ export class PrepareComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   public onValidate(countDown: number = 10): void {
     this.isQuestionAnswerCorrect = this.question.validate(true);
-    console.log('isQuestionAnswerCorrect' + this.isQuestionAnswerCorrect);
     this.syncScoreService.setValue(this.updateScore(this.isQuestionAnswerCorrect));
     const ansType = this.isQuestionAnswerCorrect ? 'CORRECT' : 'WRONG';
     this.btnText = `NEXT QUESTION [${countDown}]`;
@@ -140,7 +139,6 @@ export class PrepareComponent implements OnInit, AfterViewChecked, OnDestroy {
     });
 
     // snack.afterDismissed().subscribe(() => {
-    //   console.log('The snack-bar was dismissed');
     //   this.getRandomQuestion();
     // });
   }

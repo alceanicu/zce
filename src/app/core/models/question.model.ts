@@ -30,7 +30,6 @@ export class Question implements IQuestion {
   }
 
   public onChange(event: MatRadioChange | MatCheckboxChange, i: number, elValue: number): void {
-    console.log(i, event);
     if (event instanceof MatRadioChange) {
       [0, 1, 2, 3].forEach((value, index, array) => {
         this.answerRows[index]._isCheckedByUser = false;
@@ -53,7 +52,6 @@ export class Question implements IQuestion {
   }
 
   public isValidRowAnswer(i: number): boolean {
-    console.log('isValidRowAnswer');
     // tslint:disable-next-line:no-bitwise
     // const isCorrect = Boolean(this.correctAnswerSum & this.answerRows[i].value);
     // return this.answerRows[i]._isCheckedByUser ? isCorrect : !isCorrect;
