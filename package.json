@@ -40,7 +40,7 @@
     "@angular/router": "^9.1.3",
     "angular-svg-round-progressbar": "^3.0.1",
     "dexie": "^2.0.4",
-    "firebase": "^7.14.1",
+    "firebase": "^7.14.2",
     "moment": "^2.24.0",
     "ngx-ui-loader": "^9.1.1",
     "pdfmake": "^0.1.65",
