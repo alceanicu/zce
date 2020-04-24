@@ -27,13 +27,15 @@
     <ng-container matColumnDef="difficulty">
       <mat-header-cell fxFlex="7" *matHeaderCellDef mat-sort-header>DIFFICULTY</mat-header-cell>
       <mat-cell fxFlex="7" *matCellDef="let row">
-        <mat-icon matTooltip="Question difficulty: {{row.difficulty}}" *ngIf="row.difficulty === PhpQuestionDifficulty.EASY">
+        <mat-icon matTooltip="Question difficulty: {{row.difficulty}}"
+                  *ngIf="row.difficulty === PhpQuestionDifficulty.EASY">
           brightness_low
         </mat-icon>
         <mat-icon matTooltip="Question difficulty: {{row.difficulty}}"
                   *ngIf="row.difficulty === PhpQuestionDifficulty.MEDIUM">brightness_medium
         </mat-icon>
-        <mat-icon matTooltip="Question difficulty: {{row.difficulty}}" *ngIf="row.difficulty === PhpQuestionDifficulty.HARD">
+        <mat-icon matTooltip="Question difficulty: {{row.difficulty}}"
+                  *ngIf="row.difficulty === PhpQuestionDifficulty.HARD">
           brightness_high
         </mat-icon>
       </mat-cell>
@@ -45,11 +47,18 @@
     </ng-container>
 
     <ng-container matColumnDef="actions">
-      <mat-header-cell fxFlex="3" *matHeaderCellDef>EDIT</mat-header-cell>
-      <mat-cell fxFlex="3" *matCellDef="let row">
+      <mat-header-cell fxFlex="5" *matHeaderCellDef>EDIT</mat-header-cell>
+      <mat-cell fxFlex="5" *matCellDef="let row">
         <button mat-icon-button matTooltip="Click to Edit" color="primary" (click)="editQuiz(row.id)">
           <mat-icon aria-label="Edit">edit</mat-icon>
         </button>
+        <a [href]="fileUrl"
+           download="{{getFileName(row.id)}}"
+           mat-icon-button
+           matTooltip="Generate MD file" color="accent"
+           (click)="generateMdFile(row)">
+          <mat-icon aria-label="Generate MD file">file_copy</mat-icon>
+        </a>
       </mat-cell>
     </ng-container>
 
