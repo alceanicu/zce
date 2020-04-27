@@ -70,10 +70,8 @@ export class PhpEditComponent implements OnInit {
             // delete(question.answerRows[2].correct);
             // delete(question.answerRows[3].correctValue);
             // delete(question.answerRows[3].correct);
+            delete(question.correctAnswerSum);
 
-            if (!question.correctAnswerSum) {
-              question.correctAnswerSum = 1;
-            }
             question.answerRows[0].value = 1;
             question.answerRows[1].value = 2;
             question.answerRows[2].value = 4;
@@ -173,8 +171,7 @@ export class PhpEditComponent implements OnInit {
       category: [[PhpQuestionCategory.PHP_BASICS], Validators.required],
       difficulty: [PhpQuestionDifficulty.EASY, Validators.required],
       questionRows: this.formBuilder.array([]),
-      answerRows: this.formBuilder.array(rows),
-      correctAnswerSum: [1, Validators.required],
+      answerRows: this.formBuilder.array(rows)
     });
 
     // set questionRowsArray to this field
@@ -236,23 +233,6 @@ export class PhpEditComponent implements OnInit {
     this.questionRowsArray.push(this.initQuestionRow());
   }
 
-  // /**
-  //  * @deprecated
-  //  */
-  // public pow(i: number) {
-  //   return Math.pow(2, i);
-  // }
-  //
-  // /**
-  //  * @deprecated
-  //  */
-  // public valueOptions(i: number): IOption[] {
-  //   return [
-  //     {value: 0, text: 'NO'},
-  //     {value: Math.pow(2, i), text: 'YES'}
-  //   ];
-  // }
-
   /**
    * get the formGroup under questionRowsArray form array
    */
@@ -265,35 +245,5 @@ export class PhpEditComponent implements OnInit {
       duration: 3 * 2000,
       panelClass: [className]
     });
-  }
-
-  // /**
-  //  * @deprecated - version 3.0.0
-  //  */
-  // public onChangeVal(): void {
-  //   const v = this.form.value.answerRows[0].value +
-  //     this.form.value.answerRows[1].value +
-  //     this.form.value.answerRows[2].value +
-  //     this.form.value.answerRows[3].value;
-  //
-  //   this.form.controls.value.setValue(v);
-  // }
-
-  public isCorrectSelect($event: MatSelectChange, i: number): void {
-    console.log($event, i);
-    let correctAnswerSum = this.form.controls.correctAnswerSum.value;
-    if ($event.value) {
-      correctAnswerSum += Math.pow(2, i);
-    } else {
-      correctAnswerSum -= Math.pow(2, i);
-    }
-
-    if ([1, 2, 4, 8].includes(correctAnswerSum)) {
-      this.form.controls.type.setValue(PhpQuestionType.RADIO);
-    } else {
-      this.form.controls.type.setValue(PhpQuestionType.CHECKBOX);
-    }
-
-    this.form.controls.correctAnswerSum.setValue(correctAnswerSum);
   }
 }

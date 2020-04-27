@@ -23,11 +23,6 @@
         <input matInput formControlName="id" readonly/>
       </mat-form-field>
 
-      <mat-form-field fxFlex="10" fxFlex.xs="90">
-        <mat-label>#correctAnswerSum</mat-label>
-        <input matInput formControlName="correctAnswerSum"/>
-      </mat-form-field>
-
       <mat-form-field fxFlex="15" fxFlex.xs="90">
         <mat-label>#Type</mat-label>
         <mat-select formControlName="type">
@@ -42,7 +37,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field fxFlex="45" fxFlex.xs="90">
+      <mat-form-field fxFlex="50" fxFlex.xs="90">
         <mat-label>#Category</mat-label>
         <mat-select formControlName="category" multiple>
           <mat-option *ngFor="let cat of categoryOptions" [value]="PhpQuestionCategory[cat]">{{cat}}</mat-option>
@@ -126,7 +121,7 @@
 
           <mat-form-field fxFlex="45">
             <mat-label>Is Correct</mat-label>
-            <mat-select (selectionChange)="isCorrectSelect($event, i)" formControlName="isCorrect">
+            <mat-select formControlName="isCorrect">
               <mat-option [value]="false">NO</mat-option>
               <mat-option [value]="true">YES</mat-option>
             </mat-select>
