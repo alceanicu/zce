@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable, Subscriber } from 'rxjs';
 import { take } from 'rxjs/operators';
 
-import { Helper } from '@app/core/utils';
 import { environment } from '@env/environment';
+import { Helper } from '@app/core/utils';
 import { PhpQuestionService } from '@app/core/services/firestore/php-question.service';
 import { LocalStorageService } from '@app/core/services/local-storage/local-storage.service';
 import { IndexedDbQuizService } from '@app/core/services/indexeddb/indexed-db-quiz.service';

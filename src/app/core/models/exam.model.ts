@@ -1,39 +1,36 @@
-import { Helper } from '../utils';
-import { IExam, IExamQuestion } from '../interfaces';
 import { environment } from '@env/environment';
+import { Helper } from '@app/core/utils';
+import { IExam } from '@app/core/interfaces';
+import { Question } from '@app/core';
 
 export class Exam implements IExam {
   public startAt: number;
   public endAt?: number;
   public questionsArray: Array<number> = [];
-  public questions: { [key: string]: IExamQuestion } = {};
+  public questions: { [key: string]: Question | null } = {};
   public score: number = 0;
   public isFinished: boolean = false;
 
   public index: number = 0;
   public markForReviewArray: Array<number> = [];
-  public isCurrentQuestionLoaded: boolean = false;
 
-  constructor(values?: Exam) {
+  constructor(values?: IExam) {
+    this.startAt = new Date().getTime();
+    this.questionsArray = Helper.generateArrayWithRandomUniqueElement(environment.configPHP.examSize, environment.configPHP.max);
+    this.questionsArray.forEach((value, key) => {
+      this.questions[key] = null;
+    });
+
     if (values) {
       Object.assign(this, values);
     }
-    this.startAt = new Date().getTime();
-    this.questions = {};
-    this.score = 0;
-    this.isFinished = false;
-    this.questionsArray = Helper.generateArrayWithRandomUniqueElement(environment.configPHP.examSize, environment.configPHP.max);
-  }
-
-  get currentQuestion(): IExamQuestion | undefined {
-    return this.questions[this.index];
   }
 
   public finish(): void {
     // update score
     for (const key in this.questions) {
-      if (this.questions.hasOwnProperty(key)) {
-        if (this.questions[key].question.validate(false)) {
+      if (this.questions.hasOwnProperty(key) && (this.questions[key] !== null)) {
+        if (this.questions[key].validate(false)) {
           this.score++;
         }
       }
@@ -43,7 +40,7 @@ export class Exam implements IExam {
     this.isFinished = true;
   }
 
-  public setQuestion(index: number, question: IExamQuestion): void {
+  public setQuestion(index: number, question: Question | null): void {
     this.index = index;
     this.questions[index] = question;
   }

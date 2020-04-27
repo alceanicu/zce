@@ -10,7 +10,7 @@ class ZCEDatabase extends Dexie {
 
   constructor() {
     super('PHP_ZCE_DB');
-    const questionTable = '++id,type,*category,difficulty,*questionRows,*answerRows,correctAnswerSum,_userAnswer,_isValidated,_version';
+    const questionTable = '++id,type,*category,difficulty,*questionRows,*answerRows,_version';
     this.version(1).stores({ questionTable });
   }
 }
@@ -27,6 +27,7 @@ export class IndexedDbQuizService {
 
   addQuestion(question: IQuestion): Promise<number> {
     question._version = environment.appVersion;
+    delete question._isValidated;
     return this.db.questionTable.add(question);
   }
 

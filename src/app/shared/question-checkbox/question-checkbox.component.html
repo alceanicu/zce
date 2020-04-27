@@ -4,7 +4,7 @@
     <mat-checkbox color="primary"
                   [value]="answerRow.value"
                   [disabled]="question._isValidated"
-                  (change)="question.onChange($event, i, answerRow.value)"
+                  (change)="question.onChange($event, i)"
                   [(ngModel)]="answerRow._isCheckedByUser"
                   [labelPosition]="'after'"
     >{{ PhpAnswerLabel[i] }}

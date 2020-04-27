@@ -1,11 +1,11 @@
-<mat-radio-group [(ngModel)]="question._userAnswer" color="primary">
+<mat-radio-group color="primary">
   <mat-card *ngFor="let answerRow of question.answerRows, let i = index"
             [ngClass]="!question._isValidated ? '' : (question.isValidRowAnswer(i) ? 'isCorrect' : 'isWrong')">
     <mat-card-header>
       <mat-radio-button color="primary"
                         [value]="answerRow.value"
                         [disabled]="question._isValidated"
-                        (change)="question.onChange($event, i, answerRow.value)"
+                        (change)="question.onChange($event, i)"
       >{{ PhpAnswerLabel[i] }}
       </mat-radio-button>
     </mat-card-header>

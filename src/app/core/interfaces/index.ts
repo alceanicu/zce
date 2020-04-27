@@ -4,7 +4,6 @@ export * from './countdown-time.interface';
 export * from './data-service.interface';
 export * from './deactivate.interface';
 export * from './exam.interface';
-export * from './exam-question.interface';
 export * from './question.interface';
 export * from './question-row.interface';
 export * from './score.interface';

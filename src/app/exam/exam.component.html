@@ -16,26 +16,26 @@
                  [selectedIndex]="currentIndex">
     <mat-tab *ngFor="let id of exam.questionsArray, let i = index" [label]="i + 1">
       <br>
-      <div *ngIf="exam.questions[exam.index] !== undefined">
-        <app-question-display [question]="exam.questions[exam.index].question"></app-question-display>
+      <div *ngIf="exam.questions[exam.index] !== null">
+        <app-question-display [question]="exam.questions[exam.index]"></app-question-display>
 
         <!-- CHECKBOX -->
-        <div *ngIf="exam.questions[exam.index].question.type === PhpQuestionType.CHECKBOX">
+        <div *ngIf="exam.questions[exam.index].type === PhpQuestionType.CHECKBOX">
           <app-question-checkbox [wasValidated$]="wasValidated$"
-                                 [question]="exam.questions[exam.index].question"></app-question-checkbox>
+                                 [question]="exam.questions[exam.index]"></app-question-checkbox>
         </div>
 
         <!-- RADIO -->
-        <div *ngIf="exam.questions[exam.index].question.type === PhpQuestionType.RADIO">
+        <div *ngIf="exam.questions[exam.index].type === PhpQuestionType.RADIO">
           <app-question-radio [wasValidated$]="wasValidated$"
-                              [question]="exam.questions[exam.index].question"></app-question-radio>
+                              [question]="exam.questions[exam.index]"></app-question-radio>
         </div>
       </div>
 
     </mat-tab>
   </mat-tab-group>
 
-  <mat-card *ngIf="exam.questions[exam.index] !== undefined">
+  <mat-card *ngIf="exam.questions[exam.index] !== null">
     <mat-card-content fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between stretch" fxLayoutGap="5px">
       <button mat-flat-button color="primary" type="button"
               fxFlex="32" fxFlex.xs="100"
