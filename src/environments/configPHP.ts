@@ -4,5 +4,5 @@ export const configPHP = {
   max: 800,
   examSize: 70,
   examTime: 5400,
-  lastN: 70
+  doNotRepeatInlasts: 10
 };

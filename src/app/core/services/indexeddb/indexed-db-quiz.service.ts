@@ -28,6 +28,10 @@ export class IndexedDbQuizService {
   addQuestion(question: IQuestion): Promise<number> {
     question._version = environment.appVersion;
     delete question._isValidated;
+    [0, 1, 2, 3].forEach((value, index, array) => {
+      delete question.answerRows[index]._isCheckedByUser;
+    });
+
     return this.db.questionTable.add(question);
   }
 
