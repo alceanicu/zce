@@ -75,7 +75,7 @@ export class PhpQuestionService {
     return new Observable((observer) => {
       this.quizDoc = this.db.doc<IQuestion>(`${environment.configPHP.phpPath}/${question.id}`);
       this.quizDoc
-        .update(question)
+        .set(question)
         .then(() => observer.next(question.id))
         .catch(error => observer.error(error));
     });

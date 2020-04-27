@@ -14,7 +14,6 @@ import {
   PhpQuestionType
 } from '@app/core/enum/config';
 import { PhpQuestionService } from '@app/core/services/firestore/php-question.service';
-import { MatSelectChange } from '@angular/material/select';
 
 const log = new Logger('PhpEditComponent');
 
@@ -60,26 +59,25 @@ export class PhpEditComponent implements OnInit {
           DocumentSnapshot => {
             const question = DocumentSnapshot.data() as IQuestion;
 
-            // fixme
-            // delete(question.correctValue);
-            // delete(question.answerRows[0].correctValue);
-            // delete(question.answerRows[0].correct);
-            // delete(question.answerRows[1].correctValue);
-            // delete(question.answerRows[1].correct);
-            // delete(question.answerRows[2].correctValue);
-            // delete(question.answerRows[2].correct);
-            // delete(question.answerRows[3].correctValue);
-            // delete(question.answerRows[3].correct);
-            delete(question.correctAnswerSum);
-
-            question.answerRows[0].value = 1;
-            question.answerRows[1].value = 2;
-            question.answerRows[2].value = 4;
-            question.answerRows[3].value = 8;
-            question.answerRows[0].isCorrect = true;
-            question.answerRows[1].isCorrect = false;
-            question.answerRows[2].isCorrect = false;
-            question.answerRows[3].isCorrect = false;
+            // // fixme
+            if (question.hasOwnProperty('correctValue')) {
+              // tslint:disable-next-line:no-string-literal
+              delete question['correctValue'];
+            }
+            [0, 1, 2, 3].forEach((v, i) => {
+              if (question.answerRows[i].hasOwnProperty('correctValue')) {
+                // tslint:disable-next-line:no-string-literal
+                delete question.answerRows[i]['correctValue'];
+              }
+              if (question.answerRows[i].hasOwnProperty('correct')) {
+                // tslint:disable-next-line:no-string-literal
+                delete question.answerRows[i]['correct'];
+              }
+              if (question.answerRows[i].hasOwnProperty('value')) {
+                // tslint:disable-next-line:no-string-literal
+                delete question.answerRows[i]['value'];
+              }
+            });
 
             const qLength = (question.questionRows.length || 0);
             for (let i = 0; i < qLength; i++) {
@@ -137,13 +135,12 @@ export class PhpEditComponent implements OnInit {
   }
 
   /**
-   * init Answer formGroup - FIXMe
+   * init Answer formGroup
    */
   private initAnswerRow(i: number, isCorrect: boolean = false): FormGroup {
     return this.formBuilder.group({
       text: ['', Validators.required],
       language: [PhpHighlightingLanguage.NONE, Validators.required],
-      value: [Math.pow(2, i), Validators.required],
       isCorrect: [isCorrect, Validators.required]
     });
   }
