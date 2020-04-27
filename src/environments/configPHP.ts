@@ -1,8 +1,8 @@
 export const configPHP = {
   phpPath: 'phpQuestions',
   configPath: 'appConfig',
-  max: 6,
-  examSize: 5,
+  max: 800,
+  examSize: 70,
   examTime: 5400,
   lastN: 70
 };
