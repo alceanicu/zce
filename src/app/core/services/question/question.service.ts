@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable, Subscriber } from 'rxjs';
 import { take } from 'rxjs/operators';
 
-import { Helper } from '@app/core/utils';
 import { environment } from '@env/environment';
+import { Helper } from '@app/core/utils';
 import { PhpQuestionService } from '@app/core/services/firestore/php-question.service';
 import { LocalStorageService } from '@app/core/services/local-storage/local-storage.service';
 import { IndexedDbQuizService } from '@app/core/services/indexeddb/indexed-db-quiz.service';
@@ -70,17 +70,17 @@ export class QuestionService {
       });
   }
 
-  private generateRandomIdWithoutRepeatInLastN(internalCounter: number = 0): number {
+  private generateRandomIdWithoutRepeatInLastN(internalCounter: number = 0, key: string = 'phpLastNIds'): number {
     const randomId = Helper.randomNumberFromInterval(environment.configPHP.max);
-    let phpLastNIds = this.sessionStorageService.getItem('phpLastNIds') || [];
+    let phpLastNIds = this.sessionStorageService.getItem(key) || [];
     if (internalCounter === 100) {
       return randomId;
     }
     const randomIdStr = String(randomId);
     if (phpLastNIds.indexOf(randomIdStr) === -1) {
       phpLastNIds.unshift(randomIdStr);
-      phpLastNIds = phpLastNIds.filter((value: any, key: number) => key < 10);
-      this.sessionStorageService.setItem('phpLastNIds', phpLastNIds);
+      phpLastNIds = phpLastNIds.filter((value: any, index: number) => index < environment.configPHP.doNotRepeatInlasts);
+      this.sessionStorageService.setItem(key, phpLastNIds);
       return randomId;
     } else {
       internalCounter++;

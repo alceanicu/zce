@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -9,13 +9,13 @@ import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { Moment } from 'moment';
 import * as moment from 'moment';
+import { Moment } from 'moment';
 
 import { environment } from '@env/environment';
 import { ConfirmComponent } from '@app/shared/confirm/confirm.component';
 import { CountdownService, Logger, PrismService, QuestionService, SyncCountdownTimeService } from '@app/core/services';
-import { Exam, IDeactivate, IExamQuestion } from '@app/core';
+import { Exam, IDeactivate } from '@app/core';
 import { PhpQuestionType } from '@app/core/enum/config';
 
 const log = new Logger('ExamComponent');
@@ -40,8 +40,7 @@ export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnD
     private countdownService: CountdownService,
     private syncCountdownTimeService: SyncCountdownTimeService,
     private prismService: PrismService,
-    private ngxUiLoaderService: NgxUiLoaderService,
-    private cdr: ChangeDetectorRef
+    private ngxUiLoaderService: NgxUiLoaderService
   ) {
     this.wasValidated$ = new BehaviorSubject(false);
     this.wasValidated$.next(false);
@@ -51,7 +50,6 @@ export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnD
     this.exam = new Exam();
     const startTime = moment(this.exam.startAt);
     const endTime = moment(startTime).add(environment.configPHP.examTime, 'seconds');
-
     this.countdownSubscription = this.countdownService
       .countdown()
       .subscribe(
@@ -83,21 +81,13 @@ export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnD
     this.openSnackBar(`You have 90 minutes to finish your exam. Good luck!`, 'info-snackbar');
 
     this.getQuestion(0);
-
-    this.wasValidated$.subscribe(value => {
-      if (value) {
-        this.cdr.detectChanges();
-      }
-    });
   }
 
   ngAfterViewChecked(): void {
-    if (this.exam.isCurrentQuestionLoaded && !this.isPageHighlighted) {
+    if ((this.exam.questions[this.exam.index] !== null) && !this.isPageHighlighted) {
       setTimeout(() => this.prismService.highlightAll(), 10);
       this.isPageHighlighted = true;
     }
-
-    this.cdr.detectChanges();
   }
 
   ngOnDestroy(): void {
@@ -196,26 +186,19 @@ export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnD
 
   private getQuestion(index: number): void {
     this.ngxUiLoaderService.start();
-    this.exam.validateCurrentExamQuestion();
-    this.exam.isCurrentQuestionLoaded = false;
     this.isPageHighlighted = false;
     //
     this.exam.index = index;
-    const id = this.exam.questionsArray[index];
 
-    if (this.exam.questions[index] === undefined) {
+    if (this.exam.questions[index] === null) {
+      const id = this.exam.questionsArray[index];
       // we try to get question from IndexedDB || Firebase
       this.questionService
         .getOneQuestionById(id)
         .pipe(take(1))
         .subscribe(
           question => {
-            const currentQuestion = {
-              id,
-              question,
-              isQuestionAnswerCorrect: false
-            } as IExamQuestion;
-            this.exam.setQuestion(index, currentQuestion);
+            this.exam.setQuestion(index, question);
             this.stopLoaded();
           },
           error => log.error(error)
@@ -238,7 +221,6 @@ export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnD
   }
 
   private stopLoaded(): void {
-    this.exam.isCurrentQuestionLoaded = true;
     setTimeout(() => {
       this.ngxUiLoaderService.stopAll();
     }, 350);

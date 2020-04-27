@@ -36,13 +36,11 @@ export class PrepareComponent implements OnInit, AfterViewChecked, OnDestroy {
     private syncScoreService: SyncScoreService,
     private snackBar: MatSnackBar
   ) {
-    log.info('on constructor');
     this.wasValidated$ = new BehaviorSubject(false);
     this.wasValidated$.next(false);
   }
 
   ngOnInit(): void {
-    // log.info('on ngOnInit');
     this.syncScoreService.currentValue
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(
@@ -54,7 +52,6 @@ export class PrepareComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   ngAfterViewChecked(): void {
-    // log.info('ngAfterViewChecked');
     if (this.isQuestionLoaded && !this.isPageHighlighted) {
       log.info('HIGHLIGHT All Page elements');
       this.prismService.highlightAll();
@@ -92,7 +89,6 @@ export class PrepareComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   public onValidate(countDown: number = 10): void {
     this.isQuestionAnswerCorrect = this.question.validate(true);
-    console.log('isQuestionAnswerCorrect' + this.isQuestionAnswerCorrect);
     this.syncScoreService.setValue(this.updateScore(this.isQuestionAnswerCorrect));
     const ansType = this.isQuestionAnswerCorrect ? 'CORRECT' : 'WRONG';
     this.btnText = `NEXT QUESTION [${countDown}]`;
@@ -140,7 +136,6 @@ export class PrepareComponent implements OnInit, AfterViewChecked, OnDestroy {
     });
 
     // snack.afterDismissed().subscribe(() => {
-    //   console.log('The snack-bar was dismissed');
     //   this.getRandomQuestion();
     // });
   }

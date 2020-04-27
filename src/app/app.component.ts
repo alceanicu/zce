@@ -39,11 +39,11 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {
     this.matIconRegistry.addSvgIcon(
       'elephant',
-      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/svg/elephant.svg')
+      this.domSanitizer.bypassSecurityTrustResourceUrl('./assets/svg/elephant.svg')
     );
     this.matIconRegistry.addSvgIcon(
       'github',
-      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/svg/github.svg')
+      this.domSanitizer.bypassSecurityTrustResourceUrl('./assets/svg/github.svg')
     );
   }
 
