@@ -36,18 +36,17 @@
   </mat-tab-group>
 
   <mat-card *ngIf="exam.questions[exam.index] !== null">
-    <mat-card-content fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between stretch" fxLayoutGap="5px">
+    <mat-card-content fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="5px">
       <button mat-flat-button color="primary" type="button"
-              fxFlex="32" fxFlex.xs="100"
+              fxFlex="32" fxFlex.xs="48"
               (click)="getPrevQuestion()"
-              [disabled]="isDisabledPrevBtn"
-      >
-        <mat-icon fxHide.xs="true">navigate_before</mat-icon>
-        PREVIEW
+              [disabled]="isDisabledPrevBtn">
+        <mat-icon>navigate_before</mat-icon>
+        PREV
       </button>
 
       <button mat-flat-button color="accent" type="button"
-              fxFlex="32" fxFlex.xs="100"
+              fxFlex="32" fxHide.xs="true"
               (click)="markForReview()"
               [disabled]="isDisabledMarkForReviewBtn">
         <span *ngIf="exam.markForReviewArray.indexOf(currentIndex) === -1; else elseBlock">Mark for review</span>
@@ -57,23 +56,31 @@
       </button>
 
       <button mat-flat-button color="primary" type="button"
-              fxFlex="32" fxFlex.xs="100"
+              fxFlex="32" fxFlex.xs="48"
               (click)="getNextQuestion()"
-              [disabled]="isDisabledNextBtn"
-      >
+              [disabled]="isDisabledNextBtn">
         NEXT
-        <mat-icon fxHide.xs="true">navigate_next</mat-icon>
+        <mat-icon>navigate_next</mat-icon>
       </button>
     </mat-card-content>
   </mat-card>
 </div>
 
 <mat-card *ngIf="!exam.isFinished">
-  <mat-card-content fxLayout="column">
+  <mat-card-content fxLayout="column" fxLayout.xs="row" fxLayoutAlign="space-between stretch" fxLayoutGap="5px">
     <button mat-flat-button color="warn" type="button"
-            fxFlex="100"
+            fxFlex="100" fxFlex.xs="48"
             (click)="goToHome()">
       <span>Finish Exam</span>
+    </button>
+    <button mat-flat-button color="accent" type="button"
+            fxFlex="48" fxHide.gt-xs="true"
+            (click)="markForReview()"
+            [disabled]="isDisabledMarkForReviewBtn">
+      <span *ngIf="exam.markForReviewArray.indexOf(currentIndex) === -1; else elseBlock">Mark for review</span>
+      <ng-template #elseBlock>
+        <span>Unmark for review</span>
+      </ng-template>
     </button>
   </mat-card-content>
 </mat-card>
