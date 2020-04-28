@@ -26,9 +26,9 @@ export class PrepareComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   public constructor(
     private ngxUiLoaderService: NgxUiLoaderService,
-    private prismService: PrismService,
-    private questionService: QuestionService,
     private syncScoreService: SyncScoreService,
+    private questionService: QuestionService,
+    private prismService: PrismService,
     private snackBar: MatSnackBar
   ) {
     this.wasValidated$ = new BehaviorSubject(false);
@@ -48,8 +48,9 @@ export class PrepareComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   ngAfterViewChecked(): void {
     if ((this.question !== null) && !this.isPageHighlighted) {
-      this.prismService.highlightAll();
-      this.isPageHighlighted = true;
+      this.prismService
+        .highlightAll()
+        .finally(() => this.isPageHighlighted = true);
     }
   }
 
@@ -67,10 +68,7 @@ export class PrepareComponent implements OnInit, AfterViewChecked, OnDestroy {
       .subscribe(
         question => this.question = question,
         error => log.error(error),
-        () => {
-          window.scrollTo(0, 0);
-          setTimeout(() => this.ngxUiLoaderService.stopAll(), 350);
-        }
+        () => setTimeout(() => this.ngxUiLoaderService.stopAll(), 350)
       );
   }
 
@@ -89,6 +87,7 @@ export class PrepareComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   private reset(): void {
+    window.scrollTo(0, 0);
     this.question = null;
     this.ngxUiLoaderService.start();
     this.isPageHighlighted = false;
