@@ -5,9 +5,10 @@
       Marked for review:
     </mat-button-toggle>
 
-    <mat-button-toggle [value]="mark" aria-label="{{mark + 1}}"
-                       (change)="clickMark($event)"
-                       *ngFor="let mark of exam.markForReviewArray, let i = index">{{mark + 1}}
+    <mat-button-toggle *ngFor="let mark of exam.markForReviewArray, let i = index"
+                       [value]="mark" aria-label="{{mark + 1}}"
+                       [disabled]="mark === currentIndex"
+                       (change)="clickMark($event)">{{mark + 1}}
     </mat-button-toggle>
   </mat-button-toggle-group>
 
