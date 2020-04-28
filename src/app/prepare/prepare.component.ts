@@ -8,7 +8,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Logger, PrismService, QuestionService, SyncScoreService } from '@app/core/services';
 import { Question } from '@app/core/models';
 import { IScore } from '@app/core/interfaces';
-import { PhpHighlightingLanguage, PhpQuestionType } from '@app/core/enum/config';
+import { PhpQuestionType } from '@app/core/enum/config';
 
 const log = new Logger('PrepareComponent');
 
@@ -17,23 +17,18 @@ const log = new Logger('PrepareComponent');
   templateUrl: './prepare.component.html'
 })
 export class PrepareComponent implements OnInit, AfterViewChecked, OnDestroy {
-  public question?: Question;
-  public isQuestionLoaded: boolean = false;
-  public isQuestionAnswerCorrect: boolean = false;
-  private isPageHighlighted: boolean = false;
-  private btnText: string = '';
-  private score?: IScore;
-  private interval?: NodeJS.Timeout = null;
-  private unsubscribe$: Subject<boolean> = new Subject<boolean>();
-  public PhpHighlightingLanguage = PhpHighlightingLanguage;
+  public question?: Question | null = null;
   public PhpQuestionType = PhpQuestionType;
   public wasValidated$: BehaviorSubject<boolean>;
+  private isPageHighlighted: boolean = false;
+  private score?: IScore;
+  private unsubscribe$: Subject<boolean> = new Subject<boolean>();
 
   public constructor(
     private ngxUiLoaderService: NgxUiLoaderService,
-    private prismService: PrismService,
-    private questionService: QuestionService,
     private syncScoreService: SyncScoreService,
+    private questionService: QuestionService,
+    private prismService: PrismService,
     private snackBar: MatSnackBar
   ) {
     this.wasValidated$ = new BehaviorSubject(false);
@@ -52,21 +47,16 @@ export class PrepareComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   ngAfterViewChecked(): void {
-    if (this.isQuestionLoaded && !this.isPageHighlighted) {
-      log.info('HIGHLIGHT All Page elements');
-      this.prismService.highlightAll();
-      this.isPageHighlighted = true;
+    if ((this.question !== null) && !this.isPageHighlighted) {
+      this.prismService
+        .highlightAll()
+        .finally(() => this.isPageHighlighted = true);
     }
   }
 
   ngOnDestroy(): void {
-    log.info('on ngOnDestroy');
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
-  }
-
-  get buttonText(): string {
-    return this.btnText;
   }
 
   public getRandomQuestion(): void {
@@ -76,46 +66,31 @@ export class PrepareComponent implements OnInit, AfterViewChecked, OnDestroy {
       .getQuestion(1)
       .pipe(take(1))
       .subscribe(
-        question => {
-          this.question = question;
-          this.isQuestionLoaded = true;
-        },
+        question => this.question = question,
         error => log.error(error),
-        () => {
-          setTimeout(() => this.ngxUiLoaderService.stopAll(), 350);
-        }
+        () => setTimeout(() => this.ngxUiLoaderService.stopAll(), 350)
       );
   }
 
-  public onValidate(countDown: number = 10): void {
-    this.isQuestionAnswerCorrect = this.question.validate(true);
-    this.syncScoreService.setValue(this.updateScore(this.isQuestionAnswerCorrect));
-    const ansType = this.isQuestionAnswerCorrect ? 'CORRECT' : 'WRONG';
-    this.btnText = `NEXT QUESTION [${countDown}]`;
+  public onValidate(): void {
+    const isQuestionAnswerCorrect = this.question.validate(true);
+    let ansType = 'WRONG';
+    let className = 'error-snackbar';
+    if (isQuestionAnswerCorrect) {
+      ansType = 'CORRECT';
+      className = 'success-snackbar';
+    }
+    this.syncScoreService.setValue(this.updateScore(isQuestionAnswerCorrect));
 
     this.wasValidated$.next(true);
-    this.openSnackBar(`Your answer is: ${ansType}`, this.isQuestionAnswerCorrect ? 'success-snackbar' : 'error-snackbar');
-
-    this.interval = setInterval(() => {
-      countDown--;
-      this.btnText = `NEXT QUESTION [${countDown}]`;
-
-      if (countDown === 0) {
-        this.getRandomQuestion();
-      }
-    }, 1000);
+    this.openSnackBar(`Your answer is: ${ansType}`, className);
   }
 
   private reset(): void {
-    if (this.interval) {
-      clearInterval(this.interval);
-      this.interval = null;
-    }
+    window.scrollTo(0, 0);
+    this.question = null;
     this.ngxUiLoaderService.start();
-    this.isQuestionLoaded = false;
-    this.isQuestionAnswerCorrect = false;
     this.isPageHighlighted = false;
-    this.btnText = 'Get next question now ';
   }
 
   private updateScore(isCorrect: boolean): IScore {
@@ -129,14 +104,18 @@ export class PrepareComponent implements OnInit, AfterViewChecked, OnDestroy {
     return this.score;
   }
 
-  private openSnackBar(data: any, className: string, action: string = 'close') {
+  private openSnackBar(data: any, className: string, action: string = 'next question') {
     const snack = this.snackBar.open(data, action, {
-      duration: 5 * 1000,
+      duration: 10000,
       panelClass: [className]
     });
 
-    // snack.afterDismissed().subscribe(() => {
-    //   this.getRandomQuestion();
-    // });
+    snack
+      .afterDismissed()
+      .subscribe(
+        (dismiss) => log.info(dismiss),
+        error => log.error(error),
+        () => this.getRandomQuestion()
+      );
   }
 }

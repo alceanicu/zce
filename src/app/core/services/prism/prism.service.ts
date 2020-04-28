@@ -26,9 +26,14 @@ export class PrismService {
   ) {
   }
 
-  highlightAll(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      Prism.highlightAll();
-    }
+  highlightAll(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      if (isPlatformBrowser(this.platformId)) {
+        Prism.highlightAll();
+        resolve(true);
+      } else {
+        resolve(false);
+      }
+    });
   }
 }

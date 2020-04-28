@@ -1,4 +1,4 @@
-<div *ngIf="isQuestionLoaded">
+<div *ngIf="question !== null">
 
   <app-question-display [question]="question"></app-question-display>
 
@@ -19,13 +19,13 @@
               mat-flat-button color="accent"
               (click)="onValidate()"> Validate
       </button>
-      <button *ngIf="question._isValidated"
-              fxFlex="100"
-              mat-flat-button
-              [color]="'primary'"
-              (click)="getRandomQuestion()"
-      > >>> {{buttonText}}
-      </button>
+<!--      <button *ngIf="question._isValidated"-->
+<!--              fxFlex="100"-->
+<!--              mat-flat-button-->
+<!--              [color]="'primary'"-->
+<!--              (click)="getRandomQuestion()"-->
+<!--      > >>> {{buttonText}}-->
+<!--      </button>-->
     </mat-card-content>
   </mat-card>
 

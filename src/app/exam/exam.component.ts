@@ -26,21 +26,21 @@ const log = new Logger('ExamComponent');
 })
 export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnDestroy {
   public exam: Exam;
-  private isPageHighlighted: boolean = false;
-  private countdownSubscription: Subscription;
   public PhpQuestionType = PhpQuestionType;
   public wasValidated$: BehaviorSubject<boolean>;
+  private isPageHighlighted: boolean = false;
+  private countdownSubscription: Subscription;
 
   public constructor(
-    private location: Location,
     private router: Router,
     private dialog: MatDialog,
+    private location: Location,
     private snackBar: MatSnackBar,
+    private prismService: PrismService,
     private questionService: QuestionService,
     private countdownService: CountdownService,
-    private syncCountdownTimeService: SyncCountdownTimeService,
-    private prismService: PrismService,
-    private ngxUiLoaderService: NgxUiLoaderService
+    private ngxUiLoaderService: NgxUiLoaderService,
+    private syncCountdownTimeService: SyncCountdownTimeService
   ) {
     this.wasValidated$ = new BehaviorSubject(false);
     this.wasValidated$.next(false);
@@ -54,17 +54,26 @@ export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnD
       .countdown()
       .subscribe(
         (seconds: number) => {
-          if (seconds === 3600) {
-            this.openSnackBar(`You have another hour to finish the exam`, 'info-snackbar');
+          let infoMsg = '';
+          switch (seconds) {
+            case 3600:
+              infoMsg = 'You have 1 hour to finish the exam';
+              break;
+            case 1800:
+              infoMsg = 'You have another 30 minutes to finish the exam';
+              break;
+            case 600:
+              infoMsg = 'You have another 10 minutes to finish the exam';
+              break;
+            case 300:
+              infoMsg = 'You have less than 5 minutes to finish the exam';
+              break;
+            default:
+              infoMsg = '';
           }
-          if (seconds === 1800) {
-            this.openSnackBar(`You have another 30 minutes to finish the exam`, 'info-snackbar');
-          }
-          if (seconds === 600) {
-            this.openSnackBar(`You have another 10 minutes to finish the exam`, 'info-snackbar');
-          }
-          if (seconds === 300) {
-            this.openSnackBar(`You have less than 5 minutes to finish the exam`, 'info-snackbar');
+
+          if (infoMsg !== '') {
+            this.openSnackBar(infoMsg, 'info-snackbar');
           }
 
           const obj = this.syncCountdownTimeService.getValue();
@@ -85,8 +94,9 @@ export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnD
 
   ngAfterViewChecked(): void {
     if ((this.exam.questions[this.exam.index] !== null) && !this.isPageHighlighted) {
-      setTimeout(() => this.prismService.highlightAll(), 10);
-      this.isPageHighlighted = true;
+      this.prismService
+        .highlightAll()
+        .finally(() => this.isPageHighlighted = true);
     }
   }
 
@@ -185,9 +195,9 @@ export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnD
   }
 
   private getQuestion(index: number): void {
+    window.scrollTo(0, 0);
     this.ngxUiLoaderService.start();
     this.isPageHighlighted = false;
-    //
     this.exam.index = index;
 
     if (this.exam.questions[index] === null) {
@@ -197,15 +207,13 @@ export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnD
         .getOneQuestionById(id)
         .pipe(take(1))
         .subscribe(
-          question => {
-            this.exam.setQuestion(index, question);
-            this.stopLoaded();
-          },
-          error => log.error(error)
+          question => this.exam.setQuestion(index, question),
+          error => log.error(error),
+          () => setTimeout(() => this.ngxUiLoaderService.stopAll(), 350)
         );
     } else {
       // question is already exist in exam object
-      this.stopLoaded();
+      setTimeout(() => this.ngxUiLoaderService.stopAll(), 350);
     }
   }
 
@@ -218,12 +226,6 @@ export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnD
     const ss = duration.seconds().toString().padStart(2, '0');
 
     return hh + ':' + mm + ':' + ss;
-  }
-
-  private stopLoaded(): void {
-    setTimeout(() => {
-      this.ngxUiLoaderService.stopAll();
-    }, 350);
   }
 
   private countdownSubscriptionUnsubscribe(): void {
