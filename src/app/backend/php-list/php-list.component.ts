@@ -121,7 +121,7 @@ export class PhpListComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       blobParts.push(`${value.text}\r\n`);
       if (value.language !== PhpHighlightingLanguage.NONE) {
-        blobParts.push('```' + '\r\n');
+        blobParts.push('```\r\n');
       }
     });
 
@@ -134,8 +134,10 @@ export class PhpListComponent implements OnInit, AfterViewInit, OnDestroy {
       if (value.language === PhpHighlightingLanguage.NONE) {
         blobParts.push(`- [ ] ${abcd[index]}) ${question.answerRows[index].text}`);
       } else {
-        blobParts.push(`- [ ] ${abcd[index]})`);
-        blobParts.push(`${question.answerRows[index].text}`);
+        blobParts.push(`- [ ] ${abcd[index]})\r\n`);
+        blobParts.push('```' + value.language + '\r\n');
+        blobParts.push(`${question.answerRows[index].text}\r\n`);
+        blobParts.push('```\r\n');
       }
       blobParts.push(`\r\n`);
       if (value.isCorrect) {

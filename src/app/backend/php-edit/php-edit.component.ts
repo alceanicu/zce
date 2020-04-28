@@ -232,8 +232,7 @@ export class PhpEditComponent implements OnInit {
       blobParts.push(`[<<< Previous question <<<](${prevFileName})`);
       blobParts.push(`   Question ID#${fileName}   `);
       blobParts.push(`[>>> Next question >>>](${nextFileName})\r\n`);
-      blobParts.push('---');
-      blobParts.push('\r\n\r\n');
+      blobParts.push('---\r\n\r\n');
 
       question.questionRows.forEach((value: IQuestionRow, index, array) => {
         if (value.language !== PhpHighlightingLanguage.NONE) {
@@ -241,7 +240,7 @@ export class PhpEditComponent implements OnInit {
         }
         blobParts.push(`${value.text}\r\n`);
         if (value.language !== PhpHighlightingLanguage.NONE) {
-          blobParts.push('```' + '\r\n');
+          blobParts.push('```\r\n');
         }
       });
 
@@ -254,8 +253,10 @@ export class PhpEditComponent implements OnInit {
         if (value.language === PhpHighlightingLanguage.NONE) {
           blobParts.push(`- [ ] ${abcd[index]}) ${question.answerRows[index].text}`);
         } else {
-          blobParts.push(`- [ ] ${abcd[index]})`);
-          blobParts.push(`${question.answerRows[index].text}`);
+          blobParts.push(`- [ ] ${abcd[index]})\r\n`);
+          blobParts.push('```' + value.language + '\r\n');
+          blobParts.push(`${question.answerRows[index].text}\r\n`);
+          blobParts.push('```\r\n');
         }
         blobParts.push(`\r\n`);
         if (value.isCorrect) {
