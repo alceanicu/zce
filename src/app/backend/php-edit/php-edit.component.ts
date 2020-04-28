@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { take } from 'rxjs/operators';
 
-import { IQuestion, Logger } from '@app/core';
+import { IAnswerRow, IQuestion, IQuestionRow, Logger } from '@app/core';
 import {
   PhpAnswerLabel,
   PhpHighlightingLanguage,
@@ -34,6 +36,7 @@ export class PhpEditComponent implements OnInit {
   public PhpHighlightingLanguage = PhpHighlightingLanguage;
   public form: FormGroup;
   public questionRowsArray: FormArray;
+  public fileUrl: any;
   private type: string;
 
   constructor(
@@ -41,7 +44,9 @@ export class PhpEditComponent implements OnInit {
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private sanitizer: DomSanitizer,
+    @Inject(DOCUMENT) private document: Document
   ) {
   }
 
@@ -51,44 +56,7 @@ export class PhpEditComponent implements OnInit {
     const id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     if (id > 0) {
       this.type = Type.EDIT;
-      this.firestorePhpQuestionService
-        .getQuestion(id)
-        .pipe(take(1))
-        .subscribe(
-          // tslint:disable-next-line:variable-name
-          DocumentSnapshot => {
-            const question = DocumentSnapshot.data() as IQuestion;
-
-            // // fixme
-            if (question.hasOwnProperty('correctValue')) {
-              // tslint:disable-next-line:no-string-literal
-              delete question['correctValue'];
-            }
-            [0, 1, 2, 3].forEach((v, i) => {
-              if (question.answerRows[i].hasOwnProperty('correctValue')) {
-                // tslint:disable-next-line:no-string-literal
-                delete question.answerRows[i]['correctValue'];
-              }
-              if (question.answerRows[i].hasOwnProperty('correct')) {
-                // tslint:disable-next-line:no-string-literal
-                delete question.answerRows[i]['correct'];
-              }
-              if (question.answerRows[i].hasOwnProperty('value')) {
-                // tslint:disable-next-line:no-string-literal
-                delete question.answerRows[i]['value'];
-              }
-            });
-
-            const qLength = (question.questionRows.length || 0);
-            for (let i = 0; i < qLength; i++) {
-              this.addQuestionRow();
-            }
-
-            this.form.setValue(question);
-          },
-          (error) => log.error(`Error on update question with ID=${id} ${error}`),
-          () => log.info('Update complete')
-        );
+      this.load(id);
     } else {
       this.type = Type.CREATE;
       this.addQuestionRow();
@@ -184,15 +152,22 @@ export class PhpEditComponent implements OnInit {
         .pipe(take(1))
         .subscribe(
           id => {
-            log.info(`Update question with ID=${id}`);
+            const nextId = id + 1;
             this.openSnackBar(`Update question with ID=${id}`, 'blue-snackbar');
+            this.router
+              .navigate([`/php-edit/${nextId}`])
+              .then((e) => {
+                if (e) {
+                  this.generateMdFile(question)
+                    .then(ok => log.info('')).finally(() => {
+                    this.load(nextId);
+                  });
+                }
+              });
           },
           error => {
             log.error(error);
             this.openSnackBar(`Update question with error: ` + error, 'red-snackbar');
-          },
-          () => {
-            this.router.navigate([`/backend/php-edit/${question.id + 1}`]).then(() => 'next');
           }
         );
     } else {
@@ -211,7 +186,6 @@ export class PhpEditComponent implements OnInit {
         );
     }
   }
-
 
   /**
    * init Quiz formGroup
@@ -242,5 +216,120 @@ export class PhpEditComponent implements OnInit {
       duration: 3 * 2000,
       panelClass: [className]
     });
+  }
+
+  public getFileName(id: number): string {
+    return `${id}`.padStart(4, '0') + '.md';
+  }
+
+  public generateMdFile(question: IQuestion): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const blobParts = [];
+      const prevFileName = this.getFileName(question.id - 1);
+      const nextFileName = this.getFileName(question.id + 1);
+      const fileName = this.getFileName(question.id);
+
+      blobParts.push(`[<<< Previous question <<<](${prevFileName})`);
+      blobParts.push(`   Question ID#${fileName}   `);
+      blobParts.push(`[>>> Next question >>>](${nextFileName})\r\n`);
+      blobParts.push('---');
+      blobParts.push('\r\n\r\n');
+
+      question.questionRows.forEach((value: IQuestionRow, index, array) => {
+        if (value.language !== PhpHighlightingLanguage.NONE) {
+          blobParts.push('```' + value.language + '\r\n');
+        }
+        blobParts.push(`${value.text}\r\n`);
+        if (value.language !== PhpHighlightingLanguage.NONE) {
+          blobParts.push('```' + '\r\n');
+        }
+      });
+
+      blobParts.push('\r\n');
+
+      const abcd = ['A', 'B', 'C', 'D'];
+      let correct = '';
+
+      question.answerRows.forEach((value: IAnswerRow, index) => {
+        if (value.language === PhpHighlightingLanguage.NONE) {
+          blobParts.push(`- [ ] ${abcd[index]}) ${question.answerRows[index].text}`);
+        } else {
+          blobParts.push(`- [ ] ${abcd[index]})`);
+          blobParts.push(`${question.answerRows[index].text}`);
+        }
+        blobParts.push(`\r\n`);
+        if (value.isCorrect) {
+          correct += `${abcd[index]}, `;
+        }
+      });
+      correct = correct.slice(0, -2);
+
+      blobParts.push(`\r\n<details><summary><b>Answer</b></summary>\r\n`);
+      blobParts.push(`<p>\r\n`);
+      blobParts.push(`  Answer: <strong>${correct}</strong>\r\n`);
+      blobParts.push(`</p>\r\n`);
+      blobParts.push(`</details>\r\n`);
+
+      const blob = new Blob(blobParts, { type: 'text/markdown' });
+      this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+
+      if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+        resolve(window.navigator.msSaveOrOpenBlob(blob, fileName));
+      } else {
+        const a = this.document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = fileName;
+        this.document.body.appendChild(a);
+        a.click();
+        this.document.body.removeChild(a);
+        resolve(true);
+      }
+    });
+  }
+
+  private load(id: number): void {
+    this.firestorePhpQuestionService
+      .getQuestion(id)
+      .pipe(take(1))
+      .subscribe(
+        // tslint:disable-next-line:variable-name
+        DocumentSnapshot => {
+          const question = DocumentSnapshot.data() as IQuestion;
+
+          // FIXME
+          if (question.hasOwnProperty('correctAnswerSum')) {
+            // tslint:disable-next-line:no-string-literal
+            delete question['correctAnswerSum'];
+          }
+          if (question.hasOwnProperty('correctValue')) {
+            // tslint:disable-next-line:no-string-literal
+            delete question['correctValue'];
+          }
+          [0, 1, 2, 3].forEach((v, i) => {
+            if (question.answerRows[i].hasOwnProperty('correctValue')) {
+              // tslint:disable-next-line:no-string-literal
+              delete question.answerRows[i]['correctValue'];
+            }
+            if (question.answerRows[i].hasOwnProperty('correct')) {
+              // tslint:disable-next-line:no-string-literal
+              delete question.answerRows[i]['correct'];
+            }
+            if (question.answerRows[i].hasOwnProperty('value')) {
+              // tslint:disable-next-line:no-string-literal
+              delete question.answerRows[i]['value'];
+            }
+          });
+          this.questionRowsArray.clear();
+
+          const qLength = (question.questionRows.length || 0);
+          for (let i = 0; i < qLength; i++) {
+            this.addQuestionRow();
+          }
+          console.log('question', question);
+          this.form.setValue(question);
+        },
+        (error) => log.error(`Error on update question with ID=${id} ${error}`),
+        () => log.info('Update complete')
+      );
   }
 }

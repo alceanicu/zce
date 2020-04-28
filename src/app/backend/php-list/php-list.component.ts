@@ -106,10 +106,14 @@ export class PhpListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public generateMdFile(question: IQuestion): void {
     const blobParts = [];
+    const prevFileName = this.getFileName(question.id - 1);
+    const nextFileName = this.getFileName(question.id + 1);
+    const fileName = this.getFileName(question.id);
 
-    blobParts.push(`[<<< Previous question <<<](${this.getFileName(question.id - 1)})`);
-    blobParts.push(`   Question ID#${this.getFileName(question.id)}   `);
-    blobParts.push(`[>>> Next question >>>](${question.id + 1}.md)\r\n\r\n`);
+    blobParts.push(`[<<< Previous question <<<](${prevFileName})`);
+    blobParts.push(`   Question ID#${fileName}   `);
+    blobParts.push(`[>>> Next question >>>](${nextFileName})\r\n`);
+    blobParts.push('---\r\n\r\n');
 
     question.questionRows.forEach((value: IQuestionRow, index, array) => {
       if (value.language !== PhpHighlightingLanguage.NONE) {
