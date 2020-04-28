@@ -26,10 +26,10 @@ const log = new Logger('ExamComponent');
 })
 export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnDestroy {
   public exam: Exam;
-  private isPageHighlighted: boolean = false;
-  private countdownSubscription: Subscription;
   public PhpQuestionType = PhpQuestionType;
   public wasValidated$: BehaviorSubject<boolean>;
+  private isPageHighlighted: boolean = false;
+  private countdownSubscription: Subscription;
 
   public constructor(
     private location: Location,
