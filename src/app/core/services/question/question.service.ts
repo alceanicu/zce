@@ -35,7 +35,7 @@ export class QuestionService {
 
     return new Observable((subscriber: Subscriber<Question>) => {
       for (let i = 0; i < questionNumber; i++) {
-        this.getQuestionById(this.generateRandomIdWithoutRepeatInLastN(), subscriber); //  1 , 6 this.generateRandomIdWithoutRepeatInLastN()
+        this.getQuestionById(this.generateRandomIdWithoutRepeatInLastN(), subscriber);
       }
     });
   }
