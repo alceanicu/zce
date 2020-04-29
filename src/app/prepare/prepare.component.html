@@ -2,16 +2,6 @@
 
   <app-question-display [question]="question" [wasValidated$]="wasValidated$"></app-question-display>
 
-<!--  &lt;!&ndash; CHECKBOX &ndash;&gt;-->
-<!--  <div *ngIf="question.type === PhpQuestionType.CHECKBOX">-->
-<!--    <app-question-checkbox [question]="question" [wasValidated$]="wasValidated$"></app-question-checkbox>-->
-<!--  </div>-->
-
-<!--  &lt;!&ndash; RADIO &ndash;&gt;-->
-<!--  <div *ngIf="question.type === PhpQuestionType.RADIO">-->
-<!--    <app-question-radio [question]="question" [wasValidated$]="wasValidated$"></app-question-radio>-->
-<!--  </div>-->
-
   <mat-card *ngIf="!question._isValidated">
     <mat-card-content fxLayout="column">
       <button fxFlex="100"

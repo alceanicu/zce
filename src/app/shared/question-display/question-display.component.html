@@ -24,7 +24,7 @@
         [ngClass.gt-xs]="'line-numbers'"
         class="language-{{ PhpHighlightingLanguage[answerRow.language!.toUpperCase()] }}">{{answerRow.text}}</code></pre>
 
-      <ng-template #plainText><p class="black">{{answerRow.text}}</p></ng-template>
+      <ng-template #plainText><span>{{answerRow.text}}</span></ng-template>
     </mat-card-content>
   </mat-card>
 </div>
@@ -48,7 +48,7 @@
         [ngClass.gt-xs]="'line-numbers'"
         class="language-{{ PhpHighlightingLanguage[answerRow.language!.toUpperCase()] }}">{{answerRow.text}}</code></pre>
 
-        <ng-template #plainText><p class="black">{{answerRow.text}}</p></ng-template>
+        <ng-template #plainText><span>{{answerRow.text}}</span></ng-template>
       </mat-card-content>
     </mat-card>
   </mat-radio-group>

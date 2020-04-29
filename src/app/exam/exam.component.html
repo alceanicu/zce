@@ -15,7 +15,8 @@
   <mat-tab-group color="accent" backgroundColor="accent"
                  (selectedTabChange)="tabClick($event)"
                  [selectedIndex]="currentIndex">
-    <mat-tab *ngFor="let id of exam.questionsArray, let i = index" [label]="i + 1">
+    <mat-tab *ngFor="let id of exam.questionsArray, let i = index"
+             [label]="i + 1">
       <br>
       <div *ngIf="exam.questions[exam.index] !== null">
         <app-question-display [question]="exam.questions[exam.index]"
