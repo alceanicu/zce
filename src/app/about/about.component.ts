@@ -10,6 +10,7 @@ import { environment } from '@env/environment';
 })
 export class AboutComponent implements OnInit, AfterViewInit {
   public version: string = '';
+  public links: { }[];
 
   constructor(
     private cdr: ChangeDetectorRef
@@ -18,6 +19,7 @@ export class AboutComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.version = environment.appVersion;
+    this.links = environment.configPHP.generatedBy;
   }
 
   ngAfterViewInit(): void {
