@@ -1,5 +1,4 @@
 import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -14,9 +13,8 @@ import { Moment } from 'moment';
 
 import { environment } from '@env/environment';
 import { ConfirmComponent } from '@app/shared/confirm/confirm.component';
-import { CountdownService, Logger, PrismService, QuestionService, SyncCountdownTimeService } from '@app/core/services';
+import { CountdownService, Logger, PrismService, QuestionService, SyncCountdownTimeService, SyncLocationService } from '@app/core/services';
 import { Exam, IDeactivate } from '@app/core';
-import { PhpQuestionType } from '@app/core/enum/config';
 
 const log = new Logger('ExamComponent');
 
@@ -26,20 +24,21 @@ const log = new Logger('ExamComponent');
 })
 export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnDestroy {
   public exam: Exam;
-  public PhpQuestionType = PhpQuestionType;
   public wasValidated$: BehaviorSubject<boolean>;
+  public currentRoute: string;
   private isPageHighlighted: boolean = false;
   private countdownSubscription: Subscription;
+  private syncLocationSubscription: Subscription;
 
   public constructor(
     private router: Router,
     private dialog: MatDialog,
-    private location: Location,
     private snackBar: MatSnackBar,
     private prismService: PrismService,
     private questionService: QuestionService,
     private countdownService: CountdownService,
     private ngxUiLoaderService: NgxUiLoaderService,
+    private syncLocationService: SyncLocationService,
     private syncCountdownTimeService: SyncCountdownTimeService
   ) {
     this.wasValidated$ = new BehaviorSubject(false);
@@ -87,6 +86,9 @@ export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnD
     // countdown is starting
     this.countdownService.start(environment.configPHP.examTime);
 
+    this.syncLocationSubscription = this.syncLocationService.currentValue.subscribe(value => {
+      this.currentRoute = value;
+    });
     this.openSnackBar(`You have 90 minutes to finish your exam. Good luck!`, 'info-snackbar');
 
     this.getQuestion(0);
@@ -101,7 +103,10 @@ export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnD
   }
 
   ngOnDestroy(): void {
-    this.countdownSubscriptionUnsubscribe();
+    log.info('ngOnDestroy');
+    this.syncCountdownTimeService.clear();
+    this.countdownSubscription.unsubscribe();
+    this.syncLocationSubscription.unsubscribe();
   }
 
   canExit(): boolean {
@@ -170,10 +175,7 @@ export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnD
   }
 
   public goToHome(): void {
-    const pageFromUrl = this.location
-      .prepareExternalUrl(this.location.path())
-      .replace('#', '');
-    if (['/exam'].indexOf(pageFromUrl) !== -1) {
+    if (['/exam'].indexOf(this.currentRoute) !== -1) {
       this.router.navigate(['/home']).then(e => {
         if (e) {
           log.info('Go to home page');
@@ -183,7 +185,6 @@ export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnD
   }
 
   private finishExam(): void {
-    this.countdownSubscriptionUnsubscribe();
     this.exam.finish();
     this.router
       .navigate(['/home'], { state: { score: this.exam.score } })
@@ -226,13 +227,6 @@ export class ExamComponent implements IDeactivate, OnInit, AfterViewChecked, OnD
     const ss = duration.seconds().toString().padStart(2, '0');
 
     return hh + ':' + mm + ':' + ss;
-  }
-
-  private countdownSubscriptionUnsubscribe(): void {
-    this.syncCountdownTimeService.clear();
-    if (this.countdownSubscription instanceof Subscription) {
-      this.countdownSubscription.unsubscribe();
-    }
   }
 
   private openSnackBar(data: any, className: string, action: string = 'close'): void {

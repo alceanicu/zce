@@ -1,6 +1,8 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 
-import { PhpHighlightingLanguage } from '@app/core/enum/config';
+import { Observable } from 'rxjs';
+
+import { PhpAnswerLabel, PhpHighlightingLanguage, PhpQuestionType } from '@app/core/enum/config';
 import { Question } from '@app/core';
 
 @Component({
@@ -11,7 +13,10 @@ import { Question } from '@app/core';
 })
 export class QuestionDisplayComponent implements OnInit, AfterViewInit {
   @Input() public question: Question;
+  @Input() public wasValidated$: Observable<boolean>;
   public PhpHighlightingLanguage = PhpHighlightingLanguage;
+  public PhpAnswerLabel = PhpAnswerLabel;
+  public PhpQuestionType = PhpQuestionType;
 
   constructor(
     private cdr: ChangeDetectorRef
@@ -19,6 +24,11 @@ export class QuestionDisplayComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.wasValidated$.subscribe(value => {
+      if (value) {
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   ngAfterViewInit(): void {

@@ -1,6 +1,56 @@
 <div *ngFor="let questionRow of question.questionRows">
   <pre *ngIf="questionRow.language !== PhpHighlightingLanguage.NONE; else plainText;"><code
-    class="line-numbers language-{{ PhpHighlightingLanguage[questionRow.language!.toUpperCase()] }}">{{questionRow.text}}</code></pre>
+    [ngClass.gt-xs]="'line-numbers'"
+    class="language-{{ PhpHighlightingLanguage[questionRow.language!.toUpperCase()] }}">{{questionRow.text}}</code></pre>
 
   <ng-template #plainText><p>{{questionRow.text}}</p></ng-template>
 </div>
+
+<!-- CHECKBOX -->
+<div *ngIf="question.type === PhpQuestionType.CHECKBOX">
+  <mat-card *ngFor="let answerRow of question.answerRows, let i = index"
+            [ngClass]="!question._isValidated ? '' : (question.isValidRowAnswer(i) ? 'isCorrect' : 'isWrong')">
+    <mat-card-header>
+      <mat-checkbox color="primary"
+                    value="{{i}}"
+                    [disabled]="question._isValidated"
+                    [(ngModel)]="answerRow._isCheckedByUser"
+                    [labelPosition]="'after'"
+      >{{ PhpAnswerLabel[i] }}
+      </mat-checkbox>
+    </mat-card-header>
+    <mat-card-content>
+      <pre *ngIf="answerRow.language !== PhpHighlightingLanguage.NONE; else plainText;"><code
+        [ngClass.gt-xs]="'line-numbers'"
+        class="language-{{ PhpHighlightingLanguage[answerRow.language!.toUpperCase()] }}">{{answerRow.text}}</code></pre>
+
+      <ng-template #plainText><p class="black">{{answerRow.text}}</p></ng-template>
+    </mat-card-content>
+  </mat-card>
+</div>
+<!-- STOP CHECKBOX -->
+
+<!-- RADIO -->
+<div *ngIf="question.type === PhpQuestionType.RADIO">
+  <mat-radio-group color="primary">
+    <mat-card *ngFor="let answerRow of question.answerRows, let i = index"
+              [ngClass]="!question._isValidated ? '' : (question.isValidRowAnswer(i) ? 'isCorrect' : 'isWrong')">
+      <mat-card-header>
+        <mat-radio-button color="primary"
+                          value="{{i}}"
+                          [disabled]="question._isValidated"
+                          (change)="question.onChange($event, i)"
+        >{{ PhpAnswerLabel[i] }}
+        </mat-radio-button>
+      </mat-card-header>
+      <mat-card-content>
+      <pre *ngIf="answerRow.language !== PhpHighlightingLanguage.NONE; else plainText;"><code
+        [ngClass.gt-xs]="'line-numbers'"
+        class="language-{{ PhpHighlightingLanguage[answerRow.language!.toUpperCase()] }}">{{answerRow.text}}</code></pre>
+
+        <ng-template #plainText><p class="black">{{answerRow.text}}</p></ng-template>
+      </mat-card-content>
+    </mat-card>
+  </mat-radio-group>
+</div>
+<!-- STOP RADIO -->
