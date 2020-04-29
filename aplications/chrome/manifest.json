@@ -31,5 +31,7 @@
     "default_title": "ZCE - PHP ZEND Certification Exam Simulator"
   },
   "homepage_url": "https://github.com/alceanicu/zce",
-  "permissions": []
+  "permissions": [
+    "activeTab"
+  ]
 }

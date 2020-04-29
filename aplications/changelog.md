@@ -1,6 +1,6 @@
 ## CHANGELOG
 
-#### 3.0.0 [2020.04.17]
+#### 3.0.0 [2020.04.29]
 
 - update to @angular 9
 - add @angular/material && @angular/flex-layout
