@@ -1,6 +1,6 @@
 ### CHROME extension
 
 ```
-ng build --prod --aot --buildOptimizer=true --extractLicenses=true --optimization=true 
+ng build --prod --aot=true --buildOptimizer=true --extractLicenses=true --optimization=true 
 COPY manifest.js &&  background.js TO dist/zce
 ```
