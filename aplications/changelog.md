@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+#### 3.0.1 [2020.05.05]
+
+- npm update
+
 #### 3.0.0 [2020.04.29]
 
 - update to @angular 9
