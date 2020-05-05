@@ -97,6 +97,9 @@ export class QuestionService {
           const question = new Question(documentSnapshot.data() as IQuestion);
           if (question) {
             this.saveToIndexedDb(question);
+            question.answerRows.forEach((value, i) => {
+              question.answerRows[i]._isCheckedByUser = false;
+            });
             this.setQuestion(question, subscriber);
           } else {
             log.error('Bad robot!');
