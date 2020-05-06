@@ -16,7 +16,8 @@
                     [disabled]="question._isValidated"
                     [(ngModel)]="answerRow._isCheckedByUser"
                     [labelPosition]="'after'"
-      >{{ PhpAnswerLabel[i] }} {{answerRow.isCorrect}}
+      >{{ PhpAnswerLabel[i] }}
+
       </mat-checkbox>
     </mat-card-header>
     <mat-card-content>
@@ -40,7 +41,7 @@
                           value="{{i}}"
                           [disabled]="question._isValidated"
                           (change)="question.onChange($event, i)"
-        >{{ PhpAnswerLabel[i] }} {{answerRow.isCorrect}}
+        >{{ PhpAnswerLabel[i] }}
         </mat-radio-button>
       </mat-card-header>
       <mat-card-content>

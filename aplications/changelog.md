@@ -1,5 +1,10 @@
 ## CHANGELOG
 
+#### 3.0.2 [2020.05.06]
+
+- npm update
+- fix radio 
+
 #### 3.0.1 [2020.05.05]
 
 - npm update
