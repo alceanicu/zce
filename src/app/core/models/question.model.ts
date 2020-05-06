@@ -12,6 +12,7 @@ export class Question implements IQuestion {
 
   _isValidated?: boolean = false;
   _version?: string;
+  _userAnswer?: number;
 
   constructor(values?: IQuestion) {
     if (values) {
@@ -25,6 +26,7 @@ export class Question implements IQuestion {
       this.answerRows[index]._isCheckedByUser = false;
     });
     this.answerRows[i]._isCheckedByUser = event.source.checked;
+    this._userAnswer = i;
   }
 
   public validate(isValidated: boolean = false): boolean {
@@ -45,7 +47,7 @@ export class Question implements IQuestion {
   }
 
   /**
-   * initialize - FIXME
+   * initialize
    */
   private init(): void {
     this.answerRows.forEach((answerRow: IAnswerRow) => {
