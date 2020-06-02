@@ -1,31 +1,13 @@
 <div *ngIf="question !== null">
 
-  <app-question-display [question]="question"></app-question-display>
+  <app-question-display [question]="question" [wasValidated$]="wasValidated$"></app-question-display>
 
-  <!-- CHECKBOX -->
-  <div *ngIf="question.type === PhpQuestionType.CHECKBOX">
-    <app-question-checkbox [question]="question" [wasValidated$]="wasValidated$"></app-question-checkbox>
-  </div>
-
-  <!-- RADIO -->
-  <div *ngIf="question.type === PhpQuestionType.RADIO">
-    <app-question-radio [question]="question" [wasValidated$]="wasValidated$"></app-question-radio>
-  </div>
-
-  <mat-card>
+  <mat-card *ngIf="!question._isValidated">
     <mat-card-content fxLayout="column">
-      <button *ngIf="!question._isValidated"
-              fxFlex="100"
+      <button fxFlex="100"
               mat-flat-button color="accent"
               (click)="onValidate()"> Validate
       </button>
-<!--      <button *ngIf="question._isValidated"-->
-<!--              fxFlex="100"-->
-<!--              mat-flat-button-->
-<!--              [color]="'primary'"-->
-<!--              (click)="getRandomQuestion()"-->
-<!--      > >>> {{buttonText}}-->
-<!--      </button>-->
     </mat-card-content>
   </mat-card>
 

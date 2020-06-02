@@ -1,5 +1,4 @@
 import { MatRadioChange } from '@angular/material/radio';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 
 import { IAnswerRow, IQuestion, IQuestionRow } from '../interfaces';
 
@@ -13,6 +12,7 @@ export class Question implements IQuestion {
 
   _isValidated?: boolean = false;
   _version?: string;
+  _userAnswer?: number;
 
   constructor(values?: IQuestion) {
     if (values) {
@@ -21,17 +21,12 @@ export class Question implements IQuestion {
     this.init();
   }
 
-  public onChange(event: MatRadioChange | MatCheckboxChange, i: number): void {
-    if (event instanceof MatRadioChange) {
-      [0, 1, 2, 3].forEach((value, index, array) => {
-        this.answerRows[index]._isCheckedByUser = false;
-      });
-      this.answerRows[i]._isCheckedByUser = event.source.checked;
-    }
-
-    if (event instanceof MatCheckboxChange) {
-      //
-    }
+  public onChange(event: MatRadioChange, i: number): void {
+    [0, 1, 2, 3].forEach((value, index, array) => {
+      this.answerRows[index]._isCheckedByUser = false;
+    });
+    this.answerRows[i]._isCheckedByUser = event.source.checked;
+    this._userAnswer = i;
   }
 
   public validate(isValidated: boolean = false): boolean {
@@ -52,7 +47,7 @@ export class Question implements IQuestion {
   }
 
   /**
-   * initialize - FIXME
+   * initialize
    */
   private init(): void {
     this.answerRows.forEach((answerRow: IAnswerRow) => {

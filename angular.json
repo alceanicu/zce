@@ -129,6 +129,6 @@
   },
   "defaultProject": "zce",
   "cli": {
-    "analytics": "7873ba59-4003-4ccd-8eb7-b70da409718f"
+    "analytics": false
   }
 }

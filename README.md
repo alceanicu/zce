@@ -10,9 +10,8 @@
 
 ### YOU CAN TRY THIS APPLICATION AS 
 
-* [CHROME extension (v2.1.1)](https://chrome.google.com/webstore/detail/php-zend-certification-exam/kdjolhghoglghipajmbmlmldbpncimge)
-* [FIREFOX extension (v2.1.1)](https://addons.mozilla.org/ro/firefox/addon/php-zend-certification-exam/)
-* [GitHub Page (v3.0.0)](https://alceanicu.github.io/zce/) [BETA]
+* [CHROME extension (v3.0.2)](https://chrome.google.com/webstore/detail/php-zend-certification-exam/kdjolhghoglghipajmbmlmldbpncimge)
+* [GitHub Page (v3.0.2)](https://alceanicu.github.io/zce/)
 
 ### LICENSE
 

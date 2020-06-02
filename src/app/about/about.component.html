@@ -1,34 +1,35 @@
-<h1>🎓 ZCE - PHP ZEND Certification Exam Simulator - {{version}}</h1>
+<h1>🎓 ZCE - PHP ZEND Certification Exam Simulator</h1>
+<h3></h3>
 
 <mat-card>
   <mat-card-header>
-    <h5>FEATURES & DESCRIPTION</h5>
+    <h5>FEATURES & DESCRIPTION - version {{version}}</h5>
   </mat-card-header>
   <mat-card-content>
-      <p>This application serves as a practice exam to help anyone who are about to take the <a
-        href="http://www.zend.com/en/services/certification/php-certification"
-        title="Zend PHP Certification"
-        rel="noreferrer"
-        target="_blank">Zend PHP Certification</a>.
-      </p>
+    <p>This application serves as a practice exam to help anyone who are about to take the <a
+      href="http://www.zend.com/en/services/certification/php-certification"
+      title="Zend PHP Certification"
+      rel="noreferrer"
+      target="_blank">Zend PHP Certification</a>.
+    </p>
 
-      <p>A total of 800 questions are available, ranging from topics in <strong>PHP5</strong> to
-        <strong>PHP7.1</strong>.
-        Just like the real exam, questions are always provided in random order, so that when re-taking the
-        exam, a different set of questions are provided for you. Answer options are also randomised to make
-        sure you understand the correct answer rather than the order of answers during the next time you see
-        the question again.
-      </p>
+    <p>A total of 800 questions are available, ranging from topics in <strong>PHP5</strong> to
+      <strong>PHP7.1</strong>.
+      Just like the real exam, questions are always provided in random order, so that when re-taking the
+      exam, a different set of questions are provided for you. Answer options are also randomised to make
+      sure you understand the correct answer rather than the order of answers during the next time you see
+      the question again.
+    </p>
 
-      <p>I believe that one of the most effective ways to increase the chances of passing the exam is to
-        learn from your mistakes in practice exams, just like this one! But your best friend for this will
-        always be <a href="https://www.php.net/manual/en/" title="PHP.NET" rel="noreferrer"
-                     target="_blank">PHP.NET</a>.
-      </p>
+    <p>I believe that one of the most effective ways to increase the chances of passing the exam is to
+      learn from your mistakes in practice exams, just like this one! But your best friend for this will
+      always be <a href="https://www.php.net/manual/en/" title="PHP.NET" rel="noreferrer"
+                   target="_blank">PHP.NET</a>.
+    </p>
 
-      <p>From version 2.0.0 you can export tests in <strong>PDF</strong> format, tests can have 5 or 10
-        random questions.
-      </p>
+    <p>From version 2.0.0 you can export tests in <strong>PDF</strong> format, tests can have 5 or 10
+      random questions.
+    </p>
   </mat-card-content>
 </mat-card>
 
@@ -39,21 +40,9 @@
   </mat-card-header>
   <mat-card-content>
     <ul>
-      <li><a
-        href="https://chrome.google.com/webstore/detail/zce-simulator/kdjolhghoglghipajmbmlmldbpncimge"
-        title="Chrome Extension"
-        rel="noreferrer"
-        target="_blank">Chrome Extension</a></li>
-      <li><a href="https://addons.mozilla.org/ro/firefox/addon/php-zend-certification-exam/"
-             title="Firefox Extension"
-             rel="noreferrer"
-             target="_blank">Firefox Extension</a></li>
-      <li><a
-        href="https://alceanicu.github.io/zce/"
-        target="_blank"
-        rel="noreferrer"
-        title="GitHub Page">GitHub Page</a></li>
-      <li>Android mobile application (soon)</li>
+      <li *ngFor="let by of links, let i = index">
+        <a href="{{by.link}}" title="{{by.name}}" rel="noreferrer" target="_blank">{{by.name}}</a>
+      </li>
     </ul>
   </mat-card-content>
 </mat-card>
@@ -89,11 +78,11 @@
     <h5>LICENSE</h5>
   </mat-card-header>
   <mat-card-content>
-      <p>This application is licensed under the <a href="https://github.com/alceanicu/zce/blob/master/LICENSE.md"
-                                                    rel="noreferrer"
-                                                    target="_blank"
-                                                    title="MIT">MIT</a> license.
-      </p>
+    <p>This application is licensed under the <a href="https://github.com/alceanicu/zce/blob/master/LICENSE.md"
+                                                 rel="noreferrer"
+                                                 target="_blank"
+                                                 title="MIT">MIT</a> license.
+    </p>
   </mat-card-content>
 </mat-card>
 
@@ -102,7 +91,7 @@
     <h5>PRIVACY</h5>
   </mat-card-header>
   <mat-card-content>
-      <p>No tracking, no advertising, and nothing else nefarious.</p>
+    <p>No tracking, no advertising, and nothing else nefarious.</p>
   </mat-card-content>
 </mat-card>
 
@@ -111,10 +100,10 @@
     <h5>SOURCE CODE</h5>
   </mat-card-header>
   <mat-card-content>
-      <p>Star as on <a href="https://github.com/alceanicu/zce"
-                        rel="noreferrer"
-                        target="_blank"
-                        title="source code">GitHub</a></p>
+    <p>Star as on <a href="https://github.com/alceanicu/zce"
+                     rel="noreferrer"
+                     target="_blank"
+                     title="source code">GitHub</a></p>
   </mat-card-content>
 </mat-card>
 
@@ -125,10 +114,10 @@
   <mat-card-content>
     <p>
       If you find a bug or a wrong question or have an new interesting question <a
-        href="https://github.com/alceanicu/zce/issues"
-        rel="noreferrer"
-        target="_blank"
-        title="issues">issues/bugs</a>
+      href="https://github.com/alceanicu/zce/issues"
+      rel="noreferrer"
+      target="_blank"
+      title="issues">issues/bugs</a>
     </p>
   </mat-card-content>
 </mat-card>
@@ -138,7 +127,7 @@
     <h5>DISCLAIMER</h5>
   </mat-card-header>
   <mat-card-content>
-      <p>Not all questions are checked, some of them might have wrong answers.</p>
-      <p>This app is not affiliated with or endorsed by <strong>PHP Group</strong> or <strong>ZEND</strong>.</p>
+    <p>Not all questions are checked, some of them might have wrong answers.</p>
+    <p>This app is not affiliated with or endorsed by <strong>PHP Group</strong> or <strong>ZEND</strong>.</p>
   </mat-card-content>
 </mat-card>

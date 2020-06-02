@@ -1,6 +1,15 @@
 ## CHANGELOG
 
-#### 3.0.0 [2020.04.17]
+#### 3.0.2 [2020.05.06]
+
+- npm update
+- fix radio 
+
+#### 3.0.1 [2020.05.05]
+
+- npm update
+
+#### 3.0.0 [2020.04.29]
 
 - update to @angular 9
 - add @angular/material && @angular/flex-layout

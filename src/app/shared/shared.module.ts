@@ -25,9 +25,7 @@ import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { RoundProgressModule } from 'angular-svg-round-progressbar';
 
 import { ConfirmComponent } from '@app/shared/confirm/confirm.component';
-import { QuestionCheckboxComponent } from '@app/shared/question-checkbox/question-checkbox.component';
 import { QuestionDisplayComponent } from '@app/shared/question-display/question-display.component';
-import { QuestionRadioComponent } from '@app/shared/question-radio/question-radio.component';
 
 const material = [
   MatButtonModule,
@@ -51,9 +49,7 @@ const material = [
 @NgModule({
   declarations: [
     ConfirmComponent,
-    QuestionCheckboxComponent,
     QuestionDisplayComponent,
-    QuestionRadioComponent
   ],
   entryComponents: [
     ConfirmComponent
@@ -103,9 +99,7 @@ const material = [
     //
     ...material,
     //
-    QuestionCheckboxComponent,
-    QuestionDisplayComponent,
-    QuestionRadioComponent
+    QuestionDisplayComponent
   ]
 })
 export class SharedModule {

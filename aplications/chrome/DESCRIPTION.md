@@ -5,8 +5,7 @@ FEATURES & DESCRIPTION
 •    From version 2.0.0 you can export tests in PDF format, tests can have 5 or 10 random questions.
 
 YOU CAN TRY THIS APPLICATION ALSO AS AN
-•    FIREFOX extension (v3.0.0)(https://addons.mozilla.org/ro/firefox/addon/php-zend-certification-exam/)
-•    GitHub Page (v3.0.0)(https://alceanicu.github.io/zce/)
+•    GitHub Page (v3.0.2)(https://alceanicu.github.io/zce/)
 
 LICENSE
 •    This application is licensed under the MIT(https://github.com/alceanicu/zce/blob/master/LICENSE.md) license.

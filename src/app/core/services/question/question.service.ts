@@ -35,7 +35,7 @@ export class QuestionService {
 
     return new Observable((subscriber: Subscriber<Question>) => {
       for (let i = 0; i < questionNumber; i++) {
-        this.getQuestionById(this.generateRandomIdWithoutRepeatInLastN(), subscriber); //  1 , 6 this.generateRandomIdWithoutRepeatInLastN()
+        this.getQuestionById(this.generateRandomIdWithoutRepeatInLastN(), subscriber);
       }
     });
   }
@@ -97,6 +97,9 @@ export class QuestionService {
           const question = new Question(documentSnapshot.data() as IQuestion);
           if (question) {
             this.saveToIndexedDb(question);
+            question.answerRows.forEach((value, i) => {
+              question.answerRows[i]._isCheckedByUser = false;
+            });
             this.setQuestion(question, subscriber);
           } else {
             log.error('Bad robot!');

@@ -7,9 +7,10 @@ export interface IQuestion {
   difficulty: string;                   // enum PhpQuestionDifficulty
   questionRows: Array<IQuestionRow>;
   answerRows: Array<IAnswerRow>;
-  // virtual - fixme
+  // virtual
   _isValidated?: boolean;
   _version?: string;
+  _userAnswer?: number;
 
   validate(isValidated: boolean): boolean;
 }
