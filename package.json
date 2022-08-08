@@ -41,7 +41,7 @@
     "angular-svg-round-progressbar": "^3.0.1",
     "dexie": "^3.0.1",
     "firebase": "^7.14.6",
-    "moment": "^2.26.0",
+    "moment": "^2.29.4",
     "ngx-ui-loader": "^9.1.1",
     "pdfmake": "^0.1.65",
     "prismjs": "^1.20.0",
